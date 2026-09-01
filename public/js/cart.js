@@ -1,4 +1,3 @@
-// Sample Data Keranjang (Mocking data jika belum dari Database)
 let cartData = [
   {
     id: 1,

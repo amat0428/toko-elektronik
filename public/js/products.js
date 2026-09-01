@@ -1,98 +1,16 @@
-// Data Produk
 const productsData = [
-  {
-    id: 1,
-    title: "Laptop Gaming RGB 15 Inch High Performance",
-    price: "Rp 12.500.000",
-    rating: "4.9",
-    sold: "1.2rb",
-    badge: "Star+",
-    image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400"
-  },
-  {
-    id: 2,
-    title: "Smartphone 5G 128GB Camera Ultra Clear",
-    price: "Rp 4.500.000",
-    rating: "4.8",
-    sold: "850",
-    badge: "Star",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400"
-  },
-  {
-    id: 3,
-    title: "TWS Wireless Earbuds Pro Bass Boost",
-    price: "Rp 350.000",
-    rating: "4.7",
-    sold: "3.4rb",
-    badge: "Official",
-    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400"
-  },
-  {
-    id: 4,
-    title: "Smartwatch Sport Edition Water Resistant",
-    price: "Rp 850.000",
-    rating: "4.9",
-    sold: "500+",
-    badge: "Star+",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"
-  },
-  {
-    id: 5,
-    title: "Headphone Bluetooth Over-Ear ANC Premium",
-    price: "Rp 620.000",
-    rating: "4.8",
-    sold: "1.1rb",
-    badge: "Mall",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"
-  },
-  {
-    id: 6,
-    title: "Keyboard Mechanical Wireless RGB Swappable",
-    price: "Rp 750.000",
-    rating: "4.9",
-    sold: "2.1rb",
-    badge: "Star+",
-    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400"
-  },
-  {
-    id: 7,
-    title: "Mouse Gaming Wireless Light Speed 16000 DPI",
-    price: "Rp 420.000",
-    rating: "4.8",
-    sold: "950",
-    badge: "Star",
-    image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400"
-  },
-  {
-    id: 8,
-    title: "Kamera Mirrorless 4K Vlogging Kit Ultra HD",
-    price: "Rp 8.900.000",
-    rating: "5.0",
-    sold: "300+",
-    badge: "Official",
-    image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400"
-  },
-  {
-    id: 9,
-    title: "Speaker Bluetooth Portable Waterproof Heavy Bass",
-    price: "Rp 290.000",
-    rating: "4.6",
-    sold: "4.5rb",
-    badge: "Mall",
-    image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400"
-  },
-  {
-    id: 10,
-    title: "Monitor Gaming Lengkung 144Hz 27 Inch Full HD",
-    price: "Rp 2.850.000",
-    rating: "4.9",
-    sold: "720",
-    badge: "Star+",
-    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400"
-  }
+  { id: 1, title: "Laptop Gaming RGB 15 Inch High Performance", price: "Rp 12.500.000", rating: "4.9", sold: "1.2rb", badge: "Star+", image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400" },
+  { id: 2, title: "Smartphone 5G 128GB Camera Ultra Clear", price: "Rp 4.500.000", rating: "4.8", sold: "850", badge: "Star", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400" },
+  { id: 3, title: "TWS Wireless Earbuds Pro Bass Boost", price: "Rp 350.000", rating: "4.7", sold: "3.4rb", badge: "Official", image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400" },
+  { id: 4, title: "Smartwatch Sport Edition Water Resistant", price: "Rp 850.000", rating: "4.9", sold: "500+", badge: "Star+", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
+  { id: 5, title: "Headphone Bluetooth Over-Ear ANC Premium", price: "Rp 620.000", rating: "4.8", sold: "1.1rb", badge: "Mall", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" },
+  { id: 6, title: "Keyboard Mechanical Wireless RGB Swappable", price: "Rp 750.000", rating: "4.9", sold: "2.1rb", badge: "Star+", image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400" },
+  { id: 7, title: "Mouse Gaming Wireless Light Speed 16000 DPI", price: "Rp 420.000", rating: "4.8", sold: "950", badge: "Star", image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=400" },
+  { id: 8, title: "Kamera Mirrorless 4K Vlogging Kit Ultra HD", price: "Rp 8.900.000", rating: "5.0", sold: "300+", badge: "Official", image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400" },
+  { id: 9, title: "Speaker Bluetooth Portable Waterproof Heavy Bass", price: "Rp 290.000", rating: "4.6", sold: "4.5rb", badge: "Mall", image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400" },
+  { id: 10, title: "Monitor Gaming Lengkung 144Hz 27 Inch Full HD", price: "Rp 2.850.000", rating: "4.9", sold: "720", badge: "Star+", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400" }
 ];
 
-// Fungsi Render Produk
 function renderProducts(items) {
   const container = document.getElementById('product-list');
   if (!container) return;
@@ -131,7 +49,6 @@ function renderProducts(items) {
   `).join('');
 }
 
-// Inisialisasi & Fitur Search
 document.addEventListener('DOMContentLoaded', () => {
   renderProducts(productsData);
 
