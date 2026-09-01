@@ -13,26 +13,43 @@
 
   <!-- Header Utama -->
   <header class="bg-blue-600 text-white sticky top-0 z-50 shadow-md">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-      <a href="index.html" class="text-xl font-black tracking-wide flex items-center gap-2">
+    <div class="max-w-6xl mx-auto px-3 py-3 flex items-center justify-between gap-2 md:gap-4">
+      
+      <!-- Logo -->
+      <a href="index.html" class="text-base md:text-xl font-black tracking-wide flex items-center gap-1.5 shrink-0">
         <i class="fa-solid fa-bag-shopping"></i>
         <span>BlueShop</span>
       </a>
-      <span class="text-sm font-semibold border-l border-blue-400 pl-3">Keranjang Belanja</span>
-      <div id="authNav" class="flex items-center gap-2 text-sm shrink-0 ml-auto"></div>
+
+      <span class="text-xs md:text-sm font-semibold border-l border-blue-400 pl-2">Keranjang</span>
+
+      <!-- Navigasi Laptop -->
+      <div class="hidden md:flex items-center gap-5 text-white text-sm font-semibold ml-auto">
+        <a href="orders.html" class="flex items-center gap-1.5 hover:text-blue-200">
+          <i class="fa-solid fa-receipt text-base"></i>
+          <span>Pesanan</span>
+        </a>
+      </div>
+
+      <!-- Tombol Saya di Atas (HP & Laptop) -->
+      <a href="account.html" class="flex items-center gap-1 text-white text-xs md:text-sm font-semibold hover:text-blue-200 shrink-0 border-l border-blue-400 pl-2 md:pl-4 ml-auto md:ml-0">
+        <i class="fa-solid fa-circle-user text-base md:text-lg"></i>
+        <span>Saya</span>
+      </a>
+
     </div>
   </header>
 
   <!-- Container Utama -->
   <main class="max-w-6xl mx-auto px-2 md:px-4 mt-4">
 
-    <!-- Container Utama jika Keranjang Terisi -->
+    <!-- Container Utama Keranjang Terisi -->
     <div id="cartContent" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
       
       <!-- Kolom Kiri: Daftar Produk -->
       <div class="lg:col-span-2 space-y-3">
         
-        <!-- Header Tabel Produk / Select All -->
+        <!-- Header Pilih Semua -->
         <div class="bg-white p-3.5 rounded-lg shadow-sm flex items-center justify-between text-xs md:text-sm">
           <label class="flex items-center gap-2.5 cursor-pointer font-medium">
             <input type="checkbox" id="selectAll" class="w-4 h-4 accent-blue-600 rounded cursor-pointer" checked>
@@ -43,26 +60,26 @@
           </button>
         </div>
 
-        <!-- List Barang di Keranjang (Dynamic Render) -->
+        <!-- List Barang -->
         <div id="cartItemsList" class="space-y-3">
-          <!-- Diisi via JS -->
+          <!-- Render via js/cart.js -->
         </div>
 
       </div>
 
-      <!-- Kolom Kanan: Ringkasan Belanja (Sticky) -->
+      <!-- Kolom Kanan: Ringkasan Belanja -->
       <div class="lg:col-span-1">
         <div class="bg-white p-4 rounded-lg shadow-sm sticky top-20 space-y-4">
           <h3 class="font-bold text-gray-800 text-base border-b pb-2">Ringkasan Belanja</h3>
           
-          <!-- Voucher / Diskon -->
+          <!-- Voucher -->
           <div class="flex items-center gap-2 p-2.5 border border-dashed border-blue-400 bg-blue-50/50 rounded-lg text-xs cursor-pointer hover:bg-blue-50">
             <i class="fa-solid fa-ticket text-blue-600 text-base"></i>
             <span class="flex-1 font-medium text-gray-700">Voucher BlueShop</span>
             <span class="text-blue-600 font-bold">Gunakan / Masukkan</span>
           </div>
 
-          <!-- Rincian Harga -->
+          <!-- Total Harga -->
           <div class="space-y-2 text-xs md:text-sm text-gray-600">
             <div class="flex justify-between">
               <span>Total Harga (Produk)</span>
@@ -87,7 +104,7 @@
 
     </div>
 
-    <!-- Tampilan Jika Keranjang Kosong -->
+    <!-- Tampilan Keranjang Kosong -->
     <div id="emptyCart" class="hidden bg-white rounded-lg p-12 text-center shadow-sm my-6 max-w-lg mx-auto">
       <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-4xl">
         <i class="fa-solid fa-cart-arrow-down"></i>
@@ -102,15 +119,15 @@
   </main>
 
   <!-- Bottom Nav Bar HP -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-1.5 z-40">
-    <div class="flex justify-around items-center text-gray-500">
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-1.5 z-40 shadow-lg">
+    <div class="grid grid-cols-3 text-center text-gray-500">
       <a href="index.html" class="flex flex-col items-center hover:text-blue-600">
         <i class="fa-solid fa-house text-lg"></i>
         <span class="text-[10px] mt-0.5">Beranda</span>
       </a>
       <a href="cart.html" class="flex flex-col items-center text-blue-600">
         <i class="fa-solid fa-cart-shopping text-lg"></i>
-        <span class="text-[10px] mt-0.5">Keranjang</span>
+        <span class="text-[10px] mt-0.5 font-medium">Keranjang</span>
       </a>
       <a href="orders.html" class="flex flex-col items-center hover:text-blue-600">
         <i class="fa-solid fa-receipt text-lg"></i>
