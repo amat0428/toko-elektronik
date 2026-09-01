@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toko Elektronik</title>
+  <title>Toko Elektronik - BlueShop</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <!-- CDN Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-800 pb-16 md:pb-6">
 
-  <!-- Header Navigasi Utama -->
-  <header class="bg-blue-600 sticky top-0 z-40 p-3 shadow-md">
-    <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+  <!-- Header Utama -->
+  <header class="bg-blue-600 text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
       
       <!-- Logo -->
-      <a href="index.html" class="text-white text-xl font-black tracking-wide flex items-center gap-2">
+      <a href="index.html" class="text-xl font-black tracking-wide flex items-center gap-2 shrink-0">
         <i class="fa-solid fa-bag-shopping"></i>
         <span>BlueShop</span>
       </a>
@@ -23,23 +25,25 @@
       <!-- Search Bar -->
       <div class="flex-1 max-w-2xl bg-white rounded flex items-center px-3 py-1.5 shadow-inner">
         <i class="fa-solid fa-magnifying-glass text-blue-600 mr-2"></i>
-        <input type="text" placeholder="Cari barang elektronik di BlueShop..." class="w-full bg-transparent outline-none text-gray-800 text-xs md:text-sm">
+        <input type="text" id="searchInput" placeholder="Cari barang elektronik di BlueShop..." class="w-full bg-transparent outline-none text-gray-800 text-xs md:text-sm">
         <i class="fa-solid fa-camera text-gray-400 cursor-pointer hidden md:block ml-2"></i>
       </div>
 
-      <!-- Icon Keranjang & User (Tampil di Laptop) -->
-      <div class="hidden md:flex items-center gap-6 text-white text-sm font-semibold">
+      <!-- Navigasi Laptop -->
+      <div class="hidden md:flex items-center gap-5 text-white text-sm font-semibold">
         <a href="cart.html" class="relative flex items-center gap-1 hover:text-blue-200">
           <i class="fa-solid fa-cart-shopping text-lg"></i>
           <span>Keranjang</span>
           <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
         </a>
         <a href="orders.html" class="hover:text-blue-200">Pesanan</a>
-        <a href="login.html" class="bg-white text-blue-600 px-3 py-1 rounded font-bold hover:bg-blue-50">Masuk</a>
       </div>
 
-      <!-- Icon Keranjang ringkas di HP -->
-      <div class="flex md:hidden text-white text-lg gap-3">
+      <!-- Area Dynamic Auth -->
+      <div id="authNav" class="flex items-center gap-2 text-sm shrink-0"></div>
+
+      <!-- Icon Keranjang HP -->
+      <div class="flex md:hidden text-white text-lg ml-1">
         <a href="cart.html" class="relative">
           <i class="fa-solid fa-cart-shopping"></i>
           <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
@@ -49,10 +53,10 @@
     </div>
   </header>
 
-  <!-- Container Utama (Responsif: Max Width 1200px di Laptop) -->
+  <!-- Container Utama -->
   <main class="max-w-6xl mx-auto px-2 md:px-4 mt-3">
 
-    <!-- Banner Carousel Top -->
+    <!-- Banner Promo -->
     <div class="bg-gradient-to-r from-blue-600 to-blue-400 rounded-xl p-4 md:p-8 text-white shadow-md flex justify-between items-center mb-4">
       <div>
         <span class="bg-yellow-400 text-blue-950 font-extrabold text-xs px-2.5 py-0.5 rounded-full uppercase">Super Promo Elektronik</span>
@@ -62,7 +66,7 @@
       <i class="fa-solid fa-bolt text-5xl md:text-7xl text-yellow-300 animate-pulse hidden sm:block"></i>
     </div>
 
-    <!-- Menu Categorinya (Grid 5 Kolom) -->
+    <!-- Menu Kategori -->
     <div class="bg-white rounded-lg p-3 md:p-4 grid grid-cols-5 gap-2 md:gap-4 text-center text-xs mb-4 shadow-sm">
       <div class="flex flex-col items-center cursor-pointer">
         <div class="w-10 h-10 md:w-12 md:h-12 border border-blue-200 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-lg md:text-xl mb-1">
@@ -96,110 +100,19 @@
       </div>
     </div>
 
-    <!-- Section Rekomendasi Header -->
-    <div class="bg-white p-3 border-b-2 border-blue-600 font-bold text-blue-600 uppercase text-sm md:text-base mb-3 flex items-center gap-2">
+    <!-- Header Rekomendasi -->
+    <div class="bg-white p-3 border-b-2 border-blue-600 font-bold text-blue-600 uppercase text-sm md:text-base mb-3 flex items-center gap-2 rounded-t-lg">
       <i class="fa-solid fa-fire"></i>
       <span>Rekomendasi Produk</span>
     </div>
 
-    <!-- GRID PRODUK RESPONSIF:
-         - HP (default): 2 Kolom (grid-cols-2)
-         - Tablet (sm): 3 Kolom (sm:grid-cols-3)
-         - Laptop (md): 4 Kolom (md:grid-cols-4)
-         - PC/Layar Lebar (lg): 5 Kolom (lg:grid-cols-5)
-    -->
+    <!-- Grid Produk Dynamic -->
     <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3">
-
-      <!-- Item 1 -->
-      <a href="product-detail.html" class="bg-white rounded border border-transparent hover:border-blue-600 transition shadow-sm overflow-hidden flex flex-col justify-between">
-        <div>
-          <div class="h-40 bg-gray-100 flex items-center justify-center relative overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400" alt="Laptop" class="w-full h-full object-cover">
-            <span class="absolute top-1 left-1 bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Star+</span>
-          </div>
-          <div class="p-2.5">
-            <p class="text-xs md:text-sm text-gray-800 line-clamp-2 mb-2 font-medium">Laptop Gaming RGB 15 Inch High Performance</p>
-            <p class="text-blue-600 font-bold text-sm md:text-base">Rp 12.500.000</p>
-          </div>
-        </div>
-        <div class="p-2.5 pt-0 flex items-center justify-between text-[10px] text-gray-400">
-          <span><i class="fa-solid fa-star text-yellow-400"></i> 4.9</span>
-          <span>1.2rb Terjual</span>
-        </div>
-      </a>
-
-      <!-- Item 2 -->
-      <a href="product-detail.html" class="bg-white rounded border border-transparent hover:border-blue-600 transition shadow-sm overflow-hidden flex flex-col justify-between">
-        <div>
-          <div class="h-40 bg-gray-100 flex items-center justify-center relative overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400" alt="Smartphone" class="w-full h-full object-cover">
-          </div>
-          <div class="p-2.5">
-            <p class="text-xs md:text-sm text-gray-800 line-clamp-2 mb-2 font-medium">Smartphone 5G 128GB Camera Ultra Clear</p>
-            <p class="text-blue-600 font-bold text-sm md:text-base">Rp 4.500.000</p>
-          </div>
-        </div>
-        <div class="p-2.5 pt-0 flex items-center justify-between text-[10px] text-gray-400">
-          <span><i class="fa-solid fa-star text-yellow-400"></i> 4.8</span>
-          <span>850 Terjual</span>
-        </div>
-      </a>
-
-      <!-- Item 3 -->
-      <a href="product-detail.html" class="bg-white rounded border border-transparent hover:border-blue-600 transition shadow-sm overflow-hidden flex flex-col justify-between">
-        <div>
-          <div class="h-40 bg-gray-100 flex items-center justify-center relative overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400" alt="Earbuds" class="w-full h-full object-cover">
-          </div>
-          <div class="p-2.5">
-            <p class="text-xs md:text-sm text-gray-800 line-clamp-2 mb-2 font-medium">TWS Wireless Earbuds Pro Bass Boost</p>
-            <p class="text-blue-600 font-bold text-sm md:text-base">Rp 350.000</p>
-          </div>
-        </div>
-        <div class="p-2.5 pt-0 flex items-center justify-between text-[10px] text-gray-400">
-          <span><i class="fa-solid fa-star text-yellow-400"></i> 4.7</span>
-          <span>3.4rb Terjual</span>
-        </div>
-      </a>
-
-      <!-- Item 4 -->
-      <a href="product-detail.html" class="bg-white rounded border border-transparent hover:border-blue-600 transition shadow-sm overflow-hidden flex flex-col justify-between">
-        <div>
-          <div class="h-40 bg-gray-100 flex items-center justify-center relative overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" alt="Smartwatch" class="w-full h-full object-cover">
-          </div>
-          <div class="p-2.5">
-            <p class="text-xs md:text-sm text-gray-800 line-clamp-2 mb-2 font-medium">Smartwatch Sport Edition Water Resistant</p>
-            <p class="text-blue-600 font-bold text-sm md:text-base">Rp 850.000</p>
-          </div>
-        </div>
-        <div class="p-2.5 pt-0 flex items-center justify-between text-[10px] text-gray-400">
-          <span><i class="fa-solid fa-star text-yellow-400"></i> 4.9</span>
-          <span>500+ Terjual</span>
-        </div>
-      </a>
-
-      <!-- Item 5 -->
-      <a href="product-detail.html" class="bg-white rounded border border-transparent hover:border-blue-600 transition shadow-sm overflow-hidden flex flex-col justify-between">
-        <div>
-          <div class="h-40 bg-gray-100 flex items-center justify-center relative overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400" alt="Headphone" class="w-full h-full object-cover">
-          </div>
-          <div class="p-2.5">
-            <p class="text-xs md:text-sm text-gray-800 line-clamp-2 mb-2 font-medium">Headphone Bluetooth Over-Ear Noise Cancelling</p>
-            <p class="text-blue-600 font-bold text-sm md:text-base">Rp 620.000</p>
-          </div>
-        </div>
-        <div class="p-2.5 pt-0 flex items-center justify-between text-[10px] text-gray-400">
-          <span><i class="fa-solid fa-star text-yellow-400"></i> 4.8</span>
-          <span>1.1rb Terjual</span>
-        </div>
-      </a>
-
+      <!-- Diisi oleh js/products.js -->
     </div>
   </main>
 
-  <!-- Bottom Nav Bar (Hanya Muncul di Layar HP - md:hidden) -->
+  <!-- Bottom Nav Bar HP -->
   <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-1.5 z-40">
     <div class="flex justify-around items-center text-gray-500">
       <a href="index.html" class="flex flex-col items-center text-blue-600">
@@ -214,14 +127,15 @@
         <i class="fa-solid fa-receipt text-lg"></i>
         <span class="text-[10px] mt-0.5">Pesanan</span>
       </a>
-      <a href="profile.html" class="flex flex-col items-center hover:text-blue-600">
+      <a href="login.html" class="flex flex-col items-center hover:text-blue-600">
         <i class="fa-solid fa-user text-lg"></i>
         <span class="text-[10px] mt-0.5">Saya</span>
       </a>
     </div>
   </nav>
 
-  <script src="js/app.js"></script>
+  <!-- Scripts -->
+  <script src="js/auth-state.js"></script>
   <script src="js/products.js"></script>
 </body>
 </html>
