@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Detail Produk - Toko Elektronik</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>⚡ Toko Elektronik</h1>
+    <nav>
+      <a href="products.html">← Kembali ke Produk</a>
+    </nav>
+  </header>
+
+  <main id="detail-container">
+    <div id="product-detail" class="detail-card">Memuat detail produk...</div>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const container = document.getElementById('product-detail');
+
+      try {
+        const res = await fetch(`/api/products/detail?id=${id}`);
+        const result = await res.json();
+        if (result.success) {
+          const p = result.data;
+          container.innerHTML = `
+            <img src="${p.image}" alt="${p.name}" width="300">
+            <div>
+              <h2>${p.name}</h2>
+              <p class="price">${formatRupiah(p.price)}</p>
+              <p><strong>Kategori:</strong> ${p.category}</p>
+              <p>${p.description}</p>
+              <button onclick="addToCart('${p.id}', '${p.name}', ${p.price}, '${p.image}')" class="btn btn-primary">+ Keranjang</button>
+            </div>
+          `;
+        }
+      } catch (err) {
+        container.innerHTML = '<p>Gagal memuat detail produk.</p>';
+      }
+    });
+
+    function addToCart(id, name, price, image) {
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existing = cart.find(item => item.id === id);
+      if (existing) existing.qty += 1;
+      else cart.push({ id, name, price, image, qty: 1 });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartBadge();
+      alert(`${name} ditambahkan ke keranjang!`);
+    }
+  </script>
+</body>
+</html>

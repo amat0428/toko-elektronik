@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Profil Saya - Toko Elektronik</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>⚡ Toko Elektronik</h1>
+  </header>
+  <main>
+    <h2>Profil Saya</h2>
+    <div id="profile-info" class="card"></div>
+    <button onclick="logout()" class="btn btn-danger">Keluar / Logout</button>
+  </main>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const info = document.getElementById('profile-info');
+      if (user.email) {
+        info.innerHTML = `<p><strong>Nama:</strong> ${user.name}</p><p><strong>Email:</strong> ${user.email}</p>`;
+      } else {
+        info.innerHTML = `<p>Kamu belum login. <a href="login.html">Login di sini</a></p>`;
+      }
+    });
+  </script>
+</body>
+</html>

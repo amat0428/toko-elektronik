@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Riwayat Pesanan - Toko Elektronik</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>⚡ Toko Elektronik</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Produk</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Riwayat Pesanan Saya</h2>
+    <div id="orders-list"></div>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const container = document.getElementById('orders-list');
+      try {
+        const res = await fetch('/api/orders');
+        const result = await res.json();
+        if (result.success && result.data.length > 0) {
+          container.innerHTML = result.data.map(order => `
+            <div class="order-card">
+              <h4>Order ID: ${order.orderId}</h4>
+              <p>Total: ${formatRupiah(order.totalAmount)}</p>
+              <p>Status: <strong>${order.status}</strong></p>
+              <small>Tanggal: ${new Date(order.createdAt).toLocaleDateString('id-ID')}</small>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        container.innerHTML = '<p>Tidak ada riwayat pesanan.</p>';
+      }
+    });
+  </script>
+</body>
+</html>

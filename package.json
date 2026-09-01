@@ -1,0 +1,13 @@
+{
+  "name": "toko-elektronik",
+  "version": "1.0.0",
+  "description": "Aplikasi E-Commerce Toko Elektronik",
+  "main": "api/products/index.js",
+  "scripts": {
+    "start": "serve public"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
