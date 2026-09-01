@@ -1,287 +1,293 @@
 /* ==========================================
-   RESET & BASE STYLES
+   1. VARIABLES & RESET (TEMA SHOPEE BIRU)
    ========================================== */
 :root {
-  --primary-color: #4f46e5;       /* Indigo modern */
-  --primary-hover: #4338ca;
-  --accent-color: #06b6d4;        /* Cyan accent */
-  --bg-color: #f8fafc;            /* Off-white soft background */
-  --surface-color: #ffffff;
-  --text-main: #0f172a;           /* Dark Slate */
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
-  --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01);
-  --shadow-hover: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.04);
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shopee-blue: #0056b3;         /* Biru utama header & aksen */
+  --shopee-blue-dark: #004085;    /* Hover button/interactive */
+  --shopee-blue-light: #1890ff;   /* Biru cerah aksen */
+  --shopee-blue-bg: #e6f7ff;      /* Background soft tombol/badge */
+  --orange-price: #ee4d2d;        /* Warna harga khas e-commerce */
+  --bg-gray: #f5f5f5;
+  --surface-white: #ffffff;
+  --text-dark: #222222;
+  --text-muted: #757575;
+  --border-color: #e8e8e8;
+  --shadow-shopee: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 1px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  line-height: 1.6;
+  background-color: var(--bg-gray);
+  color: var(--text-dark);
+  line-height: 1.4;
 }
 
 /* ==========================================
-   HEADER & NAVBAR
+   2. HEADER & SEARCH BAR
    ========================================== */
 header {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--shopee-blue);
+  color: white;
   position: sticky;
   top: 0;
-  z-index: 100;
-  border-bottom: 1px solid var(--border-color);
-  padding: 1rem 5%;
+  z-index: 1000;
+  padding: 0.75rem 8%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-header h1 {
-  font-size: 1.5rem;
+.logo a {
+  font-size: 1.6rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -0.5px;
-}
-
-nav a {
-  text-decoration: none;
-  color: var(--text-muted);
-  font-weight: 600;
-  font-size: 0.95rem;
-  margin-left: 1.5rem;
-  transition: var(--transition);
-}
-
-nav a:hover, nav a.active {
-  color: var(--primary-color);
-}
-
-/* ==========================================
-   HERO BANNER
-   ========================================== */
-.hero {
-  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
   color: white;
-  padding: 4rem 5%;
-  border-radius: var(--radius-lg);
-  margin: 2rem 5%;
-  box-shadow: 0 20px 40px rgba(79, 70, 229, 0.25);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -10%;
-  width: 350px;
-  height: 350px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  filter: blur(40px);
-  -webkit-filter: blur(40px);
-}
-
-.hero h2 {
-  font-size: 2.25rem;
-  font-weight: 800;
-  margin-bottom: 0.75rem;
-  line-height: 1.2;
-}
-
-.hero p {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  margin-bottom: 1.5rem;
-  max-width: 600px;
-}
-
-.hero button, .hero a.btn {
-  display: inline-block;
-  background: #ffffff;
-  color: var(--primary-color);
-  font-weight: 700;
-  padding: 0.8rem 1.8rem;
-  border-radius: 30px;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
-  transition: var(--transition);
-  border: none;
-  cursor: pointer;
-}
-
-.hero button:hover, .hero a.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
-
-/* ==========================================
-   PRODUCT CATALOG (GRID)
-   ========================================== */
-.container {
-  padding: 1rem 5% 4rem 5%;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: var(--text-main);
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1.75rem;
+/* Search Bar Besar */
+.search-bar {
+  flex: 1;
+  display: flex;
+  max-width: 650px;
+  background: white;
+  border-radius: 2px;
+  padding: 3px;
 }
 
+.search-bar input {
+  width: 100%;
+  border: none;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  outline: none;
+  color: var(--text-dark);
+}
+
+.search-bar button {
+  background: var(--shopee-blue);
+  color: white;
+  border: none;
+  padding: 0 1.5rem;
+  cursor: pointer;
+  border-radius: 2px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.search-bar button:hover {
+  background: var(--shopee-blue-dark);
+}
+
+/* Navigasi User & Keranjang */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: opacity 0.2s;
+}
+
+nav a:hover {
+  opacity: 0.85;
+}
+
+/* Badge Keranjang */
+.cart-icon-wrapper {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: var(--orange-price);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 2px solid var(--shopee-blue);
+}
+
+/* ==========================================
+   3. KATALOG PRODUK & GRID
+   ========================================== */
+.main-container {
+  max-width: 1200px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+}
+
+.section-header {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-bottom: 3px solid var(--shopee-blue);
+  font-weight: 700;
+  color: var(--shopee-blue);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+/* Card Produk */
 .product-card {
-  background: var(--surface-color);
-  border-radius: var(--radius-md);
-  padding: 1rem;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-md);
-  transition: var(--transition);
+  background: white;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-shopee);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
-  border-color: rgba(79, 70, 229, 0.3);
+  border-color: var(--shopee-blue);
 }
 
 .product-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  background: #f1f5f9;
+  background-color: #eee;
 }
 
-.product-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-  color: var(--text-main);
-}
-
-.product-price {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-}
-
-.card-actions {
+.product-info {
+  padding: 0.75rem;
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+/* Judul Produk Truncate 2 Baris */
+.product-title {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  height: 2.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-clamp: 2;                /* <-- Tambahkan baris ini */
+  -webkit-line-clamp: 2;        /* Untuk kompatibilitas browser lama */
+  -webkit-box-orient: vertical;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+.product-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-top: auto;
 }
 
-/* ==========================================
-   FORM & AUTH PAGES (LOGIN / REGISTER)
-   ========================================== */
-.auth-container {
-  max-width: 420px;
-  margin: 4rem auto;
-  background: var(--surface-color);
-  padding: 2.5rem;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--border-color);
+.product-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--orange-price);
 }
 
-.auth-container h2 {
-  font-size: 1.75rem;
-  font-weight: 800;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  color: var(--text-main);
-}
-
-.form-group {
-  margin-bottom: 1.25rem;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-bottom: 0.4rem;
+.product-sold {
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
-.form-group input, .form-group textarea, .form-group select {
+.btn-add-cart {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 0.95rem;
-  outline: none;
-  transition: var(--transition);
-  background: #f8fafc;
+  margin-top: 0.5rem;
+  background: var(--shopee-blue-bg);
+  color: var(--shopee-blue);
+  border: 1px solid var(--shopee-blue);
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.form-group input:focus, .form-group textarea:focus {
-  border-color: var(--primary-color);
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-}
-
-/* ==========================================
-   BUTTONS
-   ========================================== */
-.btn-primary {
-  background: var(--primary-color);
+.btn-add-cart:hover {
+  background: var(--shopee-blue);
   color: white;
-  border: none;
-  padding: 0.65rem 1rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  transition: var(--transition);
 }
 
-.btn-primary:hover {
-  background: var(--primary-hover);
+/* Badge Tambahan Ala Shopee (Star+ / Diskon) */
+.badge-star {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: var(--shopee-blue);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 2px 5px;
+  border-radius: 2px;
 }
 
-.btn-outline {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border-color);
-  padding: 0.65rem 1rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
+/* ==========================================
+   4. RESPONSIVE DESIGN (MOBILE ADAPTIVE)
+   ========================================== */
+@media (max-width: 768px) {
+  header {
+    padding: 0.5rem 1rem;
+  }
 
-.btn-outline:hover {
-  background: #f1f5f9;
-  color: var(--text-main);
+  .header-container {
+    gap: 0.75rem;
+  }
+
+  .logo h1 {
+    font-size: 1.2rem;
+  }
+
+  .search-bar button {
+    padding: 0 0.8rem;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 Kolom di Layar HP */
+    gap: 0.5rem;
+  }
+
+  .product-image {
+    height: 150px;
+  }
 }
