@@ -1,5 +1,4 @@
 // 1. Inisialisasi Supabase
-// PENTING: Ganti 'https://PROJECT_ID_KAMU.supabase.co' dengan URL Supabase asli milikmu!
 const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co"; 
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o"; 
 
@@ -68,7 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
         alert(`Selamat datang kembali, ${currentUser.name || currentUser.username}!`);
-        window.location.href = 'index.html';
+        
+        // PERBAIKAN DI SINI: Arahkan ke toko.html (atau nama file HTML toko kamu)
+        window.location.href = 'toko.html'; 
       } else {
         alert("Username atau Password salah! Jika belum punya akun, silakan daftar.");
       }
