@@ -251,17 +251,22 @@ nav a:hover {
   text-align: center;
 }
 
+/* Styling Foto Profil Menggunakan Background CSS */
 .profile-img-wrapper {
-  margin-bottom: 1.25rem;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 1.25rem auto;
+  border-radius: 50%;
+  border: 4px solid var(--shopee-blue-light, #1890ff);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  background-image: url('../profile.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.profile-img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid var(--shopee-blue-light);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+.profile-img-wrapper img {
+  display: none;
 }
 
 .badge {
@@ -423,10 +428,9 @@ nav a:hover {
    ========================================== */
 @media (max-width: 768px) {
   body {
-    padding-bottom: 60px; /* Jarak agar tidak tertutup Bottom Nav */
+    padding-bottom: 60px;
   }
 
-  /* Header ringkas di HP */
   header {
     padding: 0.5rem 1rem;
   }
@@ -444,18 +448,15 @@ nav a:hover {
     font-size: 0.8rem;
   }
 
-  /* Sembunyikan Nav Atas di HP */
   header nav {
     display: none;
   }
 
-  /* Main Container mepet di HP */
   .main-container {
     margin: 0.5rem auto;
     padding: 0 0.5rem;
   }
 
-  /* Grid Produk 2 Kolom di HP */
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
@@ -465,7 +466,6 @@ nav a:hover {
     height: 150px;
   }
 
-  /* Bottom Nav khusus HP */
   .mobile-bottom-nav {
     display: flex;
     justify-content: space-around;
