@@ -15,20 +15,20 @@
   <header class="bg-blue-600 text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-6xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2 md:gap-4">
       
-      <!-- Logo -->
-      <a href="index.html" class="text-base md:text-xl font-black tracking-wide flex items-center gap-1.5 shrink-0">
+      <!-- PERBAIKAN: Logo mengarah ke toko.html, BUKAN index.html -->
+      <a href="toko.html" class="text-base md:text-xl font-black tracking-wide flex items-center gap-1.5 shrink-0">
         <i class="fa-solid fa-bag-shopping"></i>
         <span>BlueShop</span>
       </a>
 
-      <!-- Search Bar (Lebar Otomatis) -->
+      <!-- Search Bar -->
       <div class="flex-1 min-w-0 bg-white rounded flex items-center px-2.5 py-1.5 shadow-inner">
         <i class="fa-solid fa-magnifying-glass text-blue-600 mr-2 shrink-0 text-xs md:text-sm"></i>
         <input type="text" id="searchInput" placeholder="Cari barang..." class="w-full bg-transparent outline-none text-gray-800 text-xs md:text-sm">
         <i class="fa-solid fa-camera text-gray-400 cursor-pointer hidden md:block ml-2"></i>
       </div>
 
-      <!-- Navigasi Tambahan Laptop -->
+      <!-- Navigasi Laptop -->
       <div class="hidden md:flex items-center gap-5 text-white text-sm font-semibold">
         <a href="cart.html" class="relative flex items-center gap-1.5 hover:text-blue-200">
           <i class="fa-solid fa-cart-shopping text-base"></i>
@@ -41,7 +41,7 @@
         </a>
       </div>
 
-      <!-- Tombol Saya di Atas (HP & Laptop) -->
+      <!-- Tombol Saya -->
       <a href="account.html" class="flex items-center gap-1 text-white text-xs md:text-sm font-semibold hover:text-blue-200 shrink-0 border-l border-blue-400 pl-2 md:pl-4">
         <i class="fa-solid fa-circle-user text-base md:text-lg"></i>
         <span>Saya</span>
@@ -105,14 +105,14 @@
 
     <!-- Grid Produk Dynamic -->
     <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3">
-      <!-- Diisi oleh js/products.js -->
     </div>
   </main>
 
   <!-- Bottom Nav Bar HP -->
   <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-1.5 z-40 shadow-lg">
     <div class="grid grid-cols-3 text-center text-gray-500">
-      <a href="index.html" class="flex flex-col items-center text-blue-600">
+      <!-- PERBAIKAN: Beranda mengarah ke toko.html, BUKAN index.html -->
+      <a href="toko.html" class="flex flex-col items-center text-blue-600">
         <i class="fa-solid fa-house text-lg"></i>
         <span class="text-[10px] mt-0.5 font-medium">Beranda</span>
       </a>

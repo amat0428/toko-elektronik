@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const registerForm = document.getElementById('registerForm');
   const loginForm = document.getElementById('loginForm');
 
-  // 2. FUNGSI REGISTRASI (SIMPAN KE SUPABASE)
+  // 2. FUNGSI REGISTRASI
   if (registerForm) {
     registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = true;
       }
 
-      // Kirim data ke tabel 'users_list' di Supabase
       const { data, error } = await supabaseClient
         .from('users_list')
         .insert([{ name, username, password }]);
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. FUNGSI LOGIN (CEK KE SUPABASE)
+  // 3. FUNGSI LOGIN
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const usernameInput = document.getElementById('username').value.trim();
       const passwordInput = document.getElementById('password').value.trim();
 
-      // Cek apakah username dan password cocok di Supabase
       const { data: users, error } = await supabaseClient
         .from('users_list')
         .select('*')
@@ -63,12 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (users && users.length > 0) {
         const currentUser = users[0];
+        
+        // Simpan status login di Storage
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
         alert(`Selamat datang kembali, ${currentUser.name || currentUser.username}!`);
         
-        // PERBAIKAN DI SINI: Arahkan ke toko.html (atau nama file HTML toko kamu)
+        // Mengarahkan langsung ke halaman toko
         window.location.href = 'toko.html'; 
       } else {
         alert("Username atau Password salah! Jika belum punya akun, silakan daftar.");
