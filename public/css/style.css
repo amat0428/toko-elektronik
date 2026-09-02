@@ -1,5 +1,5 @@
 /* ==========================================
-   1. VARIABLES & RESET (TEMA SHOPEE BIRU)
+   1. VARIABLES & RESET (SHOPEE BLUE THEME)
    ========================================== */
 :root {
   --shopee-blue: #0056b3;         /* Biru utama ala Shopee */
@@ -7,7 +7,8 @@
   --shopee-blue-light: #1890ff;   /* Biru cerah aksen */
   --shopee-blue-bg: #e6f7ff;      /* Background soft biru */
   --orange-price: #ee4d2d;        /* Warna harga khas e-commerce */
-  --bg-gray: #f5f5f5;
+  --bg-dark: #0f172a;             /* Background hero portofolio */
+  --bg-gray: #f5f5f5;             /* Background toko */
   --surface-white: #ffffff;
   --text-dark: #222222;
   --text-muted: #757575;
@@ -30,7 +31,7 @@ body {
 }
 
 /* ==========================================
-   2. HEADER & SEARCH BAR (DEFAULT / LAPTOP)
+   2. HEADER & NAVIGATION (TOKO & PORTOFOLIO)
    ========================================== */
 header {
   background: var(--shopee-blue);
@@ -51,7 +52,7 @@ header {
   margin: 0 auto;
 }
 
-.logo a {
+.logo h1, .logo a {
   font-size: 1.6rem;
   font-weight: 800;
   color: white;
@@ -59,6 +60,10 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.logo h1 span {
+  color: #38bdf8;
 }
 
 /* Search Bar Besar di Laptop */
@@ -95,7 +100,7 @@ header {
   background: var(--shopee-blue-dark);
 }
 
-/* Navigasi User & Keranjang */
+/* Navigasi User */
 nav {
   display: flex;
   align-items: center;
@@ -117,13 +122,13 @@ nav a:hover {
   opacity: 0.85;
 }
 
-/* Bottom Navigation Bar (Hanya Muncul di HP) */
+/* Bottom Navigation Bar (Muncul di HP) */
 .mobile-bottom-nav {
   display: none;
 }
 
 /* ==========================================
-   3. KATALOG PRODUK ALA GRID (LAPTOP)
+   3. KATALOG PRODUK ALA GRID (toko.html)
    ========================================== */
 .main-container {
   max-width: 1200px;
@@ -237,11 +242,188 @@ nav a:hover {
 }
 
 /* ==========================================
-   4. LAYOUT KHUSUS HP / MOBILE (RESPONSIF)
+   4. PORTOFOLIO AHMAD ALVI FAUJI (index.html)
+   ========================================== */
+.hero-portfolio {
+  padding: 4rem 5%;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+  text-align: center;
+}
+
+.profile-img-wrapper {
+  margin-bottom: 1.25rem;
+}
+
+.profile-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--shopee-blue-light);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.badge {
+  background: rgba(24, 144, 255, 0.15);
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+  padding: 0.35rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.hero-portfolio h2 {
+  font-size: 2.3rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.hero-btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-main {
+  background: var(--shopee-blue);
+  color: white;
+  padding: 0.8rem 1.75rem;
+  border-radius: 4px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+}
+
+.btn-main:hover {
+  background: var(--shopee-blue-dark);
+  transform: translateY(-2px);
+}
+
+.btn-sub {
+  background: transparent;
+  color: white;
+  border: 1px solid #334155;
+  padding: 0.8rem 1.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.portfolio-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-shopee);
+}
+
+.about-text {
+  font-size: 0.95rem;
+  color: #334155;
+  line-height: 1.8;
+}
+
+.grid-2-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-card h4 {
+  font-size: 1.1rem;
+  color: var(--shopee-blue);
+  margin-bottom: 0.25rem;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.skill-tag {
+  background: var(--shopee-blue-bg);
+  color: var(--shopee-blue);
+  border: 1px solid #91caff;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.org-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.org-card {
+  background: #f8fafc;
+  padding: 1.25rem;
+  border-radius: 4px;
+  border-left: 4px solid var(--shopee-blue);
+}
+
+.org-card h4 {
+  color: #0f172a;
+  margin-bottom: 0.4rem;
+}
+
+.org-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.project-card-highlight {
+  background: linear-gradient(135deg, #e6f7ff 0%, #ffffff 100%);
+  border: 2px solid var(--shopee-blue);
+  padding: 2rem;
+  border-radius: 6px;
+}
+
+.badge-blue {
+  background: var(--shopee-blue);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+
+.btn-main-sm {
+  display: inline-block;
+  background: var(--shopee-blue);
+  color: white;
+  padding: 0.65rem 1.25rem;
+  border-radius: 4px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+/* ==========================================
+   5. LAYOUT KHUSUS HP / MOBILE (RESPONSIF)
    ========================================== */
 @media (max-width: 768px) {
   body {
-    padding-bottom: 60px; /* Jarak agar konten tidak tertutup Bottom Nav */
+    padding-bottom: 60px; /* Jarak agar tidak tertutup Bottom Nav */
   }
 
   /* Header ringkas di HP */
@@ -253,7 +435,7 @@ nav a:hover {
     gap: 0.5rem;
   }
 
-  .logo h1 {
+  .logo h1, .logo a {
     font-size: 1.2rem;
   }
 
@@ -267,13 +449,13 @@ nav a:hover {
     display: none;
   }
 
-  /* Main Container lebih mepet di HP */
+  /* Main Container mepet di HP */
   .main-container {
     margin: 0.5rem auto;
     padding: 0 0.5rem;
   }
 
-  /* Grid Produk Otomatis 2 Kolom di HP */
+  /* Grid Produk 2 Kolom di HP */
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
@@ -283,7 +465,7 @@ nav a:hover {
     height: 150px;
   }
 
-  /* Bottom Nav khusus HP ala Shopee App */
+  /* Bottom Nav khusus HP */
   .mobile-bottom-nav {
     display: flex;
     justify-content: space-around;
