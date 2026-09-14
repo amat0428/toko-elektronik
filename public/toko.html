@@ -136,39 +136,50 @@
       updateAuthUI();
     });
 
-    // Fungsi Login Mengecek Tabel 'users' di Supabase
+    // Fungsi Login Mengecek Tabel 'users' di Supabase dengan aman
     async function handleLogin(e) {
       e.preventDefault();
       const usernameInput = document.getElementById('loginUsername').value.trim();
       const passwordInput = document.getElementById('loginPassword').value.trim();
 
-      // Query ke tabel 'users' Supabase
-      const { data, error } = await _supabase
-        .from('users')
-        .select('*')
-        .eq('username', usernameInput)
-        .eq('password', passwordInput)
-        .single();
+      try {
+        // Menggunakan maybeSingle agar tidak memicu error fatal jika data tidak ada
+        const { data, error } = await _supabase
+          .from('users')
+          .select('*')
+          .eq('username', usernameInput)
+          .eq('password', passwordInput)
+          .maybeSingle();
 
-      if (error || !data) {
-        alert('Login gagal! Email atau password salah.');
-        return;
+        if (error) {
+          console.error("Kesalahan Query Supabase:", error.message);
+          alert('Gagal terhubung ke database.');
+          return;
+        }
+
+        if (!data) {
+          alert('Login gagal! Email/username atau password salah.');
+          return;
+        }
+
+        // Validasi apakah role-nya Admin (case-insensitive)
+        if (!data.role || data.role.toLowerCase() !== 'admin') {
+          alert('Akses ditolak! Akun ini bukan akun Admin.');
+          return;
+        }
+
+        // Simpan sesi login ke localStorage
+        currentUser = data;
+        localStorage.setItem('blueshop_logged_user', JSON.stringify(data));
+        
+        closeLoginModal();
+        updateAuthUI();
+        renderProducts(allProducts);
+        alert(`Selamat datang kembali, Admin ${data.name}!`);
+      } catch (err) {
+        console.error("Kesalahan Sistem:", err);
+        alert('Terjadi kesalahan yang tak terduga.');
       }
-
-      // Validasi apakah role-nya Admin (sesuai gambar database kamu)
-      if (data.role.toLowerCase() !== 'admin') {
-        alert('Akses ditolak! Akun ini bukan akun Admin.');
-        return;
-      }
-
-      // Simpan sesi login ke localStorage
-      currentUser = data;
-      localStorage.setItem('blueshop_logged_user', JSON.stringify(data));
-      
-      closeLoginModal();
-      updateAuthUI();
-      renderProducts(allProducts);
-      alert(`Selamat datang kembali, Admin ${data.name}!`);
     }
 
     // Logout
@@ -186,7 +197,7 @@
       const userStatus = document.getElementById('userStatus');
       const btnAddProduct = document.getElementById('btnAddProduct');
 
-      if (currentUser && currentUser.role.toLowerCase() === 'admin') {
+      if (currentUser && currentUser.role && currentUser.role.toLowerCase() === 'admin') {
         authBtn.innerText = 'Logout';
         authBtn.style.background = '#ef4444';
         authBtn.setAttribute('onclick', 'handleLogout()');
@@ -212,7 +223,7 @@
       renderProducts(allProducts);
     }
 
-    // Render Grid Produk (Tombol Edit/Hapus hanya muncul jika login sebagai admin)
+    // Render Grid Produk
     function renderProducts(products) {
       const grid = document.getElementById('productGrid');
       grid.innerHTML = '';
@@ -222,7 +233,7 @@
         return;
       }
 
-      const isAdmin = currentUser && currentUser.role.toLowerCase() === 'admin';
+      const isAdmin = currentUser && currentUser.role && currentUser.role.toLowerCase() === 'admin';
 
       products.forEach(p => {
         const card = document.createElement('div');
