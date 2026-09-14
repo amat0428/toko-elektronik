@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BlueShop - Toko Elektronik</title>
-  <!-- 1. Panggil Supabase Client CDN -->
+  <!-- Supabase Client CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
@@ -12,18 +12,15 @@
     header { background-color: #2563eb; padding: 12px 5%; color: white; }
     .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
     .logo { font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-    .search-box { flex: 1; max-width: 500px; position: relative; }
+    .search-box { flex: 1; max-width: 400px; }
     .search-box input { width: 100%; padding: 8px 15px; border-radius: 6px; border: none; outline: none; }
-    .nav-links { display: flex; gap: 20px; align-items: center; font-size: 14px; }
+    .nav-links { display: flex; gap: 15px; align-items: center; font-size: 14px; }
     .nav-links a { color: white; text-decoration: none; cursor: pointer; }
-    .btn-admin { background: #f59e0b; color: #fff; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; }
+    .btn-auth { background: #10b981; color: #fff; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; }
     .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
     .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 30px; margin-bottom: 25px; }
     .hero-badge { background: #facc15; color: #000; font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; }
     .hero-title { font-size: 28px; margin: 10px 0 5px 0; font-weight: 800; }
-    .quick-categories { display: flex; justify-content: space-around; background: white; padding: 15px; border-radius: 10px; margin-bottom: 25px; text-align: center; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    .cat-item { cursor: pointer; }
-    .cat-icon { font-size: 24px; margin-bottom: 5px; }
     .section-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #1e293b; border-bottom: 2px solid #2563eb; display: inline-block; padding-bottom: 4px; }
     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
     .product-card { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
@@ -36,7 +33,7 @@
     .btn-edit { background: #10b981; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; }
     .btn-delete { background: #ef4444; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; }
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 400px; }
+    .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 380px; }
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-size: 12px; margin-bottom: 4px; font-weight: bold; }
     .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
@@ -54,9 +51,8 @@
         <input type="text" id="searchInput" placeholder="Cari barang..." oninput="filterProducts()">
       </div>
       <div class="nav-links">
-        <a href="#">🛒 Keranjang</a>
-        <a href="#">📋 Pesanan</a>
-        <button class="btn-admin" onclick="toggleAdminMode()">Mode Admin: OFF</button>
+        <span id="userStatus" style="font-size: 13px; font-weight: bold;"></span>
+        <button class="btn-auth" id="authBtn" onclick="openLoginModal()">Login Admin</button>
       </div>
     </div>
   </header>
@@ -65,31 +61,45 @@
     <div class="hero-banner">
       <span class="hero-badge">SUPER PROMO ELEKTRONIK</span>
       <h1 class="hero-title">BLUE TECH SALE</h1>
-      <p>Diskon Hingga 90% | Gratis Ongkir Seluruh Indonesia</p>
-    </div>
-
-    <div class="quick-categories">
-      <div class="cat-item"><div class="cat-icon">🚚</div>Gratis Ongkir</div>
-      <div class="cat-item"><div class="cat-icon">⚡</div>Flash Sale</div>
-      <div class="cat-item"><div class="cat-icon">🪙</div>Koin Blue</div>
-      <div class="cat-item"><div class="cat-icon">💻</div>Elektronik</div>
+      <p>Diskon Hingga 90% | Khusus Pengguna Terdaftar</p>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
       <span class="section-title">REKOMENDASI PRODUK</span>
-      <button id="btnAddProduct" class="btn-save" style="display: none;" onclick="openModal()">+ Tambah Produk</button>
+      <button id="btnAddProduct" class="btn-save" style="display: none;" onclick="openProductModal()">+ Tambah Produk</button>
     </div>
 
     <div class="product-grid" id="productGrid">
-      <p style="grid-column: 1/-1; text-align: center; color: #888;">Memuat data dari database...</p>
+      <p style="grid-column: 1/-1; text-align: center; color: #888;">Memuat produk...</p>
     </div>
   </div>
 
-  <!-- Modal Form -->
+  <!-- Modal Login Admin -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h3>Login Akun Admin</h3>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email / Username</label>
+          <input type="text" id="loginUsername" placeholder="contoh: alvi@gmil.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+        <div class="modal-buttons">
+          <button type="button" class="btn-cancel" onclick="closeLoginModal()">Batal</button>
+          <button type="submit" class="btn-save">Masuk</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Form Tambah/Edit Produk -->
   <div class="modal" id="productModal">
     <div class="modal-content">
-      <h3 id="modalTitle">Tambah Produk Baru</h3>
-      <form id="productForm" onsubmit="saveProductToSupabase(event)">
+      <h3 id="productModalTitle">Tambah Produk Baru</h3>
+      <form onsubmit="saveProduct(event)">
         <input type="hidden" id="productId">
         <div class="form-group">
           <label>Nama Produk</label>
@@ -104,7 +114,7 @@
           <input type="text" id="productImage" placeholder="https://..." required>
         </div>
         <div class="modal-buttons">
-          <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
+          <button type="button" class="btn-cancel" onclick="closeProductModal()">Batal</button>
           <button type="submit" class="btn-save">Simpan</button>
         </div>
       </form>
@@ -112,35 +122,107 @@
   </div>
 
   <script>
-    // 2. Masukkan URL dan Anon Key dari Project Supabase kamu di sini
+    // Konfigurasi Supabase (Sesuaikan dengan milikmu)
     const SUPABASE_URL = 'ISI_SUPABASE_URL_KAMU';
     const SUPABASE_KEY = 'ISI_SUPABASE_ANON_KEY_KAMU';
-    
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    let isAdmin = false;
-    let allProducts = [];
 
-    // Ambil Data Produk dari Supabase
-    async function fetchProductsFromSupabase() {
+    let allProducts = [];
+    let currentUser = JSON.parse(localStorage.getItem('blueshop_logged_user')) || null;
+
+    // Cek Status Login Saat Halaman Dimuat
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchProducts();
+      updateAuthUI();
+    });
+
+    // Fungsi Login Mengecek Tabel 'users' di Supabase
+    async function handleLogin(e) {
+      e.preventDefault();
+      const usernameInput = document.getElementById('loginUsername').value.trim();
+      const passwordInput = document.getElementById('loginPassword').value.trim();
+
+      // Query ke tabel 'users' Supabase
+      const { data, error } = await _supabase
+        .from('users')
+        .select('*')
+        .eq('username', usernameInput)
+        .eq('password', passwordInput)
+        .single();
+
+      if (error || !data) {
+        alert('Login gagal! Email atau password salah.');
+        return;
+      }
+
+      // Validasi apakah role-nya Admin (sesuai gambar database kamu)
+      if (data.role.toLowerCase() !== 'admin') {
+        alert('Akses ditolak! Akun ini bukan akun Admin.');
+        return;
+      }
+
+      // Simpan sesi login ke localStorage
+      currentUser = data;
+      localStorage.setItem('blueshop_logged_user', JSON.stringify(data));
+      
+      closeLoginModal();
+      updateAuthUI();
+      renderProducts(allProducts);
+      alert(`Selamat datang kembali, Admin ${data.name}!`);
+    }
+
+    // Logout
+    function handleLogout() {
+      localStorage.removeItem('blueshop_logged_user');
+      currentUser = null;
+      updateAuthUI();
+      renderProducts(allProducts);
+      alert('Berhasil logout.');
+    }
+
+    // Update Tampilan Tombol Berdasarkan Sesi Login
+    function updateAuthUI() {
+      const authBtn = document.getElementById('authBtn');
+      const userStatus = document.getElementById('userStatus');
+      const btnAddProduct = document.getElementById('btnAddProduct');
+
+      if (currentUser && currentUser.role.toLowerCase() === 'admin') {
+        authBtn.innerText = 'Logout';
+        authBtn.style.background = '#ef4444';
+        authBtn.setAttribute('onclick', 'handleLogout()');
+        userStatus.innerText = `👤 ${currentUser.name} (Admin)`;
+        btnAddProduct.style.display = 'block';
+      } else {
+        authBtn.innerText = 'Login Admin';
+        authBtn.style.background = '#10b981';
+        authBtn.setAttribute('onclick', 'openLoginModal()');
+        userStatus.innerText = '';
+        btnAddProduct.style.display = 'none';
+      }
+    }
+
+    // Ambil Data Produk
+    async function fetchProducts() {
       const { data, error } = await _supabase.from('products').select('*');
       if (error) {
-        console.error('Gagal memuat:', error.message);
-        document.getElementById('productGrid').innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Gagal memuat produk dari server database.</p>';
+        document.getElementById('productGrid').innerHTML = '<p style="grid-column: 1/-1; color:red; text-align:center;">Gagal memuat produk database.</p>';
         return;
       }
       allProducts = data || [];
       renderProducts(allProducts);
     }
 
-    // Render Grid
+    // Render Grid Produk (Tombol Edit/Hapus hanya muncul jika login sebagai admin)
     function renderProducts(products) {
       const grid = document.getElementById('productGrid');
       grid.innerHTML = '';
 
       if (products.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Tidak ada produk di database.</p>';
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Tidak ada produk.</p>';
         return;
       }
+
+      const isAdmin = currentUser && currentUser.role.toLowerCase() === 'admin';
 
       products.forEach(p => {
         const card = document.createElement('div');
@@ -165,32 +247,23 @@
       });
     }
 
-    // Toggle Admin
-    function toggleAdminMode() {
-      isAdmin = !isAdmin;
-      const btn = document.querySelector('.btn-admin');
-      const btnAdd = document.getElementById('btnAddProduct');
-      btn.innerText = `Mode Admin: ${isAdmin ? 'ON' : 'OFF'}`;
-      btn.style.background = isAdmin ? '#10b981' : '#f59e0b';
-      btnAdd.style.display = isAdmin ? 'block' : 'none';
-      renderProducts(allProducts);
-    }
-
-    function openModal(isEdit = false) {
+    // Kontrol Modal Login & Produk
+    function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+    function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+    function openProductModal(isEdit = false) {
       document.getElementById('productModal').style.display = 'flex';
-      document.getElementById('modalTitle').innerText = isEdit ? 'Edit Produk' : 'Tambah Produk Baru';
+      document.getElementById('productModalTitle').innerText = isEdit ? 'Edit Produk' : 'Tambah Produk Baru';
       if (!isEdit) {
-        document.getElementById('productForm').reset();
         document.getElementById('productId').value = '';
+        document.getElementById('productName').value = '';
+        document.getElementById('productPrice').value = '';
+        document.getElementById('productImage').value = '';
       }
     }
+    function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
 
-    function closeModal() {
-      document.getElementById('productModal').style.display = 'none';
-    }
-
-    // SIMPAN / TAMBAH & EDIT KE SUPABASE
-    async function saveProductToSupabase(e) {
+    // Tambah / Update Produk ke Supabase
+    async function saveProduct(e) {
       e.preventDefault();
       const id = document.getElementById('productId').value;
       const name = document.getElementById('productName').value;
@@ -198,53 +271,38 @@
       const image = document.getElementById('productImage').value;
 
       if (id) {
-        // Update database
-        const { error } = await _supabase.from('products').update({ name, price, image }).eq('id', id);
-        if (error) alert('Gagal mengupdate: ' + error.message);
+        await _supabase.from('products').update({ name, price, image }).eq('id', id);
       } else {
-        // Insert ke database
-        const { error } = await _supabase.from('products').insert([{ name, price, image }]);
-        if (error) alert('Gagal menambah: ' + error.message);
+        await _supabase.from('products').insert([{ name, price, image }]);
       }
 
-      closeModal();
-      fetchProductsFromSupabase();
+      closeProductModal();
+      fetchProducts();
     }
 
     function editProduct(id) {
-      const product = allProducts.find(p => p.id === id);
-      if (product) {
-        document.getElementById('productId').value = product.id;
-        document.getElementById('productName').value = product.name;
-        document.getElementById('productPrice').value = product.price;
-        document.getElementById('productImage').value = product.image;
-        openModal(true);
+      const p = allProducts.find(item => item.id === id);
+      if (p) {
+        document.getElementById('productId').value = p.id;
+        document.getElementById('productName').value = p.name;
+        document.getElementById('productPrice').value = p.price;
+        document.getElementById('productImage').value = p.image;
+        openProductModal(true);
       }
     }
 
-    // HAPUS DARI SUPABASE
     async function deleteProduct(id) {
-      if (confirm("Yakin ingin menghapus produk ini dari database?")) {
-        const { error } = await _supabase.from('products').delete().eq('id', id);
-        if (error) {
-          alert('Gagal menghapus: ' + error.message);
-        } else {
-          fetchProductsFromSupabase();
-        }
+      if (confirm('Yakin ingin menghapus produk ini?')) {
+        await _supabase.from('products').delete().eq('id', id);
+        fetchProducts();
       }
     }
 
-    // Filter Pencarian
     function filterProducts() {
       const keyword = document.getElementById('searchInput').value.toLowerCase();
       const filtered = allProducts.filter(p => p.name.toLowerCase().includes(keyword));
       renderProducts(filtered);
     }
-
-    // Load pertama kali
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchProductsFromSupabase();
-    });
   </script>
 </body>
 </html>
