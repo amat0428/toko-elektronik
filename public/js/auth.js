@@ -23,9 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = true;
       }
 
+      // Default role saat daftar adalah 'user'
       const { data, error } = await supabaseClient
         .from('users_list')
-        .insert([{ name, username, password }]);
+        .insert([{ name, username, password, role: 'user' }]);
 
       if (error) {
         alert("Gagal mendaftar: " + error.message);
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. FUNGSI LOGIN
+  // 3. FUNGSI LOGIN (SUDAH DIBENAHI UNTUK ADMIN)
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -62,14 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (users && users.length > 0) {
         const currentUser = users[0];
         
-        // Simpan status login di Storage
+        // Simpan status login di LocalStorage
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
         alert(`Selamat datang kembali, ${currentUser.name || currentUser.username}!`);
         
-        // Mengarahkan langsung ke halaman toko
-        window.location.href = 'toko.html'; 
+        // CEK APAKAH AKUN ADMIN
+        // Bisa pakai kolom role ATAU cek langsung username-nya 'admin1@gmail.com' / 'admin'
+        if (currentUser.role === 'admin' || currentUser.username === 'admin1@gmail.com' || currentUser.username === 'admin') {
+          window.location.href = '/admin/dashboard.html'; // Arahkan ke Dashboard Admin
+        } else {
+          window.location.href = 'toko.html'; // Arahkan ke Toko untuk User biasa
+        }
+
       } else {
         alert("Username atau Password salah! Jika belum punya akun, silakan daftar.");
       }

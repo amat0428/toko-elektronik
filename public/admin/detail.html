@@ -1,0 +1,45 @@
+document.addEventListener('DOMContentLoaded', async () => {
+  const detailContainer = document.getElementById('productDetail'); // ID kontainer detail produk
+  
+  // 1. Ambil ID produk dari URL (misal: detail.html?id=12)
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id');
+
+  if (!productId) {
+    if (detailContainer) {
+      detailContainer.innerHTML = '<p style="color:red;">Produk tidak ditemukan! ID tidak valid.</p>';
+    }
+    return;
+  }
+
+  try {
+    // 2. Fetch data dari API backend Vercel / Supabase
+    const response = await fetch(`/api/products/detail?id=${productId}`);
+    const result = await response.json();
+
+    if (!response.ok || !result.data) {
+      throw new Error(result.message || 'Gagal memuat detail produk.');
+    }
+
+    const product = result.data;
+
+    // 3. Tampilkan data ke HTML
+    if (detailContainer) {
+      detailContainer.innerHTML = `
+        <div class="product-card-detail">
+          <h2>${product.nama || product.name}</h2>
+          <p class="price"><strong>Harga:</strong> Rp ${(product.harga || product.price || 0).toLocaleString('id-ID')}</p>
+          <p class="stock"><strong>Stok:</strong> ${product.stok || product.stock || 0} unit</p>
+          <p class="description">${product.deskripsi || product.description || 'Tidak ada deskripsi produk.'}</p>
+          
+          <button onclick="addToCart('${product.id}')" class="btn-primary">Tambah ke Keranjang</button>
+        </div>
+      `;
+    }
+  } catch (error) {
+    console.error('Error loading product detail:', error);
+    if (detailContainer) {
+      detailContainer.innerHTML = `<p style="color:red;">Gagal memuat detail produk: ${error.message}</p>`;
+    }
+  }
+});
