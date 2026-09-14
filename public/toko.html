@@ -3,132 +3,273 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toko Elektronik - BlueShop</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>BlueShop - Toko Elektronik</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; }
+    
+    /* Header & Navbar */
+    header { background-color: #2563eb; padding: 12px 5%; color: white; }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+    .logo { font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+    .search-box { flex: 1; max-width: 500px; position: relative; }
+    .search-box input { width: 100%; padding: 8px 15px; border-radius: 6px; border: none; outline: none; }
+    .nav-links { display: flex; gap: 20px; align-items: center; font-size: 14px; }
+    .nav-links a { color: white; text-decoration: none; cursor: pointer; }
+
+    /* Admin Toggle Button */
+    .btn-admin { background: #f59e0b; color: #fff; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; }
+
+    /* Layout Content */
+    .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+
+    /* Hero Banner */
+    .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 30px; position: relative; margin-bottom: 25px; }
+    .hero-badge { background: #facc15; color: #000; font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+    .hero-title { font-size: 28px; margin: 10px 0 5px 0; font-weight: 800; }
+    .hero-desc { font-size: 13px; opacity: 0.9; }
+
+    /* Quick Icons */
+    .quick-categories { display: flex; justify-content: space-around; background: white; padding: 15px; border-radius: 10px; margin-bottom: 25px; text-align: center; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    .cat-item { cursor: pointer; }
+    .cat-icon { font-size: 24px; margin-bottom: 5px; }
+
+    /* Product Section */
+    .section-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #1e293b; border-bottom: 2px solid #2563eb; display: inline-block; padding-bottom: 4px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+    .product-card { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+    .product-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
+    .product-details { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-name { font-size: 14px; font-weight: bold; margin-bottom: 6px; line-height: 1.3; }
+    .product-price { color: #dc2626; font-size: 15px; font-weight: bold; margin-bottom: 10px; }
+    .btn-buy { background: #2563eb; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    
+    /* Action Admin pada Card */
+    .admin-actions { margin-top: 8px; display: flex; gap: 5px; }
+    .btn-edit { background: #10b981; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    .btn-delete { background: #ef4444; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; }
+
+    /* Modal Admin Form */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 400px; }
+    .modal-content h3 { margin-bottom: 15px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; margin-bottom: 4px; font-weight: bold; }
+    .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
+    .btn-cancel { background: #64748b; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+    .btn-save { background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen text-gray-800 pb-20 md:pb-6">
+<body>
 
-  <!-- Header Utama -->
-  <header class="bg-blue-600 text-white sticky top-0 z-50 shadow-md">
-    <div class="max-w-6xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2 md:gap-4">
-      
-      <!-- PERBAIKAN: Logo mengarah ke toko.html, BUKAN index.html -->
-      <a href="toko.html" class="text-base md:text-xl font-black tracking-wide flex items-center gap-1.5 shrink-0">
-        <i class="fa-solid fa-bag-shopping"></i>
-        <span>BlueShop</span>
-      </a>
-
-      <!-- Search Bar -->
-      <div class="flex-1 min-w-0 bg-white rounded flex items-center px-2.5 py-1.5 shadow-inner">
-        <i class="fa-solid fa-magnifying-glass text-blue-600 mr-2 shrink-0 text-xs md:text-sm"></i>
-        <input type="text" id="searchInput" placeholder="Cari barang..." class="w-full bg-transparent outline-none text-gray-800 text-xs md:text-sm">
-        <i class="fa-solid fa-camera text-gray-400 cursor-pointer hidden md:block ml-2"></i>
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">🛍️ BlueShop</div>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Cari barang..." oninput="filterProducts()">
       </div>
-
-      <!-- Navigasi Laptop -->
-      <div class="hidden md:flex items-center gap-5 text-white text-sm font-semibold">
-        <a href="cart.html" class="relative flex items-center gap-1.5 hover:text-blue-200">
-          <i class="fa-solid fa-cart-shopping text-base"></i>
-          <span>Keranjang</span>
-          <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
-        </a>
-        <a href="orders.html" class="flex items-center gap-1.5 hover:text-blue-200">
-          <i class="fa-solid fa-receipt text-base"></i>
-          <span>Pesanan</span>
-        </a>
+      <div class="nav-links">
+        <a href="#">🛒 Keranjang</a>
+        <a href="#">📋 Pesanan</a>
+        <button class="btn-admin" onclick="toggleAdminMode()">Mode Admin: OFF</button>
       </div>
-
-      <!-- Tombol Saya -->
-      <a href="account.html" class="flex items-center gap-1 text-white text-xs md:text-sm font-semibold hover:text-blue-200 shrink-0 border-l border-blue-400 pl-2 md:pl-4">
-        <i class="fa-solid fa-circle-user text-base md:text-lg"></i>
-        <span>Saya</span>
-      </a>
-
     </div>
   </header>
 
-  <!-- Container Utama -->
-  <main class="max-w-6xl mx-auto px-2 md:px-4 mt-3">
-
-    <!-- Banner Promo -->
-    <div class="bg-gradient-to-r from-blue-600 to-blue-400 rounded-xl p-4 md:p-8 text-white shadow-md flex justify-between items-center mb-4">
-      <div>
-        <span class="bg-yellow-400 text-blue-950 font-extrabold text-xs px-2.5 py-0.5 rounded-full uppercase">Super Promo Elektronik</span>
-        <h2 class="text-xl md:text-3xl font-black mt-2">BLUE TECH SALE</h2>
-        <p class="text-xs md:text-sm text-blue-100 mt-1">Diskon Hingga 90% + Gratis Ongkir Seluruh Indonesia</p>
-      </div>
-      <i class="fa-solid fa-bolt text-5xl md:text-7xl text-yellow-300 animate-pulse hidden sm:block"></i>
+  <div class="container">
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <span class="hero-badge">SUPER PROMO ELEKTRONIK</span>
+      <h1 class="hero-title">BLUE TECH SALE</h1>
+      <p class="hero-desc">Diskon Hingga 90% | Gratis Ongkir Seluruh Indonesia</p>
     </div>
 
-    <!-- Menu Kategori -->
-    <div class="bg-white rounded-lg p-3 md:p-4 grid grid-cols-5 gap-2 md:gap-4 text-center text-xs mb-4 shadow-sm">
-      <div class="flex flex-col items-center cursor-pointer">
-        <div class="w-10 h-10 md:w-12 md:h-12 border border-blue-200 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-lg md:text-xl mb-1">
-          <i class="fa-solid fa-truck-fast"></i>
-        </div>
-        <span>Gratis Ongkir</span>
-      </div>
-      <div class="flex flex-col items-center cursor-pointer">
-        <div class="w-10 h-10 md:w-12 md:h-12 border border-blue-200 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-lg md:text-xl mb-1">
-          <i class="fa-solid fa-bolt text-yellow-500"></i>
-        </div>
-        <span>Flash Sale</span>
-      </div>
-      <div class="flex flex-col items-center cursor-pointer">
-        <div class="w-10 h-10 md:w-12 md:h-12 border border-blue-200 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-lg md:text-xl mb-1">
-          <i class="fa-solid fa-coins text-yellow-500"></i>
-        </div>
-        <span>Koin Blue</span>
-      </div>
-      <div class="flex flex-col items-center cursor-pointer">
-        <div class="w-10 h-10 md:w-12 md:h-12 border border-blue-200 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-lg md:text-xl mb-1">
-          <i class="fa-solid fa-laptop"></i>
-        </div>
-        <span>Elektronik</span>
-      </div>
-      <div class="flex flex-col items-center cursor-pointer">
-        <div class="w-10 h-10 md:w-12 md:h-12 border border-blue-200 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-lg md:text-xl mb-1">
-          <i class="fa-solid fa-tags text-red-500"></i>
-        </div>
-        <span>Murah Alay</span>
-      </div>
+    <!-- Quick Categories -->
+    <div class="quick-categories">
+      <div class="cat-item"><div class="cat-icon">🚚</div>Gratis Ongkir</div>
+      <div class="cat-item"><div class="cat-icon">⚡</div>Flash Sale</div>
+      <div class="cat-item"><div class="cat-icon">🪙</div>Koin Blue</div>
+      <div class="cat-item"><div class="cat-icon">💻</div>Elektronik</div>
+      <div class="cat-item"><div class="cat-icon">🏷️</div>Murah Alay</div>
     </div>
 
-    <!-- Header Rekomendasi -->
-    <div class="bg-white p-3 border-b-2 border-blue-600 font-bold text-blue-600 uppercase text-sm md:text-base mb-3 flex items-center gap-2 rounded-t-lg">
-      <i class="fa-solid fa-fire"></i>
-      <span>Rekomendasi Produk</span>
+    <!-- Header Katalog & Tombol Tambah -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <span class="section-title">REKOMENDASI PRODUK</span>
+      <button id="btnAddProduct" class="btn-save" style="display: none;" onclick="openModal()">+ Tambah Produk</button>
     </div>
 
-    <!-- Grid Produk Dynamic -->
-    <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3">
+    <!-- Product Grid -->
+    <div class="product-grid" id="productGrid">
+      <!-- Data produk di-render dari JavaScript -->
     </div>
-  </main>
+  </div>
 
-  <!-- Bottom Nav Bar HP -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-1.5 z-40 shadow-lg">
-    <div class="grid grid-cols-3 text-center text-gray-500">
-      <!-- PERBAIKAN: Beranda mengarah ke toko.html, BUKAN index.html -->
-      <a href="toko.html" class="flex flex-col items-center text-blue-600">
-        <i class="fa-solid fa-house text-lg"></i>
-        <span class="text-[10px] mt-0.5 font-medium">Beranda</span>
-      </a>
-      <a href="products.html" class="flex flex-col items-center hover:text-blue-600">
-        <i class="fa-solid fa-layer-group text-lg"></i>
-        <span class="text-[10px] mt-0.5">Kategori</span>
-      </a>
-      <a href="orders.html" class="flex flex-col items-center hover:text-blue-600">
-        <i class="fa-solid fa-receipt text-lg"></i>
-        <span class="text-[10px] mt-0.5">Pesanan</span>
-      </a>
+  <!-- Modal Form CRUD Admin -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <h3 id="modalTitle">Tambah Produk Baru</h3>
+      <form id="productForm" onsubmit="saveProduct(event)">
+        <input type="hidden" id="productId">
+        <div class="form-group">
+          <label>Nama Produk</label>
+          <input type="text" id="productName" required>
+        </div>
+        <div class="form-group">
+          <label>Harga (Rp)</label>
+          <input type="number" id="productPrice" required>
+        </div>
+        <div class="form-group">
+          <label>URL Gambar</label>
+          <input type="text" id="productImage" placeholder="https://..." required>
+        </div>
+        <div class="modal-buttons">
+          <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
+          <button type="submit" class="btn-save">Simpan</button>
+        </div>
+      </form>
     </div>
-  </nav>
+  </div>
 
-  <!-- Scripts -->
-  <script src="js/auth-state.js"></script>
-  <script src="js/products.js"></script>
+  <script>
+    // Data bawaan awal (Default Products)
+    const initialProducts = [
+      { id: 1, name: "Smartphone Flagship 5G", price: 4500000, image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300" },
+      { id: 2, name: "Laptop Slim High Performance", price: 8900000, image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300" },
+      { id: 3, name: "Wireless Headphone Bass", price: 350000, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" }
+    ];
+
+    let isAdmin = false;
+
+    // Load data dari LocalStorage
+    function getProducts() {
+      const data = localStorage.getItem('blueshop_products');
+      if (!data) {
+        localStorage.setItem('blueshop_products', JSON.stringify(initialProducts));
+        return initialProducts;
+      }
+      return JSON.parse(data);
+    }
+
+    // Render Produk ke Grid
+    function renderProducts(productsToRender = getProducts()) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+
+      if (productsToRender.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Tidak ada produk.</p>';
+        return;
+      }
+
+      productsToRender.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${p.image}" class="product-img" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300'">
+          <div class="product-details">
+            <div>
+              <div class="product-name">${p.name}</div>
+              <div class="product-price">Rp ${Number(p.price).toLocaleString('id-ID')}</div>
+            </div>
+            <button class="btn-buy">Beli Sekarang</button>
+            ${isAdmin ? `
+              <div class="admin-actions">
+                <button class="btn-edit" onclick="editProduct(${p.id})">Edit</button>
+                <button class="btn-delete" onclick="deleteProduct(${p.id})">Hapus</button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Toggle Mode Admin
+    function toggleAdminMode() {
+      isAdmin = !isAdmin;
+      const btn = document.querySelector('.btn-admin');
+      const btnAdd = document.getElementById('btnAddProduct');
+      btn.innerText = `Mode Admin: ${isAdmin ? 'ON' : 'OFF'}`;
+      btn.style.background = isAdmin ? '#10b981' : '#f59e0b';
+      btnAdd.style.display = isAdmin ? 'block' : 'none';
+      renderProducts();
+    }
+
+    // Modal Admin (Open/Close)
+    function openModal(isEdit = false) {
+      document.getElementById('productModal').style.display = 'flex';
+      document.getElementById('modalTitle').innerText = isEdit ? 'Edit Produk' : 'Tambah Produk Baru';
+      if (!isEdit) {
+        document.getElementById('productForm').reset();
+        document.getElementById('productId').value = '';
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('productModal').style.display = 'none';
+    }
+
+    // SIMPAN / TAMBAH & EDIT (CRUD)
+    function saveProduct(e) {
+      e.preventDefault();
+      const id = document.getElementById('productId').value;
+      const name = document.getElementById('productName').value;
+      const price = document.getElementById('productPrice').value;
+      const image = document.getElementById('productImage').value;
+
+      let products = getProducts();
+
+      if (id) {
+        // Mode Edit
+        products = products.map(p => p.id == id ? { id: Number(id), name, price, image } : p);
+      } else {
+        // Mode Tambah Baru
+        const newProduct = { id: Date.now(), name, price, image };
+        products.push(newProduct);
+      }
+
+      localStorage.setItem('blueshop_products', JSON.stringify(products));
+      closeModal();
+      renderProducts();
+    }
+
+    // EDIT PRODUK
+    function editProduct(id) {
+      const products = getProducts();
+      const product = products.find(p => p.id === id);
+      if (product) {
+        document.getElementById('productId').value = product.id;
+        document.getElementById('productName').value = product.name;
+        document.getElementById('productPrice').value = product.price;
+        document.getElementById('productImage').value = product.image;
+        openModal(true);
+      }
+    }
+
+    // HAPUS PRODUK (CRUD)
+    function deleteProduct(id) {
+      if (confirm("Apakah kamu yakin ingin menghapus produk ini?")) {
+        let products = getProducts();
+        products = products.filter(p => p.id !== id);
+        localStorage.setItem('blueshop_products', JSON.stringify(products));
+        renderProducts();
+      }
+    }
+
+    // FITUR PENCARIAN (Search)
+    function filterProducts() {
+      const keyword = document.getElementById('searchInput').value.toLowerCase();
+      const products = getProducts();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(keyword));
+      renderProducts(filtered);
+    }
+
+    // Inisialisasi Pertama Kali
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts();
+    });
+  </script>
 </body>
 </html>
