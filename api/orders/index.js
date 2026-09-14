@@ -1,24 +1,63 @@
-export default function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
+import { createClient } from '@supabase/supabase-js';
+
+// Inisialisasi Supabase Client dari Environment Variable Vercel
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+export default async function handler(req, res) {
+  // 1. GET: Ambil daftar semua pesanan dari database Supabase
+  if (req.method === 'GET') {
+    try {
+      const { data, error } = await supabase
+        .from('orders') // Sesuaikan nama tabel kamu di Supabase
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      return res.status(200).json({
+        success: true,
+        data: data || []
+      });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: error.message });
+    }
   }
 
-  const mockOrders = [
-    {
-      orderId: 'ORD-1715000000000',
-      totalAmount: 12850000,
-      status: 'SELESAI',
-      createdAt: '2026-08-20T10:00:00Z',
-      itemsCount: 2
-    },
-    {
-      orderId: 'ORD-1715100000000',
-      totalAmount: 4500000,
-      status: 'DIPROSES',
-      createdAt: '2026-08-28T14:30:00Z',
-      itemsCount: 1
-    }
-  ];
+  // 2. PUT / PATCH: Admin menambah, mengurangi jumlah, atau mengubah status pesanan
+  if (req.method === 'PUT' || req.method === 'PATCH') {
+    try {
+      const { orderId, itemsCount, status } = req.body;
 
-  return res.status(200).json({ success: true, data: mockOrders });
+      if (!orderId) {
+        return res.status(400).json({ success: false, message: 'orderId wajib diisi' });
+      }
+
+      // Siapkan payload update
+      const updatePayload = {};
+      if (itemsCount !== undefined) updatePayload.itemsCount = itemsCount; // atau jumlah_pesanan
+      if (status !== undefined) updatePayload.status = status;
+
+      const { data, error } = await supabase
+        .from('orders')
+        .update(updatePayload)
+        .eq('id', orderId) // Jika kolom primary key kamu 'orderId', ganti 'id' jadi 'orderId'
+        .select();
+
+      if (error) throw error;
+
+      return res.status(200).json({
+        success: true,
+        message: 'Pesanan berhasil diperbarui',
+        data
+      });
+    } catch (error) {
+      return res.status(500).json({ success: false, message: error.message });
+    }
+  }
+
+  // 3. Jika method HTTP selain GET, PUT, atau PATCH
+  res.setHeader('Allow', ['GET', 'PUT', 'PATCH']);
+  return res.status(405).json({ success: false, message: `Method ${req.method} Not Allowed` });
 }

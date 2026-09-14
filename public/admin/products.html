@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Produk - Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f6f9; }
+    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+    .nav-links a { margin-right: 15px; text-decoration: none; color: #0070f3; font-weight: bold; }
+    .form-container { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+    .form-group input { width: 100%; padding: 8px; box-sizing: border-box; }
+    table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .btn-submit { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-delete { background-color: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Kelola Produk</h1>
+    <div class="nav-links">
+      <a href="/admin/dashboard.html">Dashboard</a>
+      <a href="/admin/orders.html">Kelola Pesanan</a>
+      <a href="/admin/products.html">Kelola Produk</a>
+      <a href="/" style="color: red;">Kembali ke Toko</a>
+    </div>
+  </div>
+
+  <!-- Form Tambah Produk Baru -->
+  <div class="form-container">
+    <h3>Tambah Produk Baru</h3>
+    <form id="addProductForm">
+      <div class="form-group">
+        <label>Nama Produk:</label>
+        <input type="text" id="namaProduk" required placeholder="Contoh: Laptop Asus ROG">
+      </div>
+      <div class="form-group">
+        <label>Harga (Rp):</label>
+        <input type="number" id="hargaProduk" required placeholder="Contoh: 15000000">
+      </div>
+      <div class="form-group">
+        <label>Stok Produk:</label>
+        <input type="number" id="stokProduk" required placeholder="Contoh: 10">
+      </div>
+      <button type="submit" class="btn-submit">Simpan Produk</button>
+    </form>
+  </div>
+
+  <!-- Tabel Daftar Produk -->
+  <h2>Daftar Produk Toko</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nama Produk</th>
+        <th>Harga</th>
+        <th>Stok</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="productsList">
+      <tr><td colSpan="5" style="text-align: center;">Loading data produk...</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    // 1. Ambil daftar produk
+    async function fetchProducts() {
+      try {
+        const res = await fetch('/api/products');
+        const products = await res.json();
+        
+        const tbody = document.getElementById('productsList');
+        tbody.innerHTML = '';
+
+        if (!products || products.length === 0) {
+          tbody.innerHTML = '<tr><td colSpan="5" style="text-align: center;">Belum ada produk</td></tr>';
+          return;
+        }
+
+        products.forEach(p => {
+          tbody.innerHTML += `
+            <tr>
+              <td>#${p.id}</td>
+              <td>${p.nama || p.name}</td>
+              <td>Rp ${(p.harga || p.price || 0).toLocaleString('id-ID')}</td>
+              <td>${p.stok || p.stock || 0}</td>
+              <td>
+                <button class="btn-delete" onclick="deleteProduct('${p.id}')">Hapus</button>
+              </td>
+            </tr>
+          `;
+        });
+      } catch (err) {
+        console.error('Gagal mengambil produk:', err);
+      }
+    }
+
+    // 2. Tambah produk baru
+    document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const newProduct = {
+        nama: document.getElementById('namaProduk').value,
+        harga: parseInt(document.getElementById('hargaProduk').value),
+        stok: parseInt(document.getElementById('stokProduk').value)
+      };
+
+      const res = await fetch('/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newProduct)
+      });
+
+      if (res.ok) {
+        alert('Produk berhasil ditambahkan!');
+        document.getElementById('addProductForm').reset();
+        fetchProducts();
+      } else {
+        alert('Gagal menambah produk.');
+      }
+    });
+
+    // 3. Hapus produk (Optional/Sesuai kebutuhan API)
+    async function deleteProduct(id) {
+      if (!confirm('Yakin ingin menghapus produk ini?')) return;
+
+      const res = await fetch(`/api/products?id=${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        alert('Produk dihapus!');
+        fetchProducts();
+      } else {
+        alert('Gagal menghapus produk.');
+      }
+    }
+
+    fetchProducts();
+  </script>
+</body>
+</html>
