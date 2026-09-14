@@ -12,10 +12,11 @@
     header { background-color: #2563eb; padding: 12px 5%; color: white; }
     .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
     .logo { font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-    .search-box { flex: 1; max-width: 400px; }
+    .search-box { flex: 1; max-width: 350px; }
     .search-box input { width: 100%; padding: 8px 15px; border-radius: 6px; border: none; outline: none; }
-    .nav-links { display: flex; gap: 15px; align-items: center; font-size: 14px; }
+    .nav-links { display: flex; gap: 12px; align-items: center; font-size: 14px; }
     .nav-links a { color: white; text-decoration: none; cursor: pointer; }
+    .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; }
     .btn-auth { background: #10b981; color: #fff; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; }
     .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
     .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 30px; margin-bottom: 25px; }
@@ -51,6 +52,8 @@
         <input type="text" id="searchInput" placeholder="Cari barang..." oninput="filterProducts()">
       </div>
       <div class="nav-links">
+        <button class="btn-nav" onclick="alert('Fitur Keranjang Belanja')">🛒 Keranjang</button>
+        <button class="btn-nav" onclick="alert('Fitur Pesanan Saya')">📦 Pesanan</button>
         <span id="userStatus" style="font-size: 13px; font-weight: bold;"></span>
         <button class="btn-auth" id="authBtn" onclick="openLoginModal()">Login Admin</button>
       </div>
@@ -122,7 +125,7 @@
   </div>
 
   <script>
-    // Konfigurasi Supabase (Sesuaikan dengan milikmu)
+    // Konfigurasi Supabase (Ganti dengan milikmu)
     const SUPABASE_URL = 'ISI_SUPABASE_URL_KAMU';
     const SUPABASE_KEY = 'ISI_SUPABASE_ANON_KEY_KAMU';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -136,14 +139,13 @@
       updateAuthUI();
     });
 
-    // Fungsi Login Mengecek Tabel 'users' di Supabase dengan aman
+    // Fungsi Login Mengecek Tabel 'users' di Supabase
     async function handleLogin(e) {
       e.preventDefault();
       const usernameInput = document.getElementById('loginUsername').value.trim();
       const passwordInput = document.getElementById('loginPassword').value.trim();
 
       try {
-        // Menggunakan maybeSingle agar tidak memicu error fatal jika data tidak ada
         const { data, error } = await _supabase
           .from('users')
           .select('*')
@@ -162,13 +164,11 @@
           return;
         }
 
-        // Validasi apakah role-nya Admin (case-insensitive)
         if (!data.role || data.role.toLowerCase() !== 'admin') {
           alert('Akses ditolak! Akun ini bukan akun Admin.');
           return;
         }
 
-        // Simpan sesi login ke localStorage
         currentUser = data;
         localStorage.setItem('blueshop_logged_user', JSON.stringify(data));
         
@@ -201,14 +201,14 @@
         authBtn.innerText = 'Logout';
         authBtn.style.background = '#ef4444';
         authBtn.setAttribute('onclick', 'handleLogout()');
-        userStatus.innerText = `👤 ${currentUser.name} (Admin)`;
-        btnAddProduct.style.display = 'block';
+        userStatus.innerText = `👤 ${currentUser.name}`;
+        if (btnAddProduct) btnAddProduct.style.display = 'block';
       } else {
         authBtn.innerText = 'Login Admin';
         authBtn.style.background = '#10b981';
         authBtn.setAttribute('onclick', 'openLoginModal()');
         userStatus.innerText = '';
-        btnAddProduct.style.display = 'none';
+        if (btnAddProduct) btnAddProduct.style.display = 'none';
       }
     }
 
