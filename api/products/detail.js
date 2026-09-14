@@ -1,49 +1,38 @@
-export default function handler(req, res) {
+import { createClient } from '@supabase/supabase-js';
+
+// Inisialisasi Supabase Client dari Environment Variable
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+export default async function handler(req, res) {
+  // Hanya izinkan method GET
   if (req.method !== 'GET') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
+    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 
   const { id } = req.query;
-  const products = [
-    {
-      id: "1",
-      name: "Laptop Gaming RGB 15 Inch",
-      price: 12500000,
-      category: "Laptop",
-      image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=500&auto=format&fit=crop&q=60",
-      description: "Processor Intel i7 Gen 13, RAM 16GB, SSD 512GB NVMe, RTX 4050."
-    },
-    {
-      id: "2",
-      name: "Smartphone 5G 128GB",
-      price: 4500000,
-      category: "HP",
-      image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60",
-      description: "Layar AMOLED 120Hz, Kamera Utama 64MP, Baterai 5000mAh Fast Charging 67W."
-    },
-    {
-      id: "3",
-      name: "TWS Wireless Earbuds Pro",
-      price: 350000,
-      category: "Aksesoris",
-      image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&auto=format&fit=crop&q=60",
-      description: "Active Noise Cancellation (ANC), Bluetooth 5.3, Daya tahan baterai hingga 30 Jam."
-    },
-    {
-      id: "4",
-      name: "Smartwatch Sport Edition",
-      price: 850000,
-      category: "Aksesoris",
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60",
-      description: "Monitoring Detak Jantung 24/7, SpO2, Waterproof 5ATM, Layar HD Color Display."
-    }
-  ];
 
-  const product = products.find((item) => item.id === id);
-
-  if (!product) {
-    return res.status(404).json({ success: false, message: 'Produk tidak ditemukan' });
+  // Cek apakah ada ID di URL query
+  if (!id) {
+    return res.status(400).json({ success: false, message: 'ID produk tidak ditemukan di URL' });
   }
 
-  return res.status(200).json({ success: true, data: product });
+  try {
+    // Ambil 1 produk dari database Supabase berdasarkan ID
+    const { data: product, error } = await supabase
+      .from('products') // Sesuaikan nama tabel kamu di Supabase (misal: products / product)
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !product) {
+      return res.status(404).json({ success: false, message: 'Produk tidak ditemukan di database' });
+    }
+
+    // Kirim respon sukses beserta data produk dari Supabase
+    return res.status(200).json({ success: true, data: product });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
 }
