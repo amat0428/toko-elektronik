@@ -1,45 +1,32 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const detailContainer = document.getElementById('productDetail'); // ID kontainer detail produk
-  
-  // 1. Ambil ID produk dari URL (misal: detail.html?id=12)
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get('id');
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Produk - Toko Elektronik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
 
-  if (!productId) {
-    if (detailContainer) {
-      detailContainer.innerHTML = '<p style="color:red;">Produk tidak ditemukan! ID tidak valid.</p>';
-    }
-    return;
-  }
+  <header class="bg-blue-600 text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="text-xl font-bold">Toko Elektronik</h1>
+      <a href="javascript:history.back()" class="text-sm bg-blue-700 hover:bg-blue-800 px-3 py-1.5 rounded-lg transition">
+        ← Kembali ke Produk
+      </a>
+    </div>
+  </header>
 
-  try {
-    // 2. Fetch data dari API backend Vercel / Supabase
-    const response = await fetch(`/api/products/detail?id=${productId}`);
-    const result = await response.json();
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <div id="productDetail" class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+      <div class="text-center py-12 text-gray-400">
+        <i class="fa-solid fa-spinner fa-spin text-3xl mb-2 text-blue-600"></i>
+        <p>Memuat detail produk...</p>
+      </div>
+    </div>
+  </main>
 
-    if (!response.ok || !result.data) {
-      throw new Error(result.message || 'Gagal memuat detail produk.');
-    }
-
-    const product = result.data;
-
-    // 3. Tampilkan data ke HTML
-    if (detailContainer) {
-      detailContainer.innerHTML = `
-        <div class="product-card-detail">
-          <h2>${product.nama || product.name}</h2>
-          <p class="price"><strong>Harga:</strong> Rp ${(product.harga || product.price || 0).toLocaleString('id-ID')}</p>
-          <p class="stock"><strong>Stok:</strong> ${product.stok || product.stock || 0} unit</p>
-          <p class="description">${product.deskripsi || product.description || 'Tidak ada deskripsi produk.'}</p>
-          
-          <button onclick="addToCart('${product.id}')" class="btn-primary">Tambah ke Keranjang</button>
-        </div>
-      `;
-    }
-  } catch (error) {
-    console.error('Error loading product detail:', error);
-    if (detailContainer) {
-      detailContainer.innerHTML = `<p style="color:red;">Gagal memuat detail produk: ${error.message}</p>`;
-    }
-  }
-});
+  <script src="js/products.js"></script>
+</body>
+</html>
