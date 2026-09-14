@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BlueShop - Toko Elektronik</title>
+  <!-- 1. Panggil Supabase Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
     body { background-color: #f4f6f9; color: #333; }
-    
-    /* Header & Navbar */
     header { background-color: #2563eb; padding: 12px 5%; color: white; }
     .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
     .logo { font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
@@ -16,46 +16,30 @@
     .search-box input { width: 100%; padding: 8px 15px; border-radius: 6px; border: none; outline: none; }
     .nav-links { display: flex; gap: 20px; align-items: center; font-size: 14px; }
     .nav-links a { color: white; text-decoration: none; cursor: pointer; }
-
-    /* Admin Toggle Button */
     .btn-admin { background: #f59e0b; color: #fff; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; }
-
-    /* Layout Content */
     .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
-
-    /* Hero Banner */
-    .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 30px; position: relative; margin-bottom: 25px; }
-    .hero-badge { background: #facc15; color: #000; font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+    .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 30px; margin-bottom: 25px; }
+    .hero-badge { background: #facc15; color: #000; font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; }
     .hero-title { font-size: 28px; margin: 10px 0 5px 0; font-weight: 800; }
-    .hero-desc { font-size: 13px; opacity: 0.9; }
-
-    /* Quick Icons */
     .quick-categories { display: flex; justify-content: space-around; background: white; padding: 15px; border-radius: 10px; margin-bottom: 25px; text-align: center; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
     .cat-item { cursor: pointer; }
     .cat-icon { font-size: 24px; margin-bottom: 5px; }
-
-    /* Product Section */
     .section-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #1e293b; border-bottom: 2px solid #2563eb; display: inline-block; padding-bottom: 4px; }
     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-    .product-card { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+    .product-card { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
     .product-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
     .product-details { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .product-name { font-size: 14px; font-weight: bold; margin-bottom: 6px; line-height: 1.3; }
+    .product-name { font-size: 14px; font-weight: bold; margin-bottom: 6px; }
     .product-price { color: #dc2626; font-size: 15px; font-weight: bold; margin-bottom: 10px; }
     .btn-buy { background: #2563eb; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    
-    /* Action Admin pada Card */
     .admin-actions { margin-top: 8px; display: flex; gap: 5px; }
     .btn-edit { background: #10b981; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; }
     .btn-delete { background: #ef4444; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; }
-
-    /* Modal Admin Form */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
     .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 400px; }
-    .modal-content h3 { margin-bottom: 15px; }
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-size: 12px; margin-bottom: 4px; font-weight: bold; }
-    .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
     .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
     .btn-cancel { background: #64748b; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
     .btn-save { background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
@@ -63,7 +47,6 @@
 </head>
 <body>
 
-  <!-- Header -->
   <header>
     <div class="nav-container">
       <div class="logo">🛍️ BlueShop</div>
@@ -79,39 +62,34 @@
   </header>
 
   <div class="container">
-    <!-- Hero Banner -->
     <div class="hero-banner">
       <span class="hero-badge">SUPER PROMO ELEKTRONIK</span>
       <h1 class="hero-title">BLUE TECH SALE</h1>
-      <p class="hero-desc">Diskon Hingga 90% | Gratis Ongkir Seluruh Indonesia</p>
+      <p>Diskon Hingga 90% | Gratis Ongkir Seluruh Indonesia</p>
     </div>
 
-    <!-- Quick Categories -->
     <div class="quick-categories">
       <div class="cat-item"><div class="cat-icon">🚚</div>Gratis Ongkir</div>
       <div class="cat-item"><div class="cat-icon">⚡</div>Flash Sale</div>
       <div class="cat-item"><div class="cat-icon">🪙</div>Koin Blue</div>
       <div class="cat-item"><div class="cat-icon">💻</div>Elektronik</div>
-      <div class="cat-item"><div class="cat-icon">🏷️</div>Murah Alay</div>
     </div>
 
-    <!-- Header Katalog & Tombol Tambah -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
       <span class="section-title">REKOMENDASI PRODUK</span>
       <button id="btnAddProduct" class="btn-save" style="display: none;" onclick="openModal()">+ Tambah Produk</button>
     </div>
 
-    <!-- Product Grid -->
     <div class="product-grid" id="productGrid">
-      <!-- Data produk di-render dari JavaScript -->
+      <p style="grid-column: 1/-1; text-align: center; color: #888;">Memuat data dari database...</p>
     </div>
   </div>
 
-  <!-- Modal Form CRUD Admin -->
+  <!-- Modal Form -->
   <div class="modal" id="productModal">
     <div class="modal-content">
       <h3 id="modalTitle">Tambah Produk Baru</h3>
-      <form id="productForm" onsubmit="saveProduct(event)">
+      <form id="productForm" onsubmit="saveProductToSupabase(event)">
         <input type="hidden" id="productId">
         <div class="form-group">
           <label>Nama Produk</label>
@@ -134,36 +112,37 @@
   </div>
 
   <script>
-    // Data bawaan awal (Default Products)
-    const initialProducts = [
-      { id: 1, name: "Smartphone Flagship 5G", price: 4500000, image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300" },
-      { id: 2, name: "Laptop Slim High Performance", price: 8900000, image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300" },
-      { id: 3, name: "Wireless Headphone Bass", price: 350000, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" }
-    ];
-
+    // 2. Masukkan URL dan Anon Key dari Project Supabase kamu di sini
+    const SUPABASE_URL = 'ISI_SUPABASE_URL_KAMU';
+    const SUPABASE_KEY = 'ISI_SUPABASE_ANON_KEY_KAMU';
+    
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     let isAdmin = false;
+    let allProducts = [];
 
-    // Load data dari LocalStorage
-    function getProducts() {
-      const data = localStorage.getItem('blueshop_products');
-      if (!data) {
-        localStorage.setItem('blueshop_products', JSON.stringify(initialProducts));
-        return initialProducts;
+    // Ambil Data Produk dari Supabase
+    async function fetchProductsFromSupabase() {
+      const { data, error } = await _supabase.from('products').select('*');
+      if (error) {
+        console.error('Gagal memuat:', error.message);
+        document.getElementById('productGrid').innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Gagal memuat produk dari server database.</p>';
+        return;
       }
-      return JSON.parse(data);
+      allProducts = data || [];
+      renderProducts(allProducts);
     }
 
-    // Render Produk ke Grid
-    function renderProducts(productsToRender = getProducts()) {
+    // Render Grid
+    function renderProducts(products) {
       const grid = document.getElementById('productGrid');
       grid.innerHTML = '';
 
-      if (productsToRender.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Tidak ada produk.</p>';
+      if (products.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Tidak ada produk di database.</p>';
         return;
       }
 
-      productsToRender.forEach(p => {
+      products.forEach(p => {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
@@ -186,7 +165,7 @@
       });
     }
 
-    // Toggle Mode Admin
+    // Toggle Admin
     function toggleAdminMode() {
       isAdmin = !isAdmin;
       const btn = document.querySelector('.btn-admin');
@@ -194,10 +173,9 @@
       btn.innerText = `Mode Admin: ${isAdmin ? 'ON' : 'OFF'}`;
       btn.style.background = isAdmin ? '#10b981' : '#f59e0b';
       btnAdd.style.display = isAdmin ? 'block' : 'none';
-      renderProducts();
+      renderProducts(allProducts);
     }
 
-    // Modal Admin (Open/Close)
     function openModal(isEdit = false) {
       document.getElementById('productModal').style.display = 'flex';
       document.getElementById('modalTitle').innerText = isEdit ? 'Edit Produk' : 'Tambah Produk Baru';
@@ -211,34 +189,30 @@
       document.getElementById('productModal').style.display = 'none';
     }
 
-    // SIMPAN / TAMBAH & EDIT (CRUD)
-    function saveProduct(e) {
+    // SIMPAN / TAMBAH & EDIT KE SUPABASE
+    async function saveProductToSupabase(e) {
       e.preventDefault();
       const id = document.getElementById('productId').value;
       const name = document.getElementById('productName').value;
-      const price = document.getElementById('productPrice').value;
+      const price = Number(document.getElementById('productPrice').value);
       const image = document.getElementById('productImage').value;
 
-      let products = getProducts();
-
       if (id) {
-        // Mode Edit
-        products = products.map(p => p.id == id ? { id: Number(id), name, price, image } : p);
+        // Update database
+        const { error } = await _supabase.from('products').update({ name, price, image }).eq('id', id);
+        if (error) alert('Gagal mengupdate: ' + error.message);
       } else {
-        // Mode Tambah Baru
-        const newProduct = { id: Date.now(), name, price, image };
-        products.push(newProduct);
+        // Insert ke database
+        const { error } = await _supabase.from('products').insert([{ name, price, image }]);
+        if (error) alert('Gagal menambah: ' + error.message);
       }
 
-      localStorage.setItem('blueshop_products', JSON.stringify(products));
       closeModal();
-      renderProducts();
+      fetchProductsFromSupabase();
     }
 
-    // EDIT PRODUK
     function editProduct(id) {
-      const products = getProducts();
-      const product = products.find(p => p.id === id);
+      const product = allProducts.find(p => p.id === id);
       if (product) {
         document.getElementById('productId').value = product.id;
         document.getElementById('productName').value = product.name;
@@ -248,27 +222,28 @@
       }
     }
 
-    // HAPUS PRODUK (CRUD)
-    function deleteProduct(id) {
-      if (confirm("Apakah kamu yakin ingin menghapus produk ini?")) {
-        let products = getProducts();
-        products = products.filter(p => p.id !== id);
-        localStorage.setItem('blueshop_products', JSON.stringify(products));
-        renderProducts();
+    // HAPUS DARI SUPABASE
+    async function deleteProduct(id) {
+      if (confirm("Yakin ingin menghapus produk ini dari database?")) {
+        const { error } = await _supabase.from('products').delete().eq('id', id);
+        if (error) {
+          alert('Gagal menghapus: ' + error.message);
+        } else {
+          fetchProductsFromSupabase();
+        }
       }
     }
 
-    // FITUR PENCARIAN (Search)
+    // Filter Pencarian
     function filterProducts() {
       const keyword = document.getElementById('searchInput').value.toLowerCase();
-      const products = getProducts();
-      const filtered = products.filter(p => p.name.toLowerCase().includes(keyword));
+      const filtered = allProducts.filter(p => p.name.toLowerCase().includes(keyword));
       renderProducts(filtered);
     }
 
-    // Inisialisasi Pertama Kali
+    // Load pertama kali
     document.addEventListener('DOMContentLoaded', () => {
-      renderProducts();
+      fetchProductsFromSupabase();
     });
   </script>
 </body>
