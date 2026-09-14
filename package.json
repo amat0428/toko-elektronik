@@ -6,7 +6,9 @@
   "scripts": {
     "start": "serve public"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0"
+  },
   "devDependencies": {
     "serve": "^14.2.0"
   }

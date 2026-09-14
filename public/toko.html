@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BlueShop - Toko Elektronik (Admin Mode)</title>
-  <!-- Supabase Client CDN -->
+  <!-- Supabase Client SDK CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
@@ -149,8 +149,10 @@
 
   <script>
     // Konfigurasi Supabase
-    const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co/rest/v1/';
+    const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+    
+    // Inisialisasi Supabase Client CDN Global
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let allProducts = [];
@@ -164,7 +166,8 @@
 
     // --- FITUR PRODUK (READ) ---
     async function fetchProducts() {
-      const { data, error } = await _supabase.from('products').select('*').order('id', { ascending: false });
+      // Mengambil data dari tabel 'produk'
+      const { data, error } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
       if (error) {
         document.getElementById('productGrid').innerHTML = `<p style="grid-column: 1/-1; color:red; text-align:center;">Gagal memuat: ${error.message}</p>`;
         return;
@@ -183,22 +186,28 @@
       }
 
       products.forEach(p => {
+        // Pemetaan nama kolom sesuai struktur database Supabase
+        const id = p.id_produk || p.id;
+        const name = p.nama_produk || p.name;
+        const price = p.harga || p.price;
+        const image = p.gambar || p.image;
+
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-          <img src="${p.image}" class="product-img" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300?text=Gambar+Tidak+Valid'">
+          <img src="${image}" class="product-img" alt="${name}" onerror="this.src='https://via.placeholder.com/300?text=Gambar+Tidak+Valid'">
           <div class="product-details">
             <div>
-              <div class="product-name">${p.name}</div>
-              <div class="product-price">Rp ${Number(p.price).toLocaleString('id-ID')}</div>
+              <div class="product-name">${name}</div>
+              <div class="product-price">Rp ${Number(price).toLocaleString('id-ID')}</div>
             </div>
             <div>
-              <button class="btn-buy" onclick="buyNow(${p.id})">Beli Langsung</button>
-              <button class="btn-add-cart" onclick="addToCart(${p.id})">+ 🛒 Keranjang</button>
+              <button class="btn-buy" onclick="buyNow(${id})">Beli Langsung</button>
+              <button class="btn-add-cart" onclick="addToCart(${id})">+ 🛒 Keranjang</button>
             </div>
             <div class="admin-actions">
-              <button class="btn-edit" onclick="editProduct(${p.id})">Edit</button>
-              <button class="btn-delete" onclick="deleteProduct(${p.id})">Hapus</button>
+              <button class="btn-edit" onclick="editProduct(${id})">Edit</button>
+              <button class="btn-delete" onclick="deleteProduct(${id})">Hapus</button>
             </div>
           </div>
         `;
@@ -224,26 +233,33 @@
 
     async function saveProduct() {
       const id = document.getElementById('productId').value;
-      const name = document.getElementById('productName').value.trim();
-      const price = Number(document.getElementById('productPrice').value);
-      const image = document.getElementById('productImage').value.trim();
+      const nama_produk = document.getElementById('productName').value.trim();
+      const harga = Number(document.getElementById('productPrice').value);
+      const gambar = document.getElementById('productImage').value.trim();
 
-      if (!name || !price || !image) {
+      if (!nama_produk || !harga || !gambar) {
         alert("Semua kolom (Nama, Harga, URL Gambar) wajib diisi!");
         return;
       }
 
       try {
         if (id) {
-          // UPDATE produk
-          const { error } = await _supabase.from('products').update({ name, price, image }).eq('id', id);
+          // UPDATE produk ke tabel 'produk'
+          const { error } = await _supabase
+            .from('produk')
+            .update({ nama_produk, harga, gambar })
+            .eq('id_produk', id);
+            
           if (error) throw error;
           alert("Produk berhasil diperbarui!");
         } else {
-          // CREATE produk baru
-          const { error } = await _supabase.from('products').insert([{ name, price, image }]);
+          // CREATE produk baru ke tabel 'produk'
+          const { error } = await _supabase
+            .from('produk')
+            .insert([{ nama_produk, harga, gambar, stok: 100 }]);
+            
           if (error) throw error;
-          alert("Produk baru berhasil ditambahkan!");
+          alert("Produk baru berhasil ditambahkan ke Supabase!");
         }
 
         closeProductModal();
@@ -255,19 +271,19 @@
     }
 
     function editProduct(id) {
-      const p = allProducts.find(item => item.id == id);
+      const p = allProducts.find(item => (item.id_produk || item.id) == id);
       if (p) {
-        document.getElementById('productId').value = p.id;
-        document.getElementById('productName').value = p.name;
-        document.getElementById('productPrice').value = p.price;
-        document.getElementById('productImage').value = p.image;
+        document.getElementById('productId').value = p.id_produk || p.id;
+        document.getElementById('productName').value = p.nama_produk || p.name;
+        document.getElementById('productPrice').value = p.harga || p.price;
+        document.getElementById('productImage').value = p.gambar || p.image;
         openProductModal(true);
       }
     }
 
     async function deleteProduct(id) {
-      if (confirm('Yakin ingin menghapus produk ini dari database?')) {
-        const { error } = await _supabase.from('products').delete().eq('id', id);
+      if (confirm('Yakin ingin menghapus produk ini dari database Supabase?')) {
+        const { error } = await _supabase.from('produk').delete().eq('id_produk', id);
         if (error) {
           alert("Gagal menghapus produk: " + error.message);
           return;
@@ -279,18 +295,23 @@
 
     // --- FITUR KERANJANG (CART) ---
     function addToCart(productId) {
-      const product = allProducts.find(p => p.id == productId);
+      const product = allProducts.find(p => (p.id_produk || p.id) == productId);
       if (!product) return;
 
-      const existingItem = cart.find(item => item.id == productId);
+      const id = product.id_produk || product.id;
+      const name = product.nama_produk || product.name;
+      const price = product.harga || product.price;
+      const image = product.gambar || product.image;
+
+      const existingItem = cart.find(item => item.id == id);
       if (existingItem) {
         existingItem.qty += 1;
       } else {
-        cart.push({ ...product, qty: 1 });
+        cart.push({ id, name, price, image, qty: 1 });
       }
 
       saveCart();
-      alert(`Berhasil menambahkan ${product.name} ke keranjang!`);
+      alert(`Berhasil menambahkan ${name} ke keranjang!`);
     }
 
     function buyNow(productId) {
@@ -428,7 +449,10 @@
     // --- PENCARIAN PRODUK ---
     function filterProducts() {
       const keyword = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = allProducts.filter(p => p.name.toLowerCase().includes(keyword));
+      const filtered = allProducts.filter(p => {
+        const name = p.nama_produk || p.name || '';
+        return name.toLowerCase().includes(keyword);
+      });
       renderProducts(filtered);
     }
   </script>
