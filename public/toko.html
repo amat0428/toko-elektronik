@@ -125,7 +125,7 @@
   <div class="modal" id="productModal">
     <div class="modal-content">
       <h3 id="productModalTitle">Tambah Produk Baru</h3>
-      <form onsubmit="saveProduct(event)">
+      <div>
         <input type="hidden" id="productId">
         <div class="form-group">
           <label>Nama Produk</label>
@@ -137,13 +137,13 @@
         </div>
         <div class="form-group">
           <label>URL Gambar</label>
-          <input type="text" id="productImage" placeholder="https://images.unsplash.com/..." required>
+          <input type="text" id="productImage" placeholder="https://..." required>
         </div>
         <div class="modal-buttons">
           <button type="button" class="btn-cancel" onclick="closeProductModal()">Batal</button>
-          <button type="submit" class="btn-save">Simpan ke Database</button>
+          <button type="button" class="btn-save" onclick="saveProduct()">Simpan ke Database</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 
@@ -222,33 +222,36 @@
       document.getElementById('productModal').style.display = 'none';
     }
 
-    async function saveProduct(e) {
-      e.preventDefault();
+    async function saveProduct() {
       const id = document.getElementById('productId').value;
       const name = document.getElementById('productName').value.trim();
       const price = Number(document.getElementById('productPrice').value);
       const image = document.getElementById('productImage').value.trim();
 
-      if (id) {
-        // UPDATE produk yang ada
-        const { error } = await _supabase.from('products').update({ name, price, image }).eq('id', id);
-        if (error) {
-          alert("Gagal mengupdate produk: " + error.message);
-          return;
-        }
-        alert("Produk berhasil diperbarui!");
-      } else {
-        // CREATE produk baru
-        const { error } = await _supabase.from('products').insert([{ name, price, image }]);
-        if (error) {
-          alert("Gagal menambahkan produk: " + error.message);
-          return;
-        }
-        alert("Produk baru berhasil ditambahkan!");
+      if (!name || !price || !image) {
+        alert("Semua kolom (Nama, Harga, URL Gambar) wajib diisi!");
+        return;
       }
 
-      closeProductModal();
-      fetchProducts();
+      try {
+        if (id) {
+          // UPDATE produk
+          const { error } = await _supabase.from('products').update({ name, price, image }).eq('id', id);
+          if (error) throw error;
+          alert("Produk berhasil diperbarui!");
+        } else {
+          // CREATE produk baru
+          const { error } = await _supabase.from('products').insert([{ name, price, image }]);
+          if (error) throw error;
+          alert("Produk baru berhasil ditambahkan!");
+        }
+
+        closeProductModal();
+        fetchProducts();
+      } catch (err) {
+        console.error("Supabase Error:", err);
+        alert("Gagal menyimpan ke database Supabase:\n" + (err.message || JSON.stringify(err)));
+      }
     }
 
     function editProduct(id) {
