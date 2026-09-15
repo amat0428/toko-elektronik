@@ -13,12 +13,16 @@
     .logo { font-size: 22px; font-weight: bold; cursor: pointer; text-decoration: none; color: white; }
     .search-box { flex: 1; max-width: 350px; }
     .search-box input { width: 100%; padding: 8px 15px; border-radius: 6px; border: none; outline: none; }
-    .nav-links { display: flex; gap: 12px; align-items: center; font-size: 14px; }
+    .nav-links { display: flex; gap: 10px; align-items: center; font-size: 14px; }
     .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; cursor: pointer; position: relative; font-size: 13px; }
     .btn-nav:hover { background: rgba(255,255,255,0.3); }
     .badge-count { background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; font-weight: bold; }
     
-    /* Styling Badge Profil (Dapat Diklik) */
+    /* Style Tombol Portofolio Paling Depan */
+    .btn-portfolio { background: #8b5cf6; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+    .btn-portfolio:hover { background: #7c3aed; }
+
+    /* Style Badge Profil */
     .role-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; text-decoration: none; display: inline-block; cursor: pointer; transition: opacity 0.2s; }
     .role-badge:hover { opacity: 0.9; }
 
@@ -63,10 +67,19 @@
         <input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterProducts()">
       </div>
       <div class="nav-links">
-        <!-- Badge profil di urutan pertama dan terhubung ke profile.html -->
-        <a href="profile.html" class="role-badge" id="roleBadge" title="Klik untuk lihat profil">Loading...</a>
+        <!-- 1. PORTOFOLIO (Diletakkan Paling Depan / Urutan Pertama) -->
+        <a href="portfolio.html" class="btn-portfolio">💼 Portofolio</a>
+
+        <!-- 2. PROFIL / BADGE (Urutan Kedua) -->
+        <a href="profile.html" class="role-badge" id="roleBadge" title="Klik untuk lihat profil & registrasi toko">Loading...</a>
+
+        <!-- 3. KERANJANG -->
         <a href="cart.html" class="btn-nav">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></a>
+
+        <!-- 4. PESANAN -->
         <a href="orders.html" class="btn-nav">📦 Pesanan <span class="badge-count" id="orderBadge" style="background:#0284c7">0</span></a>
+
+        <!-- 5. LOGOUT -->
         <button class="btn-logout" id="btnLogout" onclick="logout()">Logout</button>
       </div>
     </div>
