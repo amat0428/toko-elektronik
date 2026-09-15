@@ -627,7 +627,9 @@
         // ===== KONFIGURASI SUPABASE =====
         const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
         const SUPABASE_KEY = "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const _supabase = typeof supabase !== "undefined"
+            ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+            : null;
 
         let allProducts = [];
         const fallbackProducts = [
