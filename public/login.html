@@ -13,7 +13,7 @@
 
   <!-- Header -->
   <div class="bg-blue-600 p-4 text-white flex justify-between items-center shadow-md">
-    <a href="index.html" class="text-xl font-bold tracking-wide flex items-center gap-2">
+    <a href="toko.html" class="text-xl font-bold tracking-wide flex items-center gap-2">
       <i class="fa-solid fa-bag-shopping"></i>
       <span>BlueShop</span>
     </a>
@@ -21,7 +21,7 @@
   </div>
 
   <!-- Form Login -->
-  <div class="p-6 max-w-sm mx-auto w-full">
+  <div class="p-6 max-w-sm mx-auto w-full my-auto">
     <div class="text-center mb-8">
       <div class="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg text-white text-3xl font-bold">
         <i class="fa-solid fa-bag-shopping"></i>
@@ -32,13 +32,13 @@
 
     <form id="loginForm" class="space-y-4">
       <div>
-        <input type="text" id="username" placeholder="No. Handphone / Email / Username" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 text-sm">
+        <input type="text" id="username" placeholder="Email / Username" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 text-sm">
       </div>
       <div>
         <input type="password" id="password" placeholder="Password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600 text-sm">
       </div>
       
-      <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition duration-200 shadow-md">
+      <button type="submit" id="btnSubmit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition duration-200 shadow-md">
         LOG IN
       </button>
 
@@ -54,7 +54,56 @@
     Belum punya akun? <a href="register.html" class="text-blue-600 font-bold hover:underline">Daftar</a>
   </div>
 
-  <!-- Script Logika Auth -->
-  <script src="js/auth.js"></script>
+  <!-- Script Logika Supabase Login -->
+  <script>
+    // Konfigurasi Supabase Client
+    const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const usernameInput = document.getElementById('username').value.trim();
+      const passwordInput = document.getElementById('password').value.trim();
+      const btnSubmit = document.getElementById('btnSubmit');
+
+      btnSubmit.innerText = 'Memproses...';
+      btnSubmit.disabled = true;
+
+      try {
+        // Cari user yang cocok di tabel users_list berdasarkan kolom username dan password
+        const { data, error } = await _supabase
+          .from('users_list')
+          .select('*')
+          .eq('username', usernameInput)
+          .eq('password', passwordInput)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+          alert("Username atau Password salah! Jika belum punya akun, silakan daftar.");
+          btnSubmit.innerText = 'LOG IN';
+          btnSubmit.disabled = false;
+          return;
+        }
+
+        alert(`Login berhasil! Selamat datang, ${data.name}`);
+
+        // Simpan data akun ke session browser
+        localStorage.setItem('user', JSON.stringify(data));
+
+        // Redirect ke halaman utama toko
+        window.location.href = 'toko.html';
+
+      } catch (err) {
+        console.error("Login Error:", err);
+        alert("Gagal melakukan login: " + (err.message || "Terjadi kesalahan sistem"));
+        btnSubmit.innerText = 'LOG IN';
+        btnSubmit.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>
