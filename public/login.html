@@ -7,6 +7,7 @@
     <title>Login - BlueShop</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Menggunakan versi stabil Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -116,8 +117,10 @@
 </div>
 
 <script>
-    const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpSIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
+    // --- GANTI DENGAN URL DAN ANON KEY SUPABASE ANDA YANG BARU ---
+    const SUPABASE_URL = "GANTI_DENGAN_PROJECT_URL_ANDA"; 
+    const SUPABASE_ANON_KEY = "GANTI_DENGAN_ANON_KEY_ANDA_YANG_BARU"; 
+    
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const TABLE_NAME = "users_list";
 
