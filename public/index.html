@@ -141,7 +141,6 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let allProducts = [];
-    // Diselaraskan dengan cart.js menggunakan key 'cart'
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     let ratings = JSON.parse(localStorage.getItem('blueshop_ratings')) || {};
     let currentUser = null;
@@ -228,7 +227,7 @@
             <div>
               <div class="product-name">${name}</div>
               <div class="product-price">Rp ${Number(price).toLocaleString('id-ID')}</div>
-              <div class="product-rating">⭐ ${currentRating}</div>
+              <div class="product-rating">${ratings[id] ? '⭐ ' : ''}${currentRating}</div>
             </div>
             <div>
               <button class="btn-buy" onclick="buyNow(${id})">Beli Langsung</button>
@@ -276,7 +275,6 @@
     async function updateBadges() {
       document.getElementById('cartBadge').innerText = cart.reduce((sum, i) => sum + i.qty, 0);
 
-      // Ambil jumlah pesanan nyata dari Supabase
       if (currentUser) {
         const { data } = await _supabase.from('orders').select('id').eq('user_id', currentUser.id);
         if (data) {
@@ -301,10 +299,10 @@
       fetchProducts();
     }
 
-    // CRUD ADMIN
     function openProductModal(isEdit) {
       document.getElementById('productModal').style.display = 'flex';
       if (!isEdit) {
+        document.getElementById('productModalTitle').innerText = 'Tambah Produk Baru';
         document.getElementById('productId').value = '';
         document.getElementById('productName').value = '';
         document.getElementById('productPrice').value = '';
@@ -331,6 +329,7 @@
     function editProduct(id) {
       const p = allProducts.find(item => (item.id_produk || item.id) == id);
       if (p) {
+        document.getElementById('productModalTitle').innerText = 'Edit Produk';
         document.getElementById('productId').value = p.id_produk || p.id;
         document.getElementById('productName').value = p.nama_produk || p.name;
         document.getElementById('productPrice').value = p.harga || p.price;
