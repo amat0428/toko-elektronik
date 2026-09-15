@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BlueShop - Toko Elektronik</title>
+  <title>BlueShop - Toko Utama</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
@@ -47,7 +47,6 @@
     .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
     .btn-cancel { background: #64748b; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
     .btn-save { background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-
     .cart-item, .order-card { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
   </style>
 </head>
@@ -70,13 +69,12 @@
 
   <div class="container">
     <div class="hero-banner">
-      <h2>BLUE TECH SALE</h2>
-      <p>Belanja Produk Elektronik Lengkap & Murah</p>
+      <h2>BLUE TECH STORE</h2>
+      <p>Pusat Belanja Produk Elektronik</p>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
       <span class="section-title" id="sectionTitle">DAFTAR PRODUK</span>
-      <!-- Tombol CRUD Tambah Produk Hanya Muncul untuk Admin -->
       <button class="btn-save" id="btnAddProductNav" onclick="openProductModal(false)" style="display: none;">+ Tambah Produk Baru</button>
     </div>
 
@@ -112,7 +110,7 @@
     </div>
   </div>
 
-  <!-- Modal Rating & Ulasan (User) -->
+  <!-- Modal Rating -->
   <div class="modal" id="ratingModal">
     <div class="modal-content">
       <h3>Beri Rating & Ulasan</h3>
@@ -138,7 +136,7 @@
     </div>
   </div>
 
-  <!-- Modal Form CRUD (Admin Only) -->
+  <!-- Modal Form CRUD Admin -->
   <div class="modal" id="productModal">
     <div class="modal-content">
       <h3 id="productModalTitle">Tambah Produk Baru</h3>
@@ -215,7 +213,14 @@
     }
 
     async function fetchProducts() {
-      const { data } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
+      // Mendukung pencarian ke tabel produk atau tb_produk jika berbeda
+      let { data, error } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
+
+      if (error) {
+        const fallback = await _supabase.from('products').select('*');
+        data = fallback.data;
+      }
+
       allProducts = data || [];
       renderProducts(allProducts);
     }
@@ -224,6 +229,11 @@
       const grid = document.getElementById('productGrid');
       grid.innerHTML = '';
 
+      if (products.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Tidak ada produk tersedia.</p>';
+        return;
+      }
+
       products.forEach(p => {
         const id = p.id_produk || p.id;
         const name = p.nama_produk || p.name;
@@ -231,7 +241,6 @@
         const image = p.gambar || p.image;
         const currentRating = ratings[id] ? `${ratings[id]} ⭐` : 'Belum Ada Rating';
 
-        // Fitur CRUD hanya ditampilkan jika Role = Admin
         const adminActionsHTML = isAdmin ? `
           <div class="admin-actions">
             <button class="btn-edit" onclick="editProduct(${id})">Edit</button>
@@ -268,7 +277,7 @@
       if (existing) existing.qty += 1;
       else cart.push({ id, name: p.nama_produk || p.name, price: Number(p.harga || p.price), qty: 1 });
       saveCart();
-      alert("Produk ditambahkan ke keranjang!");
+      alert("Produk dimasukkan ke keranjang!");
     }
 
     function buyNow(id) {
@@ -342,7 +351,6 @@
     }
     function closeOrdersModal() { document.getElementById('ordersModal').style.display = 'none'; }
 
-    // RATING FUNCTION
     function openRatingModal(id) {
       document.getElementById('ratingProductId').value = id;
       document.getElementById('ratingModal').style.display = 'flex';
@@ -359,7 +367,7 @@
       fetchProducts();
     }
 
-    // CRUD ADMIN FUNCTIONS
+    // CRUD ADMIN
     function openProductModal(isEdit) {
       document.getElementById('productModal').style.display = 'flex';
       if (!isEdit) {

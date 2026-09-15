@@ -14,9 +14,8 @@
     .tab-btn.active { color: #2563eb; border-bottom: 3px solid #2563eb; margin-bottom: -2px; }
     .form-group { margin-bottom: 15px; }
     .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #475569; }
-    .form-group input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 14px; transition: 0.2s; }
-    .form-group input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
-    .btn-submit { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .form-group input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 14px; }
+    .btn-submit { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; }
     .btn-submit:hover { background: #1d4ed8; }
     .form-container { display: none; }
     .form-container.active { display: block; }
@@ -67,8 +66,11 @@
 
   <script>
     const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxMjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Mencegah error jika nama tabel di Supabase kamu "users" atau "user"
+    const TABLE_USER = 'users'; 
 
     function switchTab(type) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -93,33 +95,30 @@
       btn.disabled = true;
 
       try {
-        // Query menggunakan ilike agar pencarian email bersifat case-insensitive (tidak sensitif huruf besar/kecil)
-        const { data, error } = await _supabase
-          .from('users')
-          .select('*')
-          .ilike('email', emailInput);
+        let { data, error } = await _supabase.from(TABLE_USER).select('*').ilike('email', emailInput);
 
-        if (error) {
-          console.error("Supabase Error:", error);
-          alert("Terjadi masalah koneksi Supabase: " + error.message);
-          return;
+        // Jika tabel 'users' tidak ketemu, coba fallback ke 'user'
+        if (error && error.code === 'PGRST205') {
+          const res = await _supabase.from('user').select('*').ilike('email', emailInput);
+          data = res.data;
+          error = res.error;
         }
 
+        if (error) throw error;
+
         if (!data || data.length === 0) {
-          alert("Email tidak ditemukan! Silakan periksa kembali penulisan email atau daftar akun baru.");
+          alert("Email tidak ditemukan! Silakan daftar akun baru di tab sebelah.");
           return;
         }
 
         const user = data[0];
-
-        // Verifikasi password (Mendukung nama kolom 'password' atau 'pass')
         const userPassword = user.password || user.pass;
+
         if (userPassword !== passwordInput) {
-          alert("Password salah! Silakan coba lagi.");
+          alert("Password salah!");
           return;
         }
 
-        // Simpan sesi login ke LocalStorage
         const userSession = {
           id: user.id || user.id_user,
           name: user.nama || user.name || user.username || 'User',
@@ -132,8 +131,7 @@
         window.location.href = 'index.html';
 
       } catch (err) {
-        console.error("Unexpected Error:", err);
-        alert("Terjadi kesalahan sistem: " + err.message);
+        alert("Gagal Login: " + err.message);
       } finally {
         btn.innerText = "Masuk";
         btn.disabled = false;
@@ -151,36 +149,34 @@
       btn.disabled = true;
 
       try {
-        // Cek apakah email sudah terdaftar
-        const { data: existingUser, error: checkErr } = await _supabase
-          .from('users')
-          .select('email')
-          .ilike('email', email);
+        let targetTable = TABLE_USER;
+        let { data: checkData, error: checkErr } = await _supabase.from(targetTable).select('email').ilike('email', email);
+
+        if (checkErr && checkErr.code === 'PGRST205') {
+          targetTable = 'user';
+          const res = await _supabase.from(targetTable).select('email').ilike('email', email);
+          checkData = res.data;
+          checkErr = res.error;
+        }
 
         if (checkErr) throw checkErr;
 
-        if (existingUser && existingUser.length > 0) {
-          alert("Email ini sudah terdaftar! Silakan pindah ke tab Masuk.");
+        if (checkData && checkData.length > 0) {
+          alert("Email sudah terdaftar! Silakan login.");
           switchTab('login');
           document.getElementById('loginEmail').value = email;
           return;
         }
 
-        // Insert pengguna baru
-        const { error: insertErr } = await _supabase
-          .from('users')
-          .insert([{ nama, email, password, role: 'user' }]);
-
+        const { error: insertErr } = await _supabase.from(targetTable).insert([{ nama, email, password, role: 'user' }]);
         if (insertErr) throw insertErr;
 
-        alert("Pendaftaran akun berhasil! Silakan masuk dengan akun baru Anda.");
+        alert("Pendaftaran berhasil! Silakan login.");
         switchTab('login');
         document.getElementById('loginEmail').value = email;
-        document.getElementById('loginPassword').value = '';
 
       } catch (err) {
-        console.error("Register Error:", err);
-        alert("Gagal mendaftar: " + err.message);
+        alert("Gagal Mendaftar: " + err.message);
       } finally {
         btn.innerText = "Daftar Sekarang";
         btn.disabled = false;
