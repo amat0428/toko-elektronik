@@ -59,9 +59,10 @@
         <input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterProducts()">
       </div>
       <div class="nav-links">
+        <!-- Profil diletakkan di urutan pertama -->
+        <div class="role-badge" id="roleBadge">Loading...</div>
         <a href="cart.html" class="btn-nav">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></a>
         <a href="orders.html" class="btn-nav">📦 Pesanan <span class="badge-count" id="orderBadge" style="background:#0284c7">0</span></a>
-        <div class="role-badge" id="roleBadge">Loading...</div>
         <button class="btn-logout" onclick="logout()">Logout</button>
       </div>
     </div>
@@ -339,7 +340,7 @@
     }
 
     async function deleteProduct(id) {
-      if (confirm('Yakin ingin menghapus produk ini?')) {
+      if (confirm('Yakin ingin menghapus produk me ini?')) {
         await _supabase.from('produk').delete().eq('id_produk', id);
         fetchProducts();
       }
