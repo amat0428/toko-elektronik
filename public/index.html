@@ -4,59 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Portofolio - Ahmad Alvi Fauji</title>
+    <title>Portfolio | Ahmad Alvi Fauji</title>
+
+    <meta name="description"
+          content="Portfolio Ahmad Alvi Fauji - Web Developer, Data Analyst, dan Automation Enthusiast.">
 
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background: #0f172a;
+            background: #07111f;
             color: #f8fafc;
-            line-height: 1.6;
+            line-height: 1.7;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
         /* =========================
-           HEADER
+           NAVBAR
         ========================= */
 
         header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(7, 17, 31, 0.88);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: auto;
+            padding: 16px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 8%;
-            background: #1e293b;
-            border-bottom: 1px solid #334155;
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
         .logo {
             font-size: 20px;
             font-weight: bold;
             color: #38bdf8;
-            text-decoration: none;
         }
 
-        .btn-store {
-            background: linear-gradient(135deg, #2563eb, #38bdf8);
+        .logo span {
             color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.2s;
         }
 
-        .btn-store:hover {
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #cbd5e1;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #38bdf8;
+        }
+
+        .store-btn {
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
+            color: white !important;
+            padding: 9px 17px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .store-btn:hover {
             transform: translateY(-2px);
-            opacity: 0.9;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
         }
 
         /* =========================
@@ -64,125 +101,396 @@
         ========================= */
 
         .hero {
-            text-align: center;
-            padding: 90px 20px 70px;
-            max-width: 900px;
+            min-height: 100vh;
+            max-width: 1200px;
             margin: auto;
+            padding: 150px 25px 80px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 7px 14px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(56, 189, 248, 0.08);
+            color: #38bdf8;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 20px;
         }
 
         .hero h1 {
-            font-size: 42px;
-            margin-bottom: 15px;
-            color: #f8fafc;
+            font-size: clamp(42px, 6vw, 72px);
+            line-height: 1.08;
+            margin-bottom: 20px;
         }
 
         .hero h1 span {
             color: #38bdf8;
         }
 
-        .hero p {
-            font-size: 18px;
+        .hero-description {
             color: #94a3b8;
+            font-size: 17px;
+            max-width: 650px;
             margin-bottom: 30px;
         }
 
-        .cta {
+        .hero-buttons {
             display: flex;
-            justify-content: center;
-            gap: 15px;
+            gap: 14px;
             flex-wrap: wrap;
         }
 
-        .btn-primary {
-            background: #2563eb;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 9px;
             font-weight: bold;
+            transition: 0.3s;
         }
 
-        .btn-primary:hover {
-            background: #1d4ed8;
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
         }
 
         .btn-secondary {
-            background: #334155;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
+            border: 1px solid #334155;
+            color: #cbd5e1;
         }
 
-        .btn-secondary:hover {
-            background: #475569;
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+        }
+
+        /* =========================
+           FOTO PROFIL
+        ========================= */
+
+        .profile-area {
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-wrapper {
+            width: 310px;
+            height: 310px;
+            border-radius: 50%;
+            padding: 7px;
+            background: linear-gradient(135deg, #38bdf8, #2563eb, #8b5cf6);
+            box-shadow:
+                0 0 60px rgba(56, 189, 248, 0.18),
+                0 0 100px rgba(37, 99, 235, 0.12);
+        }
+
+        .profile-wrapper img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid #07111f;
+            background: #1e293b;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 90px 25px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title small {
+            color: #38bdf8;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            margin-top: 8px;
+        }
+
+        .section-title p {
+            color: #64748b;
+            max-width: 650px;
+            margin: 10px auto 0;
         }
 
         /* =========================
            ABOUT
         ========================= */
 
-        .section {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
         }
 
-        .section-title {
-            font-size: 25px;
+        .card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 28px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
             color: #38bdf8;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 8px;
         }
 
-        .about {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 25px;
+        .card p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+        .quote {
+            margin-top: 20px;
+            padding: 18px;
+            border-left: 4px solid #38bdf8;
+            background: rgba(56, 189, 248, 0.06);
             color: #cbd5e1;
+            font-style: italic;
+        }
+
+        /* =========================
+           EDUCATION
+        ========================= */
+
+        .timeline {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 35px 35px;
+            border-left: 2px solid #1e40af;
+        }
+
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -7px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: #38bdf8;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #38bdf8;
+        }
+
+        .timeline-year {
+            color: #38bdf8;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .timeline-item h3 {
+            margin: 4px 0;
+        }
+
+        .timeline-item p {
+            color: #94a3b8;
+        }
+
+        /* =========================
+           SKILLS
+        ========================= */
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .skill {
+            padding: 25px 15px;
+            text-align: center;
+            background: #0f1c2e;
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            transition: 0.3s;
+        }
+
+        .skill:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8;
+        }
+
+        .skill-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .skill h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .skill p {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* =========================
+           ORGANISASI
+        ========================= */
+
+        .organization-grid,
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .organization-card,
+        .achievement-card {
+            padding: 28px;
+            border-radius: 15px;
+            background: linear-gradient(
+                145deg,
+                #0f1c2e,
+                #0b1627
+            );
+            border: 1px solid #1e293b;
+        }
+
+        .number {
+            color: #38bdf8;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .organization-card h3,
+        .achievement-card h3 {
+            margin: 8px 0;
+        }
+
+        .organization-card p,
+        .achievement-card p {
+            color: #94a3b8;
+            font-size: 14px;
         }
 
         /* =========================
            PROJECT
         ========================= */
 
-        .grid {
+        .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
 
-        .card {
-            background: #1e293b;
-            padding: 22px;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            transition: 0.2s;
+        .project-card {
+            overflow: hidden;
+            border-radius: 15px;
+            background: #0f1c2e;
+            border: 1px solid #1e293b;
+            transition: 0.3s;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: #38bdf8;
+        .project-card:hover {
+            transform: translateY(-5px);
         }
 
-        .card h3 {
-            margin-bottom: 10px;
-            color: #f8fafc;
+        .project-top {
+            padding: 30px;
+            background: linear-gradient(135deg, #172554, #083344);
+            font-size: 40px;
         }
 
-        .card p {
+        .project-content {
+            padding: 23px;
+        }
+
+        .project-content h3 {
+            margin-bottom: 8px;
+        }
+
+        .project-content p {
             color: #94a3b8;
             font-size: 14px;
-            margin-bottom: 15px;
         }
 
-        .card a {
+        /* =========================
+           CONTACT
+        ========================= */
+
+        .contact-box {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(37, 99, 235, 0.18),
+                    rgba(6, 182, 212, 0.08)
+                );
+            border: 1px solid #1e40af;
+            border-radius: 20px;
+            padding: 45px;
+            text-align: center;
+        }
+
+        .contact-box h2 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .contact-box > p {
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .contact-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            background: rgba(7, 17, 31, 0.6);
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+        .contact-item strong {
+            display: block;
             color: #38bdf8;
-            font-weight: bold;
-            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .contact-item span {
+            color: #cbd5e1;
+            font-size: 14px;
+            word-break: break-word;
         }
 
         /* =========================
@@ -191,43 +499,93 @@
 
         footer {
             text-align: center;
-            margin-top: 70px;
-            padding: 25px;
-            background: #020617;
+            padding: 35px 20px;
+            border-top: 1px solid #1e293b;
             color: #64748b;
             font-size: 13px;
         }
 
+        footer span {
+            color: #38bdf8;
+        }
+
         /* =========================
-           MOBILE
+           RESPONSIVE
         ========================= */
+
+        @media (max-width: 900px) {
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .profile-area {
+                order: -1;
+            }
+
+            .profile-wrapper {
+                width: 240px;
+                height: 240px;
+            }
+
+            .skills {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .organization-grid,
+            .achievement-grid,
+            .project-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-menu li:not(:last-child) {
+                display: none;
+            }
+        }
 
         @media (max-width: 600px) {
 
-            header {
-                padding: 15px 5%;
-                gap: 10px;
-            }
-
-            .logo {
-                font-size: 16px;
-            }
-
-            .btn-store {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-
             .hero {
-                padding-top: 60px;
+                padding-top: 120px;
             }
 
             .hero h1 {
-                font-size: 30px;
+                font-size: 40px;
             }
 
-            .hero p {
-                font-size: 15px;
+            .about-grid,
+            .organization-grid,
+            .achievement-grid,
+            .project-grid,
+            .contact-list {
+                grid-template-columns: 1fr;
+            }
+
+            .skills {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .contact-box {
+                padding: 28px 18px;
+            }
+
+            .nav-menu {
+                gap: 10px;
+            }
+
+            .store-btn {
+                padding: 8px 12px;
+                font-size: 12px;
             }
         }
     </style>
@@ -236,191 +594,642 @@
 <body>
 
     <!-- =========================
-         HEADER
-    ========================= -->
+         NAVBAR
+    ========================== -->
 
     <header>
+        <nav>
 
-        <!-- Logo kembali ke portfolio -->
-        <a href="index.html" class="logo">
-            👨‍💻 Developer Portfolio
-        </a>
+            <a href="index.html" class="logo">
+                ALVI<span>.</span>
+            </a>
 
-        <!-- Masuk toko harus melalui LOGIN -->
-        <a href="login.html" class="btn-store">
-            🛒 Masuk ke Toko BlueShop →
-        </a>
+            <ul class="nav-menu">
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#pendidikan">Pendidikan</a></li>
+                <li><a href="#keahlian">Keahlian</a></li>
+                <li><a href="#organisasi">Organisasi</a></li>
+                <li><a href="#prestasi">Prestasi</a></li>
 
+                <!-- PORTFOLIO → LOGIN -->
+                <li>
+                    <a href="login.html" class="store-btn">
+                        🛒 Masuk ke BlueShop
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
     </header>
 
 
     <!-- =========================
          HERO
-    ========================= -->
+    ========================== -->
 
-    <section class="hero">
+    <main>
 
-        <h1>
-            Selamat Datang di
-            <span>Portofolio Saya</span>
-        </h1>
+        <section class="hero">
 
-        <p>
-            Pengembang Web & Rekayasa Perangkat Lunak.
-            Saya membangun berbagai aplikasi web,
-            sistem informasi, dan platform e-commerce
-            menggunakan teknologi modern.
-        </p>
+            <div>
 
-        <div class="cta">
+                <div class="badge">
+                    👋 Selamat Datang di Portfolio Saya
+                </div>
 
-            <!-- Masuk toko -->
-            <a href="login.html" class="btn-primary">
-                🛒 Kunjungi Toko BlueShop
-            </a>
+                <h1>
+                    Ahmad <span>Alvi Fauji</span>
+                </h1>
 
-            <!-- Scroll ke proyek -->
-            <a href="#projects" class="btn-secondary">
-                💻 Lihat Proyek
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         TENTANG
-    ========================= -->
-
-    <section class="section">
-
-        <h2 class="section-title">
-            Tentang Saya
-        </h2>
-
-        <div class="about">
-
-            <p>
-                Saya merupakan pengembang web yang
-                memiliki ketertarikan pada pengembangan
-                aplikasi, front-end, back-end, serta
-                pengolahan dan analisis data.
-            </p>
-
-            <br>
-
-            <p>
-                Saya senang mempelajari teknologi baru
-                dan mengembangkan solusi digital yang
-                interaktif, sederhana, dan mudah digunakan.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         PROJECT
-    ========================= -->
-
-    <section class="section" id="projects">
-
-        <h2 class="section-title">
-            Proyek Unggulan
-        </h2>
-
-        <div class="grid">
-
-            <!-- BLUESHOP -->
-
-            <div class="card">
-
-                <h3>
-                    🛍️ BlueShop E-Commerce
-                </h3>
-
-                <p>
-                    Aplikasi toko online berbasis
-                    HTML, CSS, JavaScript, dan Supabase
-                    dengan fitur produk, keranjang,
-                    pemesanan, dan manajemen admin.
+                <p class="hero-description">
+                    Web Developer, Data Analyst, dan Automation Enthusiast
+                    yang memiliki ketertarikan pada teknologi, pengembangan
+                    aplikasi web, pengolahan data, serta otomatisasi workflow.
                 </p>
 
-                <a href="login.html">
-                    Buka Aplikasi →
+                <div class="hero-buttons">
+
+                    <a href="#about" class="btn btn-primary">
+                        Kenali Saya →
+                    </a>
+
+                    <!-- MENUJU LOGIN -->
+                    <a href="login.html" class="btn btn-secondary">
+                        🛒 Masuk ke Toko BlueShop
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 FOTO PROFIL
+            ========================== -->
+
+            <div class="profile-area">
+
+                <div class="profile-wrapper">
+
+                    <!--
+                    GANTI "foto-alvi.jpg" DENGAN NAMA FILE FOTO KAMU.
+
+                    Contoh:
+                    foto-alvi.jpg
+
+                    Simpan foto di folder yang sama dengan index.html.
+                    -->
+
+                    <img
+                        src="foto-alvi.jpg"
+                        alt="Foto Ahmad Alvi Fauji"
+                        onerror="this.src='https://via.placeholder.com/500x500/0f172a/38bdf8?text=ALVI'"
+                    >
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TENTANG SAYA
+        ========================== -->
+
+        <section id="about">
+
+            <div class="section-title">
+                <small>About Me</small>
+                <h2>Tentang Saya</h2>
+                <p>
+                    Mengenal lebih dekat perjalanan dan ketertarikan saya
+                    di dunia teknologi.
+                </p>
+            </div>
+
+            <div class="about-grid">
+
+                <div class="card">
+
+                    <h3>👨‍💻 Siapa Saya?</h3>
+
+                    <p>
+                        Saya adalah Ahmad Alvi Fauji, seorang pelajar yang
+                        memiliki ketertarikan besar terhadap dunia teknologi
+                        dan pengembangan perangkat lunak.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Saya terus mengembangkan kemampuan dalam pembuatan
+                        website, pengolahan data, spreadsheet, serta
+                        otomatisasi workflow menggunakan berbagai teknologi.
+                    </p>
+
+                    <div class="quote">
+                        "Terus belajar, terus berkembang, dan jangan takut
+                        mencoba sesuatu yang baru."
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>🚀 Fokus Saya</h3>
+
+                    <p>
+                        Saya memiliki fokus pada pengembangan aplikasi web,
+                        data analysis, dan automation workflow.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Bagi saya, teknologi bukan hanya tentang membuat
+                        sesuatu terlihat bagus, tetapi juga membuat proses
+                        menjadi lebih efektif, terstruktur, dan bermanfaat.
+                    </p>
+
+                    <div class="quote">
+                        "Belajar hari ini untuk menciptakan sesuatu yang
+                        lebih baik di masa depan."
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PENDIDIKAN
+        ========================== -->
+
+        <section id="pendidikan">
+
+            <div class="section-title">
+                <small>Education</small>
+                <h2>Riwayat Pendidikan</h2>
+                <p>
+                    Perjalanan pendidikan yang menjadi bagian dari proses
+                    perkembangan saya.
+                </p>
+            </div>
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+
+                    <div class="timeline-year">
+                        PENDIDIKAN DASAR
+                    </div>
+
+                    <h3>🏫 Sekolah Dasar (SD)</h3>
+
+                    <p>
+                        Menempuh pendidikan dasar dan membangun fondasi
+                        pengetahuan serta karakter.
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-year">
+                        PENDIDIKAN MENENGAH
+                    </div>
+
+                    <h3>📚 MTs</h3>
+
+                    <p>
+                        Melanjutkan pendidikan tingkat menengah pertama
+                        sekaligus mengembangkan kemampuan akademik dan
+                        organisasi.
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-year">
+                        PENDIDIKAN KEJURUAN
+                    </div>
+
+                    <h3>💻 SMK</h3>
+
+                    <p>
+                        Mengembangkan kompetensi di bidang teknologi,
+                        pemrograman, pengembangan web, pengolahan data,
+                        dan rekayasa perangkat lunak.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             KEAHLIAN
+        ========================== -->
+
+        <section id="keahlian">
+
+            <div class="section-title">
+
+                <small>Skills</small>
+
+                <h2>Keahlian</h2>
+
+                <p>
+                    Beberapa kemampuan yang terus saya kembangkan.
+                </p>
+
+            </div>
+
+
+            <div class="skills">
+
+                <div class="skill">
+                    <div class="skill-icon">💻</div>
+                    <h3>Web Developer</h3>
+                    <p>Frontend & Backend Development</p>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-icon">📊</div>
+                    <h3>Data Analysis</h3>
+                    <p>Analisis dan pengolahan data</p>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-icon">⚙️</div>
+                    <h3>Workflow n8n</h3>
+                    <p>Automation & Workflow</p>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-icon">📝</div>
+                    <h3>Microsoft Word</h3>
+                    <p>Dokumentasi & pengolahan dokumen</p>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-icon">📈</div>
+                    <h3>Microsoft Excel</h3>
+                    <p>Spreadsheet & data processing</p>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-icon">📋</div>
+                    <h3>Google Spreadsheet</h3>
+                    <p>Data management & collaboration</p>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-icon">🗄️</div>
+                    <h3>Database</h3>
+                    <p>Pengelolaan data dan database</p>
+                </div>
+
+
+                <div class="skill">
+                    <div class="skill-icon">🔄</div>
+                    <h3>Automation</h3>
+                    <p>Automasi proses digital</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ORGANISASI
+        ========================== -->
+
+        <section id="organisasi">
+
+            <div class="section-title">
+
+                <small>Organization</small>
+
+                <h2>Pengalaman Organisasi</h2>
+
+                <p>
+                    Pengalaman dalam kepemimpinan, kedisiplinan,
+                    kerja sama, dan tanggung jawab.
+                </p>
+
+            </div>
+
+
+            <div class="organization-grid">
+
+                <div class="organization-card">
+
+                    <div class="number">01</div>
+
+                    <h3>Ketua OSIS</h3>
+
+                    <p>
+                        Memimpin organisasi siswa, mengoordinasikan kegiatan,
+                        serta membangun kerja sama antaranggota.
+                    </p>
+
+                </div>
+
+
+                <div class="organization-card">
+
+                    <div class="number">02</div>
+
+                    <h3>Taruna</h3>
+
+                    <p>
+                        Mengembangkan kedisiplinan, tanggung jawab,
+                        kepemimpinan, dan kekompakan melalui kegiatan
+                        ketarunaan.
+                    </p>
+
+                </div>
+
+
+                <div class="organization-card">
+
+                    <div class="number">03</div>
+
+                    <h3>Ketua Dewan</h3>
+
+                    <p>
+                        Berperan dalam mengoordinasikan anggota dan kegiatan
+                        organisasi serta menjadi bagian dalam pengambilan
+                        keputusan.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PRESTASI
+        ========================== -->
+
+        <section id="prestasi">
+
+            <div class="section-title">
+
+                <small>Achievement</small>
+
+                <h2>Prestasi & Pengalaman</h2>
+
+                <p>
+                    Pengalaman kompetisi yang membentuk kedisiplinan,
+                    keberanian, dan kerja sama tim.
+                </p>
+
+            </div>
+
+
+            <div class="achievement-grid">
+
+                <div class="achievement-card">
+
+                    <div class="number">🏆</div>
+
+                    <h3>Lomba PBB Variasi</h3>
+
+                    <p>
+                        Mengikuti kompetisi Peraturan Baris-Berbaris
+                        dengan mengutamakan kekompakan, ketepatan,
+                        disiplin, dan kreativitas.
+                    </p>
+
+                </div>
+
+
+                <div class="achievement-card">
+
+                    <div class="number">🥇</div>
+
+                    <h3>Gerak Jalan</h3>
+
+                    <p>
+                        Berpartisipasi dalam kegiatan gerak jalan yang
+                        membutuhkan ketahanan, kedisiplinan, dan
+                        koordinasi tim.
+                    </p>
+
+                </div>
+
+
+                <div class="achievement-card">
+
+                    <div class="number">🏓</div>
+
+                    <h3>Tenis Meja</h3>
+
+                    <p>
+                        Mengikuti kegiatan dan kompetisi tenis meja
+                        sebagai pengalaman dalam membangun fokus,
+                        sportivitas, dan semangat kompetisi.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PROJECT
+        ========================== -->
+
+        <section>
+
+            <div class="section-title">
+
+                <small>Projects</small>
+
+                <h2>Proyek Yang Saya Kerjakan</h2>
+
+                <p>
+                    Beberapa bidang dan project yang menjadi bagian
+                    dari perjalanan belajar saya.
+                </p>
+
+            </div>
+
+
+            <div class="project-grid">
+
+                <div class="project-card">
+
+                    <div class="project-top">
+                        🛒
+                    </div>
+
+                    <div class="project-content">
+
+                        <h3>BlueShop E-Commerce</h3>
+
+                        <p>
+                            Website toko elektronik dengan sistem login,
+                            produk, keranjang, checkout, dan manajemen
+                            admin menggunakan Supabase.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="project-card">
+
+                    <div class="project-top">
+                        📊
+                    </div>
+
+                    <div class="project-content">
+
+                        <h3>Data Analysis</h3>
+
+                        <p>
+                            Pengolahan, analisis, visualisasi, dan
+                            penyajian data untuk mendapatkan informasi
+                            yang lebih mudah dipahami.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="project-card">
+
+                    <div class="project-top">
+                        ⚡
+                    </div>
+
+                    <div class="project-content">
+
+                        <h3>Automation Workflow</h3>
+
+                        <p>
+                            Membuat workflow otomatis menggunakan n8n
+                            untuk menghubungkan berbagai proses dan
+                            layanan digital.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CONTACT
+        ========================== -->
+
+        <section id="contact">
+
+            <div class="contact-box">
+
+                <h2>Let's Connect 🚀</h2>
+
+                <p>
+                    Tertarik untuk berkolaborasi atau ingin mengetahui
+                    lebih banyak tentang saya?
+                </p>
+
+
+                <div class="contact-list">
+
+                    <div class="contact-item">
+
+                        <strong>📧 EMAIL</strong>
+
+                        <span>
+                            amatalpi875@gmail.com
+                        </span>
+
+                    </div>
+
+
+                    <div class="contact-item">
+
+                        <strong>📱 NO. HP</strong>
+
+                        <span>
+                            0859176758300
+                        </span>
+
+                    </div>
+
+
+                    <div class="contact-item">
+
+                        <strong>📍 ALAMAT</strong>
+
+                        <span>
+                            Ketro, Tulakan, Pacitan
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOGIN SEBELUM TOKO -->
+
+                <a href="login.html" class="btn btn-primary">
+                    🛒 Masuk ke Toko BlueShop →
                 </a>
 
             </div>
 
+        </section>
 
-            <!-- SCHOOL ID -->
-
-            <div class="card">
-
-                <h3>
-                    💳 School ID Card 3D
-                </h3>
-
-                <p>
-                    Kartu identitas web interaktif
-                    dengan tampilan 3D, efek parallax,
-                    dan desain modern.
-                </p>
-
-            </div>
-
-
-            <!-- ANALYTICS -->
-
-            <div class="card">
-
-                <h3>
-                    📊 Workforce Analytics
-                </h3>
-
-                <p>
-                    Sistem pengolahan dan analisis data
-                    menggunakan Python dan Pandas
-                    untuk menghasilkan informasi
-                    yang lebih mudah dipahami.
-                </p>
-
-            </div>
-
-
-            <!-- WEB DEVELOPMENT -->
-
-            <div class="card">
-
-                <h3>
-                    🌐 Web Development
-                </h3>
-
-                <p>
-                    Pengembangan website dengan
-                    front-end dan back-end serta
-                    integrasi database.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
+    </main>
 
 
     <!-- =========================
          FOOTER
-    ========================= -->
+    ========================== -->
 
     <footer>
 
-        © 2026 Ahmad Alvi Fauji —
-        Developer Portfolio
+        <p>
+            © 2026 <span>Ahmad Alvi Fauji</span>.
+            All Rights Reserved.
+        </p>
+
+        <p>
+            Web Developer • Data Analyst • Automation Enthusiast
+        </p>
 
     </footer>
+
 
 </body>
 </html>
