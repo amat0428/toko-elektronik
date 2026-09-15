@@ -1,7 +1,6 @@
 const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxMjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
 
-// Inisialisasi Supabase client aman
 let _supabase = null;
 if (typeof supabase !== 'undefined') {
   _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -21,6 +20,49 @@ function getCartData() {
 
   return { cart, selectedItems, totalPrice };
 }
+
+// Fungsi Menampilkan Modal Nota Pembayaran
+function tampilkanNota(order, items, total) {
+  const notaNama = document.getElementById('notaNama');
+  const notaHp = document.getElementById('notaHp');
+  const notaAlamat = document.getElementById('notaAlamat');
+  const notaTotal = document.getElementById('notaTotalBayar');
+  const notaTanggal = document.getElementById('notaTanggal');
+  const notaOrderId = document.getElementById('notaOrderId');
+  const modal = document.getElementById('notaModal');
+
+  if (notaNama) notaNama.innerText = order.user_name || '-';
+  if (notaHp) notaHp.innerText = order.nomor_hp || '-';
+  if (notaAlamat) notaAlamat.innerText = order.alamat || '-';
+  if (notaTotal) notaTotal.innerText = 'Rp ' + Number(total).toLocaleString('id-ID');
+  if (notaTanggal) notaTanggal.innerText = new Date().toLocaleString('id-ID');
+  if (notaOrderId) notaOrderId.innerText = 'ID PESANAN: #' + (order.id || Math.floor(Math.random() * 89999 + 10000));
+
+  const itemsContainer = document.getElementById('notaItemsList');
+  if (itemsContainer) {
+    itemsContainer.innerHTML = '';
+    items.forEach(item => {
+      const itemRow = document.createElement('div');
+      itemRow.className = 'nota-item-row';
+      const price = Number(item.price || item.harga || 0);
+      const qty = Number(item.qty || 1);
+      itemRow.innerHTML = `
+        <span>${item.title || item.nama || 'Produk'} (x${qty})</span>
+        <span>Rp ${Number(price * qty).toLocaleString('id-ID')}</span>
+      `;
+      itemsContainer.appendChild(itemRow);
+    });
+  }
+
+  if (modal) {
+    modal.style.display = 'flex';
+  }
+}
+
+// Fungsi Navigasi saat Selesai dari Modal
+window.selesaiCheckout = function() {
+  window.location.href = 'orders.html';
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Tampilkan Total Harga awal
@@ -115,8 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const remainingCart = cart.filter(item => item.selected === false);
       localStorage.setItem('cart', JSON.stringify(remainingCart));
 
-      alert('Pesanan berhasil dibuat!');
-      window.location.href = 'orders.html';
+      // TAMPILKAN NOTA PEMBAYARAN (Tanpa auto redirect ke orders.html)
+      const orderResult = (data && data.length > 0) ? data[0] : payload;
+      tampilkanNota(orderResult, selectedItems, totalPrice);
 
     } catch (err) {
       console.error("Detail Error:", err);
