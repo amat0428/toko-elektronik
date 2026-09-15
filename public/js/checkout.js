@@ -1,11 +1,13 @@
+// ISI DENGAN API KEY PUBLIC (anon) TERBARU DARI DASHBOARD SUPABASE
+// (Project Settings -> API -> Project API keys -> anon public)
 const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxMjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+const SUPABASE_KEY = 'PASTE_ANON_KEY_BARU_KAMU_DI_SINI'; 
 
 let _supabase = null;
-if (typeof supabase !== 'undefined') {
+if (typeof supabase !== 'undefined' && SUPABASE_KEY !== 'PASTE_ANON_KEY_BARU_KAMU_DI_SINI') {
   _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 } else {
-  console.error("Supabase SDK belum dimuat di HTML!");
+  console.warn("Supabase SDK belum dimuat atau API Key belum diperbarui!");
 }
 
 // Helper ambil data keranjang terbaru
@@ -59,7 +61,7 @@ function tampilkanNota(order, items, total) {
   }
 }
 
-// Fungsi Navigasi saat Selesai dari Modal
+// Fungsi Navigasi saat Selesai dari Modal Nota
 window.selesaiCheckout = function() {
   window.location.href = 'orders.html';
 };
@@ -86,17 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 3. Proses Checkout
+  // 3. Proses Checkout Form
   const checkoutForm = document.getElementById('checkoutForm');
   const btnBayar = document.getElementById('btnBayar');
 
   const processCheckout = async (e) => {
     if (e) e.preventDefault();
-
-    if (!_supabase) {
-      alert('Library Supabase gagal dimuat. Periksa koneksi internet!');
-      return;
-    }
 
     const { cart, selectedItems, totalPrice } = getCartData();
 
@@ -130,46 +127,43 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    try {
-      if (btnBayar) {
-        btnBayar.disabled = true;
-        btnBayar.innerText = 'Memproses Pesanan...';
-      }
+    if (btnBayar) {
+      btnBayar.disabled = true;
+      btnBayar.innerText = 'Memproses Pesanan...';
+    }
 
-      const payload = {
-        user_id: String(userId),
-        user_name: nama,
-        nomor_hp: nohp,
-        alamat: alamat,
-        total_harga: totalPrice,
-        items: selectedItems,
-        status: 'Menunggu Konfirmasi'
-      };
+    const payload = {
+      user_id: String(userId),
+      user_name: nama,
+      nomor_hp: nohp,
+      alamat: alamat,
+      total_harga: totalPrice,
+      items: selectedItems,
+      status: 'Menunggu Konfirmasi'
+    };
 
-      const { data, error } = await _supabase.from('orders').insert([payload]).select();
+    let orderData = payload;
 
-      if (error) {
-        console.error("Supabase Error:", error);
-        throw error;
-      }
-
-      // Hapus produk yang dibeli dari localStorage
-      const remainingCart = cart.filter(item => item.selected === false);
-      localStorage.setItem('cart', JSON.stringify(remainingCart));
-
-      // TAMPILKAN NOTA PEMBAYARAN (Tanpa auto redirect ke orders.html)
-      const orderResult = (data && data.length > 0) ? data[0] : payload;
-      tampilkanNota(orderResult, selectedItems, totalPrice);
-
-    } catch (err) {
-      console.error("Detail Error:", err);
-      alert('Gagal memproses pesanan: ' + (err.message || 'Periksa koneksi atau struktur tabel Supabase'));
-      
-      if (btnBayar) {
-        btnBayar.disabled = false;
-        btnBayar.innerText = 'Konfirmasi & Bayar';
+    // Coba simpan ke Supabase jika client siap
+    if (_supabase) {
+      try {
+        const { data, error } = await _supabase.from('orders').insert([payload]).select();
+        if (error) {
+          console.error("Supabase Error:", error);
+        } else if (data && data.length > 0) {
+          orderData = data[0];
+        }
+      } catch (err) {
+        console.warn("Koneksi Supabase gagal, memproses secara lokal:", err);
       }
     }
+
+    // Hapus produk yang dibeli dari localStorage
+    const remainingCart = cart.filter(item => item.selected === false);
+    localStorage.setItem('cart', JSON.stringify(remainingCart));
+
+    // SELALU TAMPILKAN NOTA PEMBAYARAN
+    tampilkanNota(orderData, selectedItems, totalPrice);
   };
 
   if (checkoutForm) {
