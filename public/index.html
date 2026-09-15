@@ -10,11 +10,12 @@
     body { background-color: #f4f6f9; color: #333; }
     header { background-color: #2563eb; padding: 12px 5%; color: white; position: sticky; top: 0; z-index: 900; }
     .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
-    .logo { font-size: 22px; font-weight: bold; cursor: pointer; }
+    .logo { font-size: 22px; font-weight: bold; cursor: pointer; text-decoration: none; color: white; }
     .search-box { flex: 1; max-width: 350px; }
     .search-box input { width: 100%; padding: 8px 15px; border-radius: 6px; border: none; outline: none; }
     .nav-links { display: flex; gap: 12px; align-items: center; font-size: 14px; }
-    .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; position: relative; }
+    .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; cursor: pointer; position: relative; font-size: 13px; }
+    .btn-nav:hover { background: rgba(255,255,255,0.3); }
     .badge-count { background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; font-weight: bold; }
     .role-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; }
     .btn-logout { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; }
@@ -31,7 +32,7 @@
     .product-price { color: #dc2626; font-size: 15px; font-weight: bold; margin-bottom: 8px; }
     .product-rating { color: #f59e0b; font-size: 13px; font-weight: bold; margin-bottom: 10px; }
     
-    .btn-buy { background: #2563eb; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 5px; }
+    .btn-buy { background: #2563eb; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 5px; text-decoration: none; display: block; text-align: center; font-size: 13px; }
     .btn-add-cart { background: #f59e0b; color: white; border: none; padding: 6px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; margin-bottom: 5px; }
     .btn-rate { background: #8b5cf6; color: white; border: none; padding: 6px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
 
@@ -47,20 +48,19 @@
     .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
     .btn-cancel { background: #64748b; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
     .btn-save { background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    .cart-item, .order-card { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
   </style>
 </head>
 <body>
 
   <header>
     <div class="nav-container">
-      <div class="logo" onclick="fetchProducts()">🛍️ BlueShop</div>
+      <a href="index.html" class="logo">🛍️ BlueShop</a>
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterProducts()">
       </div>
       <div class="nav-links">
-        <button class="btn-nav" onclick="openCartModal()">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></button>
-        <button class="btn-nav" onclick="openOrdersModal()">📦 Pesanan <span class="badge-count" id="orderBadge" style="background:#0284c7">0</span></button>
+        <a href="cart.html" class="btn-nav">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></a>
+        <a href="orders.html" class="btn-nav">📦 Pesanan <span class="badge-count" id="orderBadge" style="background:#0284c7">0</span></a>
         <div class="role-badge" id="roleBadge">Loading...</div>
         <button class="btn-logout" onclick="logout()">Logout</button>
       </div>
@@ -80,33 +80,6 @@
 
     <div class="product-grid" id="productGrid">
       <p style="grid-column: 1/-1; text-align: center;">Memuat produk...</p>
-    </div>
-  </div>
-
-  <!-- Modal Keranjang -->
-  <div class="modal" id="cartModal">
-    <div class="modal-content">
-      <h3>Keranjang Belanja</h3>
-      <div id="cartItemsContainer" style="margin: 15px 0;"></div>
-      <div style="display: flex; justify-content: space-between; font-weight: bold;">
-        <span>Total:</span>
-        <span id="cartTotalPrice" style="color: #dc2626;">Rp 0</span>
-      </div>
-      <div class="modal-buttons">
-        <button class="btn-cancel" onclick="closeCartModal()">Tutup</button>
-        <button class="btn-save" id="btnCheckout" onclick="checkout()" style="background: #10b981; display: none;">Checkout</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Pesanan -->
-  <div class="modal" id="ordersModal">
-    <div class="modal-content">
-      <h3>Riwayat Pesanan</h3>
-      <div id="ordersContainer" style="margin: 15px 0;"></div>
-      <div class="modal-buttons">
-        <button class="btn-cancel" onclick="closeOrdersModal()">Tutup</button>
-      </div>
     </div>
   </div>
 
@@ -168,8 +141,8 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let allProducts = [];
-    let cart = JSON.parse(localStorage.getItem('blueshop_cart')) || [];
-    let orders = JSON.parse(localStorage.getItem('blueshop_orders')) || [];
+    // Diselaraskan dengan cart.js menggunakan key 'cart'
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
     let ratings = JSON.parse(localStorage.getItem('blueshop_ratings')) || {};
     let currentUser = null;
     let isAdmin = false;
@@ -213,7 +186,6 @@
     }
 
     async function fetchProducts() {
-      // Mendukung pencarian ke tabel produk atau tb_produk jika berbeda
       let { data, error } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
 
       if (error) {
@@ -273,83 +245,45 @@
     function addToCart(id) {
       const p = allProducts.find(item => (item.id_produk || item.id) == id);
       if (!p) return;
+      
       const existing = cart.find(item => item.id == id);
-      if (existing) existing.qty += 1;
-      else cart.push({ id, name: p.nama_produk || p.name, price: Number(p.harga || p.price), qty: 1 });
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          id: id,
+          title: p.nama_produk || p.name,
+          price: Number(p.harga || p.price),
+          image: p.gambar || p.image,
+          qty: 1,
+          selected: true
+        });
+      }
       saveCart();
       alert("Produk dimasukkan ke keranjang!");
     }
 
     function buyNow(id) {
       addToCart(id);
-      openCartModal();
+      window.location.href = 'cart.html';
     }
 
     function saveCart() {
-      localStorage.setItem('blueshop_cart', JSON.stringify(cart));
+      localStorage.setItem('cart', JSON.stringify(cart));
       updateBadges();
     }
 
-    function updateBadges() {
+    async function updateBadges() {
       document.getElementById('cartBadge').innerText = cart.reduce((sum, i) => sum + i.qty, 0);
-      document.getElementById('orderBadge').innerText = orders.length;
-    }
 
-    function openCartModal() {
-      renderCart();
-      document.getElementById('cartModal').style.display = 'flex';
-    }
-    function closeCartModal() { document.getElementById('cartModal').style.display = 'none'; }
-
-    function renderCart() {
-      const container = document.getElementById('cartItemsContainer');
-      container.innerHTML = '';
-      let total = 0;
-
-      if (cart.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#888;">Keranjang kosong.</p>';
-        document.getElementById('btnCheckout').style.display = 'none';
-        document.getElementById('cartTotalPrice').innerText = 'Rp 0';
-        return;
+      // Ambil jumlah pesanan nyata dari Supabase
+      if (currentUser) {
+        const { data } = await _supabase.from('orders').select('id').eq('user_id', currentUser.id);
+        if (data) {
+          document.getElementById('orderBadge').innerText = data.length;
+        }
       }
-
-      document.getElementById('btnCheckout').style.display = 'block';
-      cart.forEach(item => {
-        total += item.price * item.qty;
-        container.innerHTML += `
-          <div class="cart-item">
-            <div><b>${item.name}</b><br><small>Rp ${item.price.toLocaleString('id-ID')} x ${item.qty}</small></div>
-            <div><b>Rp ${(item.price * item.qty).toLocaleString('id-ID')}</b></div>
-          </div>
-        `;
-      });
-      document.getElementById('cartTotalPrice').innerText = `Rp ${total.toLocaleString('id-ID')}`;
     }
-
-    function checkout() {
-      orders.unshift({ id: 'ORD-' + Date.now().toString().slice(-5), total: cart.reduce((s, i) => s + (i.price * i.qty), 0), items: [...cart] });
-      localStorage.setItem('blueshop_orders', JSON.stringify(orders));
-      cart = [];
-      saveCart();
-      closeCartModal();
-      openOrdersModal();
-      alert("Pesanan berhasil dibuat!");
-    }
-
-    function openOrdersModal() {
-      const container = document.getElementById('ordersContainer');
-      container.innerHTML = orders.length === 0 ? '<p style="text-align:center; color:#888;">Belum ada pesanan.</p>' : '';
-      orders.forEach(o => {
-        container.innerHTML += `
-          <div class="order-card">
-            <div><strong>#${o.id}</strong><br><small>${o.items.map(i => i.name).join(', ')}</small></div>
-            <div style="color:#dc2626; font-weight:bold;">Rp ${o.total.toLocaleString('id-ID')}</div>
-          </div>
-        `;
-      });
-      document.getElementById('ordersModal').style.display = 'flex';
-    }
-    function closeOrdersModal() { document.getElementById('ordersModal').style.display = 'none'; }
 
     function openRatingModal(id) {
       document.getElementById('ratingProductId').value = id;
