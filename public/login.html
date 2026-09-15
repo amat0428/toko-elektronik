@@ -3,1384 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Masuk - BlueShop</title>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
-
-    <!-- Supabase JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Halaman Masuk & Daftar</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Elemen Dekorasi Latar Belakang */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+        }
+        .circle-1 {
+            width: 250px;
+            height: 250px;
+            top: -50px;
+            left: -50px;
+        }
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            bottom: -80px;
+            right: -80px;
+        }
+
+        /* Card Container Utama */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 35px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Navigasi Tab */
+        .tab-menu {
+            display: flex;
+            background: #eef2ff;
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 25px;
         }
 
         .tab-btn {
-            position: relative;
             flex: 1;
-            padding: 16px 10px;
-            background: white;
+            padding: 10px;
+            text-align: center;
             border: none;
-            color: #555;
-            font-size: 16px;
+            background: transparent;
+            font-size: 15px;
             font-weight: 600;
+            color: #64748b;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .tab-btn:hover {
-            color: #2563eb;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
         .tab-btn.active {
-            color: #2563eb;
+            background: #ffffff;
+            color: #4f46e5;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
-        .tab-btn.active::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 20%;
-            width: 60%;
-            height: 3px;
-            background: #2563eb;
-            border-radius: 10px;
+        /* Alert Pesan Notifikasi */
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert.error {
+            background-color: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+            display: block;
+        }
+        .alert.success {
+            background-color: #dcfce7;
+            color: #16a34a;
+            border: 1px solid #86efac;
+            display: block;
         }
 
+        /* Form Styling */
         .form-container {
             display: none;
         }
 
         .form-container.active {
             display: block;
-            animation: fadeIn 0.2s ease;
+            animation: fadeIn 0.4s ease;
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .input-box {
-            width: 100%;
-            padding: 14px 15px 14px 45px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-            font-size: 14px;
-            transition: 0.2s;
-            background: white;
+        .form-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 5px;
+            text-align: center;
         }
 
-        .input-box:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.08);
+        .form-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 6px;
         }
 
         .input-wrapper {
             position: relative;
+            display: flex;
+            align-items: center;
         }
 
-        .input-wrapper i {
+        .input-wrapper i.input-icon {
             position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            z-index: 2;
-        }
-
-        .main-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #2563eb;
-            color: white;
+            left: 14px;
+            color: #94a3b8;
             font-size: 15px;
-            font-weight: bold;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 40px 12px 42px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #4f46e5;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            color: #94a3b8;
             cursor: pointer;
-            transition: 0.2s;
+            font-size: 15px;
         }
 
-        .main-btn:hover {
-            background: #1d4ed8;
+        .toggle-password:hover {
+            color: #4f46e5;
         }
 
-        .main-btn:disabled {
-            background: #93c5fd;
-            cursor: not-allowed;
-        }
-
-        .status-box {
-            display: none;
-            padding: 12px 14px;
-            margin-bottom: 16px;
-            border-radius: 8px;
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
             font-size: 13px;
-            line-height: 1.5;
         }
 
-        .status-box.show {
-            display: block;
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #475569;
+            cursor: pointer;
         }
 
-        .status-success {
-            background: #dcfce7;
-            color: #166534;
-            border: 1px solid #bbf7d0;
+        .forgot-pass {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        .status-error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
+        .forgot-pass:hover {
+            text-decoration: underline;
         }
 
-        .status-info {
-            background: #dbeafe;
-            color: #1e40af;
-            border: 1px solid #bfdbfe;
+        /* Tombol Utama */
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
         }
     </style>
 </head>
-
 <body>
 
-    <!-- HEADER -->
-    <header class="bg-blue-600 text-white shadow-md">
-        <div class="max-w-6xl mx-auto px-4 py-4">
-            <div class="flex items-center justify-between">
+    <!-- Lingkaran Dekorasi Latar Belakang -->
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
 
-                <a
-                    href="index.html"
-                    class="flex items-center gap-2 text-xl font-bold"
-                >
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span>BlueShop</span>
-                </a>
-
-                <span class="text-sm">
-                    Butuh bantuan?
-                </span>
-
+    <div class="container">
+        <div class="card">
+            
+            <!-- Tab Menu -->
+            <div class="tab-menu">
+                <button class="tab-btn active" onclick="switchTab('login')">Masuk</button>
+                <button class="tab-btn" onclick="switchTab('register')">Daftar</button>
             </div>
-        </div>
-    </header>
 
+            <!-- Pesan Alert Status -->
+            <div id="alertBox" class="alert"></div>
 
-    <!-- MAIN -->
-    <main class="min-h-[calc(100vh-72px)] flex items-center justify-center px-4 py-8">
+            <!-- FORM LOGIN -->
+            <div id="loginFormContainer" class="form-container active">
+                <div class="form-title">Selamat Datang!</div>
+                <div class="form-subtitle">Silakan masuk ke akun Anda</div>
 
-        <div class="w-full max-w-md">
-
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-
-                <!-- LOGO -->
-                <div class="text-center px-6 pt-7 pb-3">
-
-                    <div
-                        class="w-16 h-16 mx-auto mb-3 bg-blue-100 rounded-full flex items-center justify-center"
-                    >
-                        <i class="fa-solid fa-bag-shopping text-blue-600 text-2xl"></i>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <label for="loginEmail">Email / Username</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <input type="text" id="loginEmail" placeholder="nama@email.com" required>
+                        </div>
                     </div>
 
-                    <h1 class="text-2xl font-bold text-gray-800">
-                        BlueShop
-                    </h1>
-
-                    <p class="text-sm text-gray-500 mt-1">
-                        Belanja elektronik lebih mudah
-                    </p>
-
-                </div>
-
-
-                <!-- TAB -->
-                <div class="flex border-b border-gray-200 mt-4">
-
-                    <button
-                        type="button"
-                        id="loginTab"
-                        class="tab-btn active"
-                        onclick="switchTab('login')"
-                    >
-                        Masuk
-                    </button>
-
-                    <button
-                        type="button"
-                        id="registerTab"
-                        class="tab-btn"
-                        onclick="switchTab('register')"
-                    >
-                        Daftar
-                    </button>
-
-                </div>
-
-
-                <!-- FORM AREA -->
-                <div class="p-6">
-
-                    <!-- STATUS -->
-                    <div
-                        id="statusBox"
-                        class="status-box"
-                    ></div>
-
-
-                    <!-- LOGIN FORM -->
-                    <form
-                        id="loginForm"
-                        class="form-container active"
-                    >
-
-                        <div class="space-y-4">
-
-                            <!-- EMAIL -->
-                            <div>
-
-                                <label
-                                    for="loginEmail"
-                                    class="block text-sm font-semibold text-gray-700 mb-2"
-                                >
-                                    Email
-                                </label>
-
-                                <div class="input-wrapper">
-
-                                    <i class="fa-solid fa-envelope"></i>
-
-                                    <input
-                                        id="loginEmail"
-                                        type="email"
-                                        class="input-box"
-                                        placeholder="Masukkan email"
-                                        autocomplete="email"
-                                        required
-                                    >
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- PASSWORD -->
-                            <div>
-
-                                <label
-                                    for="loginPassword"
-                                    class="block text-sm font-semibold text-gray-700 mb-2"
-                                >
-                                    Password
-                                </label>
-
-                                <div class="input-wrapper">
-
-                                    <i class="fa-solid fa-lock"></i>
-
-                                    <input
-                                        id="loginPassword"
-                                        type="password"
-                                        class="input-box"
-                                        placeholder="Masukkan password"
-                                        autocomplete="current-password"
-                                        required
-                                    >
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- LOGIN BUTTON -->
-                            <button
-                                id="btnLogin"
-                                type="submit"
-                                class="main-btn"
-                            >
-                                Masuk
-                            </button>
-
-
-                            <!-- DIVIDER -->
-                            <div class="flex items-center gap-3 py-1">
-
-                                <div class="flex-1 h-px bg-gray-200"></div>
-
-                                <span class="text-xs text-gray-400">
-                                    atau
-                                </span>
-
-                                <div class="flex-1 h-px bg-gray-200"></div>
-
-                            </div>
-
-
-                            <!-- REGISTER LINK -->
-                            <p class="text-center text-sm text-gray-500">
-
-                                Belum punya akun?
-
-                                <button
-                                    type="button"
-                                    onclick="switchTab('register')"
-                                    class="text-blue-600 font-bold hover:underline"
-                                >
-                                    Daftar sekarang
-                                </button>
-
-                            </p>
-
+                    <div class="input-group">
+                        <label for="loginPassword">Kata Sandi</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="loginPassword" placeholder="••••••••" required>
+                            <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('loginPassword', this)"></i>
                         </div>
+                    </div>
 
-                    </form>
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe"> Ingat saya
+                        </label>
+                        <a href="#" class="forgot-pass" onclick="alert('Fitur reset password dapat disesuaikan dengan backend Anda.')">Lupa sandi?</a>
+                    </div>
 
-
-                    <!-- REGISTER FORM -->
-                    <form
-                        id="registerForm"
-                        class="form-container"
-                    >
-
-                        <div class="space-y-4">
-
-                            <!-- NAMA -->
-                            <div>
-
-                                <label
-                                    for="regName"
-                                    class="block text-sm font-semibold text-gray-700 mb-2"
-                                >
-                                    Nama Lengkap
-                                </label>
-
-                                <div class="input-wrapper">
-
-                                    <i class="fa-solid fa-user"></i>
-
-                                    <input
-                                        id="regName"
-                                        type="text"
-                                        class="input-box"
-                                        placeholder="Masukkan nama lengkap"
-                                        autocomplete="name"
-                                        required
-                                    >
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- EMAIL -->
-                            <div>
-
-                                <label
-                                    for="regEmail"
-                                    class="block text-sm font-semibold text-gray-700 mb-2"
-                                >
-                                    Email
-                                </label>
-
-                                <div class="input-wrapper">
-
-                                    <i class="fa-solid fa-envelope"></i>
-
-                                    <input
-                                        id="regEmail"
-                                        type="email"
-                                        class="input-box"
-                                        placeholder="Masukkan email"
-                                        autocomplete="email"
-                                        required
-                                    >
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- PASSWORD -->
-                            <div>
-
-                                <label
-                                    for="regPassword"
-                                    class="block text-sm font-semibold text-gray-700 mb-2"
-                                >
-                                    Password
-                                </label>
-
-                                <div class="input-wrapper">
-
-                                    <i class="fa-solid fa-lock"></i>
-
-                                    <input
-                                        id="regPassword"
-                                        type="password"
-                                        class="input-box"
-                                        placeholder="Minimal 6 karakter"
-                                        autocomplete="new-password"
-                                        minlength="6"
-                                        required
-                                    >
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- REGISTER BUTTON -->
-                            <button
-                                id="btnRegister"
-                                type="submit"
-                                class="main-btn"
-                            >
-                                Daftar Sekarang
-                            </button>
-
-
-                            <!-- TERMS -->
-                            <p class="text-center text-xs text-gray-400">
-                                Dengan mendaftar, kamu menyetujui
-                                ketentuan penggunaan BlueShop.
-                            </p>
-
-
-                            <!-- LOGIN LINK -->
-                            <p class="text-center text-sm text-gray-500">
-
-                                Sudah punya akun?
-
-                                <button
-                                    type="button"
-                                    onclick="switchTab('login')"
-                                    class="text-blue-600 font-bold hover:underline"
-                                >
-                                    Masuk sekarang
-                                </button>
-
-                            </p>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
+                    <button type="submit" id="btnLogin" class="submit-btn">Masuk</button>
+                </form>
             </div>
 
+            <!-- FORM REGISTER -->
+            <div id="registerFormContainer" class="form-container">
+                <div class="form-title">Buat Akun Baru</div>
+                <div class="form-subtitle">Lengkapi data untuk mendaftar</div>
 
-            <!-- BACK -->
-            <div class="text-center mt-5">
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="input-group">
+                        <label for="regName">Nama Lengkap</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user input-icon"></i>
+                            <input type="text" id="regName" placeholder="Ahmad Alvi" required>
+                        </div>
+                    </div>
 
-                <a
-                    href="index.html"
-                    class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600"
-                >
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Kembali ke Portfolio
-                </a>
+                    <div class="input-group">
+                        <label for="regEmail">Email</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <input type="email" id="regEmail" placeholder="nama@email.com" required>
+                        </div>
+                    </div>
 
+                    <div class="input-group">
+                        <label for="regPassword">Kata Sandi</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="regPassword" placeholder="Minimal 6 karakter" required>
+                            <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('regPassword', this)"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btnRegister" class="submit-btn">Daftar Sekarang</button>
+                </form>
             </div>
 
         </div>
-
-    </main>
-
-
-    <!-- FOOTER -->
-    <footer class="text-center text-xs text-gray-400 pb-6">
-        © 2026 BlueShop. All Rights Reserved.
-    </footer>
-
+    </div>
 
     <!-- JAVASCRIPT -->
     <script>
+        // Fungsi Pergantian Tab (Login / Register)
+        function switchTab(tab) {
+            const loginContainer = document.getElementById('loginFormContainer');
+            const registerContainer = document.getElementById('registerFormContainer');
+            const tabs = document.querySelectorAll('.tab-btn');
 
-        // =====================================================
-        // SUPABASE CONFIG
-        // =====================================================
+            hideAlert();
 
-        const SUPABASE_URL =
-            "https://fbnknnrltrsvydyxgujr.supabase.co";
-
-        const SUPABASE_KEY =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
-
-
-        // =====================================================
-        // CEK SUPABASE LIBRARY
-        // =====================================================
-
-        if (typeof supabase === "undefined") {
-
-            console.error(
-                "Supabase JS gagal dimuat."
-            );
-
-        }
-
-
-        // =====================================================
-        // SUPABASE CLIENT
-        // =====================================================
-
-        const _supabase =
-            supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_KEY
-            );
-
-
-        // =====================================================
-        // TABLE
-        // =====================================================
-
-        const TABLE_NAME = "users_list";
-
-
-        // =====================================================
-        // ELEMENT
-        // =====================================================
-
-        const statusBox =
-            document.getElementById("statusBox");
-
-
-        // =====================================================
-        // SHOW STATUS
-        // =====================================================
-
-        function showStatus(message, type = "error") {
-
-            statusBox.textContent = message;
-
-            statusBox.className =
-                "status-box show";
-
-            if (type === "success") {
-
-                statusBox.classList.add(
-                    "status-success"
-                );
-
-            } else if (type === "info") {
-
-                statusBox.classList.add(
-                    "status-info"
-                );
-
+            if (tab === 'login') {
+                loginContainer.classList.add('active');
+                registerContainer.classList.remove('active');
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
             } else {
-
-                statusBox.classList.add(
-                    "status-error"
-                );
-
+                registerContainer.classList.add('active');
+                loginContainer.classList.remove('active');
+                tabs[1].classList.add('active');
+                tabs[0].classList.remove('active');
             }
-
         }
 
-
-        // =====================================================
-        // HIDE STATUS
-        // =====================================================
-
-        function hideStatus() {
-
-            statusBox.textContent = "";
-
-            statusBox.className =
-                "status-box";
-
-        }
-
-
-        // =====================================================
-        // SWITCH TAB
-        // =====================================================
-
-        function switchTab(type) {
-
-            hideStatus();
-
-            const loginTab =
-                document.getElementById(
-                    "loginTab"
-                );
-
-            const registerTab =
-                document.getElementById(
-                    "registerTab"
-                );
-
-            const loginForm =
-                document.getElementById(
-                    "loginForm"
-                );
-
-            const registerForm =
-                document.getElementById(
-                    "registerForm"
-                );
-
-
-            if (type === "login") {
-
-                loginTab.classList.add("active");
-
-                registerTab.classList.remove("active");
-
-                loginForm.classList.add("active");
-
-                registerForm.classList.remove("active");
-
+        // Toggle Tampilkan / Sembunyikan Password
+        function togglePasswordVisibility(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
             } else {
-
-                loginTab.classList.remove("active");
-
-                registerTab.classList.add("active");
-
-                loginForm.classList.remove("active");
-
-                registerForm.classList.add("active");
-
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             }
-
         }
 
-
-        // =====================================================
-        // TEST SUPABASE
-        // =====================================================
-
-        async function testSupabase() {
-
-            console.log(
-                "Testing koneksi Supabase..."
-            );
-
-            console.log(
-                "URL:",
-                SUPABASE_URL
-            );
-
-            console.log(
-                "TABLE:",
-                TABLE_NAME
-            );
-
-            try {
-
-                const {
-                    data,
-                    error
-                } = await _supabase
-                    .from(TABLE_NAME)
-                    .select("username")
-                    .limit(1);
-
-                console.log(
-                    "TEST DATA:",
-                    data
-                );
-
-                console.log(
-                    "TEST ERROR:",
-                    error
-                );
-
-                if (error) {
-
-                    console.error(
-                        "KONEKSI SUPABASE GAGAL:",
-                        error
-                    );
-
-                    return false;
-
-                }
-
-                console.log(
-                    "KONEKSI SUPABASE BERHASIL."
-                );
-
-                return true;
-
-            } catch (error) {
-
-                console.error(
-                    "SUPABASE EXCEPTION:",
-                    error
-                );
-
-                return false;
-
-            }
-
+        // Menampilkan Pesan Notifikasi
+        function showAlert(message, type = 'error') {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.innerText = message;
+            alertBox.className = `alert ${type}`;
         }
 
+        function hideAlert() {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.style.display = 'none';
+        }
 
-        // =====================================================
-        // LOGIN
-        // =====================================================
-
-        async function handleLogin(event) {
-
+        // Penanganan Submit Form Login
+        function handleLogin(event) {
             event.preventDefault();
+            hideAlert();
 
-            hideStatus();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('btnLogin');
 
+            btn.disabled = true;
+            btn.innerText = 'Memproses...';
 
-            const btnLogin =
-                document.getElementById(
-                    "btnLogin"
-                );
-
-
-            const email =
-                document
-                    .getElementById(
-                        "loginEmail"
-                    )
-                    .value
-                    .trim()
-                    .toLowerCase();
-
-
-            const password =
-                document.getElementById(
-                    "loginPassword"
-                ).value;
-
-
-            // VALIDASI
-
-            if (!email || !password) {
-
-                showStatus(
-                    "Email dan password wajib diisi!"
-                );
-
-                return;
-
-            }
-
-
-            // LOADING
-
-            btnLogin.disabled = true;
-
-            btnLogin.innerText =
-                "Memeriksa...";
-
-
-            try {
-
-                console.log(
-                    "========== BLUESHOP LOGIN =========="
-                );
-
-                console.log(
-                    "Email:",
-                    email
-                );
-
-
-                // QUERY USER
-
-                const {
-                    data,
-                    error
-                } = await _supabase
-
-                    .from(TABLE_NAME)
-
-                    .select("*")
-
-                    .eq(
-                        "username",
-                        email
-                    )
-
-                    .limit(1);
-
-
-                console.log(
-                    "DATA:",
-                    data
-                );
-
-                console.log(
-                    "ERROR:",
-                    error
-                );
-
-
-                // ERROR SUPABASE
-
-                if (error) {
-
-                    throw error;
-
-                }
-
-
-                // USER TIDAK DITEMUKAN
-
-                if (
-                    !data ||
-                    data.length === 0
-                ) {
-
-                    showStatus(
-                        "Email tidak ditemukan. Silakan daftar terlebih dahulu."
-                    );
-
+            setTimeout(() => {
+                if (email === "" || password === "") {
+                    showAlert("Harap isi semua bidang!");
+                    btn.disabled = false;
+                    btn.innerText = 'Masuk';
                     return;
-
                 }
 
-
-                // AMBIL USER
-
-                const user = data[0];
-
-
-                console.log(
-                    "USER:",
-                    user
-                );
-
-
-                // CEK PASSWORD
-
-                if (
-                    String(user.password) !==
-                    String(password)
-                ) {
-
-                    showStatus(
-                        "Password salah!"
-                    );
-
-                    return;
-
-                }
-
-
-                // SESSION
-
-                const userSession = {
-
-                    id: user.id,
-
-                    name:
-                        user.name ||
-                        "User",
-
-                    email:
-                        user.username,
-
-                    username:
-                        user.username,
-
-                    role:
-                        String(
-                            user.role ||
-                            "user"
-                        ).toLowerCase()
-
-                };
-
-
-                // SIMPAN SESSION
-
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify(
-                        userSession
-                    )
-                );
-
-                localStorage.setItem(
-                    "currentUser",
-                    JSON.stringify(
-                        userSession
-                    )
-                );
-
-                localStorage.setItem(
-                    "isLoggedIn",
-                    "true"
-                );
-
-
-                console.log(
-                    "LOGIN BERHASIL",
-                    userSession
-                );
-
-
-                // SUCCESS
-
-                showStatus(
-                    "Login berhasil! Mengarahkan ke toko...",
-                    "success"
-                );
-
-
-                // REDIRECT
-
-                setTimeout(
-                    function () {
-
-                        window.location.href =
-                            "toko.html";
-
-                    },
-                    700
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "LOGIN ERROR:",
-                    error
-                );
-
-
-                let message =
-                    error &&
-                    error.message
-                        ? error.message
-                        : "Terjadi kesalahan saat login.";
-
-
-                const lowerMessage =
-                    message.toLowerCase();
-
-
-                if (
-                    lowerMessage.includes(
-                        "invalid api key"
-                    )
-                ) {
-
-                    message =
-                        "Anon key Supabase tidak valid. Periksa Settings > API Keys.";
-
-                }
-
-                else if (
-                    lowerMessage.includes(
-                        "invalid path"
-                    )
-                ) {
-
-                    message =
-                        "URL Supabase salah. Gunakan URL project tanpa /rest/v1.";
-
-                }
-
-                else if (
-                    lowerMessage.includes(
-                        "permission denied"
-                    )
-                ) {
-
-                    message =
-                        "Akses tabel users_list ditolak. Periksa RLS/Data API.";
-
-                }
-
-                else if (
-                    lowerMessage.includes(
-                        "relation"
-                    )
-                ) {
-
-                    message =
-                        "Tabel users_list tidak ditemukan.";
-
-                }
-
-                else if (
-                    lowerMessage.includes(
-                        "column"
-                    )
-                ) {
-
-                    message =
-                        "Kolom tabel tidak sesuai. Pastikan username dan password tersedia.";
-
-                }
-
-
-                showStatus(
-                    "Gagal Login: " +
-                    message
-                );
-
-
-            } finally {
-
-                btnLogin.disabled = false;
-
-                btnLogin.innerText =
-                    "Masuk";
-
-            }
-
+                showAlert("Login berhasil! Mengalihkan...", "success");
+                
+                // Tambahkan aksi pengalihan halaman atau koneksi backend di sini
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerText = 'Masuk';
+                }, 1500);
+            }, 1000);
         }
 
-
-        // =====================================================
-        // REGISTER
-        // =====================================================
-
-        async function handleRegister(event) {
-
+        // Penanganan Submit Form Register
+        function handleRegister(event) {
             event.preventDefault();
+            hideAlert();
 
-            hideStatus();
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const btn = document.getElementById('btnRegister');
 
-
-            const btnRegister =
-                document.getElementById(
-                    "btnRegister"
-                );
-
-
-            const name =
-                document
-                    .getElementById(
-                        "regName"
-                    )
-                    .value
-                    .trim();
-
-
-            const email =
-                document
-                    .getElementById(
-                        "regEmail"
-                    )
-                    .value
-                    .trim()
-                    .toLowerCase();
-
-
-            const password =
-                document.getElementById(
-                    "regPassword"
-                ).value;
-
-
-            // VALIDASI
-
-            if (
-                !name ||
-                !email ||
-                !password
-            ) {
-
-                showStatus(
-                    "Semua data wajib diisi!"
-                );
-
+            if (password.length < 6) {
+                showAlert("Kata sandi minimal 6 karakter!");
                 return;
-
             }
 
-
-            if (
-                password.length < 6
-            ) {
-
-                showStatus(
-                    "Password minimal 6 karakter!"
-                );
-
-                return;
-
-            }
-
-
-            // LOADING
-
-            btnRegister.disabled = true;
-
-            btnRegister.innerText =
-                "Mendaftarkan...";
-
-
-            try {
-
-                // CEK EMAIL
-
-                const {
-                    data: existingUser,
-                    error: checkError
-                } = await _supabase
-
-                    .from(TABLE_NAME)
-
-                    .select("username")
-
-                    .eq(
-                        "username",
-                        email
-                    );
-
-
-                if (checkError) {
-
-                    throw checkError;
-
-                }
-
-
-                // EMAIL SUDAH ADA
-
-                if (
-                    existingUser &&
-                    existingUser.length > 0
-                ) {
-
-                    showStatus(
-                        "Email sudah terdaftar. Silakan login."
-                    );
-
-                    switchTab("login");
-
-                    document.getElementById(
-                        "loginEmail"
-                    ).value = email;
-
-                    return;
-
-                }
-
-
-                // INSERT USER
-
-                const {
-                    error: insertError
-                } = await _supabase
-
-                    .from(TABLE_NAME)
-
-                    .insert({
-
-                        name: name,
-
-                        username: email,
-
-                        password: password,
-
-                        role: "user"
-
-                    });
-
-
-                if (insertError) {
-
-                    throw insertError;
-
-                }
-
-
-                console.log(
-                    "USER BERHASIL DIBUAT"
-                );
-
-
-                // SUCCESS
-
-                showStatus(
-                    "Pendaftaran berhasil! Silakan login.",
-                    "success"
-                );
-
-
-                switchTab("login");
-
-
-                document.getElementById(
-                    "loginEmail"
-                ).value = email;
-
-
-                document.getElementById(
-                    "loginPassword"
-                ).value = "";
-
-
-            } catch (error) {
-
-                console.error(
-                    "REGISTER ERROR:",
-                    error
-                );
-
-
-                let message =
-                    error &&
-                    error.message
-                        ? error.message
-                        : "Terjadi kesalahan saat mendaftar.";
-
-
-                const lowerMessage =
-                    message.toLowerCase();
-
-
-                if (
-                    lowerMessage.includes(
-                        "invalid api key"
-                    )
-                ) {
-
-                    message =
-                        "Anon key Supabase tidak valid.";
-
-                }
-
-                else if (
-                    lowerMessage.includes(
-                        "invalid path"
-                    )
-                ) {
-
-                    message =
-                        "URL Supabase salah.";
-
-                }
-
-                else if (
-                    lowerMessage.includes(
-                        "permission denied"
-                    )
-                ) {
-
-                    message =
-                        "Pendaftaran ditolak. Periksa RLS/Data API tabel users_list.";
-
-                }
-
-                else if (
-                    lowerMessage.includes(
-                        "duplicate"
-                    )
-                ) {
-
-                    message =
-                        "Email tersebut sudah terdaftar.";
-
-                }
-
-
-                showStatus(
-                    "Gagal Mendaftar: " +
-                    message
-                );
-
-
-            } finally {
-
-                btnRegister.disabled = false;
-
-                btnRegister.innerText =
-                    "Daftar Sekarang";
-
-            }
-
+            btn.disabled = true;
+            btn.innerText = 'Mendaftarkan...';
+
+            setTimeout(() => {
+                showAlert("Pendaftaran berhasil! Silakan masuk.", "success");
+
+                setTimeout(() => {
+                    switchTab('login');
+                    document.getElementById('loginEmail').value = email;
+                    btn.disabled = false;
+                    btn.innerText = 'Daftar Sekarang';
+                }, 1500);
+            }, 1000);
         }
-
-
-        // =====================================================
-        // EVENT FORM
-        // =====================================================
-
-        document
-            .getElementById("loginForm")
-            .addEventListener(
-                "submit",
-                handleLogin
-            );
-
-
-        document
-            .getElementById("registerForm")
-            .addEventListener(
-                "submit",
-                handleRegister
-            );
-
-
-        // =====================================================
-        // PAGE READY
-        // =====================================================
-
-        window.addEventListener(
-            "DOMContentLoaded",
-            async function () {
-
-                console.log(
-                    "================================"
-                );
-
-                console.log(
-                    "BLUESHOP LOGIN SIAP"
-                );
-
-                console.log(
-                    "Supabase URL:",
-                    SUPABASE_URL
-                );
-
-                console.log(
-                    "Table:",
-                    TABLE_NAME
-                );
-
-                console.log(
-                    "================================"
-                );
-
-
-                // TEST DATABASE
-
-                await testSupabase();
-
-            }
-        );
-
     </script>
-
 </body>
 </html>
