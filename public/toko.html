@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueShop - Toko Online</title>
+
+    <!-- TAMBAHKAN CDN SUPABASE INI DI SINI -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         * {
             margin: 0;
@@ -14,8 +17,8 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            color: #333;
+            background: #ffffff;
+            color: #1f2937;
         }
 
         /* ===== NAVBAR ===== */
@@ -111,7 +114,7 @@
 
         #sectionTitle {
             font-size: 28px;
-            color: #333;
+            color: #111827;
             margin-bottom: 15px;
         }
 
@@ -124,8 +127,10 @@
         #searchInput {
             flex: 1;
             padding: 12px;
-            border: 2px solid #ddd;
+            border: 2px solid #e5e7eb;
             border-radius: 8px;
+            background: #ffffff;
+            color: #111827;
             font-size: 14px;
             transition: 0.3s;
         }
@@ -162,10 +167,11 @@
         }
 
         .product-card {
-            background: white;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
             transition: 0.3s;
         }
 
@@ -178,7 +184,7 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
-            background: #f0f0f0;
+            background: #f3f4f6;
         }
 
         .product-details {
@@ -228,13 +234,13 @@
         }
 
         .btn-add-cart {
-            background: #f5f5f5;
-            color: #333;
-            border: 2px solid #ddd;
+            background: #ffffff;
+            color: #1f2937;
+            border: 2px solid #e5e7eb;
         }
 
         .btn-add-cart:hover {
-            background: #eee;
+            background: #f3f4f6;
         }
 
         /* ===== ADMIN BUTTONS ===== */
@@ -290,14 +296,15 @@
         }
 
         .modal-content {
-            background: white;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 12px;
             padding: 30px;
             max-width: 600px;
             width: 95%;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(15, 23, 42, 0.12);
             margin: 20px auto;
         }
 
@@ -341,8 +348,10 @@
         textarea {
             width: 100%;
             padding: 10px;
-            border: 2px solid #ddd;
+            border: 2px solid #e5e7eb;
             border-radius: 6px;
+            background: #ffffff;
+            color: #111827;
             font-size: 14px;
             font-family: inherit;
             transition: 0.3s;
@@ -378,13 +387,13 @@
         }
 
         .btn-secondary {
-            background: #f5f5f5;
-            color: #333;
-            border: 2px solid #ddd;
+            background: #ffffff;
+            color: #1f2937;
+            border: 2px solid #e5e7eb;
         }
 
         .btn-secondary:hover {
-            background: #eee;
+            background: #f3f4f6;
         }
 
         /* ===== CART ITEMS ===== */
@@ -393,7 +402,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px;
-            background: #f9f9f9;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 8px;
             margin-bottom: 10px;
             border-left: 4px solid #667eea;
@@ -440,7 +450,8 @@
 
         /* ===== ORDERS ===== */
         .order-card {
-            background: #f9f9f9;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 15px;
@@ -485,7 +496,8 @@
             color: #dc2626;
             margin-top: 15px;
             padding: 15px;
-            background: #f9f9f9;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
             border-radius: 8px;
             text-align: right;
         }
