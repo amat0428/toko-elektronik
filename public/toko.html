@@ -67,7 +67,7 @@
       <div class="nav-links">
         <button class="btn-nav" onclick="openCartModal()">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></button>
         <button class="btn-nav" onclick="openOrdersModal()">📦 Pesanan <span class="badge-count" id="orderBadge" style="background:#0284c7">0</span></button>
-        <div class="role-badge" id="roleBadge">User</div>
+        <div class="role-badge" id="roleBadge">Loading...</div>
         <button class="btn-logout" onclick="logout()">Logout</button>
       </div>
     </div>
@@ -82,7 +82,6 @@
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
       <span class="section-title" id="sectionTitle">DAFTAR PRODUK</span>
-      <!-- Tombol ini hanya muncul jika Admin -->
       <button class="btn-save" id="btnAddProductNav" onclick="openProductModal(false)" style="display: none;">+ Tambah Produk Baru</button>
     </div>
 
@@ -118,7 +117,7 @@
     </div>
   </div>
 
-  <!-- Modal Form CRUD (Khusus Admin) -->
+  <!-- Modal Form Tambah/Edit Produk -->
   <div class="modal" id="productModal">
     <div class="modal-content">
       <h3 id="productModalTitle">Tambah Produk Baru</h3>
@@ -161,17 +160,23 @@
       updateBadges();
     });
 
-    // Pengecekan Peran User dari localStorage
     function checkUserRole() {
-      currentUser = JSON.parse(localStorage.getItem('user'));
-      
-      // Jika tidak ada user login, kembalikan ke login page
-      if (!currentUser) {
+      const userData = localStorage.getItem('user');
+
+      if (!userData) {
+        alert("Silakan login terlebih dahulu.");
         window.location.href = 'login.html';
         return;
       }
 
-      // Cek apakah role adalah admin (case-insensitive)
+      try {
+        currentUser = JSON.parse(userData);
+      } catch (e) {
+        localStorage.removeItem('user');
+        window.location.href = 'login.html';
+        return;
+      }
+
       isAdmin = (currentUser.role || '').toLowerCase() === 'admin';
 
       const badge = document.getElementById('roleBadge');
@@ -179,15 +184,19 @@
       const title = document.getElementById('sectionTitle');
 
       if (isAdmin) {
-        badge.innerText = '🛡️ Admin Aktif';
-        badge.style.background = '#10b981';
-        btnAddNav.style.display = 'block';
-        title.innerText = 'DAFTAR PRODUK (KONTROL ADMIN)';
+        if (badge) {
+          badge.innerText = '🛡️ Admin Aktif';
+          badge.style.background = '#10b981';
+        }
+        if (btnAddNav) btnAddNav.style.display = 'block';
+        if (title) title.innerText = 'DAFTAR PRODUK (KONTROL ADMIN)';
       } else {
-        badge.innerText = '👤 User / Pembeli';
-        badge.style.background = '#64748b';
-        btnAddNav.style.display = 'none';
-        title.innerText = 'DAFTAR PRODUK';
+        if (badge) {
+          badge.innerText = `👤 ${currentUser.name || 'User'}`;
+          badge.style.background = '#0284c7';
+        }
+        if (btnAddNav) btnAddNav.style.display = 'none';
+        if (title) title.innerText = 'DAFTAR PRODUK';
       }
     }
 
@@ -199,7 +208,7 @@
     async function fetchProducts() {
       const { data, error } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
       if (error) {
-        document.getElementById('productGrid').innerHTML = `<p style="grid-column: 1/-1; color:red; text-align:center;">Gagal memuat produk</p>`;
+        document.getElementById('productGrid').innerHTML = `<p style="grid-column: 1/-1; color:red; text-align:center;">Gagal memuat produk dari database.</p>`;
         return;
       }
       allProducts = data || [];
@@ -211,7 +220,7 @@
       grid.innerHTML = '';
 
       if (products.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Belum ada produk.</p>';
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Belum ada produk yang tersedia.</p>';
         return;
       }
 
@@ -221,7 +230,6 @@
         const price = p.harga || p.price;
         const image = p.gambar || p.image;
 
-        // Kontrol tombol Edit & Hapus (Hanya muncul untuk Admin)
         const adminButtonsHTML = isAdmin ? `
           <div class="admin-actions">
             <button class="btn-edit" onclick="editProduct(${id})">Edit</button>
@@ -232,7 +240,7 @@
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-          <img src="${image}" class="product-img" alt="${name}" onerror="this.src='https://via.placeholder.com/300?text=Gambar+Error'">
+          <img src="${image}" class="product-img" alt="${name}" onerror="this.src='https://via.placeholder.com/300?text=Gambar+Tidak+Tersedia'">
           <div class="product-details">
             <div>
               <div class="product-name">${name}</div>
@@ -249,7 +257,6 @@
       });
     }
 
-    // --- LOGIKA KERANJANG & ORDERS (Bisa dipakai User & Admin) ---
     function addToCart(productId) {
       const product = allProducts.find(p => (p.id_produk || p.id) == productId);
       if (!product) return;
@@ -267,7 +274,7 @@
       }
 
       saveCart();
-      alert(`${name} ditambahkan ke keranjang!`);
+      alert(`${name} telah ditambahkan ke keranjang!`);
     }
 
     function buyNow(productId) {
@@ -307,7 +314,7 @@
       container.innerHTML = '';
 
       if (cart.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #888;">Keranjang kosong.</p>';
+        container.innerHTML = '<p style="text-align: center; color: #888;">Keranjang belanja kamu masih kosong.</p>';
         document.getElementById('cartTotalPrice').innerText = 'Rp 0';
         btnCheckout.style.display = 'none';
         return;
@@ -352,7 +359,7 @@
       saveCart();
       closeCartModal();
       openOrdersModal();
-      alert(`Pesanan #${newOrder.id} telah berhasil dibuat!`);
+      alert(`Pesanan #${newOrder.id} berhasil dibuat!`);
     }
 
     function openOrdersModal() {
@@ -389,7 +396,6 @@
       });
     }
 
-    // --- KONTROL CRUD HANYA UNTUK ADMIN ---
     function openProductModal(isEdit = false) {
       if (!isAdmin) return;
       document.getElementById('productModal').style.display = 'flex';

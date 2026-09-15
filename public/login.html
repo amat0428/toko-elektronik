@@ -3,145 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BlueShop - Toko Elektronik</title>
+  <title>Login - BlueShop</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background-color: #f4f6f9; color: #333; }
-    header { background-color: #2563eb; padding: 12px 5%; color: white; position: sticky; top: 0; z-index: 900; }
-    .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
-    .logo { font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; }
-    .search-box { flex: 1; max-width: 350px; }
-    .search-box input { width: 100%; padding: 8px 15px; border-radius: 6px; border: none; outline: none; }
-    .nav-links { display: flex; gap: 12px; align-items: center; font-size: 14px; }
-    .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; position: relative; }
-    .badge-count { background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; font-weight: bold; }
-    .role-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; }
-    .btn-logout { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; }
-    
-    .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
-    .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 30px; margin-bottom: 25px; }
-    .hero-badge { background: #facc15; color: #000; font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; }
-    .hero-title { font-size: 28px; margin: 10px 0 5px 0; font-weight: 800; }
-    .section-title { font-size: 16px; font-weight: bold; color: #1e293b; border-bottom: 2px solid #2563eb; display: inline-block; padding-bottom: 4px; }
-    
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-    .product-card { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
-    .product-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
-    .product-details { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .product-name { font-size: 14px; font-weight: bold; margin-bottom: 6px; }
-    .product-price { color: #dc2626; font-size: 15px; font-weight: bold; margin-bottom: 10px; }
-    .btn-buy { background: #2563eb; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 5px; }
-    .btn-add-cart { background: #f59e0b; color: white; border: none; padding: 6px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
-    
-    .admin-actions { margin-top: 8px; display: flex; gap: 5px; }
-    .btn-edit { background: #10b981; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-    .btn-delete { background: #ef4444; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 450px; max-height: 85vh; overflow-y: auto; }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 12px; margin-bottom: 4px; font-weight: bold; }
-    .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
-    .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
-    .btn-cancel { background: #64748b; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
-    .btn-save { background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-
-    .cart-item, .order-card { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; gap: 10px; }
-    .cart-info { flex: 1; }
-    .cart-title { font-size: 13px; font-weight: bold; }
-    .cart-price { color: #dc2626; font-size: 12px; }
-    .cart-controls { display: flex; align-items: center; gap: 5px; }
-    .cart-controls button { padding: 2px 8px; background: #ddd; border: none; cursor: pointer; border-radius: 3px; font-weight: bold; }
-    .order-status { font-size: 11px; padding: 3px 6px; border-radius: 4px; font-weight: bold; background: #fef08a; color: #854d0e; display: inline-block; margin-top: 4px;}
+    body { background: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .login-card { background: white; padding: 30px; border-radius: 10px; width: 100%; max-width: 380px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .login-title { text-align: center; margin-bottom: 20px; color: #2563eb; font-size: 24px; font-weight: bold; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #475569; }
+    .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 14px; }
+    .btn-login { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+    .btn-login:hover { background: #1d4ed8; }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="nav-container">
-      <div class="logo" onclick="fetchProducts()">🛍️ BlueShop</div>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Cari barang..." oninput="filterProducts()">
+  <div class="login-card">
+    <div class="login-title">🛍️ BlueShop Login</div>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Masukkan email..." required>
       </div>
-      <div class="nav-links">
-        <button class="btn-nav" onclick="openCartModal()">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></button>
-        <button class="btn-nav" onclick="openOrdersModal()">📦 Pesanan <span class="badge-count" id="orderBadge" style="background:#0284c7">0</span></button>
-        <div class="role-badge" id="roleBadge">Loading...</div>
-        <button class="btn-logout" onclick="logout()">Logout</button>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Masukkan password..." required>
       </div>
-    </div>
-  </header>
-
-  <div class="container">
-    <div class="hero-banner">
-      <span class="hero-badge">SUPER PROMO ELEKTRONIK</span>
-      <h1 class="hero-title">BLUE TECH SALE</h1>
-      <p>Diskon Hingga 90% | Belanja Mudah & Cepat</p>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-      <span class="section-title" id="sectionTitle">DAFTAR PRODUK</span>
-      <!-- Tombol Tambah Produk hanya muncul jika peran user adalah 'admin' -->
-      <button class="btn-save" id="btnAddProductNav" onclick="openProductModal(false)" style="display: none;">+ Tambah Produk Baru</button>
-    </div>
-
-    <div class="product-grid" id="productGrid">
-      <p style="grid-column: 1/-1; text-align: center; color: #888;">Memuat produk...</p>
-    </div>
-  </div>
-
-  <!-- Modal Keranjang Belanja -->
-  <div class="modal" id="cartModal">
-    <div class="modal-content">
-      <h3>Keranjang Belanja</h3>
-      <div id="cartItemsContainer" style="margin: 15px 0; max-height: 250px; overflow-y: auto;"></div>
-      <div style="border-top: 2px solid #eee; padding-top: 10px; display: flex; justify-content: space-between; font-weight: bold;">
-        <span>Total Harga:</span>
-        <span id="cartTotalPrice" style="color: #dc2626;">Rp 0</span>
-      </div>
-      <div class="modal-buttons">
-        <button class="btn-cancel" onclick="closeCartModal()">Tutup</button>
-        <button class="btn-save" id="btnCheckout" onclick="checkout()" style="background: #10b981; display: none;">Checkout Sekarang</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Pesanan -->
-  <div class="modal" id="ordersModal">
-    <div class="modal-content">
-      <h3>Riwayat Pesanan Saya</h3>
-      <div id="ordersContainer" style="margin: 15px 0; max-height: 280px; overflow-y: auto;"></div>
-      <div class="modal-buttons">
-        <button class="btn-cancel" onclick="closeOrdersModal()">Tutup</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Form Tambah/Edit Produk (Hanya untuk Admin) -->
-  <div class="modal" id="productModal">
-    <div class="modal-content">
-      <h3 id="productModalTitle">Tambah Produk Baru</h3>
-      <form id="productForm" onsubmit="event.preventDefault(); saveProduct();">
-        <input type="hidden" id="productId">
-        <div class="form-group">
-          <label>Nama Produk</label>
-          <input type="text" id="productName" required>
-        </div>
-        <div class="form-group">
-          <label>Harga (Rp)</label>
-          <input type="number" id="productPrice" min="0" required>
-        </div>
-        <div class="form-group">
-          <label>URL Gambar</label>
-          <input type="url" id="productImage" required>
-        </div>
-        <div class="modal-buttons">
-          <button type="button" class="btn-cancel" onclick="closeProductModal()">Batal</button>
-          <button type="submit" class="btn-save" id="btnSaveProduct">Simpan</button>
-        </div>
-      </form>
-    </div>
+      <button type="submit" class="btn-login">Masuk</button>
+    </form>
   </div>
 
   <script>
@@ -149,301 +39,44 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let allProducts = [];
-    let cart = JSON.parse(localStorage.getItem('blueshop_cart')) || [];
-    let orders = JSON.parse(localStorage.getItem('blueshop_orders')) || [];
-    let currentUser = null;
-    let isAdmin = false;
+    async function handleLogin(event) {
+      event.preventDefault();
 
-    document.addEventListener('DOMContentLoaded', () => {
-      checkUserRole();
-      fetchProducts();
-      updateBadges();
-    });
+      const emailInput = document.getElementById('email').value.trim();
+      const passwordInput = document.getElementById('password').value.trim();
 
-    // Validasi login dan penentuan peran (Admin vs User)
-    function checkUserRole() {
-      currentUser = JSON.parse(localStorage.getItem('user'));
+      // Cek akun di database Supabase
+      const { data, error } = await _supabase
+        .from('users')
+        .select('*')
+        .eq('email', emailInput)
+        .single();
 
-      // Jika belum login, paksa ke halaman login.html
-      if (!currentUser) {
-        alert("Silakan login terlebih dahulu.");
-        window.location.href = 'login.html';
+      if (error || !data) {
+        alert("Email tidak ditemukan!");
         return;
       }
 
-      // Memeriksa peran user
-      isAdmin = (currentUser.role || '').toLowerCase() === 'admin';
-
-      const badge = document.getElementById('roleBadge');
-      const btnAddNav = document.getElementById('btnAddProductNav');
-      const title = document.getElementById('sectionTitle');
-
-      if (isAdmin) {
-        badge.innerText = '🛡️ Admin Aktif';
-        badge.style.background = '#10b981';
-        btnAddNav.style.display = 'block';
-        title.innerText = 'DAFTAR PRODUK (KONTROL ADMIN)';
-      } else {
-        badge.innerText = `👤 ${currentUser.name || 'User'}`;
-        badge.style.background = '#0284c7';
-        btnAddNav.style.display = 'none';
-        title.innerText = 'DAFTAR PRODUK';
-      }
-    }
-
-    function logout() {
-      localStorage.removeItem('user');
-      window.location.href = 'login.html';
-    }
-
-    async function fetchProducts() {
-      const { data, error } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
-      if (error) {
-        document.getElementById('productGrid').innerHTML = `<p style="grid-column: 1/-1; color:red; text-align:center;">Gagal memuat produk dari database.</p>`;
-        return;
-      }
-      allProducts = data || [];
-      renderProducts(allProducts);
-    }
-
-    function renderProducts(products) {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = '';
-
-      if (products.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Belum ada produk yang tersedia.</p>';
+      if (data.password !== passwordInput) {
+        alert("Password salah!");
         return;
       }
 
-      products.forEach(p => {
-        const id = p.id_produk || p.id;
-        const name = p.nama_produk || p.name;
-        const price = p.harga || p.price;
-        const image = p.gambar || p.image;
-
-        // Tombol Edit dan Hapus HANYA dibuat jika user adalah ADMIN
-        const adminButtonsHTML = isAdmin ? `
-          <div class="admin-actions">
-            <button class="btn-edit" onclick="editProduct(${id})">Edit</button>
-            <button class="btn-delete" onclick="deleteProduct(${id})">Hapus</button>
-          </div>
-        ` : '';
-
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-          <img src="${image}" class="product-img" alt="${name}" onerror="this.src='https://via.placeholder.com/300?text=Gambar+Tidak+Tersedia'">
-          <div class="product-details">
-            <div>
-              <div class="product-name">${name}</div>
-              <div class="product-price">Rp ${Number(price).toLocaleString('id-ID')}</div>
-            </div>
-            <div>
-              <button class="btn-buy" onclick="buyNow(${id})">Beli Langsung</button>
-              <button class="btn-add-cart" onclick="addToCart(${id})">+ 🛒 Keranjang</button>
-            </div>
-            ${adminButtonsHTML}
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    // --- KERANJANG BELANJA & KONTROL PESANAN ---
-    function addToCart(productId) {
-      const product = allProducts.find(p => (p.id_produk || p.id) == productId);
-      if (!product) return;
-
-      const id = product.id_produk || product.id;
-      const name = product.nama_produk || product.name;
-      const price = Number(product.harga || product.price);
-      const image = product.gambar || product.image;
-
-      const existingItem = cart.find(item => item.id == id);
-      if (existingItem) {
-        existingItem.qty += 1;
-      } else {
-        cart.push({ id, name, price, image, qty: 1 });
-      }
-
-      saveCart();
-      alert(`${name} telah ditambahkan ke keranjang!`);
-    }
-
-    function buyNow(productId) {
-      addToCart(productId);
-      openCartModal();
-    }
-
-    function updateCartQty(productId, change) {
-      const item = cart.find(i => i.id == productId);
-      if (!item) return;
-
-      item.qty += change;
-      if (item.qty <= 0) cart = cart.filter(i => i.id != productId);
-      saveCart();
-      renderCartItems();
-    }
-
-    function saveCart() {
-      localStorage.setItem('blueshop_cart', JSON.stringify(cart));
-      updateBadges();
-    }
-
-    function updateBadges() {
-      document.getElementById('cartBadge').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
-      document.getElementById('orderBadge').innerText = orders.length;
-    }
-
-    function openCartModal() {
-      renderCartItems();
-      document.getElementById('cartModal').style.display = 'flex';
-    }
-    function closeCartModal() { document.getElementById('cartModal').style.display = 'none'; }
-
-    function renderCartItems() {
-      const container = document.getElementById('cartItemsContainer');
-      const btnCheckout = document.getElementById('btnCheckout');
-      container.innerHTML = '';
-
-      if (cart.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #888;">Keranjang belanja kamu masih kosong.</p>';
-        document.getElementById('cartTotalPrice').innerText = 'Rp 0';
-        btnCheckout.style.display = 'none';
-        return;
-      }
-
-      btnCheckout.style.display = 'block';
-      let totalPrice = 0;
-
-      cart.forEach(item => {
-        totalPrice += item.price * item.qty;
-        const div = document.createElement('div');
-        div.className = 'cart-item';
-        div.innerHTML = `
-          <div class="cart-info">
-            <div class="cart-title">${item.name}</div>
-            <div class="cart-price">Rp ${Number(item.price).toLocaleString('id-ID')}</div>
-          </div>
-          <div class="cart-controls">
-            <button onclick="updateCartQty(${item.id}, -1)">-</button>
-            <span style="font-size: 13px; font-weight: bold;">${item.qty}</span>
-            <button onclick="updateCartQty(${item.id}, 1)">+</button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-
-      document.getElementById('cartTotalPrice').innerText = `Rp ${totalPrice.toLocaleString('id-ID')}`;
-    }
-
-    function checkout() {
-      if (cart.length === 0) return;
-      const newOrder = {
-        id: 'ORD-' + Date.now().toString().slice(-6),
-        date: new Date().toLocaleDateString('id-ID'),
-        items: [...cart],
-        total: cart.reduce((sum, i) => sum + (i.price * i.qty), 0),
-        status: 'Diproses'
+      // Format data session pengguna
+      const userSession = {
+        id: data.id,
+        name: data.nama || data.name || data.username || 'User',
+        email: data.email,
+        role: (data.role || 'user').toLowerCase()
       };
-      orders.unshift(newOrder);
-      localStorage.setItem('blueshop_orders', JSON.stringify(orders));
-      cart = [];
-      saveCart();
-      closeCartModal();
-      openOrdersModal();
-      alert(`Pesanan #${newOrder.id} berhasil dibuat!`);
-    }
 
-    function openOrdersModal() {
-      renderOrdersList();
-      document.getElementById('ordersModal').style.display = 'flex';
-    }
-    function closeOrdersModal() { document.getElementById('ordersModal').style.display = 'none'; }
+      // Simpan session ke LocalStorage
+      localStorage.setItem('user', JSON.stringify(userSession));
 
-    function renderOrdersList() {
-      const container = document.getElementById('ordersContainer');
-      container.innerHTML = '';
-      if (orders.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #888;">Belum ada pesanan.</p>';
-        return;
-      }
-      orders.forEach(order => {
-        const itemNames = order.items.map(i => `${i.name} (${i.qty}x)`).join(', ');
-        const div = document.createElement('div');
-        div.className = 'order-card';
-        div.style.flexDirection = 'column';
-        div.style.alignItems = 'flex-start';
-        div.innerHTML = `
-          <div style="display: flex; justify-content: space-between; width: 100%;">
-            <strong style="font-size: 13px; color: #2563eb;">Pesanan #${order.id}</strong>
-            <span style="font-size: 11px; color: #666;">${order.date}</span>
-          </div>
-          <div style="font-size: 12px; margin: 4px 0;"><b>Produk:</b> ${itemNames}</div>
-          <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-            <span style="color: #dc2626; font-weight: bold; font-size: 13px;">Total: Rp ${Number(order.total).toLocaleString('id-ID')}</span>
-            <span class="order-status">${order.status}</span>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
+      alert(`Selamat datang, ${userSession.name}!`);
 
-    // --- KONTROL ADMIN (Hanya dapat diakses jika isAdmin === true) ---
-    function openProductModal(isEdit = false) {
-      if (!isAdmin) return;
-      document.getElementById('productModal').style.display = 'flex';
-      document.getElementById('productModalTitle').innerText = isEdit ? 'Edit Produk' : 'Tambah Produk Baru';
-      if (!isEdit) {
-        document.getElementById('productId').value = '';
-        document.getElementById('productName').value = '';
-        document.getElementById('productPrice').value = '';
-        document.getElementById('productImage').value = '';
-      }
-    }
-    function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
-
-    async function saveProduct() {
-      if (!isAdmin) return;
-      const id = document.getElementById('productId').value;
-      const nama_produk = document.getElementById('productName').value.trim();
-      const harga = Number(document.getElementById('productPrice').value);
-      const gambar = document.getElementById('productImage').value.trim();
-
-      if (id) {
-        await _supabase.from('produk').update({ nama_produk, harga, gambar }).eq('id_produk', id);
-      } else {
-        await _supabase.from('produk').insert([{ nama_produk, harga, gambar, stok: 100 }]);
-      }
-      closeProductModal();
-      fetchProducts();
-    }
-
-    function editProduct(id) {
-      if (!isAdmin) return;
-      const p = allProducts.find(item => (item.id_produk || item.id) == id);
-      if (p) {
-        document.getElementById('productId').value = p.id_produk || p.id;
-        document.getElementById('productName').value = p.nama_produk || p.name;
-        document.getElementById('productPrice').value = p.harga || p.price;
-        document.getElementById('productImage').value = p.gambar || p.image;
-        openProductModal(true);
-      }
-    }
-
-    async function deleteProduct(id) {
-      if (!isAdmin) return;
-      if (confirm('Yakin ingin menghapus produk ini?')) {
-        await _supabase.from('produk').delete().eq('id_produk', id);
-        fetchProducts();
-      }
-    }
-
-    function filterProducts() {
-      const keyword = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = allProducts.filter(p => (p.nama_produk || p.name || '').toLowerCase().includes(keyword));
-      renderProducts(filtered);
+      // Arahkan SELURUH pengguna (Admin maupun User biasa) ke toko.html
+      window.location.href = 'toko.html';
     }
   </script>
 </body>
