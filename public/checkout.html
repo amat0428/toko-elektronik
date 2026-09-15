@@ -1,34 +1,84 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout - Toko Elektronik</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header>
-    <h1>Toko Elektronik</h1>
-  </header>
+const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxMjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  <main>
-    <h2>Form Checkout</h2>
-    <div id="checkout-summary"></div>
-    <form id="checkout-form" class="form-card">
-      <label>Nama Lengkap</label>
-      <input type="text" id="name" required placeholder="Masukkan nama kamu">
+// Ambil keranjang lokal
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-      <label>Nomor HP/WhatsApp</label>
-      <input type="tel" id="phone" required placeholder="08123456789">
+document.addEventListener('DOMContentLoaded', () => {
+  // Filter barang yang dicentang/dipilih saja
+  const selectedItems = cart.filter(item => item.selected !== false);
+  const totalPrice = selectedItems.reduce((sum, item) => sum + ((item.price || 0) * (item.qty || 1)), 0);
 
-      <label>Alamat Pengiriman</label>
-      <textarea id="address" required placeholder="Alamat lengkap lokasi pengiriman"></textarea>
+  // Tampilkan total harga
+  const checkoutTotalEl = document.getElementById('checkoutTotal');
+  if (checkoutTotalEl) {
+    checkoutTotalEl.innerText = 'Rp ' + Number(totalPrice).toLocaleString('id-ID');
+  }
 
-      <button type="submit" class="btn btn-primary">Konfirmasi & Bayar</button>
-    </form>
-  </main>
+  // Isi nama otomatis dari session user jika ada
+  const userData = localStorage.getItem('user');
+  if (userData) {
+    const currentUser = JSON.parse(userData);
+    if (currentUser.name && document.getElementById('namaLengkap')) {
+      document.getElementById('namaLengkap').value = currentUser.name;
+    }
+  }
 
-  <script src="js/app.js"></script>
-  <script src="js/checkout.js"></script>
-</body>
-</html>
+  // Handle Event Submit
+  const checkoutForm = document.getElementById('checkoutForm');
+  if (checkoutForm) {
+    checkoutForm.addEventListener('submit', async (e) => {
+      e.preventDefault(); // MENCEGAH REFRESH HALAMAN
+
+      if (selectedItems.length === 0) {
+        alert('Keranjang Anda kosong atau belum ada produk yang dipilih!');
+        window.location.href = 'cart.html';
+        return;
+      }
+
+      const nama = document.getElementById('namaLengkap').value.trim();
+      const nohp = document.getElementById('nomorHp').value.trim();
+      const alamat = document.getElementById('alamatPengiriman').value.trim();
+      const btnBayar = document.getElementById('btnBayar');
+
+      const userData = localStorage.getItem('user');
+      const currentUser = userData ? JSON.parse(userData) : { id: 'GUEST', name: nama };
+
+      try {
+        btnBayar.disabled = true;
+        btnBayar.innerText = 'Memproses Pesanan...';
+
+        // Kirim Ke Supabase
+        const { data, error } = await _supabase.from('orders').insert([
+          {
+            user_id: String(currentUser.id || 'GUEST'),
+            user_name: nama,
+            nomor_hp: nohp,
+            alamat: alamat,
+            total_harga: totalPrice,
+            items: selectedItems,
+            status: 'Menunggu Konfirmasi'
+          }
+        ]).select();
+
+        if (error) {
+          console.error("Supabase Error:", error);
+          throw error;
+        }
+
+        // Hapus item yang sudah di-checkout dari localStorage
+        cart = cart.filter(item => item.selected === false);
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        alert('Pesanan berhasil dibuat!');
+        window.location.href = 'orders.html';
+
+      } catch (err) {
+        alert('Gagal memproses pesanan: ' + (err.message || JSON.stringify(err)));
+        btnBayar.disabled = false;
+        btnBayar.innerText = 'Konfirmasi & Bayar';
+      }
+    });
+  }
+});
