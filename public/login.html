@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Masuk & Daftar</title>
+    <title>Halaman Masuk & Daftar - BlueShop</title>
     <!-- Google Fonts & Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Supabase JS Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         * {
@@ -271,15 +274,15 @@
 
             <!-- FORM LOGIN -->
             <div id="loginFormContainer" class="form-container active">
-                <div class="form-title">Selamat Datang!</div>
-                <div class="form-subtitle">Silakan masuk ke akun Anda</div>
+                <div class="form-title">BlueShop</div>
+                <div class="form-subtitle">Belanja elektronik lebih mudah</div>
 
                 <form id="loginForm" onsubmit="handleLogin(event)">
                     <div class="input-group">
-                        <label for="loginEmail">Email / Username</label>
+                        <label for="loginEmail">Email</label>
                         <div class="input-wrapper">
                             <i class="fa-solid fa-envelope input-icon"></i>
-                            <input type="text" id="loginEmail" placeholder="nama@email.com" required>
+                            <input type="email" id="loginEmail" placeholder="nama@email.com" required>
                         </div>
                     </div>
 
@@ -296,7 +299,7 @@
                         <label class="remember-me">
                             <input type="checkbox" id="rememberMe"> Ingat saya
                         </label>
-                        <a href="#" class="forgot-pass" onclick="alert('Fitur reset password dapat disesuaikan dengan backend Anda.')">Lupa sandi?</a>
+                        <a href="#" class="forgot-pass" onclick="alert('Lupa password dapat dikonfigurasi lewat Supabase Auth.')">Lupa sandi?</a>
                     </div>
 
                     <button type="submit" id="btnLogin" class="submit-btn">Masuk</button>
@@ -343,7 +346,18 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        // Fungsi Pergantian Tab (Login / Register)
+        // =====================================================
+        // KONFIGURASI SUPABASE (Path URL tanpa /rest/v1/)
+        // =====================================================
+        const SUPABASE_URL = "https://fbnknrltrsvydyxgujr.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
+
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const TABLE_NAME = "users_list"; // Ganti dengan nama tabel database kamu jika berbeda
+
+        // =====================================================
+        // UTILS & HELPER
+        // =====================================================
         function switchTab(tab) {
             const loginContainer = document.getElementById('loginFormContainer');
             const registerContainer = document.getElementById('registerFormContainer');
@@ -364,7 +378,6 @@
             }
         }
 
-        // Toggle Tampilkan / Sembunyikan Password
         function togglePasswordVisibility(inputId, icon) {
             const input = document.getElementById(inputId);
             if (input.type === 'password') {
@@ -378,7 +391,6 @@
             }
         }
 
-        // Menampilkan Pesan Notifikasi
         function showAlert(message, type = 'error') {
             const alertBox = document.getElementById('alertBox');
             alertBox.innerText = message;
@@ -390,43 +402,64 @@
             alertBox.style.display = 'none';
         }
 
-        // Penanganan Submit Form Login
-        function handleLogin(event) {
+        // =====================================================
+        // PROSES LOGIN & REDIRECT KE TOKO
+        // =====================================================
+        async function handleLogin(event) {
             event.preventDefault();
             hideAlert();
 
-            const email = document.getElementById('loginEmail').value.trim();
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
             const password = document.getElementById('loginPassword').value;
             const btn = document.getElementById('btnLogin');
 
             btn.disabled = true;
-            btn.innerText = 'Memproses...';
+            btn.innerText = 'Memeriksa...';
 
-            setTimeout(() => {
-                if (email === "" || password === "") {
-                    showAlert("Harap isi semua bidang!");
-                    btn.disabled = false;
-                    btn.innerText = 'Masuk';
+            try {
+                // Mencari akun pengguna berdasarkan username/email dan password di tabel Supabase
+                const { data: user, error } = await _supabase
+                    .from(TABLE_NAME)
+                    .select('*')
+                    .eq('username', email)
+                    .eq('password', password)
+                    .maybeSingle();
+
+                if (error) throw error;
+
+                if (!user) {
+                    showAlert("Email atau password salah!");
                     return;
                 }
 
-                showAlert("Login berhasil! Mengalihkan...", "success");
-                
-                // Tambahkan aksi pengalihan halaman atau koneksi backend di sini
+                showAlert("Login berhasil! Mengalihkan ke toko...", "success");
+
+                // Simpan data login singkat ke LocalStorage
+                localStorage.setItem("user_session", JSON.stringify(user));
+
+                // Pengalihan otomatis ke halaman toko.html setelah 1.2 detik
                 setTimeout(() => {
-                    btn.disabled = false;
-                    btn.innerText = 'Masuk';
-                }, 1500);
-            }, 1000);
+                    window.location.href = "toko.html";
+                }, 1200);
+
+            } catch (err) {
+                console.error("Login Error:", err);
+                showAlert(err.message || "Gagal Login: Terjadi kesalahan server.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Masuk';
+            }
         }
 
-        // Penanganan Submit Form Register
-        function handleRegister(event) {
+        // =====================================================
+        // PROSES REGISTER
+        // =====================================================
+        async function handleRegister(event) {
             event.preventDefault();
             hideAlert();
 
             const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
             const password = document.getElementById('regPassword').value;
             const btn = document.getElementById('btnRegister');
 
@@ -438,16 +471,47 @@
             btn.disabled = true;
             btn.innerText = 'Mendaftarkan...';
 
-            setTimeout(() => {
+            try {
+                // Cek ketersediaan email
+                const { data: existingUser, error: checkError } = await _supabase
+                    .from(TABLE_NAME)
+                    .select('id')
+                    .eq('username', email)
+                    .maybeSingle();
+
+                if (checkError) throw checkError;
+
+                if (existingUser) {
+                    showAlert("Email sudah terdaftar. Silakan langsung masuk!");
+                    return;
+                }
+
+                // Masukkan user baru ke database
+                const { error: insertError } = await _supabase
+                    .from(TABLE_NAME)
+                    .insert([{
+                        name: name,
+                        username: email,
+                        password: password,
+                        role: "user"
+                    }]);
+
+                if (insertError) throw insertError;
+
                 showAlert("Pendaftaran berhasil! Silakan masuk.", "success");
 
                 setTimeout(() => {
                     switchTab('login');
                     document.getElementById('loginEmail').value = email;
-                    btn.disabled = false;
-                    btn.innerText = 'Daftar Sekarang';
                 }, 1500);
-            }, 1000);
+
+            } catch (err) {
+                console.error("Register Error:", err);
+                showAlert(err.message || "Gagal mendaftar. Coba lagi.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Daftar Sekarang';
+            }
         }
     </script>
 </body>
