@@ -3,95 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Riwayat Pesanan - BlueShop</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #f4f6f9; padding: 20px; }
-    .container { max-width: 800px; margin: 0 auto; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; }
-    .btn-back { background: #64748b; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px; }
-    .order-card { border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
-    .order-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #cbd5e1; padding-bottom: 10px; margin-bottom: 10px; font-size: 14px; color: #475569; }
-    .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; background: #fef08a; color: #854d0e; }
-    .order-item { font-size: 14px; margin-bottom: 6px; color: #1e293b; }
-    .order-total { text-align: right; font-weight: bold; font-size: 16px; color: #2563eb; margin-top: 10px; }
-    .empty-orders { text-align: center; color: #64748b; padding: 40px 0; }
-  </style>
+  <title>Checkout - Toko Elektronik</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <header>
+    <h1>Toko Elektronik</h1>
+  </header>
 
-  <div class="container">
-    <div class="header">
-      <h2>Riwayat Pesanan</h2>
-      <a href="index.html" class="btn-back">← Kembali ke Toko</a>
-    </div>
+  <main>
+    <h2>Form Checkout</h2>
+    <div id="checkout-summary"></div>
+    <form id="checkout-form" class="form-card">
+      <label>Nama Lengkap</label>
+      <input type="text" id="name" required placeholder="Masukkan nama kamu">
 
-    <div id="ordersList">Loading pesanan...</div>
-  </div>
+      <label>Nomor HP/WhatsApp</label>
+      <input type="tel" id="phone" required placeholder="08123456789">
 
-  <script>
-    const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      <label>Alamat Pengiriman</label>
+      <textarea id="address" required placeholder="Alamat lengkap lokasi pengiriman"></textarea>
 
-    const currentUser = JSON.parse(localStorage.getItem('user'));
+      <button type="submit" class="btn btn-primary">Konfirmasi & Bayar</button>
+    </form>
+  </main>
 
-    async function loadOrders() {
-      const container = document.getElementById('ordersList');
-
-      if (!currentUser) {
-        container.innerHTML = '<div class="empty-orders">Silakan login untuk melihat riwayat pesanan.</div>';
-        return;
-      }
-
-      const { data: orders, error } = await _supabase
-        .from('orders')
-        .select('*')
-        .eq('user_id', currentUser.id)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        container.innerHTML = `<div class="empty-orders">Gagal memuat pesanan: ${error.message}</div>`;
-        return;
-      }
-
-      if (!orders || orders.length === 0) {
-        container.innerHTML = '<div class="empty-orders">Belum ada pesanan yang dibuat.</div>';
-        return;
-      }
-
-      let html = '';
-      orders.forEach(order => {
-        let itemsList = [];
-        try {
-          itemsList = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
-        } catch(e) {}
-
-        const itemsHtml = Array.isArray(itemsList) ? itemsList.map(i => `
-          <div class="order-item">• ${i.nama_produk} (${i.qty}x) - Rp ${Number(i.harga * i.qty).toLocaleString('id-ID')}</div>
-        `).join('') : '<div class="order-item">Detail pesanan tidak tersedia</div>';
-
-        const date = new Date(order.created_at).toLocaleDateString('id-ID', {
-          day: 'numeric', month: 'long', year: 'numeric'
-        });
-
-        html += `
-          <div class="order-card">
-            <div class="order-header">
-              <span>Tanggal: ${date}</span>
-              <span class="badge">${order.status || 'Diproses'}</span>
-            </div>
-            ${itemsHtml}
-            <div class="order-total">Total: Rp ${Number(order.total_harga).toLocaleString('id-ID')}</div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-
-    loadOrders();
-  </script>
+  <script src="js/app.js"></script>
+  <script src="js/checkout.js"></script>
 </body>
 </html>
