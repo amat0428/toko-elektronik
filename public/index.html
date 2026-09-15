@@ -10,30 +10,31 @@
     body { background-color: #f4f6f9; color: #333; }
     header { background-color: #2563eb; padding: 12px 5%; color: white; position: sticky; top: 0; z-index: 900; }
     .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
-    .logo { font-size: 22px; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .logo { font-size: 22px; font-weight: bold; cursor: pointer; }
     .search-box { flex: 1; max-width: 350px; }
     .search-box input { width: 100%; padding: 8px 15px; border-radius: 6px; border: none; outline: none; }
     .nav-links { display: flex; gap: 12px; align-items: center; font-size: 14px; }
-    .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; position: relative; }
+    .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; position: relative; }
     .badge-count { background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; font-weight: bold; }
     .role-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; }
     .btn-logout { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; }
     
     .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
-    .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 30px; margin-bottom: 25px; }
-    .hero-badge { background: #facc15; color: #000; font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 4px; }
-    .hero-title { font-size: 28px; margin: 10px 0 5px 0; font-weight: 800; }
+    .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; }
     .section-title { font-size: 16px; font-weight: bold; color: #1e293b; border-bottom: 2px solid #2563eb; display: inline-block; padding-bottom: 4px; }
     
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-    .product-card { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+    .product-card { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; padding-bottom: 10px; }
     .product-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
     .product-details { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
     .product-name { font-size: 14px; font-weight: bold; margin-bottom: 6px; }
-    .product-price { color: #dc2626; font-size: 15px; font-weight: bold; margin-bottom: 10px; }
-    .btn-buy { background: #2563eb; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 5px; }
-    .btn-add-cart { background: #f59e0b; color: white; border: none; padding: 6px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
+    .product-price { color: #dc2626; font-size: 15px; font-weight: bold; margin-bottom: 8px; }
+    .product-rating { color: #f59e0b; font-size: 13px; font-weight: bold; margin-bottom: 10px; }
     
+    .btn-buy { background: #2563eb; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 5px; }
+    .btn-add-cart { background: #f59e0b; color: white; border: none; padding: 6px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; margin-bottom: 5px; }
+    .btn-rate { background: #8b5cf6; color: white; border: none; padding: 6px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
+
     .admin-actions { margin-top: 8px; display: flex; gap: 5px; }
     .btn-edit { background: #10b981; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
     .btn-delete { background: #ef4444; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
@@ -42,18 +43,12 @@
     .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 450px; max-height: 85vh; overflow-y: auto; }
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-size: 12px; margin-bottom: 4px; font-weight: bold; }
-    .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
     .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
     .btn-cancel { background: #64748b; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
     .btn-save { background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-    .cart-item, .order-card { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; gap: 10px; }
-    .cart-info { flex: 1; }
-    .cart-title { font-size: 13px; font-weight: bold; }
-    .cart-price { color: #dc2626; font-size: 12px; }
-    .cart-controls { display: flex; align-items: center; gap: 5px; }
-    .cart-controls button { padding: 2px 8px; background: #ddd; border: none; cursor: pointer; border-radius: 3px; font-weight: bold; }
-    .order-status { font-size: 11px; padding: 3px 6px; border-radius: 4px; font-weight: bold; background: #fef08a; color: #854d0e; display: inline-block; margin-top: 4px;}
+    .cart-item, .order-card { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
   </style>
 </head>
 <body>
@@ -62,7 +57,7 @@
     <div class="nav-container">
       <div class="logo" onclick="fetchProducts()">🛍️ BlueShop</div>
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Cari barang..." oninput="filterProducts()">
+        <input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterProducts()">
       </div>
       <div class="nav-links">
         <button class="btn-nav" onclick="openCartModal()">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></button>
@@ -75,33 +70,33 @@
 
   <div class="container">
     <div class="hero-banner">
-      <span class="hero-badge">SUPER PROMO ELEKTRONIK</span>
-      <h1 class="hero-title">BLUE TECH SALE</h1>
-      <p>Diskon Hingga 90% | Belanja Mudah & Cepat</p>
+      <h2>BLUE TECH SALE</h2>
+      <p>Belanja Produk Elektronik Lengkap & Murah</p>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
       <span class="section-title" id="sectionTitle">DAFTAR PRODUK</span>
+      <!-- Tombol CRUD Tambah Produk Hanya Muncul untuk Admin -->
       <button class="btn-save" id="btnAddProductNav" onclick="openProductModal(false)" style="display: none;">+ Tambah Produk Baru</button>
     </div>
 
     <div class="product-grid" id="productGrid">
-      <p style="grid-column: 1/-1; text-align: center; color: #888;">Memuat produk...</p>
+      <p style="grid-column: 1/-1; text-align: center;">Memuat produk...</p>
     </div>
   </div>
 
-  <!-- Modal Keranjang Belanja -->
+  <!-- Modal Keranjang -->
   <div class="modal" id="cartModal">
     <div class="modal-content">
       <h3>Keranjang Belanja</h3>
-      <div id="cartItemsContainer" style="margin: 15px 0; max-height: 250px; overflow-y: auto;"></div>
-      <div style="border-top: 2px solid #eee; padding-top: 10px; display: flex; justify-content: space-between; font-weight: bold;">
-        <span>Total Harga:</span>
+      <div id="cartItemsContainer" style="margin: 15px 0;"></div>
+      <div style="display: flex; justify-content: space-between; font-weight: bold;">
+        <span>Total:</span>
         <span id="cartTotalPrice" style="color: #dc2626;">Rp 0</span>
       </div>
       <div class="modal-buttons">
         <button class="btn-cancel" onclick="closeCartModal()">Tutup</button>
-        <button class="btn-save" id="btnCheckout" onclick="checkout()" style="background: #10b981; display: none;">Checkout Sekarang</button>
+        <button class="btn-save" id="btnCheckout" onclick="checkout()" style="background: #10b981; display: none;">Checkout</button>
       </div>
     </div>
   </div>
@@ -109,19 +104,45 @@
   <!-- Modal Pesanan -->
   <div class="modal" id="ordersModal">
     <div class="modal-content">
-      <h3>Riwayat Pesanan Saya</h3>
-      <div id="ordersContainer" style="margin: 15px 0; max-height: 280px; overflow-y: auto;"></div>
+      <h3>Riwayat Pesanan</h3>
+      <div id="ordersContainer" style="margin: 15px 0;"></div>
       <div class="modal-buttons">
         <button class="btn-cancel" onclick="closeOrdersModal()">Tutup</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal Form Tambah/Edit Produk -->
+  <!-- Modal Rating & Ulasan (User) -->
+  <div class="modal" id="ratingModal">
+    <div class="modal-content">
+      <h3>Beri Rating & Ulasan</h3>
+      <input type="hidden" id="ratingProductId">
+      <div class="form-group" style="margin-top:10px;">
+        <label>Rating (Bintang)</label>
+        <select id="ratingScore">
+          <option value="5">⭐⭐⭐⭐⭐ (5 - Sangat Bagus)</option>
+          <option value="4">⭐⭐⭐⭐ (4 - Bagus)</option>
+          <option value="3">⭐⭐⭐ (3 - Cukup)</option>
+          <option value="2">⭐⭐ (2 - Kurang)</option>
+          <option value="1">⭐ (1 - Buruk)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Ulasan Anda</label>
+        <textarea id="ratingComment" rows="3" placeholder="Tulis pendapat kamu..."></textarea>
+      </div>
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeRatingModal()">Batal</button>
+        <button class="btn-save" onclick="submitRating()" style="background:#8b5cf6;">Kirim Ulasan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Form CRUD (Admin Only) -->
   <div class="modal" id="productModal">
     <div class="modal-content">
       <h3 id="productModalTitle">Tambah Produk Baru</h3>
-      <form id="productForm" onsubmit="event.preventDefault(); saveProduct();">
+      <form onsubmit="event.preventDefault(); saveProduct();">
         <input type="hidden" id="productId">
         <div class="form-group">
           <label>Nama Produk</label>
@@ -137,7 +158,7 @@
         </div>
         <div class="modal-buttons">
           <button type="button" class="btn-cancel" onclick="closeProductModal()">Batal</button>
-          <button type="submit" class="btn-save" id="btnSaveProduct">Simpan</button>
+          <button type="submit" class="btn-save">Simpan</button>
         </div>
       </form>
     </div>
@@ -151,6 +172,7 @@
     let allProducts = [];
     let cart = JSON.parse(localStorage.getItem('blueshop_cart')) || [];
     let orders = JSON.parse(localStorage.getItem('blueshop_orders')) || [];
+    let ratings = JSON.parse(localStorage.getItem('blueshop_ratings')) || {};
     let currentUser = null;
     let isAdmin = false;
 
@@ -162,21 +184,12 @@
 
     function checkUserRole() {
       const userData = localStorage.getItem('user');
-
-      // TANPA ALERT: Langsung redirect jika user belum ada
       if (!userData) {
         window.location.href = 'login.html';
         return;
       }
 
-      try {
-        currentUser = JSON.parse(userData);
-      } catch (e) {
-        localStorage.removeItem('user');
-        window.location.href = 'login.html';
-        return;
-      }
-
+      currentUser = JSON.parse(userData);
       isAdmin = (currentUser.role || '').toLowerCase() === 'admin';
 
       const badge = document.getElementById('roleBadge');
@@ -184,19 +197,15 @@
       const title = document.getElementById('sectionTitle');
 
       if (isAdmin) {
-        if (badge) {
-          badge.innerText = '🛡️ Admin Aktif';
-          badge.style.background = '#10b981';
-        }
-        if (btnAddNav) btnAddNav.style.display = 'block';
-        if (title) title.innerText = 'DAFTAR PRODUK (KONTROL ADMIN)';
+        badge.innerText = '🛡️ Admin (CRUD Active)';
+        badge.style.background = '#10b981';
+        btnAddNav.style.display = 'block';
+        title.innerText = 'DAFTAR PRODUK (KONTROL ADMIN)';
       } else {
-        if (badge) {
-          badge.innerText = `👤 ${currentUser.name || 'User'}`;
-          badge.style.background = '#0284c7';
-        }
-        if (btnAddNav) btnAddNav.style.display = 'none';
-        if (title) title.innerText = 'DAFTAR PRODUK';
+        badge.innerText = `👤 User: ${currentUser.name || 'User'}`;
+        badge.style.background = '#0284c7';
+        btnAddNav.style.display = 'none';
+        title.innerText = 'DAFTAR PRODUK';
       }
     }
 
@@ -206,11 +215,7 @@
     }
 
     async function fetchProducts() {
-      const { data, error } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
-      if (error) {
-        document.getElementById('productGrid').innerHTML = `<p style="grid-column: 1/-1; color:red; text-align:center;">Gagal memuat produk dari database.</p>`;
-        return;
-      }
+      const { data } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
       allProducts = data || [];
       renderProducts(allProducts);
     }
@@ -219,18 +224,15 @@
       const grid = document.getElementById('productGrid');
       grid.innerHTML = '';
 
-      if (products.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">Belum ada produk yang tersedia.</p>';
-        return;
-      }
-
       products.forEach(p => {
         const id = p.id_produk || p.id;
         const name = p.nama_produk || p.name;
         const price = p.harga || p.price;
         const image = p.gambar || p.image;
+        const currentRating = ratings[id] ? `${ratings[id]} ⭐` : 'Belum Ada Rating';
 
-        const adminButtonsHTML = isAdmin ? `
+        // Fitur CRUD hanya ditampilkan jika Role = Admin
+        const adminActionsHTML = isAdmin ? `
           <div class="admin-actions">
             <button class="btn-edit" onclick="editProduct(${id})">Edit</button>
             <button class="btn-delete" onclick="deleteProduct(${id})">Hapus</button>
@@ -240,56 +242,38 @@
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-          <img src="${image}" class="product-img" alt="${name}" onerror="this.src='https://via.placeholder.com/300?text=Gambar+Tidak+Tersedia'">
+          <img src="${image}" class="product-img" onerror="this.src='https://via.placeholder.com/300?text=Produk'">
           <div class="product-details">
             <div>
               <div class="product-name">${name}</div>
               <div class="product-price">Rp ${Number(price).toLocaleString('id-ID')}</div>
+              <div class="product-rating">⭐ ${currentRating}</div>
             </div>
             <div>
               <button class="btn-buy" onclick="buyNow(${id})">Beli Langsung</button>
-              <button class="btn-add-cart" onclick="addToCart(${id})">+ 🛒 Keranjang</button>
+              <button class="btn-add-cart" onclick="addToCart(${id})">+ Keranjang</button>
+              <button class="btn-rate" onclick="openRatingModal(${id})">⭐ Beri Rating</button>
             </div>
-            ${adminButtonsHTML}
+            ${adminActionsHTML}
           </div>
         `;
         grid.appendChild(card);
       });
     }
 
-    function addToCart(productId) {
-      const product = allProducts.find(p => (p.id_produk || p.id) == productId);
-      if (!product) return;
-
-      const id = product.id_produk || product.id;
-      const name = product.nama_produk || product.name;
-      const price = Number(product.harga || product.price);
-      const image = product.gambar || product.image;
-
-      const existingItem = cart.find(item => item.id == id);
-      if (existingItem) {
-        existingItem.qty += 1;
-      } else {
-        cart.push({ id, name, price, image, qty: 1 });
-      }
-
+    function addToCart(id) {
+      const p = allProducts.find(item => (item.id_produk || item.id) == id);
+      if (!p) return;
+      const existing = cart.find(item => item.id == id);
+      if (existing) existing.qty += 1;
+      else cart.push({ id, name: p.nama_produk || p.name, price: Number(p.harga || p.price), qty: 1 });
       saveCart();
-      alert(`${name} telah ditambahkan ke keranjang!`);
+      alert("Produk ditambahkan ke keranjang!");
     }
 
-    function buyNow(productId) {
-      addToCart(productId);
+    function buyNow(id) {
+      addToCart(id);
       openCartModal();
-    }
-
-    function updateCartQty(productId, change) {
-      const item = cart.find(i => i.id == productId);
-      if (!item) return;
-
-      item.qty += change;
-      if (item.qty <= 0) cart = cart.filter(i => i.id != productId);
-      saveCart();
-      renderCartItems();
     }
 
     function saveCart() {
@@ -298,108 +282,86 @@
     }
 
     function updateBadges() {
-      document.getElementById('cartBadge').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cartBadge').innerText = cart.reduce((sum, i) => sum + i.qty, 0);
       document.getElementById('orderBadge').innerText = orders.length;
     }
 
     function openCartModal() {
-      renderCartItems();
+      renderCart();
       document.getElementById('cartModal').style.display = 'flex';
     }
     function closeCartModal() { document.getElementById('cartModal').style.display = 'none'; }
 
-    function renderCartItems() {
+    function renderCart() {
       const container = document.getElementById('cartItemsContainer');
-      const btnCheckout = document.getElementById('btnCheckout');
       container.innerHTML = '';
+      let total = 0;
 
       if (cart.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #888;">Keranjang belanja kamu masih kosong.</p>';
+        container.innerHTML = '<p style="text-align:center; color:#888;">Keranjang kosong.</p>';
+        document.getElementById('btnCheckout').style.display = 'none';
         document.getElementById('cartTotalPrice').innerText = 'Rp 0';
-        btnCheckout.style.display = 'none';
         return;
       }
 
-      btnCheckout.style.display = 'block';
-      let totalPrice = 0;
-
+      document.getElementById('btnCheckout').style.display = 'block';
       cart.forEach(item => {
-        totalPrice += item.price * item.qty;
-        const div = document.createElement('div');
-        div.className = 'cart-item';
-        div.innerHTML = `
-          <div class="cart-info">
-            <div class="cart-title">${item.name}</div>
-            <div class="cart-price">Rp ${Number(item.price).toLocaleString('id-ID')}</div>
-          </div>
-          <div class="cart-controls">
-            <button onclick="updateCartQty(${item.id}, -1)">-</button>
-            <span style="font-size: 13px; font-weight: bold;">${item.qty}</span>
-            <button onclick="updateCartQty(${item.id}, 1)">+</button>
+        total += item.price * item.qty;
+        container.innerHTML += `
+          <div class="cart-item">
+            <div><b>${item.name}</b><br><small>Rp ${item.price.toLocaleString('id-ID')} x ${item.qty}</small></div>
+            <div><b>Rp ${(item.price * item.qty).toLocaleString('id-ID')}</b></div>
           </div>
         `;
-        container.appendChild(div);
       });
-
-      document.getElementById('cartTotalPrice').innerText = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+      document.getElementById('cartTotalPrice').innerText = `Rp ${total.toLocaleString('id-ID')}`;
     }
 
     function checkout() {
-      if (cart.length === 0) return;
-      const newOrder = {
-        id: 'ORD-' + Date.now().toString().slice(-6),
-        date: new Date().toLocaleDateString('id-ID'),
-        items: [...cart],
-        total: cart.reduce((sum, i) => sum + (i.price * i.qty), 0),
-        status: 'Diproses'
-      };
-      orders.unshift(newOrder);
+      orders.unshift({ id: 'ORD-' + Date.now().toString().slice(-5), total: cart.reduce((s, i) => s + (i.price * i.qty), 0), items: [...cart] });
       localStorage.setItem('blueshop_orders', JSON.stringify(orders));
       cart = [];
       saveCart();
       closeCartModal();
       openOrdersModal();
-      alert(`Pesanan #${newOrder.id} berhasil dibuat!`);
+      alert("Pesanan berhasil dibuat!");
     }
 
     function openOrdersModal() {
-      renderOrdersList();
+      const container = document.getElementById('ordersContainer');
+      container.innerHTML = orders.length === 0 ? '<p style="text-align:center; color:#888;">Belum ada pesanan.</p>' : '';
+      orders.forEach(o => {
+        container.innerHTML += `
+          <div class="order-card">
+            <div><strong>#${o.id}</strong><br><small>${o.items.map(i => i.name).join(', ')}</small></div>
+            <div style="color:#dc2626; font-weight:bold;">Rp ${o.total.toLocaleString('id-ID')}</div>
+          </div>
+        `;
+      });
       document.getElementById('ordersModal').style.display = 'flex';
     }
     function closeOrdersModal() { document.getElementById('ordersModal').style.display = 'none'; }
 
-    function renderOrdersList() {
-      const container = document.getElementById('ordersContainer');
-      container.innerHTML = '';
-      if (orders.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #888;">Belum ada pesanan.</p>';
-        return;
-      }
-      orders.forEach(order => {
-        const itemNames = order.items.map(i => `${i.name} (${i.qty}x)`).join(', ');
-        const div = document.createElement('div');
-        div.className = 'order-card';
-        div.style.flexDirection = 'column';
-        div.style.alignItems = 'flex-start';
-        div.innerHTML = `
-          <div style="display: flex; justify-content: space-between; width: 100%;">
-            <strong style="font-size: 13px; color: #2563eb;">Pesanan #${order.id}</strong>
-            <span style="font-size: 11px; color: #666;">${order.date}</span>
-          </div>
-          <div style="font-size: 12px; margin: 4px 0;"><b>Produk:</b> ${itemNames}</div>
-          <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-            <span style="color: #dc2626; font-weight: bold; font-size: 13px;">Total: Rp ${Number(order.total).toLocaleString('id-ID')}</span>
-            <span class="order-status">${order.status}</span>
-          </div>
-        `;
-        container.appendChild(div);
-      });
+    // RATING FUNCTION
+    function openRatingModal(id) {
+      document.getElementById('ratingProductId').value = id;
+      document.getElementById('ratingModal').style.display = 'flex';
+    }
+    function closeRatingModal() { document.getElementById('ratingModal').style.display = 'none'; }
+
+    function submitRating() {
+      const id = document.getElementById('ratingProductId').value;
+      const score = document.getElementById('ratingScore').value;
+      ratings[id] = score;
+      localStorage.setItem('blueshop_ratings', JSON.stringify(ratings));
+      alert("Terima kasih atas rating & ulasan Anda!");
+      closeRatingModal();
+      fetchProducts();
     }
 
-    function openProductModal(isEdit = false) {
-      if (!isAdmin) return;
+    // CRUD ADMIN FUNCTIONS
+    function openProductModal(isEdit) {
       document.getElementById('productModal').style.display = 'flex';
-      document.getElementById('productModalTitle').innerText = isEdit ? 'Edit Produk' : 'Tambah Produk Baru';
       if (!isEdit) {
         document.getElementById('productId').value = '';
         document.getElementById('productName').value = '';
@@ -410,7 +372,6 @@
     function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
 
     async function saveProduct() {
-      if (!isAdmin) return;
       const id = document.getElementById('productId').value;
       const nama_produk = document.getElementById('productName').value.trim();
       const harga = Number(document.getElementById('productPrice').value);
@@ -426,7 +387,6 @@
     }
 
     function editProduct(id) {
-      if (!isAdmin) return;
       const p = allProducts.find(item => (item.id_produk || item.id) == id);
       if (p) {
         document.getElementById('productId').value = p.id_produk || p.id;
@@ -438,7 +398,6 @@
     }
 
     async function deleteProduct(id) {
-      if (!isAdmin) return;
       if (confirm('Yakin ingin menghapus produk ini?')) {
         await _supabase.from('produk').delete().eq('id_produk', id);
         fetchProducts();
@@ -447,8 +406,7 @@
 
     function filterProducts() {
       const keyword = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = allProducts.filter(p => (p.nama_produk || p.name || '').toLowerCase().includes(keyword));
-      renderProducts(filtered);
+      renderProducts(allProducts.filter(p => (p.nama_produk || p.name || '').toLowerCase().includes(keyword)));
     }
   </script>
 </body>

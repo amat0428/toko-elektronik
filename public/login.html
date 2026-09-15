@@ -3,35 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - BlueShop</title>
+  <title>Login & Register - BlueShop</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
     body { background: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-    .login-card { background: white; padding: 30px; border-radius: 10px; width: 100%; max-width: 380px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .login-title { text-align: center; margin-bottom: 20px; color: #2563eb; font-size: 24px; font-weight: bold; }
+    .auth-card { background: white; padding: 30px; border-radius: 10px; width: 100%; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; }
+    .tab-btn { flex: 1; padding: 10px; background: none; border: none; font-weight: bold; cursor: pointer; color: #64748b; font-size: 15px; }
+    .tab-btn.active { color: #2563eb; border-bottom: 2px solid #2563eb; margin-bottom: -2px; }
     .form-group { margin-bottom: 15px; }
     .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #475569; }
     .form-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 14px; }
-    .btn-login { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-    .btn-login:hover { background: #1d4ed8; }
+    .btn-submit { width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; }
+    .btn-submit:hover { background: #1d4ed8; }
+    .form-container { display: none; }
+    .form-container.active { display: block; }
   </style>
 </head>
 <body>
 
-  <div class="login-card">
-    <div class="login-title">🛍️ BlueShop Login</div>
-    <form onsubmit="handleLogin(event)">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="email" placeholder="Masukkan email..." required>
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="password" placeholder="Masukkan password..." required>
-      </div>
-      <button type="submit" class="btn-login">Masuk</button>
-    </form>
+  <div class="auth-card">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('login')">Masuk</button>
+      <button class="tab-btn" onclick="switchTab('register')">Daftar Akun</button>
+    </div>
+
+    <!-- FORM LOGIN -->
+    <div id="loginForm" class="form-container active">
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="loginEmail" placeholder="contoh@gmail.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="Masukkan password..." required>
+        </div>
+        <button type="submit" class="btn-submit">Masuk</button>
+      </form>
+    </div>
+
+    <!-- FORM REGISTRASI -->
+    <div id="registerForm" class="form-container">
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="regName" placeholder="Masukkan nama..." required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="regEmail" placeholder="contoh@gmail.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="regPassword" placeholder="Buat password..." required>
+        </div>
+        <button type="submit" class="btn-submit" style="background:#10b981;">Daftar Sekarang</button>
+      </form>
+    </div>
   </div>
 
   <script>
@@ -39,24 +69,32 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    function switchTab(type) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
+
+      if (type === 'login') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('loginForm').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('registerForm').classList.add('active');
+      }
+    }
+
     async function handleLogin(event) {
       event.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
 
-      const emailInput = document.getElementById('email').value.trim();
-      const passwordInput = document.getElementById('password').value.trim();
-
-      const { data, error } = await _supabase
-        .from('users')
-        .select('*')
-        .eq('email', emailInput)
-        .single();
+      const { data, error } = await _supabase.from('users').select('*').eq('email', email).single();
 
       if (error || !data) {
-        alert("Email tidak ditemukan!");
+        alert("Email tidak ditemukan! Silakan periksa penulisan email atau daftar akun baru.");
         return;
       }
 
-      if (data.password !== passwordInput) {
+      if (data.password !== password) {
         alert("Password salah!");
         return;
       }
@@ -69,11 +107,33 @@
       };
 
       localStorage.setItem('user', JSON.stringify(userSession));
-
       alert(`Selamat datang, ${userSession.name}!`);
-
-      // Mengarahkan ke root / index.html (mencakup rute Vercel)
       window.location.href = 'index.html';
+    }
+
+    async function handleRegister(event) {
+      event.preventDefault();
+      const nama = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
+
+      // Cek apakah email sudah terdaftar
+      const { data: existingUser } = await _supabase.from('users').select('email').eq('email', email).single();
+      if (existingUser) {
+        alert("Email sudah terdaftar! Silakan login.");
+        return;
+      }
+
+      // Insert user baru dengan role 'user'
+      const { error } = await _supabase.from('users').insert([{ nama, email, password, role: 'user' }]);
+
+      if (error) {
+        alert("Gagal mendaftar: " + error.message);
+      } else {
+        alert("Pendaftaran berhasil! Silakan login dengan akun baru Anda.");
+        switchTab('login');
+        document.getElementById('loginEmail').value = email;
+      }
     }
   </script>
 </body>
