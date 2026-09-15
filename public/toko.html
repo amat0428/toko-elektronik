@@ -741,11 +741,21 @@
 
             grid.innerHTML = '<div class="loading">⏳ Memuat produk...</div>';
 
+            const fallbackTimer = setTimeout(() => {
+                if (!allProducts.length) {
+                    console.warn("Supabase lambat, pakai data fallback.");
+                    allProducts = fallbackProducts;
+                    renderProducts(allProducts);
+                }
+            }, 2000);
+
             try {
                 const { data, error } = await _supabase
                     .from("produk")
                     .select("*")
                     .order("id_produk", { ascending: false });
+
+                clearTimeout(fallbackTimer);
 
                 if (error) {
                     throw error;
@@ -762,6 +772,7 @@
                 renderProducts(allProducts);
 
             } catch (error) {
+                clearTimeout(fallbackTimer);
                 console.error("ERROR FETCH:", error);
                 allProducts = fallbackProducts;
                 renderProducts(allProducts);
