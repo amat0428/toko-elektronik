@@ -1,379 +1,1893 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BlueShop - Toko Utama</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background-color: #f4f6f9; color: #333; }
-    header { background-color: #2563eb; padding: 12px 5%; color: white; position: sticky; top: 0; z-index: 900; }
-    .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
-    .logo { font-size: 22px; font-weight: bold; cursor: pointer; text-decoration: none; color: white; }
-    .search-box { flex: 1; max-width: 350px; }
-    .search-box input { width: 100%; padding: 8px 15px; border-radius: 6px; border: none; outline: none; }
-    .nav-links { display: flex; gap: 10px; align-items: center; font-size: 14px; }
-    .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; cursor: pointer; position: relative; font-size: 13px; }
-    .btn-nav:hover { background: rgba(255,255,255,0.3); }
-    .badge-count { background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; font-weight: bold; }
-    
-    /* Style Tombol Portofolio Paling Depan */
-    .btn-portfolio { background: #8b5cf6; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 13px; transition: background 0.2s; }
-    .btn-portfolio:hover { background: #7c3aed; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    /* Style Badge Profil */
-    .role-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; text-decoration: none; display: inline-block; cursor: pointer; transition: opacity 0.2s; }
-    .role-badge:hover { opacity: 0.9; }
+    <title>BlueShop - Toko Utama</title>
 
-    .btn-logout { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; }
-    
-    .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
-    .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; }
-    .section-title { font-size: 16px; font-weight: bold; color: #1e293b; border-bottom: 2px solid #2563eb; display: inline-block; padding-bottom: 4px; }
-    
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
-    .product-card { background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; padding-bottom: 10px; }
-    .product-img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
-    .product-details { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .product-name { font-size: 14px; font-weight: bold; margin-bottom: 6px; }
-    .product-price { color: #dc2626; font-size: 15px; font-weight: bold; margin-bottom: 8px; }
-    .product-rating { color: #f59e0b; font-size: 13px; font-weight: bold; margin-bottom: 10px; }
-    
-    .btn-buy { background: #2563eb; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 5px; text-decoration: none; display: block; text-align: center; font-size: 13px; }
-    .btn-add-cart { background: #f59e0b; color: white; border: none; padding: 6px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; margin-bottom: 5px; }
-    .btn-rate { background: #8b5cf6; color: white; border: none; padding: 6px; width: 100%; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    .admin-actions { margin-top: 8px; display: flex; gap: 5px; }
-    .btn-edit { background: #10b981; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-    .btn-delete { background: #ef4444; color: white; border: none; padding: 5px; flex: 1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 450px; max-height: 85vh; overflow-y: auto; }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 12px; margin-bottom: 4px; font-weight: bold; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
-    .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
-    .btn-cancel { background: #64748b; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
-    .btn-save { background: #2563eb; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-  </style>
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        header {
+            background-color: #2563eb;
+            padding: 12px 5%;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 350px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 9px 15px;
+            border-radius: 6px;
+            border: none;
+            outline: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-nav {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 7px 11px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            font-size: 13px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-nav:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        /* HOME */
+        .btn-home {
+            background: #1d4ed8;
+        }
+
+        .btn-home:hover {
+            background: #1e40af;
+        }
+
+        /* PORTFOLIO */
+        .btn-portfolio {
+            background: #8b5cf6;
+            color: white;
+            padding: 7px 11px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-portfolio:hover {
+            background: #7c3aed;
+        }
+
+        /* PROFILE */
+        .role-badge {
+            background: #10b981;
+            color: white;
+            padding: 7px 11px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 13px;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+
+        .role-badge:hover {
+            opacity: 0.9;
+        }
+
+        /* BADGE */
+        .badge-count {
+            background: #ef4444;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            font-weight: bold;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* LOGOUT */
+        .btn-logout {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 7px 11px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero-banner {
+            background: linear-gradient(135deg, #1d4ed8, #60a5fa);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(37,99,235,0.15);
+        }
+
+        .hero-banner h2 {
+            margin-bottom: 8px;
+        }
+
+        .hero-banner p {
+            opacity: 0.95;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1e293b;
+            border-bottom: 2px solid #2563eb;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        /* =========================
+           PRODUCT
+        ========================= */
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            transition: 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            background: #eee;
+        }
+
+        .product-details {
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .product-price {
+            color: #dc2626;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .product-rating {
+            color: #f59e0b;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* =========================
+           BUTTON PRODUCT
+        ========================= */
+
+        .btn-buy {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .btn-buy:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-add-cart {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 6px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .btn-add-cart:hover {
+            background: #d97706;
+        }
+
+        .btn-rate {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 6px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .btn-rate:hover {
+            background: #7c3aed;
+        }
+
+        /* =========================
+           ADMIN
+        ========================= */
+
+        .admin-actions {
+            margin-top: 8px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-edit {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 6px;
+            flex: 1;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px;
+            flex: 1;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-edit:hover {
+            background: #059669;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2563eb;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-cancel {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 900px) {
+            .nav-container {
+                flex-wrap: wrap;
+            }
+
+            .search-box {
+                order: 3;
+                width: 100%;
+                max-width: none;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                width: 100%;
+            }
+
+            .nav-links a,
+            .nav-links button {
+                flex: 1;
+                text-align: center;
+            }
+
+            .hero-banner {
+                padding: 22px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-  <header>
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header>
     <div class="nav-container">
-      <a href="index.html" class="logo">🛍️ BlueShop</a>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterProducts()">
-      </div>
-      <div class="nav-links">
-        <!-- 1. PORTOFOLIO (Diletakkan Paling Depan / Urutan Pertama) -->
-        <a href="portfolio.html" class="btn-portfolio">💼 Portofolio</a>
 
-        <!-- 2. PROFIL / BADGE (Urutan Kedua) -->
-        <a href="profile.html" class="role-badge" id="roleBadge" title="Klik untuk lihat profil & registrasi toko">Loading...</a>
+        <!-- LOGO / HOME -->
+        <a href="toko.html" class="logo">
+            🛍️ BlueShop
+        </a>
 
-        <!-- 3. KERANJANG -->
-        <a href="cart.html" class="btn-nav">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></a>
+        <!-- SEARCH -->
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari produk..."
+                oninput="filterProducts()"
+            >
+        </div>
 
-        <!-- 4. PESANAN -->
-        <a href="orders.html" class="btn-nav">📦 Pesanan <span class="badge-count" id="orderBadge" style="background:#0284c7">0</span></a>
+        <!-- NAVIGATION -->
+        <div class="nav-links">
 
-        <!-- 5. LOGOUT -->
-        <button class="btn-logout" id="btnLogout" onclick="logout()">Logout</button>
-      </div>
+            <!-- HOME -->
+            <a href="toko.html" class="btn-nav btn-home">
+                🏠 Home
+            </a>
+
+            <!-- PROFIL -->
+            <a
+                href="profile.html"
+                class="role-badge"
+                id="roleBadge"
+                title="Lihat Profil"
+            >
+                👤 Profil
+            </a>
+
+            <!-- PORTFOLIO -->
+            <a href="portfolio.html" class="btn-portfolio">
+                💼 Portofolio
+            </a>
+
+            <!-- CART -->
+            <a href="cart.html" class="btn-nav">
+                🛒 Keranjang
+                <span class="badge-count" id="cartBadge">0</span>
+            </a>
+
+            <!-- ORDERS -->
+            <a href="orders.html" class="btn-nav">
+                📦 Pesanan
+                <span
+                    class="badge-count"
+                    id="orderBadge"
+                    style="background:#0284c7"
+                >0</span>
+            </a>
+
+            <!-- LOGOUT -->
+            <button
+                class="btn-logout"
+                id="btnLogout"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
     </div>
-  </header>
+</header>
 
-  <div class="container">
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<div class="container">
+
     <div class="hero-banner">
-      <h2>BLUE TECH STORE</h2>
-      <p>Pusat Belanja Produk Elektronik</p>
+        <h2>BLUE TECH STORE</h2>
+        <p>Pusat Belanja Produk Elektronik</p>
     </div>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-      <span class="section-title" id="sectionTitle">DAFTAR PRODUK</span>
-      <button class="btn-save" id="btnAddProductNav" onclick="openProductModal(false)" style="display: none;">+ Tambah Produk Baru</button>
+    <div class="section-header">
+
+        <span
+            class="section-title"
+            id="sectionTitle"
+        >
+            DAFTAR PRODUK
+        </span>
+
+        <!-- ADMIN ONLY -->
+        <button
+            class="btn-save"
+            id="btnAddProductNav"
+            onclick="openProductModal(false)"
+            style="display:none;"
+        >
+            + Tambah Produk Baru
+        </button>
+
     </div>
 
-    <div class="product-grid" id="productGrid">
-      <p style="grid-column: 1/-1; text-align: center;">Memuat produk...</p>
+    <div
+        class="product-grid"
+        id="productGrid"
+    >
+        <p style="grid-column:1/-1;text-align:center;">
+            Memuat produk...
+        </p>
     </div>
-  </div>
 
-  <!-- Modal Rating -->
-  <div class="modal" id="ratingModal">
+</div>
+
+
+<!-- =====================================================
+     MODAL RATING
+===================================================== -->
+
+<div class="modal" id="ratingModal">
+
     <div class="modal-content">
-      <h3>Beri Rating & Ulasan</h3>
-      <input type="hidden" id="ratingProductId">
-      <div class="form-group" style="margin-top:10px;">
-        <label>Rating (Bintang)</label>
-        <select id="ratingScore">
-          <option value="5">⭐⭐⭐⭐⭐ (5 - Sangat Bagus)</option>
-          <option value="4">⭐⭐⭐⭐ (4 - Bagus)</option>
-          <option value="3">⭐⭐⭐ (3 - Cukup)</option>
-          <option value="2">⭐⭐ (2 - Kurang)</option>
-          <option value="1">⭐ (1 - Buruk)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Ulasan Anda</label>
-        <textarea id="ratingComment" rows="3" placeholder="Tulis pendapat kamu..."></textarea>
-      </div>
-      <div class="modal-buttons">
-        <button class="btn-cancel" onclick="closeRatingModal()">Batal</button>
-        <button class="btn-save" onclick="submitRating()" style="background:#8b5cf6;">Kirim Ulasan</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- Modal Form CRUD Admin -->
-  <div class="modal" id="productModal">
-    <div class="modal-content">
-      <h3 id="productModalTitle">Tambah Produk Baru</h3>
-      <form onsubmit="event.preventDefault(); saveProduct();">
-        <input type="hidden" id="productId">
-        <div class="form-group">
-          <label>Nama Produk</label>
-          <input type="text" id="productName" required>
+        <h3>Beri Rating & Ulasan</h3>
+
+        <input
+            type="hidden"
+            id="ratingProductId"
+        >
+
+        <div
+            class="form-group"
+            style="margin-top:10px;"
+        >
+            <label>Rating (Bintang)</label>
+
+            <select id="ratingScore">
+                <option value="5">
+                    ⭐⭐⭐⭐⭐ (5 - Sangat Bagus)
+                </option>
+
+                <option value="4">
+                    ⭐⭐⭐⭐ (4 - Bagus)
+                </option>
+
+                <option value="3">
+                    ⭐⭐⭐ (3 - Cukup)
+                </option>
+
+                <option value="2">
+                    ⭐⭐ (2 - Kurang)
+                </option>
+
+                <option value="1">
+                    ⭐ (1 - Buruk)
+                </option>
+            </select>
         </div>
+
         <div class="form-group">
-          <label>Harga (Rp)</label>
-          <input type="number" id="productPrice" min="0" required>
+
+            <label>Ulasan Anda</label>
+
+            <textarea
+                id="ratingComment"
+                rows="3"
+                placeholder="Tulis pendapat kamu..."
+            ></textarea>
+
         </div>
-        <div class="form-group">
-          <label>URL Gambar</label>
-          <input type="url" id="productImage" required>
-        </div>
+
         <div class="modal-buttons">
-          <button type="button" class="btn-cancel" onclick="closeProductModal()">Batal</button>
-          <button type="submit" class="btn-save">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
 
-  <script>
-    const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            <button
+                class="btn-cancel"
+                onclick="closeRatingModal()"
+            >
+                Batal
+            </button>
+
+            <button
+                class="btn-save"
+                onclick="submitRating()"
+                style="background:#8b5cf6;"
+            >
+                Kirim Ulasan
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL CRUD PRODUK ADMIN
+===================================================== -->
+
+<div class="modal" id="productModal">
+
+    <div class="modal-content">
+
+        <h3 id="productModalTitle">
+            Tambah Produk Baru
+        </h3>
+
+        <form onsubmit="event.preventDefault(); saveProduct();">
+
+            <input
+                type="hidden"
+                id="productId"
+            >
+
+            <div class="form-group">
+
+                <label>Nama Produk</label>
+
+                <input
+                    type="text"
+                    id="productName"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Harga (Rp)</label>
+
+                <input
+                    type="number"
+                    id="productPrice"
+                    min="0"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>URL Gambar</label>
+
+                <input
+                    type="url"
+                    id="productImage"
+                    required
+                >
+
+            </div>
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    class="btn-cancel"
+                    onclick="closeProductModal()"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn-save"
+                >
+                    Simpan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       SUPABASE
+    ===================================================== */
+
+    const SUPABASE_URL =
+        'https://fbnknnrltrsvydyxgujr.supabase.co';
+
+    const SUPABASE_KEY =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+
+    const _supabase =
+        supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    /* =====================================================
+       GLOBAL
+    ===================================================== */
 
     let allProducts = [];
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let ratings = JSON.parse(localStorage.getItem('blueshop_ratings')) || {};
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem('cart')
+        ) || [];
+
+    let ratings =
+        JSON.parse(
+            localStorage.getItem('blueshop_ratings')
+        ) || {};
+
     let currentUser = null;
+
     let isAdmin = false;
 
-    document.addEventListener('DOMContentLoaded', () => {
-      checkUserRole();
-      fetchProducts();
-      updateBadges();
-    });
+
+    /* =====================================================
+       LOAD
+    ===================================================== */
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        async () => {
+
+            checkUserRole();
+
+            await fetchProducts();
+
+            updateBadges();
+
+        }
+    );
+
+
+    /* =====================================================
+       CHECK USER
+    ===================================================== */
 
     function checkUserRole() {
-      const userData = localStorage.getItem('user');
-      const badge = document.getElementById('roleBadge');
-      const btnAddNav = document.getElementById('btnAddProductNav');
-      const title = document.getElementById('sectionTitle');
-      const btnLogout = document.getElementById('btnLogout');
 
-      if (!userData) {
-        badge.innerText = '👤 Masuk / Profil';
-        badge.style.background = '#64748b';
-        badge.href = 'profile.html';
-        btnAddNav.style.display = 'none';
-        title.innerText = 'DAFTAR PRODUK';
-        if (btnLogout) btnLogout.innerText = 'Login';
-        return;
-      }
+        const userData =
+            localStorage.getItem('user');
 
-      currentUser = JSON.parse(userData);
-      isAdmin = (currentUser.role || '').toLowerCase() === 'admin';
+        const badge =
+            document.getElementById('roleBadge');
 
-      if (isAdmin) {
-        badge.innerText = '🛡️ Admin (Profil)';
-        badge.style.background = '#10b981';
-        btnAddNav.style.display = 'block';
-        title.innerText = 'DAFTAR PRODUK (KONTROL ADMIN)';
-      } else {
-        badge.innerText = `👤 ${currentUser.name || currentUser.nama || 'User'}`;
-        badge.style.background = '#0284c7';
-        btnAddNav.style.display = 'none';
-        title.innerText = 'DAFTAR PRODUK';
-      }
-      badge.href = 'profile.html';
+        const btnAddNav =
+            document.getElementById('btnAddProductNav');
+
+        const title =
+            document.getElementById('sectionTitle');
+
+        const btnLogout =
+            document.getElementById('btnLogout');
+
+
+        /*
+         * Jika belum login:
+         * jangan biarkan masuk toko.
+         */
+
+        if (!userData) {
+
+            window.location.href =
+                'login.html';
+
+            return;
+
+        }
+
+
+        try {
+
+            currentUser =
+                JSON.parse(userData);
+
+        } catch (error) {
+
+            console.error(
+                'Data user tidak valid:',
+                error
+            );
+
+            localStorage.removeItem('user');
+
+            window.location.href =
+                'login.html';
+
+            return;
+        }
+
+
+        const role =
+            String(
+                currentUser.role || ''
+            ).toLowerCase();
+
+
+        isAdmin =
+            role === 'admin';
+
+
+        /* =========================
+           ADMIN
+        ========================= */
+
+        if (isAdmin) {
+
+            badge.innerText =
+                '🛡️ Admin';
+
+            badge.style.background =
+                '#10b981';
+
+            btnAddNav.style.display =
+                'block';
+
+            title.innerText =
+                'DAFTAR PRODUK (KONTROL ADMIN)';
+
+        }
+
+        /* =========================
+           USER
+        ========================= */
+
+        else {
+
+            badge.innerText =
+                '👤 ' +
+                (
+                    currentUser.name ||
+                    currentUser.nama ||
+                    currentUser.full_name ||
+                    'User'
+                );
+
+            badge.style.background =
+                '#0284c7';
+
+            btnAddNav.style.display =
+                'none';
+
+            title.innerText =
+                'DAFTAR PRODUK';
+
+        }
+
+        badge.href =
+            'profile.html';
+
+        btnLogout.innerText =
+            'Logout';
     }
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
 
     function logout() {
-      localStorage.removeItem('user');
-      window.location.href = 'login.html';
+
+        const yakin =
+            confirm(
+                'Apakah kamu yakin ingin logout?'
+            );
+
+        if (!yakin) {
+            return;
+        }
+
+        localStorage.removeItem('user');
+
+        window.location.href =
+            'login.html';
     }
+
+
+    /* =====================================================
+       FETCH PRODUCTS
+    ===================================================== */
 
     async function fetchProducts() {
-      let { data, error } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
 
-      if (error) {
-        const fallback = await _supabase.from('products').select('*');
-        data = fallback.data;
-      }
+        const grid =
+            document.getElementById('productGrid');
 
-      allProducts = data || [];
-      renderProducts(allProducts);
+        grid.innerHTML =
+            `
+            <p style="
+                grid-column:1/-1;
+                text-align:center;
+            ">
+                Memuat produk...
+            </p>
+            `;
+
+
+        const result =
+            await _supabase
+                .from('produk')
+                .select('*')
+                .order(
+                    'id_produk',
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (result.error) {
+
+            console.error(
+                'Supabase Error:',
+                result.error
+            );
+
+            grid.innerHTML =
+                `
+                <p style="
+                    grid-column:1/-1;
+                    text-align:center;
+                    color:#dc2626;
+                ">
+                    Gagal mengambil data produk.
+                    <br>
+                    ${result.error.message}
+                </p>
+                `;
+
+            return;
+        }
+
+
+        allProducts =
+            result.data || [];
+
+        renderProducts(
+            allProducts
+        );
     }
+
+
+    /* =====================================================
+       RENDER PRODUCTS
+    ===================================================== */
 
     function renderProducts(products) {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = '';
 
-      if (products.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Tidak ada produk tersedia.</p>';
-        return;
-      }
+        const grid =
+            document.getElementById(
+                'productGrid'
+            );
 
-      products.forEach(p => {
-        const id = p.id_produk || p.id;
-        const name = p.nama_produk || p.name;
-        const price = p.harga || p.price;
-        const image = p.gambar || p.image;
-        const currentRating = ratings[id] ? `${ratings[id]} ⭐` : 'Belum Ada Rating';
+        grid.innerHTML = '';
 
-        const adminActionsHTML = isAdmin ? `
-          <div class="admin-actions">
-            <button class="btn-edit" onclick="editProduct(${id})">Edit</button>
-            <button class="btn-delete" onclick="deleteProduct(${id})">Hapus</button>
-          </div>
-        ` : '';
 
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-          <img src="${image}" class="product-img" onerror="this.src='https://via.placeholder.com/300?text=Produk'">
-          <div class="product-details">
-            <div>
-              <div class="product-name">${name}</div>
-              <div class="product-price">Rp ${Number(price).toLocaleString('id-ID')}</div>
-              <div class="product-rating">${ratings[id] ? '⭐ ' : ''}${currentRating}</div>
-            </div>
-            <div>
-              <button class="btn-buy" onclick="buyNow(${id})">Beli Langsung</button>
-              <button class="btn-add-cart" onclick="addToCart(${id})">+ Keranjang</button>
-              <button class="btn-rate" onclick="openRatingModal(${id})">⭐ Beri Rating</button>
-            </div>
-            ${adminActionsHTML}
-          </div>
-        `;
-        grid.appendChild(card);
-      });
+        if (!products.length) {
+
+            grid.innerHTML =
+                `
+                <p style="
+                    grid-column:1/-1;
+                    text-align:center;
+                ">
+                    Tidak ada produk tersedia.
+                </p>
+                `;
+
+            return;
+        }
+
+
+        products.forEach(
+            (p) => {
+
+                const id =
+                    p.id_produk ?? p.id;
+
+                const name =
+                    p.nama_produk ??
+                    p.name ??
+                    'Produk';
+
+                const price =
+                    Number(
+                        p.harga ??
+                        p.price ??
+                        0
+                    );
+
+                const image =
+                    p.gambar ??
+                    p.image ??
+                    '';
+
+
+                const rating =
+                    ratings[id];
+
+
+                const currentRating =
+                    rating
+                        ? `${rating} ⭐`
+                        : 'Belum Ada Rating';
+
+
+                let adminActionsHTML =
+                    '';
+
+
+                if (isAdmin) {
+
+                    adminActionsHTML =
+                        `
+                        <div class="admin-actions">
+
+                            <button
+                                class="btn-edit"
+                                onclick="editProduct('${id}')"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn-delete"
+                                onclick="deleteProduct('${id}')"
+                            >
+                                Hapus
+                            </button>
+
+                        </div>
+                        `;
+                }
+
+
+                const card =
+                    document.createElement(
+                        'div'
+                    );
+
+                card.className =
+                    'product-card';
+
+
+                card.innerHTML =
+                    `
+                    <img
+                        src="${escapeHTML(image)}"
+                        class="product-img"
+                        alt="${escapeHTML(name)}"
+                        onerror="
+                            this.src='https://placehold.co/300x200?text=Produk'
+                        "
+                    >
+
+                    <div class="product-details">
+
+                        <div>
+
+                            <div class="product-name">
+                                ${escapeHTML(name)}
+                            </div>
+
+                            <div class="product-price">
+                                Rp ${price.toLocaleString('id-ID')}
+                            </div>
+
+                            <div class="product-rating">
+                                ${rating ? '⭐ ' : ''}
+                                ${currentRating}
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <button
+                                class="btn-buy"
+                                onclick="buyNow('${id}')"
+                            >
+                                Beli Langsung
+                            </button>
+
+                            <button
+                                class="btn-add-cart"
+                                onclick="addToCart('${id}')"
+                            >
+                                + Keranjang
+                            </button>
+
+                            <button
+                                class="btn-rate"
+                                onclick="openRatingModal('${id}')"
+                            >
+                                ⭐ Beri Rating
+                            </button>
+
+                        </div>
+
+                        ${adminActionsHTML}
+
+                    </div>
+                    `;
+
+
+                grid.appendChild(card);
+
+            }
+        );
     }
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+    function escapeHTML(value) {
+
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+
+    }
+
+
+    /* =====================================================
+       ADD CART
+    ===================================================== */
 
     function addToCart(id) {
-      const p = allProducts.find(item => (item.id_produk || item.id) == id);
-      if (!p) return;
-      
-      const existing = cart.find(item => item.id == id);
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        cart.push({
-          id: id,
-          title: p.nama_produk || p.name,
-          price: Number(p.harga || p.price),
-          image: p.gambar || p.image,
-          qty: 1,
-          selected: true
-        });
-      }
-      saveCart();
-      alert("Produk dimasukkan ke keranjang!");
+
+        const product =
+            allProducts.find(
+                item =>
+                    String(
+                        item.id_produk ??
+                        item.id
+                    ) === String(id)
+            );
+
+
+        if (!product) {
+
+            alert(
+                'Produk tidak ditemukan.'
+            );
+
+            return;
+        }
+
+
+        const productId =
+            product.id_produk ??
+            product.id;
+
+
+        const existing =
+            cart.find(
+                item =>
+                    String(item.id) ===
+                    String(productId)
+            );
+
+
+        if (existing) {
+
+            existing.qty += 1;
+
+        } else {
+
+            cart.push({
+
+                id: productId,
+
+                title:
+                    product.nama_produk ??
+                    product.name ??
+                    'Produk',
+
+                price:
+                    Number(
+                        product.harga ??
+                        product.price ??
+                        0
+                    ),
+
+                image:
+                    product.gambar ??
+                    product.image ??
+                    '',
+
+                qty: 1,
+
+                selected: true
+
+            });
+        }
+
+
+        saveCart();
+
+
+        alert(
+            'Produk berhasil dimasukkan ke keranjang!'
+        );
     }
+
+
+    /* =====================================================
+       BUY NOW
+    ===================================================== */
 
     function buyNow(id) {
-      addToCart(id);
-      window.location.href = 'cart.html';
+
+        addToCart(id);
+
+        window.location.href =
+            'cart.html';
     }
+
+
+    /* =====================================================
+       SAVE CART
+    ===================================================== */
 
     function saveCart() {
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateBadges();
+
+        localStorage.setItem(
+            'cart',
+            JSON.stringify(cart)
+        );
+
+        updateBadges();
     }
+
+
+    /* =====================================================
+       BADGES
+    ===================================================== */
 
     async function updateBadges() {
-      document.getElementById('cartBadge').innerText = cart.reduce((sum, i) => sum + i.qty, 0);
 
-      if (currentUser && currentUser.id) {
-        const { data } = await _supabase.from('orders').select('id').eq('user_id', currentUser.id);
-        if (data) {
-          document.getElementById('orderBadge').innerText = data.length;
+        const cartBadge =
+            document.getElementById(
+                'cartBadge'
+            );
+
+        const orderBadge =
+            document.getElementById(
+                'orderBadge'
+            );
+
+
+        const totalCart =
+            cart.reduce(
+                (sum, item) =>
+                    sum +
+                    Number(item.qty || 0),
+                0
+            );
+
+
+        cartBadge.innerText =
+            totalCart;
+
+
+        orderBadge.innerText =
+            '0';
+
+
+        if (
+            currentUser &&
+            currentUser.id
+        ) {
+
+            const {
+                data,
+                error
+            } =
+                await _supabase
+                    .from('orders')
+                    .select('id')
+                    .eq(
+                        'user_id',
+                        currentUser.id
+                    );
+
+
+            if (!error && data) {
+
+                orderBadge.innerText =
+                    data.length;
+
+            }
         }
-      }
     }
+
+
+    /* =====================================================
+       RATING
+    ===================================================== */
 
     function openRatingModal(id) {
-      document.getElementById('ratingProductId').value = id;
-      document.getElementById('ratingModal').style.display = 'flex';
+
+        document.getElementById(
+            'ratingProductId'
+        ).value = id;
+
+        document.getElementById(
+            'ratingModal'
+        ).style.display = 'flex';
     }
-    function closeRatingModal() { document.getElementById('ratingModal').style.display = 'none'; }
+
+
+    function closeRatingModal() {
+
+        document.getElementById(
+            'ratingModal'
+        ).style.display = 'none';
+
+    }
+
 
     function submitRating() {
-      const id = document.getElementById('ratingProductId').value;
-      const score = document.getElementById('ratingScore').value;
-      ratings[id] = score;
-      localStorage.setItem('blueshop_ratings', JSON.stringify(ratings));
-      alert("Terima kasih atas rating & ulasan Anda!");
-      closeRatingModal();
-      fetchProducts();
+
+        const id =
+            document.getElementById(
+                'ratingProductId'
+            ).value;
+
+        const score =
+            document.getElementById(
+                'ratingScore'
+            ).value;
+
+
+        ratings[id] =
+            score;
+
+
+        localStorage.setItem(
+            'blueshop_ratings',
+            JSON.stringify(ratings)
+        );
+
+
+        alert(
+            'Terima kasih atas rating & ulasan Anda!'
+        );
+
+
+        closeRatingModal();
+
+        renderProducts(
+            allProducts
+        );
     }
+
+
+    /* =====================================================
+       OPEN PRODUCT MODAL
+    ===================================================== */
 
     function openProductModal(isEdit) {
-      document.getElementById('productModal').style.display = 'flex';
-      if (!isEdit) {
-        document.getElementById('productModalTitle').innerText = 'Tambah Produk Baru';
-        document.getElementById('productId').value = '';
-        document.getElementById('productName').value = '';
-        document.getElementById('productPrice').value = '';
-        document.getElementById('productImage').value = '';
-      }
+
+        if (!isAdmin) {
+
+            alert(
+                'Hanya admin yang dapat mengelola produk.'
+            );
+
+            return;
+        }
+
+
+        document.getElementById(
+            'productModal'
+        ).style.display = 'flex';
+
+
+        if (!isEdit) {
+
+            document.getElementById(
+                'productModalTitle'
+            ).innerText =
+                'Tambah Produk Baru';
+
+            document.getElementById(
+                'productId'
+            ).value = '';
+
+            document.getElementById(
+                'productName'
+            ).value = '';
+
+            document.getElementById(
+                'productPrice'
+            ).value = '';
+
+            document.getElementById(
+                'productImage'
+            ).value = '';
+        }
     }
-    function closeProductModal() { document.getElementById('productModal').style.display = 'none'; }
+
+
+    /* =====================================================
+       CLOSE PRODUCT MODAL
+    ===================================================== */
+
+    function closeProductModal() {
+
+        document.getElementById(
+            'productModal'
+        ).style.display = 'none';
+
+    }
+
+
+    /* =====================================================
+       SAVE PRODUCT
+    ===================================================== */
 
     async function saveProduct() {
-      const id = document.getElementById('productId').value;
-      const nama_produk = document.getElementById('productName').value.trim();
-      const harga = Number(document.getElementById('productPrice').value);
-      const gambar = document.getElementById('productImage').value.trim();
 
-      if (id) {
-        await _supabase.from('produk').update({ nama_produk, harga, gambar }).eq('id_produk', id);
-      } else {
-        await _supabase.from('produk').insert([{ nama_produk, harga, gambar, stok: 100 }]);
-      }
-      closeProductModal();
-      fetchProducts();
+        if (!isAdmin) {
+
+            alert(
+                'Akses ditolak. Hanya admin.'
+            );
+
+            return;
+        }
+
+
+        const id =
+            document.getElementById(
+                'productId'
+            ).value;
+
+
+        const nama_produk =
+            document.getElementById(
+                'productName'
+            ).value.trim();
+
+
+        const harga =
+            Number(
+                document.getElementById(
+                    'productPrice'
+                ).value
+            );
+
+
+        const gambar =
+            document.getElementById(
+                'productImage'
+            ).value.trim();
+
+
+        if (!nama_produk) {
+
+            alert(
+                'Nama produk wajib diisi.'
+            );
+
+            return;
+        }
+
+
+        if (
+            !Number.isFinite(harga) ||
+            harga < 0
+        ) {
+
+            alert(
+                'Harga produk tidak valid.'
+            );
+
+            return;
+        }
+
+
+        let result;
+
+
+        /* =========================
+           EDIT
+        ========================= */
+
+        if (id) {
+
+            result =
+                await _supabase
+                    .from('produk')
+                    .update({
+                        nama_produk,
+                        harga,
+                        gambar
+                    })
+                    .eq(
+                        'id_produk',
+                        id
+                    );
+
+        }
+
+        /* =========================
+           TAMBAH
+        ========================= */
+
+        else {
+
+            result =
+                await _supabase
+                    .from('produk')
+                    .insert([
+                        {
+                            nama_produk,
+                            harga,
+                            gambar,
+                            stok: 100
+                        }
+                    ]);
+        }
+
+
+        if (result.error) {
+
+            console.error(
+                result.error
+            );
+
+            alert(
+                'Gagal menyimpan produk:\n' +
+                result.error.message
+            );
+
+            return;
+        }
+
+
+        alert(
+            id
+                ? 'Produk berhasil diperbarui!'
+                : 'Produk berhasil ditambahkan!'
+        );
+
+
+        closeProductModal();
+
+        await fetchProducts();
     }
+
+
+    /* =====================================================
+       EDIT PRODUCT
+    ===================================================== */
 
     function editProduct(id) {
-      const p = allProducts.find(item => (item.id_produk || item.id) == id);
-      if (p) {
-        document.getElementById('productModalTitle').innerText = 'Edit Produk';
-        document.getElementById('productId').value = p.id_produk || p.id;
-        document.getElementById('productName').value = p.nama_produk || p.name;
-        document.getElementById('productPrice').value = p.harga || p.price;
-        document.getElementById('productImage').value = p.gambar || p.image;
+
+        if (!isAdmin) {
+
+            alert(
+                'Hanya admin yang dapat mengedit produk.'
+            );
+
+            return;
+        }
+
+
+        const product =
+            allProducts.find(
+                item =>
+                    String(
+                        item.id_produk ??
+                        item.id
+                    ) === String(id)
+            );
+
+
+        if (!product) {
+
+            alert(
+                'Produk tidak ditemukan.'
+            );
+
+            return;
+        }
+
+
+        document.getElementById(
+            'productModalTitle'
+        ).innerText =
+            'Edit Produk';
+
+
+        document.getElementById(
+            'productId'
+        ).value =
+            product.id_produk ??
+            product.id;
+
+
+        document.getElementById(
+            'productName'
+        ).value =
+            product.nama_produk ??
+            product.name ??
+            '';
+
+
+        document.getElementById(
+            'productPrice'
+        ).value =
+            product.harga ??
+            product.price ??
+            '';
+
+
+        document.getElementById(
+            'productImage'
+        ).value =
+            product.gambar ??
+            product.image ??
+            '';
+
+
         openProductModal(true);
-      }
     }
+
+
+    /* =====================================================
+       DELETE PRODUCT
+    ===================================================== */
 
     async function deleteProduct(id) {
-      if (confirm('Yakin ingin menghapus produk ini?')) {
-        await _supabase.from('produk').delete().eq('id_produk', id);
-        fetchProducts();
-      }
+
+        if (!isAdmin) {
+
+            alert(
+                'Hanya admin yang dapat menghapus produk.'
+            );
+
+            return;
+        }
+
+
+        const yakin =
+            confirm(
+                'Yakin ingin menghapus produk ini?'
+            );
+
+
+        if (!yakin) {
+            return;
+        }
+
+
+        const result =
+            await _supabase
+                .from('produk')
+                .delete()
+                .eq(
+                    'id_produk',
+                    id
+                );
+
+
+        if (result.error) {
+
+            console.error(
+                result.error
+            );
+
+            alert(
+                'Gagal menghapus produk:\n' +
+                result.error.message
+            );
+
+            return;
+        }
+
+
+        alert(
+            'Produk berhasil dihapus!'
+        );
+
+
+        await fetchProducts();
     }
 
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
     function filterProducts() {
-      const keyword = document.getElementById('searchInput').value.toLowerCase();
-      renderProducts(allProducts.filter(p => (p.nama_produk || p.name || '').toLowerCase().includes(keyword)));
+
+        const keyword =
+            document.getElementById(
+                'searchInput'
+            ).value
+            .toLowerCase()
+            .trim();
+
+
+        const filtered =
+            allProducts.filter(
+                product => {
+
+                    const name =
+                        product.nama_produk ??
+                        product.name ??
+                        '';
+
+                    return String(name)
+                        .toLowerCase()
+                        .includes(keyword);
+                }
+            );
+
+
+        renderProducts(
+            filtered
+        );
     }
-  </script>
+
+
+    /* =====================================================
+       CLOSE MODAL WHEN CLICK OUTSIDE
+    ===================================================== */
+
+    window.addEventListener(
+        'click',
+        function(event) {
+
+            const ratingModal =
+                document.getElementById(
+                    'ratingModal'
+                );
+
+            const productModal =
+                document.getElementById(
+                    'productModal'
+                );
+
+
+            if (
+                event.target ===
+                ratingModal
+            ) {
+
+                closeRatingModal();
+
+            }
+
+
+            if (
+                event.target ===
+                productModal
+            ) {
+
+                closeProductModal();
+
+            }
+
+        }
+    );
+
+</script>
+
 </body>
 </html>

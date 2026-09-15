@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio - Ahmad Alvi Fauji</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #0f172a; color: #f8fafc; line-height: 1.6; }
+    
+    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: #1e293b; border-bottom: 1px solid #334155; }
+    .logo { font-size: 20px; font-weight: bold; color: #38bdf8; text-decoration: none; }
+    .btn-enter-store { background: linear-gradient(135deg, #2563eb, #38bdf8); color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px; transition: transform 0.2s; }
+    .btn-enter-store:hover { transform: translateY(-2px); }
+
+    .hero { text-align: center; padding: 80px 20px; max-width: 800px; margin: 0 auto; }
+    .hero h1 { font-size: 40px; margin-bottom: 15px; color: #f8fafc; }
+    .hero p { font-size: 18px; color: #94a3b8; margin-bottom: 30px; }
+    
+    .cta-container { display: flex; justify-content: center; gap: 15px; }
+    .btn-main { background: #2563eb; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; }
+    .btn-secondary { background: #334155; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; }
+
+    .projects { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+    .projects h2 { font-size: 24px; margin-bottom: 20px; color: #38bdf8; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .card { background: #1e293b; padding: 20px; border-radius: 8px; border: 1px solid #334155; }
+    .card h3 { margin-bottom: 10px; color: #f8fafc; }
+    .card p { color: #94a3b8; font-size: 14px; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="portfolio.html" class="logo">👨‍💻 Developer Portfolio</a>
+    <!-- Tombol Masuk ke Toko -->
+    <a href="login.html" class="btn-enter-store">🛒 Masuk ke Toko BlueShop &rarr;</a>
+  </header>
+
+  <section class="hero">
+    <h1>Selamat Datang di Portofolio Saya</h1>
+    <p>Pengembang Web & Rekayasa Perangkat Lunak. Temukan berbagai proyek aplikasi web interaktif dan platform e-commerce yang telah saya kembangkan.</p>
+    <div class="cta-container">
+      <a href="login.html" class="btn-main">Kunjungi Toko Online (Login)</a>
+      <a href="#projects" class="btn-secondary">Lihat Proyek</a>
+    </div>
+  </section>
+
+  <section class="projects" id="projects">
+    <h2>Proyek Unggulan</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>🛍️ BlueShop E-Commerce</h3>
+        <p>Aplikasi toko online berbasis React/JS dan Supabase lengkap dengan sistem cart, checkout, dan fitur manajemen admin.</p>
+        <a href="login.html" style="color: #38bdf8; font-weight: bold; text-decoration: none;">Buka Aplikasi &rarr;</a>
+      </div>
+      <div class="card">
+        <h3>💳 School ID Card 3D</h3>
+        <p>Kartu identitas web interaktif dengan efek 3D Parallax Tilt.js dan desain Glassmorphism.</p>
+      </div>
+      <div class="card">
+        <h3>📊 Workforce Analytics</h3>
+        <p>Sistem analisis absensi dan penggunaan sumber daya menggunakan Python dan Pandas.</p>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
