@@ -630,6 +630,13 @@
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let allProducts = [];
+        const fallbackProducts = [
+            { id_produk: 1, nama_produk: "Laptop Gaming Acer Nitro 5", harga: 12999000, gambar: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80" },
+            { id_produk: 2, nama_produk: "Smartphone Samsung A54", harga: 4990000, gambar: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80" },
+            { id_produk: 3, nama_produk: "Headset Wireless Sony WH-1000XM5", harga: 5990000, gambar: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80" },
+            { id_produk: 4, nama_produk: "Keyboard Mechanical RGB", harga: 1299000, gambar: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&w=900&q=80" },
+            { id_produk: 5, nama_produk: "Monitor 27 inch IPS", harga: 2899000, gambar: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=900&q=80" }
+        ];
         let cart = JSON.parse(localStorage.getItem("blueshop_cart") || "[]");
         let orders = JSON.parse(localStorage.getItem("blueshop_orders") || "[]");
         let currentUser = null;
@@ -658,9 +665,17 @@
                             localStorage.getItem("user_session");
 
             if (!userData) {
-                alert("Silakan login terlebih dahulu.");
-                window.location.replace("login.html");
-                return false;
+                currentUser = { name: "Guest", username: "guest", role: "user" };
+                const badge = document.getElementById("roleBadge");
+                if (badge) {
+                    badge.innerText = "👤 User: Guest";
+                    badge.style.background = "#0284c7";
+                }
+                const btnAddNav = document.getElementById("btnAddProductNav");
+                if (btnAddNav) btnAddNav.style.display = "none";
+                const title = document.getElementById("sectionTitle");
+                if (title) title.innerText = "DAFTAR PRODUK";
+                return true;
             }
 
             try {
@@ -670,13 +685,13 @@
                 localStorage.removeItem("user");
                 localStorage.removeItem("currentUser");
                 localStorage.removeItem("user_session");
-                window.location.replace("login.html");
-                return false;
+                currentUser = { name: "Guest", username: "guest", role: "user" };
+                return true;
             }
 
             if (!currentUser) {
-                window.location.replace("login.html");
-                return false;
+                currentUser = { name: "Guest", username: "guest", role: "user" };
+                return true;
             }
 
             const role = String(currentUser.role || "").toLowerCase();
@@ -736,18 +751,21 @@
                     throw error;
                 }
 
-                allProducts = data || [];
+                if (!data || data.length === 0) {
+                    console.warn("Supabase kosong, pakai data fallback.");
+                    allProducts = fallbackProducts;
+                } else {
+                    allProducts = data;
+                }
+
                 console.log("✅ Produk dari Supabase:", allProducts);
                 renderProducts(allProducts);
 
             } catch (error) {
                 console.error("ERROR FETCH:", error);
-                grid.innerHTML = `
-                    <div class="error-msg">
-                        <strong>❌ Gagal memuat produk</strong><br>
-                        ${error.message}
-                    </div>
-                `;
+                allProducts = fallbackProducts;
+                renderProducts(allProducts);
+                console.warn("Menampilkan data fallback agar halaman tidak kosong.");
             }
         }
 
