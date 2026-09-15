@@ -1,7 +1,7 @@
 <script>
     const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
 
-    const SUPABASE_KEY = 'PASTE_ANON_KEY_KAMU';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
 
     const _supabase = supabase.createClient(
         SUPABASE_URL,
@@ -14,16 +14,19 @@
     /* =========================================
        PINDAH TAB LOGIN / REGISTER
     ========================================= */
-
     function switchTab(type) {
 
         document
             .querySelectorAll('.tab-btn')
-            .forEach(btn => btn.classList.remove('active'));
+            .forEach(btn => {
+                btn.classList.remove('active');
+            });
 
         document
             .querySelectorAll('.form-container')
-            .forEach(form => form.classList.remove('active'));
+            .forEach(form => {
+                form.classList.remove('active');
+            });
 
 
         if (type === 'login') {
@@ -52,7 +55,6 @@
     /* =========================================
        LOGIN
     ========================================= */
-
     async function handleLogin(event) {
 
         event.preventDefault();
@@ -74,6 +76,12 @@
                 .trim();
 
 
+        if (!emailInput || !passwordInput) {
+            alert('Email dan password wajib diisi!');
+            return;
+        }
+
+
         btn.innerText = 'Memeriksa...';
         btn.disabled = true;
 
@@ -81,11 +89,13 @@
         try {
 
             /* Cari user berdasarkan email */
-            const { data, error } =
-                await _supabase
-                    .from(TABLE_NAME)
-                    .select('*')
-                    .ilike('username', emailInput);
+            const {
+                data,
+                error
+            } = await _supabase
+                .from(TABLE_NAME)
+                .select('*')
+                .ilike('username', emailInput);
 
 
             if (error) {
@@ -116,7 +126,9 @@
             }
 
 
-            /* Buat session user */
+            /* =====================================
+               BUAT SESSION USER
+            ===================================== */
             const userSession = {
 
                 id: user.id,
@@ -133,17 +145,23 @@
             };
 
 
-            /* Simpan login */
+            /* =====================================
+               SIMPAN SESSION
+            ===================================== */
             localStorage.setItem(
                 'user',
                 JSON.stringify(userSession)
             );
 
-
-            /* Tandai sudah login */
             localStorage.setItem(
                 'isLoggedIn',
                 'true'
+            );
+
+
+            console.log(
+                'Login berhasil:',
+                userSession
             );
 
 
@@ -152,18 +170,21 @@
             );
 
 
-            /*
-                PENTING:
-                Setelah login masuk ke TOKO,
-                bukan kembali ke portfolio.
-            */
-            window.location.href = 'toko.html';
-
+            /* =====================================
+               LOGIN BERHASIL → TOKO
+            ===================================== */
+            window.location.replace('toko.html');
 
         } catch (err) {
 
+            console.error(
+                'Login Error:',
+                err
+            );
+
             alert(
-                'Gagal Login: ' + err.message
+                'Gagal Login: ' +
+                err.message
             );
 
         } finally {
@@ -178,7 +199,6 @@
     /* =========================================
        REGISTER
     ========================================= */
-
     async function handleRegister(event) {
 
         event.preventDefault();
@@ -209,7 +229,19 @@
                 .trim();
 
 
-        btn.innerText = 'Mendaftarkan...';
+        if (!name || !email || !password) {
+
+            alert(
+                'Semua data wajib diisi!'
+            );
+
+            return;
+        }
+
+
+        btn.innerText =
+            'Mendaftarkan...';
+
         btn.disabled = true;
 
 
@@ -222,7 +254,10 @@
             } = await _supabase
                 .from(TABLE_NAME)
                 .select('username')
-                .ilike('username', email);
+                .ilike(
+                    'username',
+                    email
+                );
 
 
             if (checkErr) {
@@ -239,11 +274,14 @@
                     'Email ini sudah terdaftar! Silakan login.'
                 );
 
+
                 switchTab('login');
+
 
                 document
                     .getElementById('loginEmail')
                     .value = email;
+
 
                 return;
             }
@@ -254,17 +292,14 @@
                 error: insertErr
             } = await _supabase
                 .from(TABLE_NAME)
-                .insert([{
-
-                    name: name,
-
-                    username: email,
-
-                    password: password,
-
-                    role: 'user'
-
-                }]);
+                .insert([
+                    {
+                        name: name,
+                        username: email,
+                        password: password,
+                        role: 'user'
+                    }
+                ]);
 
 
             if (insertErr) {
@@ -277,7 +312,7 @@
             );
 
 
-            /* Pindah ke login */
+            /* Pindah ke tab login */
             switchTab('login');
 
 
@@ -286,15 +321,27 @@
                 .value = email;
 
 
+            document
+                .getElementById('loginPassword')
+                .value = '';
+
+
         } catch (err) {
 
+            console.error(
+                'Register Error:',
+                err
+            );
+
             alert(
-                'Gagal Mendaftar: ' + err.message
+                'Gagal Mendaftar: ' +
+                err.message
             );
 
         } finally {
 
-            btn.innerText = 'Daftar Sekarang';
+            btn.innerText =
+                'Daftar Sekarang';
 
             btn.disabled = false;
         }
