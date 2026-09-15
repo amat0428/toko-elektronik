@@ -44,19 +44,13 @@
         }
 
         .btn-store {
-            background: linear-gradient(
-                135deg,
-                #2563eb,
-                #38bdf8
-            );
-
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
             color: white;
             padding: 10px 20px;
             border-radius: 6px;
             text-decoration: none;
             font-weight: bold;
             font-size: 14px;
-
             transition: 0.2s;
         }
 
@@ -64,7 +58,6 @@
             transform: translateY(-2px);
             opacity: 0.9;
         }
-
 
         /* =========================
            HERO
@@ -126,7 +119,6 @@
             background: #475569;
         }
 
-
         /* =========================
            ABOUT
         ========================= */
@@ -153,19 +145,13 @@
             color: #cbd5e1;
         }
 
-
         /* =========================
            PROJECT
         ========================= */
 
         .grid {
             display: grid;
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(280px, 1fr)
-                );
-
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
@@ -174,7 +160,6 @@
             padding: 22px;
             border-radius: 10px;
             border: 1px solid #334155;
-
             transition: 0.2s;
         }
 
@@ -200,7 +185,6 @@
             text-decoration: none;
         }
 
-
         /* =========================
            FOOTER
         ========================= */
@@ -213,7 +197,6 @@
             color: #64748b;
             font-size: 13px;
         }
-
 
         /* =========================
            MOBILE
@@ -252,206 +235,192 @@
 
 <body>
 
+    <!-- =========================
+         HEADER
+    ========================= -->
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+    <header>
 
-<header>
-
-    <a href="index.html" class="logo">
-        👨‍💻 Developer Portfolio
-    </a>
-
-    <a href="login.html" class="btn-store">
-        🛒 Masuk ke Toko BlueShop →
-    </a>
-
-</header>
-
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section class="hero">
-
-    <h1>
-        Selamat Datang di
-        <span>Portofolio Saya</span>
-    </h1>
-
-    <p>
-        Pengembang Web & Rekayasa Perangkat Lunak.
-        Saya membangun berbagai aplikasi web,
-        sistem informasi, dan platform e-commerce
-        menggunakan teknologi modern.
-    </p>
-
-
-    <div class="cta">
-
-        <a
-            href="login.html"
-            class="btn-primary"
-        >
-            🛒 Kunjungi Toko BlueShop
+        <!-- Logo kembali ke portfolio -->
+        <a href="index.html" class="logo">
+            👨‍💻 Developer Portfolio
         </a>
 
-        <a
-            href="#projects"
-            class="btn-secondary"
-        >
-            💻 Lihat Proyek
+        <!-- Masuk toko harus melalui LOGIN -->
+        <a href="login.html" class="btn-store">
+            🛒 Masuk ke Toko BlueShop →
         </a>
 
-    </div>
-
-</section>
+    </header>
 
 
+    <!-- =========================
+         HERO
+    ========================= -->
 
-<!-- =====================================================
-     TENTANG
-===================================================== -->
+    <section class="hero">
 
-<section class="section">
-
-    <h2 class="section-title">
-        Tentang Saya
-    </h2>
-
-    <div class="about">
+        <h1>
+            Selamat Datang di
+            <span>Portofolio Saya</span>
+        </h1>
 
         <p>
-            Saya merupakan pengembang web yang
-            memiliki ketertarikan pada pengembangan
-            aplikasi, front-end, back-end, serta
-            pengolahan dan analisis data.
+            Pengembang Web & Rekayasa Perangkat Lunak.
+            Saya membangun berbagai aplikasi web,
+            sistem informasi, dan platform e-commerce
+            menggunakan teknologi modern.
         </p>
 
-        <br>
+        <div class="cta">
 
-        <p>
-            Saya senang mempelajari teknologi baru
-            dan mengembangkan solusi digital yang
-            interaktif, sederhana, dan mudah digunakan.
-        </p>
+            <!-- Masuk toko -->
+            <a href="login.html" class="btn-primary">
+                🛒 Kunjungi Toko BlueShop
+            </a>
 
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     PROJECT
-===================================================== -->
-
-<section
-    class="section"
-    id="projects"
->
-
-    <h2 class="section-title">
-        Proyek Unggulan
-    </h2>
-
-
-    <div class="grid">
-
-
-        <!-- BLUESHOP -->
-
-        <div class="card">
-
-            <h3>
-                🛍️ BlueShop E-Commerce
-            </h3>
-
-            <p>
-                Aplikasi toko online berbasis
-                HTML, CSS, JavaScript, dan Supabase
-                dengan fitur produk, keranjang,
-                pemesanan, dan manajemen admin.
-            </p>
-
-            <a href="login.html">
-                Buka Aplikasi →
+            <!-- Scroll ke proyek -->
+            <a href="#projects" class="btn-secondary">
+                💻 Lihat Proyek
             </a>
 
         </div>
 
+    </section>
 
-        <!-- SCHOOL ID -->
 
-        <div class="card">
+    <!-- =========================
+         TENTANG
+    ========================= -->
 
-            <h3>
-                💳 School ID Card 3D
-            </h3>
+    <section class="section">
+
+        <h2 class="section-title">
+            Tentang Saya
+        </h2>
+
+        <div class="about">
 
             <p>
-                Kartu identitas web interaktif
-                dengan tampilan 3D, efek parallax,
-                dan desain modern.
+                Saya merupakan pengembang web yang
+                memiliki ketertarikan pada pengembangan
+                aplikasi, front-end, back-end, serta
+                pengolahan dan analisis data.
+            </p>
+
+            <br>
+
+            <p>
+                Saya senang mempelajari teknologi baru
+                dan mengembangkan solusi digital yang
+                interaktif, sederhana, dan mudah digunakan.
             </p>
 
         </div>
 
+    </section>
 
-        <!-- ANALYTICS -->
 
-        <div class="card">
+    <!-- =========================
+         PROJECT
+    ========================= -->
 
-            <h3>
-                📊 Workforce Analytics
-            </h3>
+    <section class="section" id="projects">
 
-            <p>
-                Sistem pengolahan dan analisis data
-                menggunakan Python dan Pandas
-                untuk menghasilkan informasi
-                yang lebih mudah dipahami.
-            </p>
+        <h2 class="section-title">
+            Proyek Unggulan
+        </h2>
+
+        <div class="grid">
+
+            <!-- BLUESHOP -->
+
+            <div class="card">
+
+                <h3>
+                    🛍️ BlueShop E-Commerce
+                </h3>
+
+                <p>
+                    Aplikasi toko online berbasis
+                    HTML, CSS, JavaScript, dan Supabase
+                    dengan fitur produk, keranjang,
+                    pemesanan, dan manajemen admin.
+                </p>
+
+                <a href="login.html">
+                    Buka Aplikasi →
+                </a>
+
+            </div>
+
+
+            <!-- SCHOOL ID -->
+
+            <div class="card">
+
+                <h3>
+                    💳 School ID Card 3D
+                </h3>
+
+                <p>
+                    Kartu identitas web interaktif
+                    dengan tampilan 3D, efek parallax,
+                    dan desain modern.
+                </p>
+
+            </div>
+
+
+            <!-- ANALYTICS -->
+
+            <div class="card">
+
+                <h3>
+                    📊 Workforce Analytics
+                </h3>
+
+                <p>
+                    Sistem pengolahan dan analisis data
+                    menggunakan Python dan Pandas
+                    untuk menghasilkan informasi
+                    yang lebih mudah dipahami.
+                </p>
+
+            </div>
+
+
+            <!-- WEB DEVELOPMENT -->
+
+            <div class="card">
+
+                <h3>
+                    🌐 Web Development
+                </h3>
+
+                <p>
+                    Pengembangan website dengan
+                    front-end dan back-end serta
+                    integrasi database.
+                </p>
+
+            </div>
 
         </div>
 
-
-        <!-- PROJECT WEB -->
-
-        <div class="card">
-
-            <h3>
-                🌐 Web Development
-            </h3>
-
-            <p>
-                Pengembangan website dengan
-                front-end dan back-end serta
-                integrasi database.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
+    </section>
 
 
+    <!-- =========================
+         FOOTER
+    ========================= -->
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
+    <footer>
 
-<footer>
+        © 2026 Ahmad Alvi Fauji —
+        Developer Portfolio
 
-    © 2026 Ahmad Alvi Fauji —
-    Developer Portfolio
-
-</footer>
-
+    </footer>
 
 </body>
 </html>
