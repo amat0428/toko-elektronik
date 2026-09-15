@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -168,10 +169,7 @@
 
 <body>
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-
+    <!-- HEADER -->
     <header class="bg-blue-600 text-white shadow-md">
 
         <div class="max-w-6xl mx-auto px-4 py-4">
@@ -197,27 +195,20 @@
     </header>
 
 
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
+    <!-- MAIN -->
     <main class="min-h-[calc(100vh-72px)] flex items-center justify-center px-4 py-8">
 
         <div class="w-full max-w-md">
 
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
 
-
-                <!-- =================================================
-                     LOGO & TITLE
-                ================================================== -->
-
+                <!-- LOGO & TITLE -->
                 <div class="text-center px-6 pt-7 pb-3">
 
-                    <div class="w-16 h-16 mx-auto mb-3 bg-blue-100 rounded-full flex items-center justify-center">
-
+                    <div
+                        class="w-16 h-16 mx-auto mb-3 bg-blue-100 rounded-full flex items-center justify-center"
+                    >
                         <i class="fa-solid fa-bag-shopping text-blue-600 text-2xl"></i>
-
                     </div>
 
                     <h1 class="text-2xl font-bold text-gray-800">
@@ -231,10 +222,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     TAB LOGIN / REGISTER
-                ================================================== -->
-
+                <!-- TAB LOGIN / REGISTER -->
                 <div class="flex border-b border-gray-200 mt-4">
 
                     <button
@@ -258,12 +246,8 @@
                 </div>
 
 
-                <!-- =================================================
-                     FORM AREA
-                ================================================== -->
-
+                <!-- FORM AREA -->
                 <div class="p-6">
-
 
                     <!-- STATUS -->
                     <div
@@ -272,10 +256,7 @@
                     ></div>
 
 
-                    <!-- =================================================
-                         LOGIN FORM
-                    ================================================== -->
-
+                    <!-- LOGIN FORM -->
                     <form
                         id="loginForm"
                         class="form-container active"
@@ -283,9 +264,7 @@
 
                         <div class="space-y-4">
 
-
                             <!-- EMAIL -->
-
                             <div>
 
                                 <label
@@ -314,7 +293,6 @@
 
 
                             <!-- PASSWORD -->
-
                             <div>
 
                                 <label
@@ -343,7 +321,6 @@
 
 
                             <!-- LOGIN BUTTON -->
-
                             <button
                                 id="btnLogin"
                                 type="submit"
@@ -354,7 +331,6 @@
 
 
                             <!-- DIVIDER -->
-
                             <div class="flex items-center gap-3 py-1">
 
                                 <div class="flex-1 h-px bg-gray-200"></div>
@@ -369,7 +345,6 @@
 
 
                             <!-- REGISTER LINK -->
-
                             <p class="text-center text-sm text-gray-500">
 
                                 Belum punya akun?
@@ -389,10 +364,7 @@
                     </form>
 
 
-                    <!-- =================================================
-                         REGISTER FORM
-                    ================================================== -->
-
+                    <!-- REGISTER FORM -->
                     <form
                         id="registerForm"
                         class="form-container"
@@ -400,9 +372,7 @@
 
                         <div class="space-y-4">
 
-
                             <!-- NAMA -->
-
                             <div>
 
                                 <label
@@ -431,7 +401,6 @@
 
 
                             <!-- EMAIL -->
-
                             <div>
 
                                 <label
@@ -460,7 +429,6 @@
 
 
                             <!-- PASSWORD -->
-
                             <div>
 
                                 <label
@@ -490,7 +458,6 @@
 
 
                             <!-- REGISTER BUTTON -->
-
                             <button
                                 id="btnRegister"
                                 type="submit"
@@ -501,7 +468,6 @@
 
 
                             <!-- TERMS -->
-
                             <p class="text-center text-xs text-gray-400">
 
                                 Dengan mendaftar, kamu menyetujui
@@ -511,7 +477,6 @@
 
 
                             <!-- LOGIN LINK -->
-
                             <p class="text-center text-sm text-gray-500">
 
                                 Sudah punya akun?
@@ -535,21 +500,15 @@
             </div>
 
 
-            <!-- =================================================
-                 BACK TO PORTFOLIO
-            ================================================== -->
-
+            <!-- BACK TO PORTFOLIO -->
             <div class="text-center mt-5">
 
                 <a
                     href="index.html"
                     class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600"
                 >
-
                     <i class="fa-solid fa-arrow-left"></i>
-
                     Kembali ke Portfolio
-
                 </a>
 
             </div>
@@ -559,10 +518,7 @@
     </main>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
+    <!-- FOOTER -->
     <footer class="text-center text-xs text-gray-400 pb-6">
 
         © 2026 BlueShop. All Rights Reserved.
@@ -570,10 +526,7 @@
     </footer>
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
-
+    <!-- JAVASCRIPT -->
     <script>
 
         // =====================================================
@@ -583,31 +536,8 @@
         const SUPABASE_URL =
             "https://fbnknnrltrsvydyxgujr.supabase.co";
 
-
-        /*
-         * ===================================================
-         * PENTING
-         * ===================================================
-         *
-         * GANTI VALUE DI BAWAH DENGAN PUBLISHABLE KEY
-         * TERBARU DARI SUPABASE.
-         *
-         * Contoh format:
-         *
-         * sb_publishable_xxxxxxxxxxxxxxxxx
-         *
-         * JANGAN memasukkan:
-         *
-         * https://fbnknnrltrsvydyxgujr.supabase.co/rest/v1/
-         *
-         * URL Supabase hanya:
-         *
-         * https://fbnknnrltrsvydyxgujr.supabase.co
-         *
-         */
-
         const SUPABASE_KEY =
-            "MASUKKAN_PUBLISHABLE_KEY_SUPABASE_DI_SINI";
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
 
 
         // =====================================================
@@ -640,16 +570,11 @@
         // SHOW STATUS
         // =====================================================
 
-        function showStatus(
-            message,
-            type = "error"
-        ) {
+        function showStatus(message, type = "error") {
 
             statusBox.textContent = message;
 
-            statusBox.className =
-                "status-box show";
-
+            statusBox.className = "status-box show";
 
             if (type === "success") {
 
@@ -657,24 +582,19 @@
                     "status-success"
                 );
 
-            }
-
-            else if (type === "info") {
+            } else if (type === "info") {
 
                 statusBox.classList.add(
                     "status-info"
                 );
 
-            }
-
-            else {
+            } else {
 
                 statusBox.classList.add(
                     "status-error"
                 );
 
             }
-
         }
 
 
@@ -688,7 +608,6 @@
 
             statusBox.className =
                 "status-box";
-
         }
 
 
@@ -700,47 +619,59 @@
 
             hideStatus();
 
-
             const loginTab =
-                document.getElementById("loginTab");
+                document.getElementById(
+                    "loginTab"
+                );
 
             const registerTab =
-                document.getElementById("registerTab");
-
+                document.getElementById(
+                    "registerTab"
+                );
 
             const loginForm =
-                document.getElementById("loginForm");
+                document.getElementById(
+                    "loginForm"
+                );
 
             const registerForm =
-                document.getElementById("registerForm");
+                document.getElementById(
+                    "registerForm"
+                );
 
 
             if (type === "login") {
 
                 loginTab.classList.add("active");
 
-                registerTab.classList.remove("active");
-
+                registerTab.classList.remove(
+                    "active"
+                );
 
                 loginForm.classList.add("active");
 
-                registerForm.classList.remove("active");
+                registerForm.classList.remove(
+                    "active"
+                );
 
+            } else {
+
+                loginTab.classList.remove(
+                    "active"
+                );
+
+                registerTab.classList.add(
+                    "active"
+                );
+
+                loginForm.classList.remove(
+                    "active"
+                );
+
+                registerForm.classList.add(
+                    "active"
+                );
             }
-
-            else {
-
-                loginTab.classList.remove("active");
-
-                registerTab.classList.add("active");
-
-
-                loginForm.classList.remove("active");
-
-                registerForm.classList.add("active");
-
-            }
-
         }
 
 
@@ -754,23 +685,24 @@
 
             hideStatus();
 
-
             const btnLogin =
-                document.getElementById("btnLogin");
-
+                document.getElementById(
+                    "btnLogin"
+                );
 
             const email =
                 document
-                    .getElementById("loginEmail")
+                    .getElementById(
+                        "loginEmail"
+                    )
                     .value
                     .trim()
                     .toLowerCase();
 
-
             const password =
-                document
-                    .getElementById("loginPassword")
-                    .value;
+                document.getElementById(
+                    "loginPassword"
+                ).value;
 
 
             // Validasi
@@ -781,7 +713,6 @@
                 );
 
                 return;
-
             }
 
 
@@ -795,11 +726,7 @@
             try {
 
                 console.log(
-                    "================================"
-                );
-
-                console.log(
-                    "BLUESHOP LOGIN"
+                    "========== BLUESHOP LOGIN =========="
                 );
 
                 console.log(
@@ -850,21 +777,14 @@
                 );
 
 
-                // =================================================
-                // ERROR
-                // =================================================
-
+                // Error
                 if (error) {
 
                     throw error;
-
                 }
 
 
-                // =================================================
-                // USER TIDAK DITEMUKAN
-                // =================================================
-
+                // User tidak ditemukan
                 if (
                     !data ||
                     data.length === 0
@@ -875,11 +795,10 @@
                     );
 
                     return;
-
                 }
 
 
-                // Ambil user pertama
+                // Ambil user
                 const user = data[0];
 
 
@@ -890,7 +809,7 @@
 
 
                 // =================================================
-                // PASSWORD
+                // CEK PASSWORD
                 // =================================================
 
                 if (
@@ -903,7 +822,6 @@
                     );
 
                     return;
-
                 }
 
 
@@ -930,7 +848,6 @@
                             user.role ||
                             "user"
                         ).toLowerCase()
-
                 };
 
 
@@ -945,14 +862,12 @@
                     )
                 );
 
-
                 localStorage.setItem(
                     "currentUser",
                     JSON.stringify(
                         userSession
                     )
                 );
-
 
                 localStorage.setItem(
                     "isLoggedIn",
@@ -961,7 +876,7 @@
 
 
                 console.log(
-                    "LOGIN BERHASIL",
+                    "LOGIN BERHASIL:",
                     userSession
                 );
 
@@ -977,11 +892,11 @@
 
 
                 // =================================================
-                // REDIRECT TOKO
+                // REDIRECT
                 // =================================================
 
                 setTimeout(
-                    function() {
+                    function () {
 
                         window.location.href =
                             "toko.html";
@@ -990,10 +905,7 @@
                     700
                 );
 
-            }
-
-
-            catch (error) {
+            } catch (error) {
 
                 console.error(
                     "LOGIN ERROR:",
@@ -1012,10 +924,7 @@
                     message.toLowerCase();
 
 
-                // =================================================
-                // ERROR INVALID API KEY
-                // =================================================
-
+                // Invalid API Key
                 if (
                     lowerMessage.includes(
                         "invalid api key"
@@ -1023,15 +932,12 @@
                 ) {
 
                     message =
-                        "API Key Supabase tidak valid. Masukkan Publishable Key terbaru dari Supabase.";
+                        "API Key Supabase tidak valid. Periksa kembali anon key.";
 
                 }
 
 
-                // =================================================
-                // ERROR INVALID PATH
-                // =================================================
-
+                // Invalid path
                 else if (
                     lowerMessage.includes(
                         "invalid path"
@@ -1039,15 +945,12 @@
                 ) {
 
                     message =
-                        "URL Supabase salah. Gunakan https://fbnknnrltrsvydyxgujr.supabase.co tanpa /rest/v1/.";
+                        "URL Supabase salah. Gunakan URL project tanpa /rest/v1/.";
 
                 }
 
 
-                // =================================================
-                // ERROR PERMISSION
-                // =================================================
-
+                // Permission
                 else if (
                     lowerMessage.includes(
                         "permission denied"
@@ -1060,10 +963,7 @@
                 }
 
 
-                // =================================================
-                // ERROR TABLE
-                // =================================================
-
+                // Relation
                 else if (
                     lowerMessage.includes(
                         "relation"
@@ -1076,10 +976,7 @@
                 }
 
 
-                // =================================================
-                // ERROR COLUMN
-                // =================================================
-
+                // Column
                 else if (
                     lowerMessage.includes(
                         "column"
@@ -1087,7 +984,7 @@
                 ) {
 
                     message =
-                        "Kolom pada tabel users_list tidak sesuai. Pastikan ada kolom username dan password.";
+                        "Kolom users_list tidak sesuai. Pastikan ada username dan password.";
 
                 }
 
@@ -1097,19 +994,14 @@
                     message
                 );
 
-            }
-
-
-            finally {
+            } finally {
 
                 btnLogin.disabled =
                     false;
 
                 btnLogin.innerText =
                     "Masuk";
-
             }
-
         }
 
 
@@ -1132,29 +1024,30 @@
 
             const name =
                 document
-                    .getElementById("regName")
+                    .getElementById(
+                        "regName"
+                    )
                     .value
                     .trim();
 
 
             const email =
                 document
-                    .getElementById("regEmail")
+                    .getElementById(
+                        "regEmail"
+                    )
                     .value
                     .trim()
                     .toLowerCase();
 
 
             const password =
-                document
-                    .getElementById("regPassword")
-                    .value;
+                document.getElementById(
+                    "regPassword"
+                ).value;
 
 
-            // =================================================
-            // VALIDASI
-            // =================================================
-
+            // Validasi
             if (
                 !name ||
                 !email ||
@@ -1166,7 +1059,6 @@
                 );
 
                 return;
-
             }
 
 
@@ -1179,13 +1071,11 @@
                 );
 
                 return;
-
             }
 
 
             // Loading
-            btnRegister.disabled =
-                true;
+            btnRegister.disabled = true;
 
             btnRegister.innerText =
                 "Mendaftarkan...";
@@ -1194,7 +1084,7 @@
             try {
 
                 // =================================================
-                // CEK USER
+                // CEK EMAIL
                 // =================================================
 
                 const {
@@ -1215,14 +1105,10 @@
                 if (checkError) {
 
                     throw checkError;
-
                 }
 
 
-                // =================================================
-                // EMAIL SUDAH ADA
-                // =================================================
-
+                // Email sudah ada
                 if (
                     existingUser &&
                     existingUser.length > 0
@@ -1232,21 +1118,13 @@
                         "Email sudah terdaftar. Silakan login."
                     );
 
+                    switchTab("login");
 
-                    switchTab(
-                        "login"
-                    );
-
-
-                    document
-                        .getElementById(
-                            "loginEmail"
-                        )
-                        .value = email;
-
+                    document.getElementById(
+                        "loginEmail"
+                    ).value = email;
 
                     return;
-
                 }
 
 
@@ -1255,7 +1133,6 @@
                 // =================================================
 
                 const {
-                    data: newUser,
                     error: insertError
                 } = await _supabase
 
@@ -1270,23 +1147,17 @@
                         password: password,
 
                         role: "user"
-
-                    })
-
-                    .select()
-                    .single();
+                    });
 
 
                 if (insertError) {
 
                     throw insertError;
-
                 }
 
 
                 console.log(
-                    "USER BERHASIL DIBUAT:",
-                    newUser
+                    "USER BERHASIL DIBUAT"
                 );
 
 
@@ -1300,31 +1171,20 @@
                 );
 
 
-                // Pindah ke login
-                switchTab(
-                    "login"
-                );
+                switchTab("login");
 
 
-                // Isi email
-                document
-                    .getElementById(
-                        "loginEmail"
-                    )
-                    .value = email;
+                document.getElementById(
+                    "loginEmail"
+                ).value = email;
 
 
-                // Kosongkan password
-                document
-                    .getElementById(
-                        "loginPassword"
-                    )
-                    .value = "";
-
-            }
+                document.getElementById(
+                    "loginPassword"
+                ).value = "";
 
 
-            catch (error) {
+            } catch (error) {
 
                 console.error(
                     "REGISTER ERROR:",
@@ -1362,7 +1222,7 @@
                 ) {
 
                     message =
-                        "URL Supabase salah. Jangan gunakan /rest/v1/ pada SUPABASE_URL.";
+                        "URL Supabase salah. Jangan gunakan /rest/v1/.";
 
                 }
 
@@ -1396,19 +1256,14 @@
                     message
                 );
 
-            }
-
-
-            finally {
+            } finally {
 
                 btnRegister.disabled =
                     false;
 
                 btnRegister.innerText =
                     "Daftar Sekarang";
-
             }
-
         }
 
 
@@ -1433,12 +1288,12 @@
 
 
         // =====================================================
-        // CEK HALAMAN SAAT DIBUKA
+        // PAGE READY
         // =====================================================
 
         window.addEventListener(
             "DOMContentLoaded",
-            function() {
+            function () {
 
                 console.log(
                     "================================"
@@ -1468,4 +1323,5 @@
     </script>
 
 </body>
+
 </html>
