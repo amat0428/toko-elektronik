@@ -13,7 +13,7 @@
 
   <!-- Header -->
   <div class="bg-blue-600 p-4 text-white flex justify-between items-center shadow-md">
-    <a href="toko.html" class="text-xl font-bold tracking-wide flex items-center gap-2">
+    <a href="index.html" class="text-xl font-bold tracking-wide flex items-center gap-2">
       <i class="fa-solid fa-bag-shopping"></i>
       <span>BlueShop</span>
     </a>
@@ -72,7 +72,7 @@
       btnSubmit.disabled = true;
 
       try {
-        // Cari user yang cocok di tabel users_list berdasarkan kolom username dan password
+        // Cari user yang cocok berdasarkan username/email dan password
         const { data, error } = await _supabase
           .from('users_list')
           .select('*')
@@ -91,11 +91,18 @@
 
         alert(`Login berhasil! Selamat datang, ${data.name}`);
 
-        // Simpan data akun ke session browser
+        // Simpan seluruh data akun (termasuk role) ke localStorage browser
         localStorage.setItem('user', JSON.stringify(data));
 
-        // Redirect ke halaman utama toko
-        window.location.href = 'toko.html';
+        // Normalisasi teks role ke huruf kecil untuk menghindari error akibat kapitalisasi
+        const userRole = (data.role || 'user').toLowerCase();
+
+        // Alihkan halaman sesuai role pengguna
+        if (userRole === 'admin') {
+          window.location.href = 'admin.html'; // Halaman khusus Dashboard Admin
+        } else {
+          window.location.href = 'index.html'; // Halaman Utama Toko untuk User Biasa
+        }
 
       } catch (err) {
         console.error("Login Error:", err);

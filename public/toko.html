@@ -18,6 +18,7 @@
     .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; position: relative; }
     .badge-count { background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; font-weight: bold; }
     .admin-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+    .btn-logout { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; }
     
     .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
     .hero-banner { background: linear-gradient(135deg, #1d4ed8, #60a5fa); color: white; border-radius: 12px; padding: 30px; margin-bottom: 25px; }
@@ -69,6 +70,7 @@
         <button class="btn-nav" onclick="openCartModal()">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></button>
         <button class="btn-nav" onclick="openOrdersModal()">📦 Pesanan <span class="badge-count" id="orderBadge" style="background:#0284c7">0</span></button>
         <div class="admin-badge">🛡️ Admin Aktif</div>
+        <button class="btn-logout" onclick="logout()">Logout</button>
       </div>
     </div>
   </header>
@@ -82,7 +84,7 @@
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
       <span class="section-title">DAFTAR PRODUK (KONTROL ADMIN)</span>
-      <button class="btn-save" onclick="openProductModal()">+ Tambah Produk Baru</button>
+      <button class="btn-save" onclick="openProductModal(false)">+ Tambah Produk Baru</button>
     </div>
 
     <div class="product-grid" id="productGrid">
@@ -125,34 +127,33 @@
   <div class="modal" id="productModal">
     <div class="modal-content">
       <h3 id="productModalTitle">Tambah Produk Baru</h3>
-      <div>
+      <form id="productForm" onsubmit="event.preventDefault(); saveProduct();">
         <input type="hidden" id="productId">
         <div class="form-group">
-          <label>Nama Produk</label>
+          <label for="productName">Nama Produk</label>
           <input type="text" id="productName" placeholder="Contoh: Laptop Gaming" required>
         </div>
         <div class="form-group">
-          <label>Harga (Rp)</label>
-          <input type="number" id="productPrice" placeholder="Contoh: 7500000" required>
+          <label for="productPrice">Harga (Rp)</label>
+          <input type="number" id="productPrice" placeholder="Contoh: 7500000" min="0" required>
         </div>
         <div class="form-group">
-          <label>URL Gambar</label>
-          <input type="text" id="productImage" placeholder="https://..." required>
+          <label for="productImage">URL Gambar</label>
+          <input type="url" id="productImage" placeholder="https://..." required>
         </div>
         <div class="modal-buttons">
           <button type="button" class="btn-cancel" onclick="closeProductModal()">Batal</button>
-          <button type="button" class="btn-save" onclick="saveProduct()">Simpan ke Database</button>
+          <button type="submit" class="btn-save" id="btnSaveProduct">Simpan ke Database</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 
   <script>
-    // Konfigurasi Supabase
+    // Konfigurasi Supabase Client
     const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
     
-    // Inisialisasi Supabase Client CDN Global
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let allProducts = [];
@@ -160,13 +161,27 @@
     let orders = JSON.parse(localStorage.getItem('blueshop_orders')) || [];
 
     document.addEventListener('DOMContentLoaded', () => {
+      checkAdminSession();
       fetchProducts();
       updateBadges();
     });
 
+    // --- PROTEKSI SESI ADMIN ---
+    function checkAdminSession() {
+      const activeUser = JSON.parse(localStorage.getItem('user'));
+      if (!activeUser || (activeUser.role || '').toLowerCase() !== 'admin') {
+        alert("Akses ditolak! Halaman ini khusus untuk Admin.");
+        window.location.href = 'login.html';
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.href = 'login.html';
+    }
+
     // --- FITUR PRODUK (READ) ---
     async function fetchProducts() {
-      // Mengambil data dari tabel 'produk'
       const { data, error } = await _supabase.from('produk').select('*').order('id_produk', { ascending: false });
       if (error) {
         document.getElementById('productGrid').innerHTML = `<p style="grid-column: 1/-1; color:red; text-align:center;">Gagal memuat: ${error.message}</p>`;
@@ -186,7 +201,6 @@
       }
 
       products.forEach(p => {
-        // Pemetaan nama kolom sesuai struktur database Supabase
         const id = p.id_produk || p.id;
         const name = p.nama_produk || p.name;
         const price = p.harga || p.price;
@@ -236,15 +250,18 @@
       const nama_produk = document.getElementById('productName').value.trim();
       const harga = Number(document.getElementById('productPrice').value);
       const gambar = document.getElementById('productImage').value.trim();
+      const btnSave = document.getElementById('btnSaveProduct');
 
       if (!nama_produk || !harga || !gambar) {
         alert("Semua kolom (Nama, Harga, URL Gambar) wajib diisi!");
         return;
       }
 
+      btnSave.disabled = true;
+      btnSave.innerText = "Menyimpan...";
+
       try {
         if (id) {
-          // UPDATE produk ke tabel 'produk'
           const { error } = await _supabase
             .from('produk')
             .update({ nama_produk, harga, gambar })
@@ -253,7 +270,6 @@
           if (error) throw error;
           alert("Produk berhasil diperbarui!");
         } else {
-          // CREATE produk baru ke tabel 'produk'
           const { error } = await _supabase
             .from('produk')
             .insert([{ nama_produk, harga, gambar, stok: 100 }]);
@@ -267,6 +283,9 @@
       } catch (err) {
         console.error("Supabase Error:", err);
         alert("Gagal menyimpan ke database Supabase:\n" + (err.message || JSON.stringify(err)));
+      } finally {
+        btnSave.disabled = false;
+        btnSave.innerText = "Simpan ke Database";
       }
     }
 
@@ -300,7 +319,7 @@
 
       const id = product.id_produk || product.id;
       const name = product.nama_produk || product.name;
-      const price = product.harga || product.price;
+      const price = Number(product.harga || product.price);
       const image = product.gambar || product.image;
 
       const existingItem = cart.find(item => item.id == id);
