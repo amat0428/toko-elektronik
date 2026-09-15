@@ -4,140 +4,152 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Keranjang Belanja - BlueShop</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: #f4f6f9; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; }
+    .btn-back { background: #64748b; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px; }
+    .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 12px; }
+    .cart-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; }
+    .item-details { flex-grow: 1; margin-left: 15px; }
+    .item-title { font-size: 16px; font-weight: bold; color: #1e293b; }
+    .item-price { color: #2563eb; font-weight: bold; margin-top: 4px; }
+    .btn-delete { background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+    .cart-summary { margin-top: 20px; border-top: 2px solid #e2e8f0; padding-top: 15px; text-align: right; }
+    .total-price { font-size: 20px; font-weight: bold; color: #0f172a; margin-bottom: 15px; }
+    .btn-checkout { background: #10b981; color: white; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+    .empty-cart { text-align: center; color: #64748b; padding: 40px 0; }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen text-gray-800 pb-20 md:pb-8">
+<body>
 
-  <!-- Header Utama -->
-  <header class="bg-blue-600 text-white sticky top-0 z-50 shadow-md">
-    <div class="max-w-6xl mx-auto px-3 py-3 flex items-center justify-between gap-2 md:gap-4">
+  <div class="container">
+    <div class="header">
+      <h2>Keranjang Belanja</h2>
+      <a href="index.html" class="btn-back">← Kembali ke Toko</a>
+    </div>
+
+    <div id="cartList"></div>
+
+    <div class="cart-summary" id="cartSummary" style="display: none;">
+      <div class="total-price">Total: <span id="totalAmount">Rp 0</span></div>
+      <button class="btn-checkout" onclick="checkout()">Buat Pesanan (Checkout)</button>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+
+    async function renderCart() {
+      const container = document.getElementById('cartList');
+      const summary = document.getElementById('cartSummary');
       
-      <!-- Logo -->
-      <a href="index.html" class="text-base md:text-xl font-black tracking-wide flex items-center gap-1.5 shrink-0">
-        <i class="fa-solid fa-bag-shopping"></i>
-        <span>BlueShop</span>
-      </a>
+      if (cartItems.length === 0) {
+        container.innerHTML = '<div class="empty-cart">Keranjang belanjaan kamu masih kosong.</div>';
+        summary.style.display = 'none';
+        return;
+      }
 
-      <span class="text-xs md:text-sm font-semibold border-l border-blue-400 pl-2">Keranjang</span>
+      container.innerHTML = 'Loading...';
 
-      <!-- Navigasi Laptop -->
-      <div class="hidden md:flex items-center gap-5 text-white text-sm font-semibold ml-auto">
-        <a href="orders.html" class="flex items-center gap-1.5 hover:text-blue-200">
-          <i class="fa-solid fa-receipt text-base"></i>
-          <span>Pesanan</span>
-        </a>
-      </div>
+      // Ambil data produk berdasarkan ID di keranjang
+      const ids = cartItems.map(item => item.id);
+      const { data: products, error } = await _supabase
+        .from('produk')
+        .select('*')
+        .in('id_produk', ids);
 
-      <!-- Tombol Saya di Atas (HP & Laptop) -->
-      <a href="account.html" class="flex items-center gap-1 text-white text-xs md:text-sm font-semibold hover:text-blue-200 shrink-0 border-l border-blue-400 pl-2 md:pl-4 ml-auto md:ml-0">
-        <i class="fa-solid fa-circle-user text-base md:text-lg"></i>
-        <span>Saya</span>
-      </a>
+      if (error || !products) {
+        container.innerHTML = '<div class="empty-cart">Gagal memuat data produk.</div>';
+        return;
+      }
 
-    </div>
-  </header>
+      let html = '';
+      let total = 0;
 
-  <!-- Container Utama -->
-  <main class="max-w-6xl mx-auto px-2 md:px-4 mt-4">
-
-    <!-- Container Utama Keranjang Terisi -->
-    <div id="cartContent" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      
-      <!-- Kolom Kiri: Daftar Produk -->
-      <div class="lg:col-span-2 space-y-3">
-        
-        <!-- Header Pilih Semua -->
-        <div class="bg-white p-3.5 rounded-lg shadow-sm flex items-center justify-between text-xs md:text-sm">
-          <label class="flex items-center gap-2.5 cursor-pointer font-medium">
-            <input type="checkbox" id="selectAll" class="w-4 h-4 accent-blue-600 rounded cursor-pointer" checked>
-            <span>Pilih Semua (<span id="totalItemCount">0</span>)</span>
-          </label>
-          <button id="deleteSelected" class="text-red-500 hover:text-red-700 font-semibold flex items-center gap-1 text-xs">
-            <i class="fa-solid fa-trash-can"></i> Hapus
-          </button>
-        </div>
-
-        <!-- List Barang -->
-        <div id="cartItemsList" class="space-y-3">
-          <!-- Render via js/cart.js -->
-        </div>
-
-      </div>
-
-      <!-- Kolom Kanan: Ringkasan Belanja -->
-      <div class="lg:col-span-1">
-        <div class="bg-white p-4 rounded-lg shadow-sm sticky top-20 space-y-4">
-          <h3 class="font-bold text-gray-800 text-base border-b pb-2">Ringkasan Belanja</h3>
-          
-          <!-- Voucher -->
-          <div class="flex items-center gap-2 p-2.5 border border-dashed border-blue-400 bg-blue-50/50 rounded-lg text-xs cursor-pointer hover:bg-blue-50">
-            <i class="fa-solid fa-ticket text-blue-600 text-base"></i>
-            <span class="flex-1 font-medium text-gray-700">Voucher BlueShop</span>
-            <span class="text-blue-600 font-bold">Gunakan / Masukkan</span>
-          </div>
-
-          <!-- Total Harga -->
-          <div class="space-y-2 text-xs md:text-sm text-gray-600">
-            <div class="flex justify-between">
-              <span>Total Harga (Produk)</span>
-              <span id="subtotalPrice" class="font-medium text-gray-800">Rp 0</span>
+      cartItems.forEach(cartItem => {
+        const prod = products.find(p => p.id_produk == cartItem.id);
+        if (prod) {
+          const itemTotal = prod.harga * (cartItem.qty || 1);
+          total += itemTotal;
+          html += `
+            <div class="cart-item">
+              <img src="${prod.gambar}" alt="${prod.nama_produk}">
+              <div class="item-details">
+                <div class="item-title">${prod.nama_produk}</div>
+                <div class="item-price">Rp ${prod.harga.toLocaleString('id-ID')} x ${cartItem.qty || 1}</div>
+              </div>
+              <button class="btn-delete" onclick="removeItem(${prod.id_produk})">Hapus</button>
             </div>
-            <div class="flex justify-between">
-              <span>Total Diskon</span>
-              <span class="text-green-600 font-medium">-Rp 0</span>
-            </div>
-            <div class="flex justify-between border-t pt-2.5 text-sm md:text-base font-bold text-gray-800">
-              <span>Total Pesanan</span>
-              <span id="totalPrice" class="text-blue-600 text-lg">Rp 0</span>
-            </div>
-          </div>
+          `;
+        }
+      });
 
-          <!-- Tombol Checkout -->
-          <a href="checkout.html" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-bold py-3 rounded-lg shadow-md transition text-sm">
-            Beli / Checkout (<span id="selectedCount">0</span>)
-          </a>
-        </div>
-      </div>
+      container.innerHTML = html;
+      document.getElementById('totalAmount').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+      summary.style.display = 'block';
+    }
 
-    </div>
+    function removeItem(id) {
+      cartItems = cartItems.filter(item => item.id != id);
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+      renderCart();
+    }
 
-    <!-- Tampilan Keranjang Kosong -->
-    <div id="emptyCart" class="hidden bg-white rounded-lg p-12 text-center shadow-sm my-6 max-w-lg mx-auto">
-      <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-4xl">
-        <i class="fa-solid fa-cart-arrow-down"></i>
-      </div>
-      <h2 class="text-lg font-bold text-gray-800">Keranjang belanjamu kosong</h2>
-      <p class="text-xs md:text-sm text-gray-500 mt-1 mb-6">Yuk, jelajahi produk menarik dan tambahkan ke keranjang!</p>
-      <a href="index.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-lg text-sm transition">
-        Mulai Belanja
-      </a>
-    </div>
+    async function checkout() {
+      if (!currentUser) {
+        alert("Silakan login terlebih dahulu untuk checkout!");
+        window.location.href = "login.html";
+        return;
+      }
 
-  </main>
+      const confirmBuy = confirm("Apakah Anda yakin ingin melakukan pemesanan ini?");
+      if (!confirmBuy) return;
 
-  <!-- Bottom Nav Bar HP -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-1.5 z-40 shadow-lg">
-    <div class="grid grid-cols-3 text-center text-gray-500">
-      <a href="index.html" class="flex flex-col items-center hover:text-blue-600">
-        <i class="fa-solid fa-house text-lg"></i>
-        <span class="text-[10px] mt-0.5">Beranda</span>
-      </a>
-      <a href="cart.html" class="flex flex-col items-center text-blue-600">
-        <i class="fa-solid fa-cart-shopping text-lg"></i>
-        <span class="text-[10px] mt-0.5 font-medium">Keranjang</span>
-      </a>
-      <a href="orders.html" class="flex flex-col items-center hover:text-blue-600">
-        <i class="fa-solid fa-receipt text-lg"></i>
-        <span class="text-[10px] mt-0.5">Pesanan</span>
-      </a>
-    </div>
-  </nav>
+      // Ambil detail produk untuk pesanan
+      const ids = cartItems.map(item => item.id);
+      const { data: products } = await _supabase.from('produk').select('*').in('id_produk', ids);
 
-  <!-- Scripts -->
-  <script src="js/auth-state.js"></script>
-  <script src="js/cart.js"></script>
+      let total = 0;
+      const orderDetails = cartItems.map(item => {
+        const prod = products.find(p => p.id_produk == item.id);
+        const subtotal = (prod ? prod.harga : 0) * (item.qty || 1);
+        total += subtotal;
+        return {
+          nama_produk: prod ? prod.nama_produk : 'Produk',
+          qty: item.qty || 1,
+          harga: prod ? prod.harga : 0
+        };
+      });
+
+      // Insert ke tabel orders
+      const { error } = await _supabase
+        .from('orders')
+        .insert([{
+          user_id: currentUser.id,
+          user_name: currentUser.name || currentUser.email,
+          items: JSON.stringify(orderDetails),
+          total_harga: total,
+          status: 'Menunggu Konfirmasi'
+        }]);
+
+      if (error) {
+        alert("Gagal membuat pesanan: " + error.message);
+      } else {
+        alert("Pesanan berhasil dibuat!");
+        localStorage.removeItem('cart');
+        window.location.href = 'pesanan.html';
+      }
+    }
+
+    renderCart();
+  </script>
 </body>
 </html>
