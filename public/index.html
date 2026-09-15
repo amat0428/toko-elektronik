@@ -17,7 +17,11 @@
     .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; cursor: pointer; position: relative; font-size: 13px; }
     .btn-nav:hover { background: rgba(255,255,255,0.3); }
     .badge-count { background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -5px; right: -5px; font-weight: bold; }
-    .role-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; }
+    
+    /* Styling Badge Profil (Dapat Diklik) */
+    .role-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; text-decoration: none; display: inline-block; cursor: pointer; transition: opacity 0.2s; }
+    .role-badge:hover { opacity: 0.9; }
+
     .btn-logout { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; }
     
     .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
@@ -59,11 +63,11 @@
         <input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterProducts()">
       </div>
       <div class="nav-links">
-        <!-- Profil diletakkan di urutan pertama -->
-        <div class="role-badge" id="roleBadge">Loading...</div>
+        <!-- Badge profil di urutan pertama dan terhubung ke profile.html -->
+        <a href="profile.html" class="role-badge" id="roleBadge" title="Klik untuk lihat profil">Loading...</a>
         <a href="cart.html" class="btn-nav">🛒 Keranjang <span class="badge-count" id="cartBadge">0</span></a>
         <a href="orders.html" class="btn-nav">📦 Pesanan <span class="badge-count" id="orderBadge" style="background:#0284c7">0</span></a>
-        <button class="btn-logout" onclick="logout()">Logout</button>
+        <button class="btn-logout" id="btnLogout" onclick="logout()">Logout</button>
       </div>
     </div>
   </header>
@@ -155,29 +159,36 @@
 
     function checkUserRole() {
       const userData = localStorage.getItem('user');
+      const badge = document.getElementById('roleBadge');
+      const btnAddNav = document.getElementById('btnAddProductNav');
+      const title = document.getElementById('sectionTitle');
+      const btnLogout = document.getElementById('btnLogout');
+
       if (!userData) {
-        window.location.href = 'login.html';
+        badge.innerText = '👤 Masuk / Profil';
+        badge.style.background = '#64748b';
+        badge.href = 'profile.html';
+        btnAddNav.style.display = 'none';
+        title.innerText = 'DAFTAR PRODUK';
+        if (btnLogout) btnLogout.innerText = 'Login';
         return;
       }
 
       currentUser = JSON.parse(userData);
       isAdmin = (currentUser.role || '').toLowerCase() === 'admin';
 
-      const badge = document.getElementById('roleBadge');
-      const btnAddNav = document.getElementById('btnAddProductNav');
-      const title = document.getElementById('sectionTitle');
-
       if (isAdmin) {
-        badge.innerText = '🛡️ Admin (CRUD Active)';
+        badge.innerText = '🛡️ Admin (Profil)';
         badge.style.background = '#10b981';
         btnAddNav.style.display = 'block';
         title.innerText = 'DAFTAR PRODUK (KONTROL ADMIN)';
       } else {
-        badge.innerText = `👤 User: ${currentUser.name || 'User'}`;
+        badge.innerText = `👤 ${currentUser.name || currentUser.nama || 'User'}`;
         badge.style.background = '#0284c7';
         btnAddNav.style.display = 'none';
         title.innerText = 'DAFTAR PRODUK';
       }
+      badge.href = 'profile.html';
     }
 
     function logout() {
@@ -276,7 +287,7 @@
     async function updateBadges() {
       document.getElementById('cartBadge').innerText = cart.reduce((sum, i) => sum + i.qty, 0);
 
-      if (currentUser) {
+      if (currentUser && currentUser.id) {
         const { data } = await _supabase.from('orders').select('id').eq('user_id', currentUser.id);
         if (data) {
           document.getElementById('orderBadge').innerText = data.length;
@@ -340,7 +351,7 @@
     }
 
     async function deleteProduct(id) {
-      if (confirm('Yakin ingin menghapus produk me ini?')) {
+      if (confirm('Yakin ingin menghapus produk ini?')) {
         await _supabase.from('produk').delete().eq('id_produk', id);
         fetchProducts();
       }

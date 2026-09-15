@@ -3,29 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profil Saya - Toko Elektronik</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Profil Saya - BlueShop</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; }
+    header { background-color: #2563eb; padding: 12px 5%; color: white; position: sticky; top: 0; z-index: 900; }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+    .logo { font-size: 22px; font-weight: bold; cursor: pointer; text-decoration: none; color: white; }
+    .nav-links { display: flex; gap: 12px; align-items: center; font-size: 14px; }
+    .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; cursor: pointer; position: relative; font-size: 13px; }
+    .btn-nav:hover { background: rgba(255,255,255,0.3); }
+    .role-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; }
+    .btn-logout { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; }
+    
+    .container { max-width: 600px; margin: 40px auto; padding: 0 15px; }
+    .card { background: white; border-radius: 12px; padding: 25px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .card h2 { color: #1e293b; margin-bottom: 20px; border-bottom: 2px solid #2563eb; padding-bottom: 8px; font-size: 20px; }
+    .profile-field { margin-bottom: 15px; font-size: 15px; }
+    .profile-field strong { color: #475569; display: inline-block; width: 80px; }
+    
+    .action-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
+    .btn { padding: 10px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; font-size: 14px; }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-success { background: #10b981; color: white; }
+    .btn-danger { background: #ef4444; color: white; }
+  </style>
 </head>
 <body>
+
   <header>
-    <h1>Toko Elektronik</h1>
+    <div class="nav-container">
+      <a href="index.html" class="logo">🛍️ BlueShop</a>
+      <div class="nav-links">
+        <div class="role-badge" id="roleBadge">Loading...</div>
+        <a href="cart.html" class="btn-nav">🛒 Keranjang</a>
+        <a href="orders.html" class="btn-nav">📦 Pesanan</a>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+      </div>
+    </div>
   </header>
-  <main>
-    <h2>Profil Saya</h2>
-    <div id="profile-info" class="card"></div>
-    <button onclick="logout()" class="btn btn-danger">Keluar / Logout</button>
-  </main>
-  <script src="js/auth.js"></script>
+
+  <div class="container">
+    <div class="card">
+      <h2>👤 Profil Saya</h2>
+      <div id="profile-info">Memuat data pengguna...</div>
+
+      <div class="action-buttons">
+        <a href="register-toko.html" class="btn btn-success">🏪 Registrasi Toko Baru</a>
+        <button onclick="logout()" class="btn btn-danger">Keluar / Logout</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const userData = localStorage.getItem('user');
       const info = document.getElementById('profile-info');
-      if (user.email) {
-        info.innerHTML = `<p><strong>Nama:</strong> ${user.name}</p><p><strong>Email:</strong> ${user.email}</p>`;
-      } else {
-        info.innerHTML = `<p>Kamu belum login. <a href="login.html">Login di sini</a></p>`;
+      const roleBadge = document.getElementById('roleBadge');
+
+      if (!userData) {
+        info.innerHTML = `<p>Kamu belum login. <a href="login.html" style="color:#2563eb; font-weight:bold;">Login di sini</a></p>`;
+        roleBadge.innerText = 'Guest';
+        roleBadge.style.background = '#64748b';
+        return;
       }
+
+      const user = JSON.parse(userData);
+      const name = user.name || user.nama || 'Pengguna';
+      const email = user.email || 'Tidak ada email';
+      const role = (user.role || 'user').toUpperCase();
+
+      roleBadge.innerText = role === 'ADMIN' ? '🛡️ Admin' : `👤 ${name}`;
+      roleBadge.style.background = role === 'ADMIN' ? '#10b981' : '#0284c7';
+
+      info.innerHTML = `
+        <div class="profile-field"><strong>Nama:</strong> ${name}</div>
+        <div class="profile-field"><strong>Email:</strong> ${email}</div>
+        <div class="profile-field"><strong>Role:</strong> ${role}</div>
+      `;
     });
+
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.href = 'login.html';
+    }
   </script>
 </body>
 </html>
