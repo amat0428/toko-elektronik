@@ -6,9 +6,6 @@
 
     <title>Portfolio | Ahmad Alvi Fauji</title>
 
-    <meta name="description"
-          content="Portfolio Ahmad Alvi Fauji - Web Developer, Data Analyst, dan Automation Enthusiast.">
-
     <style>
         * {
             margin: 0;
@@ -32,9 +29,7 @@
             color: inherit;
         }
 
-        /* =========================
-           NAVBAR
-        ========================= */
+        /* NAVBAR */
 
         header {
             position: fixed;
@@ -42,9 +37,8 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(7, 17, 31, 0.88);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+            background: rgba(7, 17, 31, 0.95);
+            border-bottom: 1px solid #1e293b;
         }
 
         nav {
@@ -57,7 +51,7 @@
         }
 
         .logo {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
             color: #38bdf8;
         }
@@ -76,7 +70,6 @@
         .nav-menu a {
             color: #cbd5e1;
             font-size: 14px;
-            transition: 0.3s;
         }
 
         .nav-menu a:hover {
@@ -86,19 +79,12 @@
         .store-btn {
             background: linear-gradient(135deg, #2563eb, #06b6d4);
             color: white !important;
-            padding: 9px 17px;
+            padding: 10px 18px;
             border-radius: 8px;
             font-weight: bold;
         }
 
-        .store-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
-        }
-
-        /* =========================
-           HERO
-        ========================= */
+        /* HERO */
 
         .hero {
             min-height: 100vh;
@@ -150,7 +136,6 @@
             padding: 12px 22px;
             border-radius: 9px;
             font-weight: bold;
-            transition: 0.3s;
         }
 
         .btn-primary {
@@ -162,17 +147,7 @@
             color: #cbd5e1;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
-        }
-
-        /* =========================
-           FOTO PROFIL
-        ========================= */
+        /* FOTO */
 
         .profile-area {
             display: flex;
@@ -185,9 +160,6 @@
             border-radius: 50%;
             padding: 7px;
             background: linear-gradient(135deg, #38bdf8, #2563eb, #8b5cf6);
-            box-shadow:
-                0 0 60px rgba(56, 189, 248, 0.18),
-                0 0 100px rgba(37, 99, 235, 0.12);
         }
 
         .profile-wrapper img {
@@ -199,9 +171,7 @@
             background: #1e293b;
         }
 
-        /* =========================
-           SECTION
-        ========================= */
+        /* SECTION */
 
         section {
             max-width: 1200px;
@@ -232,9 +202,7 @@
             margin: 10px auto 0;
         }
 
-        /* =========================
-           ABOUT
-        ========================= */
+        /* CARD */
 
         .about-grid {
             display: grid;
@@ -243,17 +211,10 @@
         }
 
         .card {
-            background: rgba(15, 23, 42, 0.75);
+            background: #0f172a;
             border: 1px solid #1e293b;
             border-radius: 16px;
             padding: 28px;
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(56, 189, 248, 0.35);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
         .card h3 {
@@ -275,9 +236,7 @@
             font-style: italic;
         }
 
-        /* =========================
-           EDUCATION
-        ========================= */
+        /* PENDIDIKAN */
 
         .timeline {
             max-width: 850px;
@@ -290,10 +249,6 @@
             border-left: 2px solid #1e40af;
         }
 
-        .timeline-item:last-child {
-            border-left: 2px solid transparent;
-        }
-
         .timeline-item::before {
             content: "";
             position: absolute;
@@ -303,7 +258,6 @@
             height: 12px;
             background: #38bdf8;
             border-radius: 50%;
-            box-shadow: 0 0 15px #38bdf8;
         }
 
         .timeline-year {
@@ -320,9 +274,7 @@
             color: #94a3b8;
         }
 
-        /* =========================
-           SKILLS
-        ========================= */
+        /* SKILLS */
 
         .skills {
             display: grid;
@@ -336,12 +288,6 @@
             background: #0f1c2e;
             border: 1px solid #1e293b;
             border-radius: 14px;
-            transition: 0.3s;
-        }
-
-        .skill:hover {
-            transform: translateY(-5px);
-            border-color: #38bdf8;
         }
 
         .skill-icon {
@@ -359,12 +305,11 @@
             font-size: 12px;
         }
 
-        /* =========================
-           ORGANISASI
-        ========================= */
+        /* ORGANISASI & PRESTASI */
 
         .organization-grid,
-        .achievement-grid {
+        .achievement-grid,
+        .project-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
@@ -374,11 +319,7 @@
         .achievement-card {
             padding: 28px;
             border-radius: 15px;
-            background: linear-gradient(
-                145deg,
-                #0f1c2e,
-                #0b1627
-            );
+            background: #0f1c2e;
             border: 1px solid #1e293b;
         }
 
@@ -399,26 +340,13 @@
             font-size: 14px;
         }
 
-        /* =========================
-           PROJECT
-        ========================= */
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+        /* PROJECT */
 
         .project-card {
             overflow: hidden;
             border-radius: 15px;
             background: #0f1c2e;
             border: 1px solid #1e293b;
-            transition: 0.3s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
         }
 
         .project-top {
@@ -440,17 +368,14 @@
             font-size: 14px;
         }
 
-        /* =========================
-           CONTACT
-        ========================= */
+        /* CONTACT */
 
         .contact-box {
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(37, 99, 235, 0.18),
-                    rgba(6, 182, 212, 0.08)
-                );
+            background: linear-gradient(
+                135deg,
+                rgba(37, 99, 235, 0.18),
+                rgba(6, 182, 212, 0.08)
+            );
             border: 1px solid #1e40af;
             border-radius: 20px;
             padding: 45px;
@@ -493,9 +418,7 @@
             word-break: break-word;
         }
 
-        /* =========================
-           FOOTER
-        ========================= */
+        /* FOOTER */
 
         footer {
             text-align: center;
@@ -509,9 +432,7 @@
             color: #38bdf8;
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
+        /* RESPONSIVE */
 
         @media (max-width: 900px) {
 
@@ -547,17 +468,9 @@
             .project-grid {
                 grid-template-columns: 1fr 1fr;
             }
-
-            .nav-menu li:not(:last-child) {
-                display: none;
-            }
         }
 
         @media (max-width: 600px) {
-
-            .hero {
-                padding-top: 120px;
-            }
 
             .hero h1 {
                 font-size: 40px;
@@ -575,17 +488,8 @@
                 grid-template-columns: 1fr 1fr;
             }
 
-            .contact-box {
-                padding: 28px 18px;
-            }
-
-            .nav-menu {
-                gap: 10px;
-            }
-
-            .store-btn {
-                padding: 8px 12px;
-                font-size: 12px;
+            .nav-menu li:not(:last-child) {
+                display: none;
             }
         }
     </style>
@@ -593,9 +497,7 @@
 
 <body>
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+    <!-- NAVBAR -->
 
     <header>
         <nav>
@@ -605,27 +507,40 @@
             </a>
 
             <ul class="nav-menu">
-                <li><a href="#about">Tentang</a></li>
-                <li><a href="#pendidikan">Pendidikan</a></li>
-                <li><a href="#keahlian">Keahlian</a></li>
-                <li><a href="#organisasi">Organisasi</a></li>
-                <li><a href="#prestasi">Prestasi</a></li>
 
-                <!-- PORTFOLIO → LOGIN -->
+                <li>
+                    <a href="#about">Tentang</a>
+                </li>
+
+                <li>
+                    <a href="#pendidikan">Pendidikan</a>
+                </li>
+
+                <li>
+                    <a href="#keahlian">Keahlian</a>
+                </li>
+
+                <li>
+                    <a href="#organisasi">Organisasi</a>
+                </li>
+
+                <li>
+                    <a href="#prestasi">Prestasi</a>
+                </li>
+
                 <li>
                     <a href="login.html" class="store-btn">
                         🛒 Masuk ke BlueShop
                     </a>
                 </li>
+
             </ul>
 
         </nav>
     </header>
 
 
-    <!-- =========================
-         HERO
-    ========================== -->
+    <!-- HERO -->
 
     <main>
 
@@ -643,8 +558,9 @@
 
                 <p class="hero-description">
                     Web Developer, Data Analyst, dan Automation Enthusiast
-                    yang memiliki ketertarikan pada teknologi, pengembangan
-                    aplikasi web, pengolahan data, serta otomatisasi workflow.
+                    yang memiliki ketertarikan pada teknologi,
+                    pengembangan aplikasi web, pengolahan data,
+                    serta otomatisasi workflow.
                 </p>
 
                 <div class="hero-buttons">
@@ -653,7 +569,6 @@
                         Kenali Saya →
                     </a>
 
-                    <!-- MENUJU LOGIN -->
                     <a href="login.html" class="btn btn-secondary">
                         🛒 Masuk ke Toko BlueShop
                     </a>
@@ -663,27 +578,15 @@
             </div>
 
 
-            <!-- =========================
-                 FOTO PROFIL
-            ========================== -->
+            <!-- FOTO PROFIL -->
 
             <div class="profile-area">
 
                 <div class="profile-wrapper">
 
-                    <!--
-                    GANTI "foto-alvi.jpg" DENGAN NAMA FILE FOTO KAMU.
-
-                    Contoh:
-                    foto-alvi.jpg
-
-                    Simpan foto di folder yang sama dengan index.html.
-                    -->
-
                     <img
                         src="foto-alvi.jpg"
                         alt="Foto Ahmad Alvi Fauji"
-                        onerror="this.src='https://via.placeholder.com/500x500/0f172a/38bdf8?text=ALVI'"
                     >
 
                 </div>
@@ -693,20 +596,23 @@
         </section>
 
 
-        <!-- =========================
-             TENTANG SAYA
-        ========================== -->
+        <!-- TENTANG -->
 
         <section id="about">
 
             <div class="section-title">
+
                 <small>About Me</small>
+
                 <h2>Tentang Saya</h2>
+
                 <p>
-                    Mengenal lebih dekat perjalanan dan ketertarikan saya
-                    di dunia teknologi.
+                    Mengenal lebih dekat perjalanan dan ketertarikan
+                    saya di dunia teknologi.
                 </p>
+
             </div>
+
 
             <div class="about-grid">
 
@@ -715,22 +621,23 @@
                     <h3>👨‍💻 Siapa Saya?</h3>
 
                     <p>
-                        Saya adalah Ahmad Alvi Fauji, seorang pelajar yang
-                        memiliki ketertarikan besar terhadap dunia teknologi
-                        dan pengembangan perangkat lunak.
+                        Saya adalah Ahmad Alvi Fauji, seorang pelajar
+                        yang memiliki ketertarikan besar terhadap
+                        dunia teknologi dan pengembangan perangkat lunak.
                     </p>
 
                     <br>
 
                     <p>
-                        Saya terus mengembangkan kemampuan dalam pembuatan
-                        website, pengolahan data, spreadsheet, serta
-                        otomatisasi workflow menggunakan berbagai teknologi.
+                        Saya terus mengembangkan kemampuan dalam
+                        pembuatan website, pengolahan data,
+                        spreadsheet, serta otomatisasi workflow
+                        menggunakan berbagai teknologi.
                     </p>
 
                     <div class="quote">
-                        "Terus belajar, terus berkembang, dan jangan takut
-                        mencoba sesuatu yang baru."
+                        "Terus belajar, terus berkembang,
+                        dan jangan takut mencoba sesuatu yang baru."
                     </div>
 
                 </div>
@@ -741,21 +648,23 @@
                     <h3>🚀 Fokus Saya</h3>
 
                     <p>
-                        Saya memiliki fokus pada pengembangan aplikasi web,
-                        data analysis, dan automation workflow.
+                        Saya memiliki fokus pada pengembangan
+                        aplikasi web, data analysis,
+                        dan automation workflow.
                     </p>
 
                     <br>
 
                     <p>
-                        Bagi saya, teknologi bukan hanya tentang membuat
-                        sesuatu terlihat bagus, tetapi juga membuat proses
-                        menjadi lebih efektif, terstruktur, dan bermanfaat.
+                        Bagi saya, teknologi bukan hanya tentang
+                        membuat sesuatu terlihat bagus, tetapi juga
+                        membuat proses menjadi lebih efektif,
+                        terstruktur, dan bermanfaat.
                     </p>
 
                     <div class="quote">
-                        "Belajar hari ini untuk menciptakan sesuatu yang
-                        lebih baik di masa depan."
+                        "Belajar hari ini untuk menciptakan sesuatu
+                        yang lebih baik di masa depan."
                     </div>
 
                 </div>
@@ -765,20 +674,18 @@
         </section>
 
 
-        <!-- =========================
-             PENDIDIKAN
-        ========================== -->
+        <!-- PENDIDIKAN -->
 
         <section id="pendidikan">
 
             <div class="section-title">
+
                 <small>Education</small>
+
                 <h2>Riwayat Pendidikan</h2>
-                <p>
-                    Perjalanan pendidikan yang menjadi bagian dari proses
-                    perkembangan saya.
-                </p>
+
             </div>
+
 
             <div class="timeline">
 
@@ -791,8 +698,8 @@
                     <h3>🏫 Sekolah Dasar (SD)</h3>
 
                     <p>
-                        Menempuh pendidikan dasar dan membangun fondasi
-                        pengetahuan serta karakter.
+                        Menempuh pendidikan dasar dan membangun
+                        fondasi pengetahuan serta karakter.
                     </p>
 
                 </div>
@@ -807,9 +714,9 @@
                     <h3>📚 MTs</h3>
 
                     <p>
-                        Melanjutkan pendidikan tingkat menengah pertama
-                        sekaligus mengembangkan kemampuan akademik dan
-                        organisasi.
+                        Melanjutkan pendidikan tingkat menengah
+                        pertama serta mengembangkan kemampuan
+                        akademik dan organisasi.
                     </p>
 
                 </div>
@@ -836,9 +743,7 @@
         </section>
 
 
-        <!-- =========================
-             KEAHLIAN
-        ========================== -->
+        <!-- KEAHLIAN -->
 
         <section id="keahlian">
 
@@ -848,10 +753,6 @@
 
                 <h2>Keahlian</h2>
 
-                <p>
-                    Beberapa kemampuan yang terus saya kembangkan.
-                </p>
-
             </div>
 
 
@@ -860,51 +761,44 @@
                 <div class="skill">
                     <div class="skill-icon">💻</div>
                     <h3>Web Developer</h3>
-                    <p>Frontend & Backend Development</p>
+                    <p>Frontend & Backend</p>
                 </div>
-
 
                 <div class="skill">
                     <div class="skill-icon">📊</div>
                     <h3>Data Analysis</h3>
-                    <p>Analisis dan pengolahan data</p>
+                    <p>Analisis & pengolahan data</p>
                 </div>
-
 
                 <div class="skill">
                     <div class="skill-icon">⚙️</div>
                     <h3>Workflow n8n</h3>
-                    <p>Automation & Workflow</p>
+                    <p>Automation workflow</p>
                 </div>
-
 
                 <div class="skill">
                     <div class="skill-icon">📝</div>
                     <h3>Microsoft Word</h3>
-                    <p>Dokumentasi & pengolahan dokumen</p>
+                    <p>Dokumentasi</p>
                 </div>
-
 
                 <div class="skill">
                     <div class="skill-icon">📈</div>
                     <h3>Microsoft Excel</h3>
-                    <p>Spreadsheet & data processing</p>
+                    <p>Data processing</p>
                 </div>
-
 
                 <div class="skill">
                     <div class="skill-icon">📋</div>
                     <h3>Google Spreadsheet</h3>
-                    <p>Data management & collaboration</p>
+                    <p>Data management</p>
                 </div>
-
 
                 <div class="skill">
                     <div class="skill-icon">🗄️</div>
                     <h3>Database</h3>
-                    <p>Pengelolaan data dan database</p>
+                    <p>Pengelolaan database</p>
                 </div>
-
 
                 <div class="skill">
                     <div class="skill-icon">🔄</div>
@@ -917,9 +811,7 @@
         </section>
 
 
-        <!-- =========================
-             ORGANISASI
-        ========================== -->
+        <!-- ORGANISASI -->
 
         <section id="organisasi">
 
@@ -928,11 +820,6 @@
                 <small>Organization</small>
 
                 <h2>Pengalaman Organisasi</h2>
-
-                <p>
-                    Pengalaman dalam kepemimpinan, kedisiplinan,
-                    kerja sama, dan tanggung jawab.
-                </p>
 
             </div>
 
@@ -946,8 +833,8 @@
                     <h3>Ketua OSIS</h3>
 
                     <p>
-                        Memimpin organisasi siswa, mengoordinasikan kegiatan,
-                        serta membangun kerja sama antaranggota.
+                        Memimpin organisasi siswa, mengoordinasikan
+                        kegiatan, dan membangun kerja sama antaranggota.
                     </p>
 
                 </div>
@@ -961,8 +848,7 @@
 
                     <p>
                         Mengembangkan kedisiplinan, tanggung jawab,
-                        kepemimpinan, dan kekompakan melalui kegiatan
-                        ketarunaan.
+                        kepemimpinan, dan kekompakan.
                     </p>
 
                 </div>
@@ -975,9 +861,8 @@
                     <h3>Ketua Dewan</h3>
 
                     <p>
-                        Berperan dalam mengoordinasikan anggota dan kegiatan
-                        organisasi serta menjadi bagian dalam pengambilan
-                        keputusan.
+                        Mengoordinasikan anggota dan kegiatan organisasi
+                        serta ikut dalam pengambilan keputusan.
                     </p>
 
                 </div>
@@ -987,9 +872,7 @@
         </section>
 
 
-        <!-- =========================
-             PRESTASI
-        ========================== -->
+        <!-- PRESTASI -->
 
         <section id="prestasi">
 
@@ -998,11 +881,6 @@
                 <small>Achievement</small>
 
                 <h2>Prestasi & Pengalaman</h2>
-
-                <p>
-                    Pengalaman kompetisi yang membentuk kedisiplinan,
-                    keberanian, dan kerja sama tim.
-                </p>
 
             </div>
 
@@ -1016,8 +894,8 @@
                     <h3>Lomba PBB Variasi</h3>
 
                     <p>
-                        Mengikuti kompetisi Peraturan Baris-Berbaris
-                        dengan mengutamakan kekompakan, ketepatan,
+                        Mengikuti kompetisi PBB Variasi dengan
+                        mengutamakan kekompakan, ketepatan,
                         disiplin, dan kreativitas.
                     </p>
 
@@ -1031,9 +909,9 @@
                     <h3>Gerak Jalan</h3>
 
                     <p>
-                        Berpartisipasi dalam kegiatan gerak jalan yang
-                        membutuhkan ketahanan, kedisiplinan, dan
-                        koordinasi tim.
+                        Berpartisipasi dalam kegiatan gerak jalan
+                        yang membutuhkan ketahanan, kedisiplinan,
+                        dan koordinasi tim.
                     </p>
 
                 </div>
@@ -1047,8 +925,8 @@
 
                     <p>
                         Mengikuti kegiatan dan kompetisi tenis meja
-                        sebagai pengalaman dalam membangun fokus,
-                        sportivitas, dan semangat kompetisi.
+                        untuk membangun fokus, sportivitas,
+                        dan semangat kompetisi.
                     </p>
 
                 </div>
@@ -1058,9 +936,7 @@
         </section>
 
 
-        <!-- =========================
-             PROJECT
-        ========================== -->
+        <!-- PROJECT -->
 
         <section>
 
@@ -1069,11 +945,6 @@
                 <small>Projects</small>
 
                 <h2>Proyek Yang Saya Kerjakan</h2>
-
-                <p>
-                    Beberapa bidang dan project yang menjadi bagian
-                    dari perjalanan belajar saya.
-                </p>
 
             </div>
 
@@ -1091,9 +962,9 @@
                         <h3>BlueShop E-Commerce</h3>
 
                         <p>
-                            Website toko elektronik dengan sistem login,
-                            produk, keranjang, checkout, dan manajemen
-                            admin menggunakan Supabase.
+                            Website toko elektronik dengan sistem
+                            login, produk, keranjang, checkout,
+                            dan manajemen admin menggunakan Supabase.
                         </p>
 
                     </div>
@@ -1112,9 +983,9 @@
                         <h3>Data Analysis</h3>
 
                         <p>
-                            Pengolahan, analisis, visualisasi, dan
-                            penyajian data untuk mendapatkan informasi
-                            yang lebih mudah dipahami.
+                            Pengolahan, analisis, visualisasi,
+                            dan penyajian data agar lebih mudah
+                            dipahami.
                         </p>
 
                     </div>
@@ -1133,9 +1004,9 @@
                         <h3>Automation Workflow</h3>
 
                         <p>
-                            Membuat workflow otomatis menggunakan n8n
-                            untuk menghubungkan berbagai proses dan
-                            layanan digital.
+                            Membuat workflow otomatis menggunakan
+                            n8n untuk menghubungkan berbagai proses
+                            dan layanan digital.
                         </p>
 
                     </div>
@@ -1147,9 +1018,7 @@
         </section>
 
 
-        <!-- =========================
-             CONTACT
-        ========================== -->
+        <!-- CONTACT -->
 
         <section id="contact">
 
@@ -1158,8 +1027,8 @@
                 <h2>Let's Connect 🚀</h2>
 
                 <p>
-                    Tertarik untuk berkolaborasi atau ingin mengetahui
-                    lebih banyak tentang saya?
+                    Tertarik untuk berkolaborasi atau ingin
+                    mengetahui lebih banyak tentang saya?
                 </p>
 
 
@@ -1200,8 +1069,6 @@
                 </div>
 
 
-                <!-- LOGIN SEBELUM TOKO -->
-
                 <a href="login.html" class="btn btn-primary">
                     🛒 Masuk ke Toko BlueShop →
                 </a>
@@ -1213,9 +1080,7 @@
     </main>
 
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
+    <!-- FOOTER -->
 
     <footer>
 
@@ -1229,7 +1094,6 @@
         </p>
 
     </footer>
-
 
 </body>
 </html>
