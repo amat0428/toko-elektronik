@@ -286,6 +286,7 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            overflow-y: auto;
         }
 
         .modal-content {
@@ -297,6 +298,7 @@
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin: 20px auto;
         }
 
         .modal-header {
@@ -488,6 +490,25 @@
             text-align: right;
         }
 
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 16px;
+            grid-column: 1/-1;
+        }
+
+        .error-msg {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            grid-column: 1/-1;
+            border-left: 4px solid #dc2626;
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -546,7 +567,9 @@
         </div>
 
         <!-- Product Grid -->
-        <div id="productGrid"></div>
+        <div id="productGrid">
+            <div class="loading">⏳ Memuat produk...</div>
+        </div>
     </div>
 
     <!-- ===== MODAL: KERANJANG ===== -->
@@ -601,7 +624,553 @@
     </div>
 
     <script>
-        // [PASTE SELURUH SCRIPT DARI SEBELUMNYA DI SINI]
+        // ===== KONFIGURASI SUPABASE =====
+        const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let allProducts = [];
+        let cart = JSON.parse(localStorage.getItem("blueshop_cart") || "[]");
+        let orders = JSON.parse(localStorage.getItem("blueshop_orders") || "[]");
+        let currentUser = null;
+        let isAdmin = false;
+
+        // ===== SAAT HALAMAN DIBUKA =====
+        document.addEventListener("DOMContentLoaded", async function () {
+            console.log("✅ BlueShop starting...");
+            
+            const loggedIn = checkUserRole();
+            if (!loggedIn) return;
+
+            await fetchProducts();
+            updateBadges();
+
+            const searchInput = document.getElementById("searchInput");
+            if (searchInput) {
+                searchInput.addEventListener("input", filterProducts);
+            }
+        });
+
+        // ===== CEK LOGIN =====
+        function checkUserRole() {
+            const userData = localStorage.getItem("user") || 
+                            localStorage.getItem("currentUser") || 
+                            localStorage.getItem("user_session");
+
+            if (!userData) {
+                alert("Silakan login terlebih dahulu.");
+                window.location.replace("login.html");
+                return false;
+            }
+
+            try {
+                currentUser = JSON.parse(userData);
+            } catch (error) {
+                console.error("Data login rusak:", error);
+                localStorage.removeItem("user");
+                localStorage.removeItem("currentUser");
+                localStorage.removeItem("user_session");
+                window.location.replace("login.html");
+                return false;
+            }
+
+            if (!currentUser) {
+                window.location.replace("login.html");
+                return false;
+            }
+
+            const role = String(currentUser.role || "").toLowerCase();
+            const username = String(currentUser.username || "").toLowerCase();
+            isAdmin = role === "admin" || username === "admin";
+
+            const badge = document.getElementById("roleBadge");
+            const btnAddNav = document.getElementById("btnAddProductNav");
+            const title = document.getElementById("sectionTitle");
+            const displayName = currentUser.name || currentUser.username || "User";
+
+            if (isAdmin) {
+                if (badge) {
+                    badge.innerText = "🛡️ Admin: " + displayName;
+                    badge.style.background = "#10b981";
+                }
+                if (btnAddNav) btnAddNav.style.display = "block";
+                if (title) title.innerText = "DAFTAR PRODUK (KONTROL ADMIN)";
+            } else {
+                if (badge) {
+                    badge.innerText = "👤 User: " + displayName;
+                    badge.style.background = "#0284c7";
+                }
+                if (btnAddNav) btnAddNav.style.display = "none";
+                if (title) title.innerText = "DAFTAR PRODUK";
+            }
+
+            console.log("✅ Login berhasil:", currentUser);
+            return true;
+        }
+
+        // ===== LOGOUT =====
+        function logout() {
+            localStorage.removeItem("user");
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("user_session");
+            window.location.href = "login.html";
+        }
+
+        // ===== AMBIL PRODUK DARI SUPABASE =====
+        async function fetchProducts() {
+            const grid = document.getElementById("productGrid");
+            if (!grid) {
+                console.error("ERROR: #productGrid tidak ditemukan.");
+                return;
+            }
+
+            grid.innerHTML = '<div class="loading">⏳ Memuat produk...</div>';
+
+            try {
+                const { data, error } = await _supabase
+                    .from("produk")
+                    .select("*")
+                    .order("id_produk", { ascending: false });
+
+                if (error) {
+                    throw error;
+                }
+
+                allProducts = data || [];
+                console.log("✅ Produk dari Supabase:", allProducts);
+                renderProducts(allProducts);
+
+            } catch (error) {
+                console.error("ERROR FETCH:", error);
+                grid.innerHTML = `
+                    <div class="error-msg">
+                        <strong>❌ Gagal memuat produk</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // ===== TAMPILKAN PRODUK =====
+        function renderProducts(products) {
+            const grid = document.getElementById("productGrid");
+            if (!grid) {
+                console.error("Element #productGrid tidak ditemukan.");
+                return;
+            }
+
+            grid.innerHTML = "";
+
+            if (!products || products.length === 0) {
+                grid.innerHTML = '<div class="loading" style="grid-column: 1/-1;">📭 Produk tidak ditemukan.</div>';
+                return;
+            }
+
+            products.forEach(function (p) {
+                const id = p.id_produk ?? p.id;
+                const name = p.nama_produk || p.name || "Produk Tanpa Nama";
+                const price = Number(p.harga || p.price || 0);
+                const image = p.gambar || p.image || "https://placehold.co/300x200?text=No+Image";
+
+                let adminButtonsHTML = "";
+                if (isAdmin) {
+                    adminButtonsHTML = `
+                        <div class="admin-actions">
+                            <button class="btn-edit" onclick="editProduct(${id})">✏️ Edit</button>
+                            <button class="btn-delete" onclick="deleteProduct(${id})">🗑️ Hapus</button>
+                        </div>
+                    `;
+                }
+
+                const card = document.createElement("div");
+                card.className = "product-card";
+                card.innerHTML = `
+                    <img src="${escapeAttribute(image)}" class="product-img" alt="${escapeAttribute(name)}" onerror="this.src='https://placehold.co/300x200?text=No+Image'">
+                    <div class="product-details">
+                        <div>
+                            <div class="product-name">${escapeHTML(name)}</div>
+                            <div class="product-price">Rp ${price.toLocaleString("id-ID")}</div>
+                        </div>
+                        <div>
+                            <button class="btn-buy" onclick="buyNow(${id})">Beli Langsung</button>
+                            <button class="btn-add-cart" onclick="addToCart(${id})">+ 🛒 Keranjang</button>
+                        </div>
+                        ${adminButtonsHTML}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== ESCAPE HTML =====
+        function escapeHTML(text) {
+            return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function escapeAttribute(text) {
+            return escapeHTML(text);
+        }
+
+        // ===== SEARCH =====
+        function filterProducts() {
+            const searchInput = document.getElementById("searchInput");
+            if (!searchInput) return;
+
+            const keyword = searchInput.value.toLowerCase().trim();
+            const filtered = allProducts.filter(function (p) {
+                const name = String(p.nama_produk || p.name || "").toLowerCase();
+                return name.includes(keyword);
+            });
+
+            renderProducts(filtered);
+        }
+
+        // ===== TAMBAH KERANJANG =====
+        function addToCart(productId) {
+            const product = allProducts.find(function (p) {
+                return (p.id_produk ?? p.id) == productId;
+            });
+
+            if (!product) {
+                alert("Produk tidak ditemukan.");
+                return;
+            }
+
+            const id = product.id_produk ?? product.id;
+            const name = product.nama_produk || product.name || "Produk";
+            const price = Number(product.harga || product.price || 0);
+            const image = product.gambar || product.image || "";
+
+            const existingItem = cart.find(function (item) {
+                return item.id == id;
+            });
+
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ id: id, name: name, price: price, image: image, qty: 1 });
+            }
+
+            saveCart();
+            alert(name + " berhasil ditambahkan ke keranjang!");
+        }
+
+        // ===== BELI SEKARANG =====
+        function buyNow(productId) {
+            addToCart(productId);
+            openCartModal();
+        }
+
+        // ===== UPDATE QTY =====
+        function updateCartQty(productId, change) {
+            const item = cart.find(function (i) {
+                return i.id == productId;
+            });
+
+            if (!item) return;
+
+            item.qty += change;
+
+            if (item.qty <= 0) {
+                cart = cart.filter(function (i) {
+                    return i.id != productId;
+                });
+            }
+
+            saveCart();
+            renderCartItems();
+        }
+
+        // ===== SIMPAN CART =====
+        function saveCart() {
+            localStorage.setItem("blueshop_cart", JSON.stringify(cart));
+            updateBadges();
+        }
+
+        // ===== BADGES =====
+        function updateBadges() {
+            const cartBadge = document.getElementById("cartBadge");
+            const orderBadge = document.getElementById("orderBadge");
+
+            const totalQty = cart.reduce(function (sum, item) {
+                return sum + Number(item.qty || 0);
+            }, 0);
+
+            if (cartBadge) cartBadge.innerText = totalQty;
+            if (orderBadge) orderBadge.innerText = orders.length;
+        }
+
+        // ===== CART MODAL =====
+        function openCartModal() {
+            const modal = document.getElementById("cartModal");
+            if (!modal) return;
+            renderCartItems();
+            modal.style.display = "flex";
+        }
+
+        function closeCartModal() {
+            const modal = document.getElementById("cartModal");
+            if (modal) modal.style.display = "none";
+        }
+
+        // ===== RENDER CART =====
+        function renderCartItems() {
+            const container = document.getElementById("cartItemsContainer");
+            const btnCheckout = document.getElementById("btnCheckout");
+            const totalElement = document.getElementById("cartTotalPrice");
+
+            if (!container) return;
+
+            container.innerHTML = "";
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:#888;">Keranjang belanja kamu masih kosong.</p>';
+                if (totalElement) totalElement.innerText = "Rp 0";
+                if (btnCheckout) btnCheckout.style.display = "none";
+                return;
+            }
+
+            if (btnCheckout) btnCheckout.style.display = "block";
+
+            let totalPrice = 0;
+
+            cart.forEach(function (item) {
+                totalPrice += Number(item.price) * Number(item.qty);
+
+                const div = document.createElement("div");
+                div.className = "cart-item";
+                div.innerHTML = `
+                    <div class="cart-info">
+                        <div class="cart-title">${escapeHTML(item.name)}</div>
+                        <div class="cart-price">Rp ${Number(item.price).toLocaleString("id-ID")}</div>
+                    </div>
+                    <div class="cart-controls">
+                        <button onclick="updateCartQty(${item.id}, -1)">-</button>
+                        <span>${item.qty}</span>
+                        <button onclick="updateCartQty(${item.id}, 1)">+</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            if (totalElement) {
+                totalElement.innerText = "Rp " + totalPrice.toLocaleString("id-ID");
+            }
+        }
+
+        // ===== CHECKOUT =====
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Keranjang masih kosong.");
+                return;
+            }
+
+            const newOrder = {
+                id: "ORD-" + Date.now().toString().slice(-6),
+                date: new Date().toLocaleDateString("id-ID"),
+                items: [...cart],
+                total: cart.reduce(function (sum, item) {
+                    return sum + Number(item.price) * Number(item.qty);
+                }, 0),
+                status: "Diproses"
+            };
+
+            orders.unshift(newOrder);
+            localStorage.setItem("blueshop_orders", JSON.stringify(orders));
+
+            cart = [];
+            saveCart();
+            closeCartModal();
+            openOrdersModal();
+
+            alert("Pesanan #" + newOrder.id + " berhasil dibuat!");
+        }
+
+        // ===== ORDER MODAL =====
+        function openOrdersModal() {
+            const modal = document.getElementById("ordersModal");
+            if (!modal) return;
+            renderOrdersList();
+            modal.style.display = "flex";
+        }
+
+        function closeOrdersModal() {
+            const modal = document.getElementById("ordersModal");
+            if (modal) modal.style.display = "none";
+        }
+
+        // ===== ORDER LIST =====
+        function renderOrdersList() {
+            const container = document.getElementById("ordersContainer");
+            if (!container) return;
+
+            container.innerHTML = "";
+
+            if (orders.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:#888;">Belum ada pesanan.</p>';
+                return;
+            }
+
+            orders.forEach(function (order) {
+                const itemNames = (order.items || [])
+                    .map(function (i) {
+                        return escapeHTML(i.name) + " (" + i.qty + "x)";
+                    })
+                    .join(", ");
+
+                const div = document.createElement("div");
+                div.className = "order-card";
+                div.innerHTML = `
+                    <div style="display:flex;justify-content:space-between;width:100%;">
+                        <strong style="font-size:13px;color:#2563eb;">Pesanan #${escapeHTML(order.id)}</strong>
+                        <span style="font-size:11px;color:#666;">${escapeHTML(order.date)}</span>
+                    </div>
+                    <div style="font-size:12px;margin:4px 0;">
+                        <b>Produk:</b> ${itemNames}
+                    </div>
+                    <div style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+                        <span style="color:#dc2626;font-weight:bold;font-size:13px;">
+                            Total: Rp ${Number(order.total).toLocaleString("id-ID")}
+                        </span>
+                        <span class="order-status">${escapeHTML(order.status)}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // ===== MODAL PRODUK =====
+        function openProductModal(isEdit = false) {
+            if (!isAdmin) {
+                alert("Hanya admin yang dapat mengelola produk.");
+                return;
+            }
+
+            const modal = document.getElementById("productModal");
+            if (!modal) {
+                alert("Modal produk tidak ditemukan di HTML.");
+                return;
+            }
+
+            const title = document.getElementById("productModalTitle");
+            if (title) {
+                title.innerText = isEdit ? "Edit Produk" : "Tambah Produk Baru";
+            }
+
+            if (!isEdit) {
+                document.getElementById("productId").value = "";
+                document.getElementById("productName").value = "";
+                document.getElementById("productPrice").value = "";
+                document.getElementById("productImage").value = "";
+            }
+
+            modal.style.display = "flex";
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById("productModal");
+            if (modal) modal.style.display = "none";
+        }
+
+        // ===== SIMPAN PRODUK =====
+        async function saveProduct() {
+            if (!isAdmin) {
+                alert("Hanya admin yang dapat mengelola produk.");
+                return;
+            }
+
+            const id = document.getElementById("productId").value;
+            const nama_produk = document.getElementById("productName").value.trim();
+            const harga = Number(document.getElementById("productPrice").value);
+            const gambar = document.getElementById("productImage").value.trim();
+
+            if (!nama_produk) {
+                alert("Nama produk wajib diisi.");
+                return;
+            }
+
+            if (Number.isNaN(harga) || harga < 0) {
+                alert("Harga produk tidak valid.");
+                return;
+            }
+
+            try {
+                let result;
+
+                if (id) {
+                    result = await _supabase
+                        .from("produk")
+                        .update({ nama_produk: nama_produk, harga: harga, gambar: gambar })
+                        .eq("id_produk", id);
+                } else {
+                    result = await _supabase
+                        .from("produk")
+                        .insert({ nama_produk: nama_produk, harga: harga, gambar: gambar, stok: 100 });
+                }
+
+                if (result.error) {
+                    throw result.error;
+                }
+
+                alert(id ? "Produk berhasil diperbarui!" : "Produk berhasil ditambahkan!");
+                closeProductModal();
+                await fetchProducts();
+
+            } catch (error) {
+                console.error("SAVE PRODUCT ERROR:", error);
+                alert("Gagal menyimpan produk:\n" + error.message);
+            }
+        }
+
+        // ===== EDIT PRODUK =====
+        function editProduct(id) {
+            if (!isAdmin) return;
+
+            const product = allProducts.find(function (item) {
+                return (item.id_produk ?? item.id) == id;
+            });
+
+            if (!product) {
+                alert("Produk tidak ditemukan.");
+                return;
+            }
+
+            document.getElementById("productId").value = product.id_produk ?? product.id;
+            document.getElementById("productName").value = product.nama_produk || product.name || "";
+            document.getElementById("productPrice").value = product.harga || product.price || 0;
+            document.getElementById("productImage").value = product.gambar || product.image || "";
+
+            openProductModal(true);
+        }
+
+        // ===== HAPUS PRODUK =====
+        async function deleteProduct(id) {
+            if (!isAdmin) {
+                alert("Hanya admin yang dapat menghapus produk.");
+                return;
+            }
+
+            const yakin = confirm("Yakin ingin menghapus produk ini?");
+            if (!yakin) return;
+
+            try {
+                const result = await _supabase
+                    .from("produk")
+                    .delete()
+                    .eq("id_produk", id);
+
+                if (result.error) {
+                    throw result.error;
+                }
+
+                alert("Produk berhasil dihapus!");
+                await fetchProducts();
+
+            } catch (error) {
+                console.error("DELETE PRODUCT ERROR:", error);
+                alert("Gagal menghapus produk:\n" + error.message);
+            }
+        }
     </script>
 
 </body>
