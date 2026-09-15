@@ -45,7 +45,6 @@
       const emailInput = document.getElementById('email').value.trim();
       const passwordInput = document.getElementById('password').value.trim();
 
-      // Cek akun di database Supabase
       const { data, error } = await _supabase
         .from('users')
         .select('*')
@@ -62,7 +61,6 @@
         return;
       }
 
-      // Format data session pengguna
       const userSession = {
         id: data.id,
         name: data.nama || data.name || data.username || 'User',
@@ -70,13 +68,12 @@
         role: (data.role || 'user').toLowerCase()
       };
 
-      // Simpan session ke LocalStorage
       localStorage.setItem('user', JSON.stringify(userSession));
 
       alert(`Selamat datang, ${userSession.name}!`);
 
-      // Arahkan SELURUH pengguna (Admin maupun User biasa) ke toko.html
-      window.location.href = 'toko.html';
+      // Mengarahkan ke root / index.html (mencakup rute Vercel)
+      window.location.href = 'index.html';
     }
   </script>
 </body>
