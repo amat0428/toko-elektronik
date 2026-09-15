@@ -69,8 +69,8 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Mencegah error jika nama tabel di Supabase kamu "users" atau "user"
-    const TABLE_USER = 'users'; 
+    // Disesuaikan persis dengan nama tabel di Supabase kamu
+    const TABLE_NAME = 'users_list'; 
 
     function switchTab(type) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -95,34 +95,30 @@
       btn.disabled = true;
 
       try {
-        let { data, error } = await _supabase.from(TABLE_USER).select('*').ilike('email', emailInput);
-
-        // Jika tabel 'users' tidak ketemu, coba fallback ke 'user'
-        if (error && error.code === 'PGRST205') {
-          const res = await _supabase.from('user').select('*').ilike('email', emailInput);
-          data = res.data;
-          error = res.error;
-        }
+        // Mencari email di kolom 'username' pada tabel 'users_list'
+        const { data, error } = await _supabase
+          .from(TABLE_NAME)
+          .select('*')
+          .ilike('username', emailInput);
 
         if (error) throw error;
 
         if (!data || data.length === 0) {
-          alert("Email tidak ditemukan! Silakan daftar akun baru di tab sebelah.");
+          alert("Email tidak ditemukan! Silakan daftar akun baru.");
           return;
         }
 
         const user = data[0];
-        const userPassword = user.password || user.pass;
 
-        if (userPassword !== passwordInput) {
+        if (user.password !== passwordInput) {
           alert("Password salah!");
           return;
         }
 
         const userSession = {
-          id: user.id || user.id_user,
-          name: user.nama || user.name || user.username || 'User',
-          email: user.email,
+          id: user.id,
+          name: user.name || 'User',
+          email: user.username,
           role: String(user.role || 'user').toLowerCase()
         };
 
@@ -141,7 +137,7 @@
     async function handleRegister(event) {
       event.preventDefault();
       const btn = document.getElementById('btnRegister');
-      const nama = document.getElementById('regName').value.trim();
+      const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim().toLowerCase();
       const password = document.getElementById('regPassword').value.trim();
 
@@ -149,26 +145,31 @@
       btn.disabled = true;
 
       try {
-        let targetTable = TABLE_USER;
-        let { data: checkData, error: checkErr } = await _supabase.from(targetTable).select('email').ilike('email', email);
-
-        if (checkErr && checkErr.code === 'PGRST205') {
-          targetTable = 'user';
-          const res = await _supabase.from(targetTable).select('email').ilike('email', email);
-          checkData = res.data;
-          checkErr = res.error;
-        }
+        // 1. Cek apakah email (username) sudah pernah mendaftar
+        const { data: existingUser, error: checkErr } = await _supabase
+          .from(TABLE_NAME)
+          .select('username')
+          .ilike('username', email);
 
         if (checkErr) throw checkErr;
 
-        if (checkData && checkData.length > 0) {
-          alert("Email sudah terdaftar! Silakan login.");
+        if (existingUser && existingUser.length > 0) {
+          alert("Email ini sudah terdaftar! Silakan login.");
           switchTab('login');
           document.getElementById('loginEmail').value = email;
           return;
         }
 
-        const { error: insertErr } = await _supabase.from(targetTable).insert([{ nama, email, password, role: 'user' }]);
+        // 2. Masukkan pengguna baru sesuai struktur kolom Supabase (name, username, password, role)
+        const { error: insertErr } = await _supabase
+          .from(TABLE_NAME)
+          .insert([{ 
+            name: name, 
+            username: email, 
+            password: password, 
+            role: 'user' 
+          }]);
+
         if (insertErr) throw insertErr;
 
         alert("Pendaftaran berhasil! Silakan login.");
