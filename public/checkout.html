@@ -1,107 +1,67 @@
-const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxMjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Fungsi bantu hitung & ambil data keranjang terbaru
-  function getCartData() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const selectedItems = cart.filter(item => item.selected !== false);
-    const totalPrice = selectedItems.reduce((sum, item) => sum + ((item.price || item.harga || 0) * (item.qty || 1)), 0);
-    return { cart, selectedItems, totalPrice };
-  }
-
-  // 2. Tampilkan Total Harga saat halaman dibuka
-  const { selectedItems: initialItems, totalPrice: initialTotal } = getCartData();
-  const checkoutTotalEl = document.getElementById('checkoutTotal');
-  if (checkoutTotalEl) {
-    checkoutTotalEl.innerText = 'Rp ' + Number(initialTotal).toLocaleString('id-ID');
-  }
-
-  // 3. Isi nama otomatis dari session user jika ada
-  const userData = localStorage.getItem('user');
-  if (userData) {
-    try {
-      const currentUser = JSON.parse(userData);
-      const inputNama = document.getElementById('namaLengkap');
-      if (currentUser.name && inputNama) {
-        inputNama.value = currentUser.name;
-      }
-    } catch (e) {
-      console.error("Gagal parse user data:", e);
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Toko Elektronik</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; }
+    header { background-color: #0284c7; padding: 15px 5%; color: white; text-align: center; }
+    .container { max-width: 600px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h2 { margin-bottom: 20px; color: #0284c7; border-bottom: 2px solid #0284c7; padding-bottom: 8px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #1e293b; }
+    .form-group input, .form-group textarea { 
+      width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; 
+      font-size: 14px; color: #0f172a !important; background-color: #ffffff !important; 
     }
-  }
+    .summary-box { background: #f8fafc; border: 1px dashed #0284c7; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
+    .summary-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; color: #1e293b; }
+    .btn-submit { background-color: #10b981; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .btn-submit:hover { background-color: #059669; }
+    .btn-submit:disabled { background-color: #9ca3af; cursor: not-allowed; }
+  </style>
+</head>
+<body>
 
-  // 4. Handle Event Submit Form Checkout
-  const checkoutForm = document.getElementById('checkoutForm');
-  if (checkoutForm) {
-    checkoutForm.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Mencegah reload browser
+  <header>
+    <h1>Toko Elektronik</h1>
+  </header>
 
-      // Ambil data keranjang paling update saat tombol diklik
-      const { cart, selectedItems, totalPrice } = getCartData();
+  <div class="container">
+    <h2>Form Checkout</h2>
+    
+    <div class="summary-box">
+      <div class="summary-row">
+        <span>Total Ringkasan:</span>
+        <span id="checkoutTotal">Rp 0</span>
+      </div>
+    </div>
 
-      if (selectedItems.length === 0) {
-        alert('Keranjang Anda kosong atau belum ada produk yang dipilih!');
-        window.location.href = 'cart.html';
-        return;
-      }
+    <form id="checkoutForm">
+      <div class="form-group">
+        <label for="namaLengkap">Nama Lengkap</label>
+        <input type="text" id="namaLengkap" placeholder="Masukkan nama Anda" required>
+      </div>
 
-      const inputNama = document.getElementById('namaLengkap');
-      const inputHp = document.getElementById('nomorHp');
-      const inputAlamat = document.getElementById('alamatPengiriman');
-      const btnBayar = document.getElementById('btnBayar');
+      <div class="form-group">
+        <label for="nomorHp">Nomor HP / WhatsApp</label>
+        <input type="tel" id="nomorHp" placeholder="08xxxxxxxxxx" required>
+      </div>
 
-      const nama = inputNama ? inputNama.value.trim() : '';
-      const nohp = inputHp ? inputHp.value.trim() : '';
-      const alamat = inputAlamat ? inputAlamat.value.trim() : '';
+      <div class="form-group">
+        <label for="alamatPengiriman">Alamat Pengiriman</label>
+        <textarea id="alamatPengiriman" rows="3" placeholder="Masukkan alamat lengkap..." required></textarea>
+      </div>
 
-      if (!nama || !nohp || !alamat) {
-        alert('Harap isi semua data pada form!');
-        return;
-      }
+      <button type="submit" id="btnBayar" class="btn-submit">Konfirmasi & Bayar</button>
+    </form>
+  </div>
 
-      const userSession = localStorage.getItem('user');
-      const currentUser = userSession ? JSON.parse(userSession) : { id: 'GUEST', name: nama };
-
-      try {
-        if (btnBayar) {
-          btnBayar.disabled = true;
-          btnBayar.innerText = 'Memproses Pesanan...';
-        }
-
-        // Kirim Ke Supabase
-        const { data, error } = await _supabase.from('orders').insert([
-          {
-            user_id: String(currentUser.id || 'GUEST'),
-            user_name: nama,
-            nomor_hp: nohp,
-            alamat: alamat,
-            total_harga: totalPrice,
-            items: selectedItems,
-            status: 'Menunggu Konfirmasi'
-          }
-        ]).select();
-
-        if (error) {
-          console.error("Supabase Error detail:", error);
-          throw error;
-        }
-
-        // Hapus item yang sudah dibeli dari localStorage
-        const remainingCart = cart.filter(item => item.selected === false);
-        localStorage.setItem('cart', JSON.stringify(remainingCart));
-
-        alert('Pesanan berhasil dibuat!');
-        window.location.href = 'orders.html';
-
-      } catch (err) {
-        alert('Gagal memproses pesanan: ' + (err.message || 'Periksa koneksi atau kolom Supabase'));
-        if (btnBayar) {
-          btnBayar.disabled = false;
-          btnBayar.innerText = 'Konfirmasi & Bayar';
-        }
-      }
-    });
-  }
-});
+  <!-- PANGGUL LIBRARY SUPABASE LEBIH DULU -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- BARU PANGGIL FILE CHECKOUT.JS -->
+  <script src="js/checkout.js"></script>
+</body>
+</html>
