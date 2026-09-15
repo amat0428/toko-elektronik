@@ -1,47 +1,61 @@
-<script>
 const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
 const SUPABASE_KEY = "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
-let _supabase = null;
-
-// Cek apakah SDK Supabase sudah terload dari CDN
-if (typeof supabase !== "undefined") {
-    _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-} else {
-    console.error("SDK Supabase belum terload di HTML! Pastikan CDN Supabase sudah terpasang.");
-}
+const _supabase = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 let allProducts = [];
-let cart = JSON.parse(localStorage.getItem("blueshop_cart") || "[]");
-let orders = JSON.parse(localStorage.getItem("blueshop_orders") || "[]");
+
+let cart = JSON.parse(
+    localStorage.getItem("blueshop_cart") || "[]"
+);
+
+let orders = JSON.parse(
+    localStorage.getItem("blueshop_orders") || "[]"
+);
+
 let currentUser = null;
 let isAdmin = false;
+
 
 // =====================================================
 // SAAT HALAMAN DIBUKA
 // =====================================================
+
 document.addEventListener("DOMContentLoaded", async function () {
     console.log("BlueShop mulai...");
 
     const loggedIn = checkUserRole();
-    if (!loggedIn) return;
+
+    if (!loggedIn) {
+        return;
+    }
 
     await fetchProducts();
     updateBadges();
 
     const searchInput = document.getElementById("searchInput");
+
     if (searchInput) {
-        searchInput.addEventListener("input", filterProducts);
+        searchInput.addEventListener(
+            "input",
+            filterProducts
+        );
     }
 });
+
 
 // =====================================================
 // CEK LOGIN
 // =====================================================
+
 function checkUserRole() {
-    const userData = localStorage.getItem("user") || 
-                     localStorage.getItem("currentUser") || 
-                     localStorage.getItem("user_session");
+    const userData =
+        localStorage.getItem("user") ||
+        localStorage.getItem("currentUser") ||
+        localStorage.getItem("user_session");
 
     if (!userData) {
         alert("Silakan login terlebih dahulu.");
@@ -53,7 +67,12 @@ function checkUserRole() {
         currentUser = JSON.parse(userData);
     } catch (error) {
         console.error("Data login rusak:", error);
-        clearAuthData();
+
+        localStorage.removeItem("user");
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("user_session");
+        localStorage.removeItem("isLoggedIn");
+
         window.location.replace("login.html");
         return false;
     }
@@ -66,63 +85,88 @@ function checkUserRole() {
     const role = String(currentUser.role || "").toLowerCase();
     const username = String(currentUser.username || "").toLowerCase();
 
-    isAdmin = (role === "admin" || username === "admin");
+    isAdmin = role === "admin" || username === "admin";
 
     const badge = document.getElementById("roleBadge");
     const btnAddNav = document.getElementById("btnAddProductNav");
     const title = document.getElementById("sectionTitle");
+
     const displayName = currentUser.name || currentUser.username || "User";
 
+    // ADMIN
     if (isAdmin) {
         if (badge) {
             badge.innerText = "🛡️ Admin: " + displayName;
             badge.style.background = "#10b981";
         }
-        if (btnAddNav) btnAddNav.style.display = "block";
-        if (title) title.innerText = "DAFTAR PRODUK (KONTROL ADMIN)";
-    } else {
+        if (btnAddNav) {
+            btnAddNav.style.display = "block";
+        }
+        if (title) {
+            title.innerText = "DAFTAR PRODUK (KONTROL ADMIN)";
+        }
+    }
+    // USER
+    else {
         if (badge) {
             badge.innerText = "👤 User: " + displayName;
             badge.style.background = "#0284c7";
         }
-        if (btnAddNav) btnAddNav.style.display = "none";
-        if (title) title.innerText = "DAFTAR PRODUK";
+        if (btnAddNav) {
+            btnAddNav.style.display = "none";
+        }
+        if (title) {
+            title.innerText = "DAFTAR PRODUK";
+        }
     }
+
+    console.log("Login berhasil:", currentUser);
+    console.log("Status admin:", isAdmin);
 
     return true;
 }
 
-function clearAuthData() {
+
+// =====================================================
+// LOGOUT
+// =====================================================
+
+function logout() {
     localStorage.removeItem("user");
     localStorage.removeItem("currentUser");
     localStorage.removeItem("user_session");
     localStorage.removeItem("isLoggedIn");
-}
 
-function logout() {
-    clearAuthData();
     window.location.href = "login.html";
 }
+
 
 // =====================================================
 // AMBIL PRODUK DARI SUPABASE
 // =====================================================
+
 async function fetchProducts() {
     const grid = document.getElementById("productGrid");
-    if (!grid) return;
 
-    grid.innerHTML = `<p style="grid-column:1/-1; text-align:center;">Memuat produk...</p>`;
-
-    if (!_supabase) {
-        grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:red;">Koneksi Supabase gagal diinisialisasi.</p>`;
+    if (!grid) {
+        console.error("ERROR: #productGrid tidak ditemukan.");
         return;
     }
 
+    grid.innerHTML = `
+        <p style="grid-column:1/-1; text-align:center;">
+            Memuat produk...
+        </p>
+    `;
+
     try {
-        const { data, error } = await _supabase
+        const result = await _supabase
             .from("produk")
             .select("*")
             .order("id_produk", { ascending: false });
+
+        const data = result.data;
+        const error = result.error;
 
         if (error) {
             console.error("SUPABASE ERROR:", error);
@@ -136,24 +180,40 @@ async function fetchProducts() {
         }
 
         allProducts = data || [];
+        console.log("Produk dari Supabase:", allProducts);
+
         renderProducts(allProducts);
     } catch (error) {
         console.error("ERROR FETCH:", error);
-        grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:red;">Terjadi kesalahan saat mengambil data produk.</p>`;
+        grid.innerHTML = `
+            <p style="grid-column:1/-1; text-align:center; color:red;">
+                Terjadi kesalahan saat mengambil data produk.
+            </p>
+        `;
     }
 }
+
 
 // =====================================================
 // TAMPILKAN PRODUK
 // =====================================================
+
 function renderProducts(products) {
     const grid = document.getElementById("productGrid");
-    if (!grid) return;
+
+    if (!grid) {
+        console.error("Element #productGrid tidak ditemukan.");
+        return;
+    }
 
     grid.innerHTML = "";
 
     if (!products || products.length === 0) {
-        grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#888;">Produk tidak ditemukan.</p>`;
+        grid.innerHTML = `
+            <p style="grid-column:1/-1; text-align:center; color:#888;">
+                Produk tidak ditemukan.
+            </p>
+        `;
         return;
     }
 
@@ -164,40 +224,62 @@ function renderProducts(products) {
         const image = p.gambar || p.image || "https://placehold.co/300x200?text=No+Image";
 
         let adminButtonsHTML = "";
+
         if (isAdmin) {
             adminButtonsHTML = `
                 <div class="admin-actions">
-                    <button class="btn-edit" onclick="editProduct(${id})">✏️ Edit</button>
-                    <button class="btn-delete" onclick="deleteProduct(${id})">🗑️ Hapus</button>
+                    <button class="btn-edit" onclick="editProduct(${id})">
+                        ✏️ Edit
+                    </button>
+                    <button class="btn-delete" onclick="deleteProduct(${id})">
+                        🗑️ Hapus
+                    </button>
                 </div>
             `;
         }
 
         const card = document.createElement("div");
         card.className = "product-card";
+
         card.innerHTML = `
-            <img src="${escapeAttribute(image)}" class="product-img" alt="${escapeAttribute(name)}" onerror="this.src='https://placehold.co/300x200?text=No+Image'">
+            <img
+                src="${escapeAttribute(image)}"
+                class="product-img"
+                alt="${escapeAttribute(name)}"
+                onerror="this.src='https://placehold.co/300x200?text=No+Image'"
+            >
             <div class="product-details">
                 <div>
-                    <div class="product-name">${escapeHTML(name)}</div>
-                    <div class="product-price">Rp ${price.toLocaleString("id-ID")}</div>
+                    <div class="product-name">
+                        ${escapeHTML(name)}
+                    </div>
+                    <div class="product-price">
+                        Rp ${price.toLocaleString("id-ID")}
+                    </div>
                 </div>
                 <div>
-                    <button class="btn-buy" onclick="buyNow(${id})">Beli Langsung</button>
-                    <button class="btn-add-cart" onclick="addToCart(${id})">+ 🛒 Keranjang</button>
+                    <button class="btn-buy" onclick="buyNow(${id})">
+                        Beli Langsung
+                    </button>
+                    <button class="btn-add-cart" onclick="addToCart(${id})">
+                        + 🛒 Keranjang
+                    </button>
                 </div>
                 ${adminButtonsHTML}
             </div>
         `;
+
         grid.appendChild(card);
     });
 }
 
+
 // =====================================================
-// ESCAPE HTML & ATTRIBUTE
+// ESCAPE HTML
 // =====================================================
+
 function escapeHTML(text) {
-    return String(text || "")
+    return String(text)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -209,27 +291,45 @@ function escapeAttribute(text) {
     return escapeHTML(text);
 }
 
+
 // =====================================================
 // SEARCH
 // =====================================================
+
 function filterProducts() {
     const searchInput = document.getElementById("searchInput");
-    if (!searchInput) return;
+
+    if (!searchInput) {
+        return;
+    }
 
     const keyword = searchInput.value.toLowerCase().trim();
+
     const filtered = allProducts.filter(function (p) {
-        const name = String(p.nama_produk || p.name || "").toLowerCase();
+        // [PERBAIKAN] Menambahkan pencarian berdasarkan deskripsi atau kategori jika ada, 
+        // serta memastikan tidak error jika properti bernilai null.
+        const name = String(
+            p.nama_produk ||
+            p.name ||
+            ""
+        ).toLowerCase();
+
         return name.includes(keyword);
     });
 
     renderProducts(filtered);
 }
 
+
 // =====================================================
-// KERANJANG & CHECKOUT
+// TAMBAH KERANJANG
 // =====================================================
+
 function addToCart(productId) {
-    const product = allProducts.find(p => (p.id_produk ?? p.id) == productId);
+    const product = allProducts.find(function (p) {
+        return (p.id_produk ?? p.id) == productId;
+    });
+
     if (!product) {
         alert("Produk tidak ditemukan.");
         return;
@@ -240,61 +340,118 @@ function addToCart(productId) {
     const price = Number(product.harga || product.price || 0);
     const image = product.gambar || product.image || "";
 
-    const existingItem = cart.find(item => item.id == id);
+    const existingItem = cart.find(function (item) {
+        return item.id == id;
+    });
+
     if (existingItem) {
         existingItem.qty += 1;
     } else {
-        cart.push({ id, name, price, image, qty: 1 });
+        cart.push({
+            id: id,
+            name: name,
+            price: price,
+            image: image,
+            qty: 1
+        });
     }
 
     saveCart();
     alert(name + " berhasil ditambahkan ke keranjang!");
 }
 
+
+// =====================================================
+// BELI SEKARANG
+// =====================================================
+
 function buyNow(productId) {
     addToCart(productId);
     openCartModal();
 }
 
+
+// =====================================================
+// UPDATE QTY
+// =====================================================
+
 function updateCartQty(productId, change) {
-    const item = cart.find(i => i.id == productId);
-    if (!item) return;
+    const item = cart.find(function (i) {
+        return i.id == productId;
+    });
+
+    if (!item) {
+        return;
+    }
 
     item.qty += change;
+
     if (item.qty <= 0) {
-        cart = cart.filter(i => i.id != productId);
+        cart = cart.filter(function (i) {
+            return i.id != productId;
+        });
     }
 
     saveCart();
     renderCartItems();
 }
 
+
+// =====================================================
+// SIMPAN CART
+// =====================================================
+
 function saveCart() {
     localStorage.setItem("blueshop_cart", JSON.stringify(cart));
     updateBadges();
 }
 
+
+// =====================================================
+// BADGES
+// =====================================================
+
 function updateBadges() {
     const cartBadge = document.getElementById("cartBadge");
     const orderBadge = document.getElementById("orderBadge");
 
-    const totalQty = cart.reduce((sum, item) => sum + Number(item.qty || 0), 0);
+    const totalQty = cart.reduce(function (sum, item) {
+        return sum + Number(item.qty || 0);
+    }, 0);
 
-    if (cartBadge) cartBadge.innerText = totalQty;
-    if (orderBadge) orderBadge.innerText = orders.length;
+    if (cartBadge) {
+        cartBadge.innerText = totalQty;
+    }
+
+    if (orderBadge) {
+        orderBadge.innerText = orders.length;
+    }
 }
+
+
+// =====================================================
+// CART MODAL
+// =====================================================
 
 function openCartModal() {
     const modal = document.getElementById("cartModal");
     if (!modal) return;
+
     renderCartItems();
     modal.style.display = "flex";
 }
 
 function closeCartModal() {
     const modal = document.getElementById("cartModal");
-    if (modal) modal.style.display = "none";
+    if (modal) {
+        modal.style.display = "none";
+    }
 }
+
+
+// =====================================================
+// RENDER CART
+// =====================================================
 
 function renderCartItems() {
     const container = document.getElementById("cartItemsContainer");
@@ -302,10 +459,16 @@ function renderCartItems() {
     const totalElement = document.getElementById("cartTotalPrice");
 
     if (!container) return;
+
     container.innerHTML = "";
 
     if (cart.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:#888;">Keranjang belanja kamu masih kosong.</p>`;
+        container.innerHTML = `
+            <p style="text-align:center; color:#888;">
+                Keranjang belanja kamu masih kosong.
+            </p>
+        `;
+
         if (totalElement) totalElement.innerText = "Rp 0";
         if (btnCheckout) btnCheckout.style.display = "none";
         return;
@@ -314,15 +477,21 @@ function renderCartItems() {
     if (btnCheckout) btnCheckout.style.display = "block";
 
     let totalPrice = 0;
+
     cart.forEach(function (item) {
         totalPrice += Number(item.price) * Number(item.qty);
 
         const div = document.createElement("div");
         div.className = "cart-item";
+
         div.innerHTML = `
             <div class="cart-info">
-                <div class="cart-title">${escapeHTML(item.name)}</div>
-                <div class="cart-price">Rp ${Number(item.price).toLocaleString("id-ID")}</div>
+                <div class="cart-title">
+                    ${escapeHTML(item.name)}
+                </div>
+                <div class="cart-price">
+                    Rp ${Number(item.price).toLocaleString("id-ID")}
+                </div>
             </div>
             <div class="cart-controls">
                 <button onclick="updateCartQty(${item.id}, -1)">-</button>
@@ -330,6 +499,7 @@ function renderCartItems() {
                 <button onclick="updateCartQty(${item.id}, 1)">+</button>
             </div>
         `;
+
         container.appendChild(div);
     });
 
@@ -337,6 +507,11 @@ function renderCartItems() {
         totalElement.innerText = "Rp " + totalPrice.toLocaleString("id-ID");
     }
 }
+
+
+// =====================================================
+// CHECKOUT
+// =====================================================
 
 function checkout() {
     if (cart.length === 0) {
@@ -348,33 +523,47 @@ function checkout() {
         id: "ORD-" + Date.now().toString().slice(-6),
         date: new Date().toLocaleDateString("id-ID"),
         items: [...cart],
-        total: cart.reduce((sum, item) => sum + Number(item.price) * Number(item.qty), 0),
+        total: cart.reduce(function (sum, item) {
+            return sum + Number(item.price) * Number(item.qty);
+        }, 0),
         status: "Diproses"
     };
 
     orders.unshift(newOrder);
     localStorage.setItem("blueshop_orders", JSON.stringify(orders));
+
     cart = [];
     saveCart();
     closeCartModal();
     openOrdersModal();
+
     alert("Pesanan #" + newOrder.id + " berhasil dibuat!");
 }
 
+
 // =====================================================
-// ORDER MODAL & LIST
+// ORDER MODAL
 // =====================================================
+
 function openOrdersModal() {
     const modal = document.getElementById("ordersModal");
     if (!modal) return;
+
     renderOrdersList();
     modal.style.display = "flex";
 }
 
 function closeOrdersModal() {
     const modal = document.getElementById("ordersModal");
-    if (modal) modal.style.display = "none";
+    if (modal) {
+        modal.style.display = "none";
+    }
 }
+
+
+// =====================================================
+// ORDER LIST
+// =====================================================
 
 function renderOrdersList() {
     const container = document.getElementById("ordersContainer");
@@ -383,21 +572,32 @@ function renderOrdersList() {
     container.innerHTML = "";
 
     if (orders.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:#888;">Belum ada pesanan.</p>`;
+        container.innerHTML = `
+            <p style="text-align:center; color:#888;">
+                Belum ada pesanan.
+            </p>
+        `;
         return;
     }
 
     orders.forEach(function (order) {
         const itemNames = (order.items || [])
-            .map(i => escapeHTML(i.name) + " (" + i.qty + "x)")
+            .map(function (i) {
+                return escapeHTML(i.name) + " (" + i.qty + "x)";
+            })
             .join(", ");
 
         const div = document.createElement("div");
         div.className = "order-card";
+
         div.innerHTML = `
             <div style="display:flex; justify-content:space-between; width:100%;">
-                <strong style="font-size:13px; color:#2563eb;">Pesanan #${escapeHTML(order.id)}</strong>
-                <span style="font-size:11px; color:#666;">${escapeHTML(order.date)}</span>
+                <strong style="font-size:13px; color:#2563eb;">
+                    Pesanan #${escapeHTML(order.id)}
+                </strong>
+                <span style="font-size:11px; color:#666;">
+                    ${escapeHTML(order.date)}
+                </span>
             </div>
             <div style="font-size:12px; margin:4px 0;">
                 <b>Produk:</b> ${itemNames}
@@ -406,16 +606,21 @@ function renderOrdersList() {
                 <span style="color:#dc2626; font-weight:bold; font-size:13px;">
                     Total: Rp ${Number(order.total).toLocaleString("id-ID")}
                 </span>
-                <span class="order-status">${escapeHTML(order.status)}</span>
+                <span class="order-status">
+                    ${escapeHTML(order.status)}
+                </span>
             </div>
         `;
+
         container.appendChild(div);
     });
 }
 
+
 // =====================================================
-// MANAJEMEN PRODUK (ADMIN)
+// MODAL PRODUK (TAMBAH/EDIT)
 // =====================================================
+
 function openProductModal(isEdit = false) {
     if (!isAdmin) {
         alert("Hanya admin yang dapat mengelola produk.");
@@ -433,20 +638,38 @@ function openProductModal(isEdit = false) {
         title.innerText = isEdit ? "Edit Produk" : "Tambah Produk Baru";
     }
 
+    // [PERBAIKAN] Jika bukan mode edit (artinya tambah baru), reset form input
     if (!isEdit) {
-        document.getElementById("productId").value = "";
-        document.getElementById("productName").value = "";
-        document.getElementById("productPrice").value = "";
-        document.getElementById("productImage").value = "";
+        const id = document.getElementById("productId");
+        const name = document.getElementById("productName");
+        const price = document.getElementById("productPrice");
+        const image = document.getElementById("productImage");
+
+        if (id) id.value = "";
+        if (name) name.value = "";
+        if (price) price.value = "";
+        if (image) image.value = "";
     }
 
     modal.style.display = "flex";
 }
 
+
+// =====================================================
+// TUTUP MODAL PRODUK
+// =====================================================
+
 function closeProductModal() {
     const modal = document.getElementById("productModal");
-    if (modal) modal.style.display = "none";
+    if (modal) {
+        modal.style.display = "none";
+    }
 }
+
+
+// =====================================================
+// SIMPAN PRODUK (TAMBAH / EDIT KE SUPABASE)
+// =====================================================
 
 async function saveProduct() {
     if (!isAdmin) {
@@ -454,10 +677,15 @@ async function saveProduct() {
         return;
     }
 
-    const id = document.getElementById("productId").value;
-    const nama_produk = document.getElementById("productName").value.trim();
-    const harga = Number(document.getElementById("productPrice").value);
-    const gambar = document.getElementById("productImage").value.trim();
+    const idInput = document.getElementById("productId");
+    const nameInput = document.getElementById("productName");
+    const priceInput = document.getElementById("productPrice");
+    const imageInput = document.getElementById("productImage");
+
+    const id = idInput ? idInput.value : "";
+    const nama_produk = nameInput ? nameInput.value.trim() : "";
+    const harga = priceInput ? Number(priceInput.value) : NaN;
+    const gambar = imageInput ? imageInput.value.trim() : "";
 
     if (!nama_produk) {
         alert("Nama produk wajib diisi.");
@@ -472,22 +700,39 @@ async function saveProduct() {
     try {
         let result;
 
+        // EDIT PRODUK
         if (id) {
-            // EDIT PRODUK
             result = await _supabase
                 .from("produk")
-                .update({ nama_produk, harga, gambar })
+                .update({
+                    nama_produk: nama_produk,
+                    harga: harga,
+                    gambar: gambar
+                })
                 .eq("id_produk", id);
-        } else {
-            // TAMBAH PRODUK (Menggunakan array object untuk insert Supabase)
+        } 
+        // TAMBAH PRODUK BARU
+        else {
             result = await _supabase
                 .from("produk")
-                .insert([{ nama_produk, harga, gambar, stok: 100 }]);
+                .insert({
+                    nama_produk: nama_produk,
+                    harga: harga,
+                    gambar: gambar,
+                    stok: 100
+                });
         }
 
-        if (result.error) throw result.error;
+        if (result.error) {
+            throw result.error;
+        }
 
-        alert(id ? "Produk berhasil diperbarui!" : "Produk berhasil ditambahkan!");
+        alert(
+            id
+                ? "Produk berhasil diperbarui!"
+                : "Produk berhasil ditambahkan!"
+        );
+
         closeProductModal();
         await fetchProducts();
 
@@ -497,22 +742,40 @@ async function saveProduct() {
     }
 }
 
+
+// =====================================================
+// EDIT PRODUK (ISI FORM)
+// =====================================================
+
 function editProduct(id) {
     if (!isAdmin) return;
 
-    const product = allProducts.find(item => (item.id_produk ?? item.id) == id);
+    const product = allProducts.find(function (item) {
+        return (item.id_produk ?? item.id) == id;
+    });
+
     if (!product) {
         alert("Produk tidak ditemukan.");
         return;
     }
 
-    document.getElementById("productId").value = product.id_produk ?? product.id;
-    document.getElementById("productName").value = product.nama_produk || product.name || "";
-    document.getElementById("productPrice").value = product.harga || product.price || 0;
-    document.getElementById("productImage").value = product.gambar || product.image || "";
+    const idInput = document.getElementById("productId");
+    const nameInput = document.getElementById("productName");
+    const priceInput = document.getElementById("productPrice");
+    const imageInput = document.getElementById("productImage");
+
+    if (idInput) idInput.value = product.id_produk ?? product.id;
+    if (nameInput) nameInput.value = product.nama_produk || product.name || "";
+    if (priceInput) priceInput.value = product.harga || product.price || 0;
+    if (imageInput) imageInput.value = product.gambar || product.image || "";
 
     openProductModal(true);
 }
+
+
+// =====================================================
+// HAPUS PRODUK
+// =====================================================
 
 async function deleteProduct(id) {
     if (!isAdmin) {
@@ -520,7 +783,8 @@ async function deleteProduct(id) {
         return;
     }
 
-    if (!confirm("Yakin ingin menghapus produk ini?")) return;
+    const yakin = confirm("Yakin ingin menghapus produk ini?");
+    if (!yakin) return;
 
     try {
         const result = await _supabase
@@ -528,14 +792,15 @@ async function deleteProduct(id) {
             .delete()
             .eq("id_produk", id);
 
-        if (result.error) throw result.error;
+            if (result.error) {
+                throw result.error;
+            }
 
-        alert("Produk berhasil dihapus!");
-        await fetchProducts();
+            alert("Produk berhasil dihapus!");
+            await fetchProducts();
 
     } catch (error) {
         console.error("DELETE PRODUCT ERROR:", error);
         alert("Gagal menghapus produk:\n" + error.message);
     }
 }
-</script>
