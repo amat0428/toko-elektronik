@@ -1,7 +1,6 @@
 <script>
     const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
 
-    // PENTING: pakai ANON KEY Supabase kamu yang asli
     const SUPABASE_KEY = 'PASTE_ANON_KEY_KAMU';
 
     const _supabase = supabase.createClient(
@@ -15,7 +14,9 @@
     /* =========================================
        PINDAH TAB LOGIN / REGISTER
     ========================================= */
+
     function switchTab(type) {
+
         document
             .querySelectorAll('.tab-btn')
             .forEach(btn => btn.classList.remove('active'));
@@ -24,7 +25,9 @@
             .querySelectorAll('.form-container')
             .forEach(form => form.classList.remove('active'));
 
+
         if (type === 'login') {
+
             document
                 .querySelectorAll('.tab-btn')[0]
                 .classList.add('active');
@@ -32,7 +35,9 @@
             document
                 .getElementById('loginForm')
                 .classList.add('active');
+
         } else {
+
             document
                 .querySelectorAll('.tab-btn')[1]
                 .classList.add('active');
@@ -47,89 +52,115 @@
     /* =========================================
        LOGIN
     ========================================= */
+
     async function handleLogin(event) {
+
         event.preventDefault();
 
-        const btn = document.getElementById('btnLogin');
+        const btn =
+            document.getElementById('btnLogin');
 
-        const emailInput = document
-            .getElementById('loginEmail')
-            .value
-            .trim()
-            .toLowerCase();
+        const emailInput =
+            document
+                .getElementById('loginEmail')
+                .value
+                .trim()
+                .toLowerCase();
 
-        const passwordInput = document
-            .getElementById('loginPassword')
-            .value
-            .trim();
+        const passwordInput =
+            document
+                .getElementById('loginPassword')
+                .value
+                .trim();
+
 
         btn.innerText = 'Memeriksa...';
         btn.disabled = true;
 
+
         try {
 
-            // Cari user berdasarkan username/email
-            const { data, error } = await _supabase
-                .from(TABLE_NAME)
-                .select('*')
-                .ilike('username', emailInput);
+            /* Cari user berdasarkan email */
+            const { data, error } =
+                await _supabase
+                    .from(TABLE_NAME)
+                    .select('*')
+                    .ilike('username', emailInput);
+
 
             if (error) {
                 throw error;
             }
 
-            // Email tidak ditemukan
+
+            /* Email tidak ditemukan */
             if (!data || data.length === 0) {
+
                 alert(
                     'Email tidak ditemukan! Silakan daftar akun baru.'
                 );
+
                 return;
             }
+
 
             const user = data[0];
 
-            // Cek password
+
+            /* Cek password */
             if (user.password !== passwordInput) {
+
                 alert('Password salah!');
+
                 return;
             }
 
-            // Buat session
+
+            /* Buat session user */
             const userSession = {
+
                 id: user.id,
+
                 name: user.name || 'User',
+
                 email: user.username,
+
                 username: user.username,
-                role: String(user.role || 'user').toLowerCase()
+
+                role: String(
+                    user.role || 'user'
+                ).toLowerCase()
             };
 
-            // Simpan session user
+
+            /* Simpan login */
             localStorage.setItem(
                 'user',
                 JSON.stringify(userSession)
             );
 
-            // Tandai sudah login
+
+            /* Tandai sudah login */
             localStorage.setItem(
                 'isLoggedIn',
                 'true'
             );
 
-            console.log('LOGIN BERHASIL');
-            console.log('User:', userSession);
 
             alert(
                 `Selamat datang, ${userSession.name}!`
             );
 
-            // =====================================
-            // SETELAH LOGIN → LANGSUNG KE TOKO
-            // =====================================
-            window.location.replace('toko.html');
+
+            /*
+                PENTING:
+                Setelah login masuk ke TOKO,
+                bukan kembali ke portfolio.
+            */
+            window.location.href = 'toko.html';
+
 
         } catch (err) {
-
-            console.error('Login Error:', err);
 
             alert(
                 'Gagal Login: ' + err.message
@@ -138,6 +169,7 @@
         } finally {
 
             btn.innerText = 'Masuk';
+
             btn.disabled = false;
         }
     }
@@ -146,17 +178,21 @@
     /* =========================================
        REGISTER
     ========================================= */
+
     async function handleRegister(event) {
+
         event.preventDefault();
 
         const btn =
             document.getElementById('btnRegister');
+
 
         const name =
             document
                 .getElementById('regName')
                 .value
                 .trim();
+
 
         const email =
             document
@@ -165,18 +201,21 @@
                 .trim()
                 .toLowerCase();
 
+
         const password =
             document
                 .getElementById('regPassword')
                 .value
                 .trim();
 
+
         btn.innerText = 'Mendaftarkan...';
         btn.disabled = true;
 
+
         try {
 
-            // Cek email
+            /* Cek email */
             const {
                 data: existingUser,
                 error: checkErr
@@ -185,14 +224,17 @@
                 .select('username')
                 .ilike('username', email);
 
+
             if (checkErr) {
                 throw checkErr;
             }
+
 
             if (
                 existingUser &&
                 existingUser.length > 0
             ) {
+
                 alert(
                     'Email ini sudah terdaftar! Silakan login.'
                 );
@@ -206,36 +248,45 @@
                 return;
             }
 
-            // Simpan user baru
+
+            /* Simpan user baru */
             const {
                 error: insertErr
             } = await _supabase
                 .from(TABLE_NAME)
                 .insert([{
+
                     name: name,
+
                     username: email,
+
                     password: password,
+
                     role: 'user'
+
                 }]);
+
 
             if (insertErr) {
                 throw insertErr;
             }
 
+
             alert(
                 'Pendaftaran berhasil! Silakan login.'
             );
 
-            // Pindah ke tab login
+
+            /* Pindah ke login */
             switchTab('login');
+
 
             document
                 .getElementById('loginEmail')
                 .value = email;
 
-        } catch (err) {
 
-            console.error('Register Error:', err);
+        } catch (err) {
 
             alert(
                 'Gagal Mendaftar: ' + err.message
@@ -244,6 +295,7 @@
         } finally {
 
             btn.innerText = 'Daftar Sekarang';
+
             btn.disabled = false;
         }
     }
