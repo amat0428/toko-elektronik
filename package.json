@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "toko-elektronik",
   "version": "1.0.0",
   "description": "Aplikasi E-Commerce Toko Elektronik",
