@@ -3,44 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Riwayat Pesanan - Toko Elektronik</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Daftar Pesanan - Toko Elektronik</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; }
+    
+    header {
+      background-color: #0284c7; padding: 15px 5%; color: white;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    header h1 { font-size: 20px; }
+    
+    .profile-bar {
+      display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.15);
+      padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: bold;
+    }
+    .profile-avatar {
+      width: 28px; height: 28px; background: white; color: #0284c7;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: bold; text-transform: uppercase;
+    }
+
+    .container { max-width: 800px; margin: 30px auto; padding: 0 15px; }
+    .page-title { margin-bottom: 20px; color: #0f172a; border-bottom: 2px solid #0284c7; padding-bottom: 8px; }
+
+    /* CARD PESANAN */
+    .order-card {
+      background: white; border-radius: 8px; padding: 20px; margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #0284c7;
+    }
+    .order-header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px dashed #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;
+    }
+    .order-id { font-size: 14px; font-weight: bold; color: #0284c7; }
+    .order-date { font-size: 12px; color: #64748b; }
+    
+    .status-badge {
+      background: #fef3c7; color: #d97706; padding: 4px 10px; border-radius: 12px;
+      font-size: 12px; font-weight: bold;
+    }
+    .status-badge.selesai { background: #d1fae5; color: #059669; }
+
+    .item-list { margin-bottom: 15px; }
+    .item-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; color: #334155; }
+    
+    .order-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid #e2e8f0; padding-top: 12px; font-weight: bold;
+    }
+    .total-price { font-size: 16px; color: #0f172a; }
+
+    .empty-state {
+      text-align: center; padding: 50px 20px; background: white; border-radius: 8px;
+    }
+    .btn-shop {
+      display: inline-block; margin-top: 15px; background: #0284c7; color: white;
+      padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold;
+    }
+  </style>
 </head>
 <body>
+
   <header>
     <h1>Toko Elektronik</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="products.html">Produk</a>
-    </nav>
+    <div class="profile-bar">
+      <div class="profile-avatar" id="userInitial">G</div>
+      <span id="userName">Pengunjung</span>
+    </div>
   </header>
 
-  <main>
-    <h2>Riwayat Pesanan Saya</h2>
-    <div id="orders-list"></div>
-  </main>
+  <div class="container">
+    <h2 class="page-title">Riwayat Pesanan</h2>
+    <div id="ordersContainer">
+      <div class="empty-state">
+        <p>Memuat data pesanan...</p>
+      </div>
+    </div>
+  </div>
 
-  <script src="js/app.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const container = document.getElementById('orders-list');
-      try {
-        const res = await fetch('/api/orders');
-        const result = await res.json();
-        if (result.success && result.data.length > 0) {
-          container.innerHTML = result.data.map(order => `
-            <div class="order-card">
-              <h4>Order ID: ${order.orderId}</h4>
-              <p>Total: ${formatRupiah(order.totalAmount)}</p>
-              <p>Status: <strong>${order.status}</strong></p>
-              <small>Tanggal: ${new Date(order.createdAt).toLocaleDateString('id-ID')}</small>
-            </div>
-          `).join('');
-        }
-      } catch (e) {
-        container.innerHTML = '<p>Tidak ada riwayat pesanan.</p>';
-      }
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/orders.js"></script>
 </body>
 </html>
