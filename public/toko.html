@@ -1,5 +1,4 @@
 <script>
-
 const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
 
 const SUPABASE_KEY = "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
@@ -11,14 +10,15 @@ const _supabase = supabase.createClient(
 
 let allProducts = [];
 
-let cart =
-    JSON.parse(localStorage.getItem("blueshop_cart")) || [];
+let cart = JSON.parse(
+    localStorage.getItem("blueshop_cart") || "[]"
+);
 
-let orders =
-    JSON.parse(localStorage.getItem("blueshop_orders")) || [];
+let orders = JSON.parse(
+    localStorage.getItem("blueshop_orders") || "[]"
+);
 
 let currentUser = null;
-
 let isAdmin = false;
 
 
@@ -27,6 +27,8 @@ let isAdmin = false;
 // =====================================================
 
 document.addEventListener("DOMContentLoaded", async function () {
+
+    console.log("BlueShop mulai...");
 
     const loggedIn = checkUserRole();
 
@@ -42,12 +44,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("searchInput");
 
     if (searchInput) {
-
         searchInput.addEventListener(
             "input",
             filterProducts
         );
-
     }
 
 });
@@ -73,14 +73,16 @@ function checkUserRole() {
         return false;
     }
 
-
     try {
 
         currentUser = JSON.parse(userData);
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Data login rusak:",
+            error
+        );
 
         localStorage.removeItem("user");
         localStorage.removeItem("currentUser");
@@ -92,7 +94,6 @@ function checkUserRole() {
         return false;
     }
 
-
     if (!currentUser) {
 
         window.location.replace("login.html");
@@ -102,10 +103,14 @@ function checkUserRole() {
 
 
     const role =
-        String(currentUser.role || "").toLowerCase();
+        String(
+            currentUser.role || ""
+        ).toLowerCase();
 
     const username =
-        String(currentUser.username || "").toLowerCase();
+        String(
+            currentUser.username || ""
+        ).toLowerCase();
 
 
     isAdmin =
@@ -114,13 +119,19 @@ function checkUserRole() {
 
 
     const badge =
-        document.getElementById("roleBadge");
+        document.getElementById(
+            "roleBadge"
+        );
 
     const btnAddNav =
-        document.getElementById("btnAddProductNav");
+        document.getElementById(
+            "btnAddProductNav"
+        );
 
     const title =
-        document.getElementById("sectionTitle");
+        document.getElementById(
+            "sectionTitle"
+        );
 
 
     const displayName =
@@ -129,16 +140,18 @@ function checkUserRole() {
         "User";
 
 
+    // ADMIN
+
     if (isAdmin) {
 
         if (badge) {
 
             badge.innerText =
-                "🛡️ Admin: " + displayName;
+                "🛡️ Admin: " +
+                displayName;
 
             badge.style.background =
                 "#10b981";
-
         }
 
 
@@ -146,7 +159,6 @@ function checkUserRole() {
 
             btnAddNav.style.display =
                 "block";
-
         }
 
 
@@ -154,19 +166,23 @@ function checkUserRole() {
 
             title.innerText =
                 "DAFTAR PRODUK (KONTROL ADMIN)";
-
         }
 
-    } else {
+    }
+
+
+    // USER
+
+    else {
 
         if (badge) {
 
             badge.innerText =
-                "👤 User: " + displayName;
+                "👤 User: " +
+                displayName;
 
             badge.style.background =
                 "#0284c7";
-
         }
 
 
@@ -174,7 +190,6 @@ function checkUserRole() {
 
             btnAddNav.style.display =
                 "none";
-
         }
 
 
@@ -182,11 +197,20 @@ function checkUserRole() {
 
             title.innerText =
                 "DAFTAR PRODUK";
-
         }
 
     }
 
+
+    console.log(
+        "Login berhasil:",
+        currentUser
+    );
+
+    console.log(
+        "Status admin:",
+        isAdmin
+    );
 
     return true;
 }
@@ -203,7 +227,8 @@ function logout() {
     localStorage.removeItem("user_session");
     localStorage.removeItem("isLoggedIn");
 
-    window.location.href = "login.html";
+    window.location.href =
+        "login.html";
 }
 
 
@@ -214,57 +239,119 @@ function logout() {
 async function fetchProducts() {
 
     const grid =
-        document.getElementById("productGrid");
+        document.getElementById(
+            "productGrid"
+        );
+
+    if (!grid) {
+
+        console.error(
+            "ERROR: #productGrid tidak ditemukan."
+        );
+
+        return;
+    }
+
+
+    grid.innerHTML = `
+        <p style="
+            grid-column:1/-1;
+            text-align:center;
+        ">
+            Memuat produk...
+        </p>
+    `;
 
 
     try {
 
-        const { data, error } =
+        const result =
             await _supabase
                 .from("produk")
                 .select("*")
-                .order("id_produk", {
-                    ascending: false
-                });
+                .order(
+                    "id_produk",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        const data =
+            result.data;
+
+        const error =
+            result.error;
 
 
         if (error) {
 
             console.error(
-                "Supabase Error:",
+                "SUPABASE ERROR:",
                 error
             );
 
-            if (grid) {
 
-                grid.innerHTML = `
-                    <p style="
-                        grid-column:1/-1;
-                        text-align:center;
-                        color:red;
-                    ">
-                        Gagal memuat produk dari database.
-                        <br>
-                        ${error.message}
+            grid.innerHTML = `
+                <div style="
+                    grid-column:1/-1;
+                    text-align:center;
+                    padding:30px;
+                    color:#dc2626;
+                ">
+
+                    <h3>
+                        Gagal memuat produk
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            error.message
+                        )}
                     </p>
-                `;
 
-            }
+                </div>
+            `;
 
             return;
         }
 
 
-        allProducts = data || [];
+        allProducts =
+            data || [];
 
-        renderProducts(allProducts);
 
-    } catch (error) {
+        console.log(
+            "Produk dari Supabase:",
+            allProducts
+        );
 
-        console.error(error);
+
+        renderProducts(
+            allProducts
+        );
 
     }
 
+    catch (error) {
+
+        console.error(
+            "ERROR FETCH:",
+            error
+        );
+
+
+        grid.innerHTML = `
+            <p style="
+                grid-column:1/-1;
+                text-align:center;
+                color:red;
+            ">
+                Terjadi kesalahan saat
+                mengambil data produk.
+            </p>
+        `;
+    }
 }
 
 
@@ -275,7 +362,9 @@ async function fetchProducts() {
 function renderProducts(products) {
 
     const grid =
-        document.getElementById("productGrid");
+        document.getElementById(
+            "productGrid"
+        );
 
 
     if (!grid) {
@@ -291,7 +380,10 @@ function renderProducts(products) {
     grid.innerHTML = "";
 
 
-    if (!products || products.length === 0) {
+    if (
+        !products ||
+        products.length === 0
+    ) {
 
         grid.innerHTML = `
             <p style="
@@ -307,157 +399,187 @@ function renderProducts(products) {
     }
 
 
-    products.forEach(function (p) {
+    products.forEach(
+        function (p) {
 
-        const id =
-            p.id_produk ?? p.id;
-
-        const name =
-            p.nama_produk ||
-            p.name ||
-            "Produk Tanpa Nama";
-
-        const price =
-            Number(
-                p.harga ||
-                p.price ||
-                0
-            );
-
-        const image =
-            p.gambar ||
-            p.image ||
-            "";
+            const id =
+                p.id_produk ??
+                p.id;
 
 
-        let adminButtonsHTML = "";
+            const name =
+                p.nama_produk ||
+                p.name ||
+                "Produk Tanpa Nama";
 
 
-        if (isAdmin) {
+            const price =
+                Number(
+                    p.harga ||
+                    p.price ||
+                    0
+                );
 
-            adminButtonsHTML = `
-                <div class="admin-actions">
 
-                    <button
-                        class="btn-edit"
-                        onclick="editProduct(${id})">
+            const image =
+                p.gambar ||
+                p.image ||
+                "https://placehold.co/300x200?text=No+Image";
 
-                        Edit
 
-                    </button>
+            let adminButtonsHTML =
+                "";
 
-                    <button
-                        class="btn-delete"
-                        onclick="deleteProduct(${id})">
 
-                        Hapus
+            if (isAdmin) {
 
-                    </button>
+                adminButtonsHTML = `
+                    <div class="admin-actions">
+
+                        <button
+                            class="btn-edit"
+                            onclick="editProduct(${id})"
+                        >
+                            ✏️ Edit
+                        </button>
+
+                        <button
+                            class="btn-delete"
+                            onclick="deleteProduct(${id})"
+                        >
+                            🗑️ Hapus
+                        </button>
+
+                    </div>
+                `;
+            }
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "product-card";
+
+
+            card.innerHTML = `
+
+                <img
+                    src="${escapeAttribute(image)}"
+                    class="product-img"
+                    alt="${escapeAttribute(name)}"
+                    onerror="this.src='https://placehold.co/300x200?text=No+Image'"
+                >
+
+
+                <div class="product-details">
+
+                    <div>
+
+                        <div class="product-name">
+                            ${escapeHTML(name)}
+                        </div>
+
+
+                        <div class="product-price">
+                            Rp ${price.toLocaleString("id-ID")}
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <button
+                            class="btn-buy"
+                            onclick="buyNow(${id})"
+                        >
+                            Beli Langsung
+                        </button>
+
+
+                        <button
+                            class="btn-add-cart"
+                            onclick="addToCart(${id})"
+                        >
+                            + 🛒 Keranjang
+                        </button>
+
+                    </div>
+
+
+                    ${adminButtonsHTML}
 
                 </div>
             `;
 
+
+            grid.appendChild(
+                card
+            );
+
         }
-
-
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "product-card";
-
-
-        card.innerHTML = `
-
-            <img
-                src="${image}"
-                class="product-img"
-                alt="${escapeHTML(name)}"
-                onerror="
-                    this.src =
-                    'https://placehold.co/300x200?text=No+Image'
-                "
-            >
-
-            <div class="product-details">
-
-                <div>
-
-                    <div class="product-name">
-                        ${escapeHTML(name)}
-                    </div>
-
-                    <div class="product-price">
-                        Rp ${price.toLocaleString("id-ID")}
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <button
-                        class="btn-buy"
-                        onclick="buyNow(${id})">
-
-                        Beli Langsung
-
-                    </button>
-
-
-                    <button
-                        class="btn-add-cart"
-                        onclick="addToCart(${id})">
-
-                        + 🛒 Keranjang
-
-                    </button>
-
-                </div>
-
-
-                ${adminButtonsHTML}
-
-            </div>
-        `;
-
-
-        grid.appendChild(card);
-
-    });
-
+    );
 }
 
 
 // =====================================================
-// CEGAH HTML RUSAK DARI NAMA PRODUK
+// ESCAPE HTML
 // =====================================================
 
 function escapeHTML(text) {
 
     return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+function escapeAttribute(text) {
+
+    return escapeHTML(text);
 }
 
 
 // =====================================================
-// PENCARIAN
+// SEARCH
 // =====================================================
 
 function filterProducts() {
 
     const searchInput =
-        document.getElementById("searchInput");
+        document.getElementById(
+            "searchInput"
+        );
 
 
     if (!searchInput) {
-
         return;
     }
 
@@ -469,52 +591,63 @@ function filterProducts() {
 
 
     const filtered =
-        allProducts.filter(function (p) {
+        allProducts.filter(
+            function (p) {
 
-            const name =
-                (
-                    p.nama_produk ||
-                    p.name ||
-                    ""
-                ).toLowerCase();
-
-
-            return name.includes(keyword);
-
-        });
+                const name =
+                    String(
+                        p.nama_produk ||
+                        p.name ||
+                        ""
+                    ).toLowerCase();
 
 
-    renderProducts(filtered);
+                return name.includes(
+                    keyword
+                );
+            }
+        );
 
+
+    renderProducts(
+        filtered
+    );
 }
 
 
 // =====================================================
-// TAMBAH KE KERANJANG
+// TAMBAH KERANJANG
 // =====================================================
 
 function addToCart(productId) {
 
     const product =
-        allProducts.find(function (p) {
+        allProducts.find(
+            function (p) {
 
-            return (
-                (p.id_produk ?? p.id) == productId
-            );
+                return (
+                    (p.id_produk ?? p.id) ==
+                    productId
+                );
 
-        });
+            }
+        );
 
 
     if (!product) {
 
-        alert("Produk tidak ditemukan.");
+        alert(
+            "Produk tidak ditemukan."
+        );
 
         return;
     }
 
 
     const id =
-        product.id_produk ?? product.id;
+        product.id_produk ??
+        product.id;
+
 
     const name =
         product.nama_produk ||
@@ -537,11 +670,13 @@ function addToCart(productId) {
 
 
     const existingItem =
-        cart.find(function (item) {
+        cart.find(
+            function (item) {
 
-            return item.id == id;
+                return item.id == id;
 
-        });
+            }
+        );
 
 
     if (existingItem) {
@@ -574,7 +709,6 @@ function addToCart(productId) {
         name +
         " berhasil ditambahkan ke keranjang!"
     );
-
 }
 
 
@@ -584,29 +718,34 @@ function addToCart(productId) {
 
 function buyNow(productId) {
 
-    addToCart(productId);
+    addToCart(
+        productId
+    );
 
     openCartModal();
-
 }
 
 
 // =====================================================
-// UPDATE JUMLAH KERANJANG
+// UPDATE QTY
 // =====================================================
 
-function updateCartQty(productId, change) {
+function updateCartQty(
+    productId,
+    change
+) {
 
     const item =
-        cart.find(function (i) {
+        cart.find(
+            function (i) {
 
-            return i.id == productId;
+                return i.id == productId;
 
-        });
+            }
+        );
 
 
     if (!item) {
-
         return;
     }
 
@@ -617,24 +756,24 @@ function updateCartQty(productId, change) {
     if (item.qty <= 0) {
 
         cart =
-            cart.filter(function (i) {
+            cart.filter(
+                function (i) {
 
-                return i.id != productId;
+                    return i.id != productId;
 
-            });
-
+                }
+            );
     }
 
 
     saveCart();
 
     renderCartItems();
-
 }
 
 
 // =====================================================
-// SIMPAN KERANJANG
+// SIMPAN CART
 // =====================================================
 
 function saveCart() {
@@ -645,36 +784,47 @@ function saveCart() {
     );
 
     updateBadges();
-
 }
 
 
 // =====================================================
-// BADGE KERANJANG & PESANAN
+// BADGES
 // =====================================================
 
 function updateBadges() {
 
     const cartBadge =
-        document.getElementById("cartBadge");
+        document.getElementById(
+            "cartBadge"
+        );
+
 
     const orderBadge =
-        document.getElementById("orderBadge");
+        document.getElementById(
+            "orderBadge"
+        );
 
 
     const totalQty =
-        cart.reduce(function (sum, item) {
+        cart.reduce(
+            function (sum, item) {
 
-            return sum + Number(item.qty || 0);
+                return (
+                    sum +
+                    Number(
+                        item.qty || 0
+                    )
+                );
 
-        }, 0);
+            },
+            0
+        );
 
 
     if (cartBadge) {
 
         cartBadge.innerText =
             totalQty;
-
     }
 
 
@@ -682,52 +832,53 @@ function updateBadges() {
 
         orderBadge.innerText =
             orders.length;
-
     }
-
 }
 
 
 // =====================================================
-// MODAL KERANJANG
+// CART MODAL
 // =====================================================
 
 function openCartModal() {
 
     const modal =
-        document.getElementById("cartModal");
+        document.getElementById(
+            "cartModal"
+        );
 
 
     if (!modal) {
-
         return;
     }
 
 
     renderCartItems();
 
-    modal.style.display = "flex";
 
+    modal.style.display =
+        "flex";
 }
 
 
 function closeCartModal() {
 
     const modal =
-        document.getElementById("cartModal");
+        document.getElementById(
+            "cartModal"
+        );
 
 
     if (modal) {
 
-        modal.style.display = "none";
-
+        modal.style.display =
+            "none";
     }
-
 }
 
 
 // =====================================================
-// TAMPILKAN KERANJANG
+// RENDER CART
 // =====================================================
 
 function renderCartItems() {
@@ -751,12 +902,12 @@ function renderCartItems() {
 
 
     if (!container) {
-
         return;
     }
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     if (cart.length === 0) {
@@ -766,7 +917,8 @@ function renderCartItems() {
                 text-align:center;
                 color:#888;
             ">
-                Keranjang belanja kamu masih kosong.
+                Keranjang belanja kamu
+                masih kosong.
             </p>
         `;
 
@@ -775,7 +927,6 @@ function renderCartItems() {
 
             totalElement.innerText =
                 "Rp 0";
-
         }
 
 
@@ -783,7 +934,6 @@ function renderCartItems() {
 
             btnCheckout.style.display =
                 "none";
-
         }
 
 
@@ -795,77 +945,87 @@ function renderCartItems() {
 
         btnCheckout.style.display =
             "block";
-
     }
 
 
-    let totalPrice = 0;
+    let totalPrice =
+        0;
 
 
-    cart.forEach(function (item) {
+    cart.forEach(
+        function (item) {
 
-        totalPrice +=
-            Number(item.price) *
-            Number(item.qty);
-
-
-        const div =
-            document.createElement("div");
+            totalPrice +=
+                Number(item.price) *
+                Number(item.qty);
 
 
-        div.className =
-            "cart-item";
+            const div =
+                document.createElement(
+                    "div"
+                );
 
 
-        div.innerHTML = `
+            div.className =
+                "cart-item";
 
-            <div class="cart-info">
 
-                <div class="cart-title">
-                    ${escapeHTML(item.name)}
+            div.innerHTML = `
+
+                <div class="cart-info">
+
+                    <div class="cart-title">
+                        ${escapeHTML(item.name)}
+                    </div>
+
+                    <div class="cart-price">
+                        Rp ${Number(item.price)
+                            .toLocaleString("id-ID")}
+                    </div>
+
                 </div>
 
-                <div class="cart-price">
-                    Rp ${Number(item.price)
-                        .toLocaleString("id-ID")}
+
+                <div class="cart-controls">
+
+                    <button
+                        onclick="updateCartQty(${item.id}, -1)"
+                    >
+                        -
+                    </button>
+
+
+                    <span>
+                        ${item.qty}
+                    </span>
+
+
+                    <button
+                        onclick="updateCartQty(${item.id}, 1)"
+                    >
+                        +
+                    </button>
+
                 </div>
-
-            </div>
-
-
-            <div class="cart-controls">
-
-                <button
-                    onclick="updateCartQty(${item.id}, -1)">
-                    -
-                </button>
-
-                <span>
-                    ${item.qty}
-                </span>
-
-                <button
-                    onclick="updateCartQty(${item.id}, 1)">
-                    +
-                </button>
-
-            </div>
-        `;
+            `;
 
 
-        container.appendChild(div);
+            container.appendChild(
+                div
+            );
 
-    });
+        }
+    );
 
 
     if (totalElement) {
 
         totalElement.innerText =
             "Rp " +
-            totalPrice.toLocaleString("id-ID");
-
+            totalPrice.toLocaleString(
+                "id-ID"
+            );
     }
-
 }
 
 
@@ -877,7 +1037,9 @@ function checkout() {
 
     if (cart.length === 0) {
 
-        alert("Keranjang masih kosong.");
+        alert(
+            "Keranjang masih kosong."
+        );
 
         return;
     }
@@ -893,29 +1055,38 @@ function checkout() {
 
         date:
             new Date()
-                .toLocaleDateString("id-ID"),
+                .toLocaleDateString(
+                    "id-ID"
+                ),
 
         items:
             [...cart],
 
         total:
-            cart.reduce(function (sum, item) {
+            cart.reduce(
+                function (
+                    sum,
+                    item
+                ) {
 
-                return sum +
-                    (
+                    return (
+                        sum +
                         Number(item.price) *
                         Number(item.qty)
                     );
 
-            }, 0),
+                },
+                0
+            ),
 
         status:
             "Diproses"
-
     };
 
 
-    orders.unshift(newOrder);
+    orders.unshift(
+        newOrder
+    );
 
 
     localStorage.setItem(
@@ -926,9 +1097,12 @@ function checkout() {
 
     cart = [];
 
+
     saveCart();
 
+
     closeCartModal();
+
 
     openOrdersModal();
 
@@ -938,12 +1112,11 @@ function checkout() {
         newOrder.id +
         " berhasil dibuat!"
     );
-
 }
 
 
 // =====================================================
-// MODAL PESANAN
+// ORDER MODAL
 // =====================================================
 
 function openOrdersModal() {
@@ -955,15 +1128,15 @@ function openOrdersModal() {
 
 
     if (!modal) {
-
         return;
     }
 
 
     renderOrdersList();
 
-    modal.style.display = "flex";
 
+    modal.style.display =
+        "flex";
 }
 
 
@@ -977,15 +1150,14 @@ function closeOrdersModal() {
 
     if (modal) {
 
-        modal.style.display = "none";
-
+        modal.style.display =
+            "none";
     }
-
 }
 
 
 // =====================================================
-// TAMPILKAN PESANAN
+// ORDER LIST
 // =====================================================
 
 function renderOrdersList() {
@@ -997,12 +1169,12 @@ function renderOrdersList() {
 
 
     if (!container) {
-
         return;
     }
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     if (orders.length === 0) {
@@ -1020,119 +1192,128 @@ function renderOrdersList() {
     }
 
 
-    orders.forEach(function (order) {
+    orders.forEach(
+        function (order) {
 
-        const itemNames =
-            order.items
-                .map(function (i) {
+            const itemNames =
+                (order.items || [])
+                    .map(
+                        function (i) {
 
-                    return (
-                        escapeHTML(i.name) +
-                        " (" +
-                        i.qty +
-                        "x)"
-                    );
+                            return (
+                                escapeHTML(
+                                    i.name
+                                ) +
+                                " (" +
+                                i.qty +
+                                "x)"
+                            );
 
-                })
-                .join(", ");
-
-
-        const div =
-            document.createElement("div");
-
-
-        div.className =
-            "order-card";
+                        }
+                    )
+                    .join(", ");
 
 
-        div.innerHTML = `
+            const div =
+                document.createElement(
+                    "div"
+                );
 
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                width:100%;
-            ">
 
-                <strong style="
-                    font-size:13px;
-                    color:#2563eb;
+            div.className =
+                "order-card";
+
+
+            div.innerHTML = `
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    width:100%;
                 ">
 
-                    Pesanan #${order.id}
+                    <strong style="
+                        font-size:13px;
+                        color:#2563eb;
+                    ">
+                        Pesanan #${escapeHTML(order.id)}
+                    </strong>
 
-                </strong>
+
+                    <span style="
+                        font-size:11px;
+                        color:#666;
+                    ">
+                        ${escapeHTML(order.date)}
+                    </span>
+
+                </div>
 
 
-                <span style="
-                    font-size:11px;
-                    color:#666;
+                <div style="
+                    font-size:12px;
+                    margin:4px 0;
                 ">
 
-                    ${order.date}
+                    <b>Produk:</b>
 
-                </span>
+                    ${itemNames}
 
-            </div>
-
-
-            <div style="
-                font-size:12px;
-                margin:4px 0;
-            ">
-
-                <b>Produk:</b>
-                ${itemNames}
-
-            </div>
+                </div>
 
 
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                width:100%;
-                align-items:center;
-            ">
-
-                <span style="
-                    color:#dc2626;
-                    font-weight:bold;
-                    font-size:13px;
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    width:100%;
+                    align-items:center;
                 ">
 
-                    Total:
-                    Rp ${Number(order.total)
-                        .toLocaleString("id-ID")}
+                    <span style="
+                        color:#dc2626;
+                        font-weight:bold;
+                        font-size:13px;
+                    ">
 
-                </span>
+                        Total:
+                        Rp ${Number(order.total)
+                            .toLocaleString("id-ID")}
 
-
-                <span class="order-status">
-
-                    ${order.status}
-
-                </span>
-
-            </div>
-
-        `;
+                    </span>
 
 
-        container.appendChild(div);
+                    <span class="order-status">
 
-    });
+                        ${escapeHTML(order.status)}
 
+                    </span>
+
+                </div>
+            `;
+
+
+            container.appendChild(
+                div
+            );
+
+        }
+    );
 }
 
 
 // =====================================================
-// MODAL TAMBAH / EDIT PRODUK
+// MODAL PRODUK
 // =====================================================
 
-function openProductModal(isEdit = false) {
+function openProductModal(
+    isEdit = false
+) {
 
     if (!isAdmin) {
 
-        alert("Hanya admin yang dapat mengelola produk.");
+        alert(
+            "Hanya admin yang dapat mengelola produk."
+        );
 
         return;
     }
@@ -1146,11 +1327,12 @@ function openProductModal(isEdit = false) {
 
     if (!modal) {
 
+        alert(
+            "Modal produk tidak ditemukan di HTML."
+        );
+
         return;
     }
-
-
-    modal.style.display = "flex";
 
 
     const title =
@@ -1165,30 +1347,44 @@ function openProductModal(isEdit = false) {
             isEdit
                 ? "Edit Produk"
                 : "Tambah Produk Baru";
-
     }
 
 
     if (!isEdit) {
 
-        document.getElementById(
-            "productId"
-        ).value = "";
+        const id =
+            document.getElementById(
+                "productId"
+            );
 
-        document.getElementById(
-            "productName"
-        ).value = "";
+        const name =
+            document.getElementById(
+                "productName"
+            );
 
-        document.getElementById(
-            "productPrice"
-        ).value = "";
+        const price =
+            document.getElementById(
+                "productPrice"
+            );
 
-        document.getElementById(
-            "productImage"
-        ).value = "";
+        const image =
+            document.getElementById(
+                "productImage"
+            );
 
+
+        if (id) id.value = "";
+
+        if (name) name.value = "";
+
+        if (price) price.value = "";
+
+        if (image) image.value = "";
     }
 
+
+    modal.style.display =
+        "flex";
 }
 
 
@@ -1206,10 +1402,9 @@ function closeProductModal() {
 
     if (modal) {
 
-        modal.style.display = "none";
-
+        modal.style.display =
+            "none";
     }
-
 }
 
 
@@ -1257,15 +1452,22 @@ async function saveProduct() {
 
     if (!nama_produk) {
 
-        alert("Nama produk wajib diisi.");
+        alert(
+            "Nama produk wajib diisi."
+        );
 
         return;
     }
 
 
-    if (!harga || harga < 0) {
+    if (
+        Number.isNaN(harga) ||
+        harga < 0
+    ) {
 
-        alert("Harga produk tidak valid.");
+        alert(
+            "Harga produk tidak valid."
+        );
 
         return;
     }
@@ -1275,6 +1477,8 @@ async function saveProduct() {
 
         let result;
 
+
+        // EDIT
 
         if (id) {
 
@@ -1298,7 +1502,12 @@ async function saveProduct() {
                         id
                     );
 
-        } else {
+        }
+
+
+        // TAMBAH
+
+        else {
 
             result =
                 await _supabase
@@ -1318,14 +1527,12 @@ async function saveProduct() {
                             100
 
                     });
-
         }
 
 
         if (result.error) {
 
             throw result.error;
-
         }
 
 
@@ -1338,20 +1545,24 @@ async function saveProduct() {
 
         closeProductModal();
 
+
         await fetchProducts();
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert(
-            "Gagal menyimpan produk: " +
-            error.message
-        );
 
     }
 
+    catch (error) {
+
+        console.error(
+            "SAVE PRODUCT ERROR:",
+            error
+        );
+
+
+        alert(
+            "Gagal menyimpan produk:\n" +
+            error.message
+        );
+    }
 }
 
 
@@ -1362,24 +1573,28 @@ async function saveProduct() {
 function editProduct(id) {
 
     if (!isAdmin) {
-
         return;
     }
 
 
     const product =
-        allProducts.find(function (item) {
+        allProducts.find(
+            function (item) {
 
-            return (
-                (item.id_produk ?? item.id) == id
-            );
+                return (
+                    (item.id_produk ?? item.id) ==
+                    id
+                );
 
-        });
+            }
+        );
 
 
     if (!product) {
 
-        alert("Produk tidak ditemukan.");
+        alert(
+            "Produk tidak ditemukan."
+        );
 
         return;
     }
@@ -1388,7 +1603,8 @@ function editProduct(id) {
     document.getElementById(
         "productId"
     ).value =
-        product.id_produk ?? product.id;
+        product.id_produk ??
+        product.id;
 
 
     document.getElementById(
@@ -1415,8 +1631,9 @@ function editProduct(id) {
         "";
 
 
-    openProductModal(true);
-
+    openProductModal(
+        true
+    );
 }
 
 
@@ -1443,14 +1660,13 @@ async function deleteProduct(id) {
 
 
     if (!yakin) {
-
         return;
     }
 
 
     try {
 
-        const { error } =
+        const result =
             await _supabase
                 .from("produk")
                 .delete()
@@ -1460,10 +1676,9 @@ async function deleteProduct(id) {
                 );
 
 
-        if (error) {
+        if (result.error) {
 
-            throw error;
-
+            throw result.error;
         }
 
 
@@ -1474,18 +1689,20 @@ async function deleteProduct(id) {
 
         await fetchProducts();
 
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert(
-            "Gagal menghapus produk: " +
-            error.message
-        );
-
     }
 
-}
+    catch (error) {
 
+        console.error(
+            "DELETE PRODUCT ERROR:",
+            error
+        );
+
+
+        alert(
+            "Gagal menghapus produk:\n" +
+            error.message
+        );
+    }
+}
 </script>
