@@ -1,188 +1,302 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login & Register - BlueShop</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-    .auth-card { background: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 400px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-    .tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; }
-    .tab-btn { flex: 1; padding: 12px; background: none; border: none; font-weight: bold; cursor: pointer; color: #64748b; font-size: 15px; transition: 0.3s; }
-    .tab-btn.active { color: #2563eb; border-bottom: 3px solid #2563eb; margin-bottom: -2px; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #475569; }
-    .form-group input { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 14px; }
-    .btn-submit { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; }
-    .btn-submit:hover { background: #1d4ed8; }
-    .form-container { display: none; }
-    .form-container.active { display: block; }
-  </style>
-</head>
-<body>
-
-  <div class="auth-card">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('login')">Masuk</button>
-      <button class="tab-btn" onclick="switchTab('register')">Daftar Akun</button>
-    </div>
-
-    <!-- FORM LOGIN -->
-    <div id="loginForm" class="form-container active">
-      <form onsubmit="handleLogin(event)">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="loginEmail" placeholder="contoh@gmail.com" required>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="loginPassword" placeholder="Masukkan password..." required>
-        </div>
-        <button type="submit" class="btn-submit" id="btnLogin">Masuk</button>
-      </form>
-    </div>
-
-    <!-- FORM REGISTRASI -->
-    <div id="registerForm" class="form-container">
-      <form onsubmit="handleRegister(event)">
-        <div class="form-group">
-          <label>Nama Lengkap</label>
-          <input type="text" id="regName" placeholder="Masukkan nama..." required>
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="regEmail" placeholder="contoh@gmail.com" required>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="regPassword" placeholder="Buat password..." required>
-        </div>
-        <button type="submit" class="btn-submit" id="btnRegister" style="background:#10b981;">Daftar Sekarang</button>
-      </form>
-    </div>
-  </div>
-
-  <script>
+<script>
     const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Disesuaikan persis dengan nama tabel di Supabase kamu
-    const TABLE_NAME = 'users_list'; 
+    const SUPABASE_KEY = 'PASTE_ANON_KEY_KAMU';
+
+    const _supabase = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+    const TABLE_NAME = 'users_list';
+
+
+    /* =========================================
+       PINDAH TAB LOGIN / REGISTER
+    ========================================= */
 
     function switchTab(type) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
 
-      if (type === 'login') {
-        document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        document.getElementById('loginForm').classList.add('active');
-      } else {
-        document.querySelectorAll('.tab-btn')[1].classList.add('active');
-        document.getElementById('registerForm').classList.add('active');
-      }
+        document
+            .querySelectorAll('.tab-btn')
+            .forEach(btn => btn.classList.remove('active'));
+
+        document
+            .querySelectorAll('.form-container')
+            .forEach(form => form.classList.remove('active'));
+
+
+        if (type === 'login') {
+
+            document
+                .querySelectorAll('.tab-btn')[0]
+                .classList.add('active');
+
+            document
+                .getElementById('loginForm')
+                .classList.add('active');
+
+        } else {
+
+            document
+                .querySelectorAll('.tab-btn')[1]
+                .classList.add('active');
+
+            document
+                .getElementById('registerForm')
+                .classList.add('active');
+        }
     }
+
+
+    /* =========================================
+       LOGIN
+    ========================================= */
 
     async function handleLogin(event) {
-      event.preventDefault();
-      const btn = document.getElementById('btnLogin');
-      const emailInput = document.getElementById('loginEmail').value.trim().toLowerCase();
-      const passwordInput = document.getElementById('loginPassword').value.trim();
 
-      btn.innerText = "Memeriksa...";
-      btn.disabled = true;
+        event.preventDefault();
 
-      try {
-        // Mencari email di kolom 'username' pada tabel 'users_list'
-        const { data, error } = await _supabase
-          .from(TABLE_NAME)
-          .select('*')
-          .ilike('username', emailInput);
+        const btn =
+            document.getElementById('btnLogin');
 
-        if (error) throw error;
+        const emailInput =
+            document
+                .getElementById('loginEmail')
+                .value
+                .trim()
+                .toLowerCase();
 
-        if (!data || data.length === 0) {
-          alert("Email tidak ditemukan! Silakan daftar akun baru.");
-          return;
+        const passwordInput =
+            document
+                .getElementById('loginPassword')
+                .value
+                .trim();
+
+
+        btn.innerText = 'Memeriksa...';
+        btn.disabled = true;
+
+
+        try {
+
+            /* Cari user berdasarkan email */
+            const { data, error } =
+                await _supabase
+                    .from(TABLE_NAME)
+                    .select('*')
+                    .ilike('username', emailInput);
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            /* Email tidak ditemukan */
+            if (!data || data.length === 0) {
+
+                alert(
+                    'Email tidak ditemukan! Silakan daftar akun baru.'
+                );
+
+                return;
+            }
+
+
+            const user = data[0];
+
+
+            /* Cek password */
+            if (user.password !== passwordInput) {
+
+                alert('Password salah!');
+
+                return;
+            }
+
+
+            /* Buat session user */
+            const userSession = {
+
+                id: user.id,
+
+                name: user.name || 'User',
+
+                email: user.username,
+
+                username: user.username,
+
+                role: String(
+                    user.role || 'user'
+                ).toLowerCase()
+            };
+
+
+            /* Simpan login */
+            localStorage.setItem(
+                'user',
+                JSON.stringify(userSession)
+            );
+
+
+            /* Tandai sudah login */
+            localStorage.setItem(
+                'isLoggedIn',
+                'true'
+            );
+
+
+            alert(
+                `Selamat datang, ${userSession.name}!`
+            );
+
+
+            /*
+                PENTING:
+                Setelah login masuk ke TOKO,
+                bukan kembali ke portfolio.
+            */
+            window.location.href = 'toko.html';
+
+
+        } catch (err) {
+
+            alert(
+                'Gagal Login: ' + err.message
+            );
+
+        } finally {
+
+            btn.innerText = 'Masuk';
+
+            btn.disabled = false;
         }
-
-        const user = data[0];
-
-        if (user.password !== passwordInput) {
-          alert("Password salah!");
-          return;
-        }
-
-        const userSession = {
-          id: user.id,
-          name: user.name || 'User',
-          email: user.username,
-          role: String(user.role || 'user').toLowerCase()
-        };
-
-        localStorage.setItem('user', JSON.stringify(userSession));
-        alert(`Selamat datang, ${userSession.name}!`);
-        window.location.href = 'index.html';
-
-      } catch (err) {
-        alert("Gagal Login: " + err.message);
-      } finally {
-        btn.innerText = "Masuk";
-        btn.disabled = false;
-      }
     }
+
+
+    /* =========================================
+       REGISTER
+    ========================================= */
 
     async function handleRegister(event) {
-      event.preventDefault();
-      const btn = document.getElementById('btnRegister');
-      const name = document.getElementById('regName').value.trim();
-      const email = document.getElementById('regEmail').value.trim().toLowerCase();
-      const password = document.getElementById('regPassword').value.trim();
 
-      btn.innerText = "Mendaftarkan...";
-      btn.disabled = true;
+        event.preventDefault();
 
-      try {
-        // 1. Cek apakah email (username) sudah pernah mendaftar
-        const { data: existingUser, error: checkErr } = await _supabase
-          .from(TABLE_NAME)
-          .select('username')
-          .ilike('username', email);
+        const btn =
+            document.getElementById('btnRegister');
 
-        if (checkErr) throw checkErr;
 
-        if (existingUser && existingUser.length > 0) {
-          alert("Email ini sudah terdaftar! Silakan login.");
-          switchTab('login');
-          document.getElementById('loginEmail').value = email;
-          return;
+        const name =
+            document
+                .getElementById('regName')
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById('regEmail')
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const password =
+            document
+                .getElementById('regPassword')
+                .value
+                .trim();
+
+
+        btn.innerText = 'Mendaftarkan...';
+        btn.disabled = true;
+
+
+        try {
+
+            /* Cek email */
+            const {
+                data: existingUser,
+                error: checkErr
+            } = await _supabase
+                .from(TABLE_NAME)
+                .select('username')
+                .ilike('username', email);
+
+
+            if (checkErr) {
+                throw checkErr;
+            }
+
+
+            if (
+                existingUser &&
+                existingUser.length > 0
+            ) {
+
+                alert(
+                    'Email ini sudah terdaftar! Silakan login.'
+                );
+
+                switchTab('login');
+
+                document
+                    .getElementById('loginEmail')
+                    .value = email;
+
+                return;
+            }
+
+
+            /* Simpan user baru */
+            const {
+                error: insertErr
+            } = await _supabase
+                .from(TABLE_NAME)
+                .insert([{
+
+                    name: name,
+
+                    username: email,
+
+                    password: password,
+
+                    role: 'user'
+
+                }]);
+
+
+            if (insertErr) {
+                throw insertErr;
+            }
+
+
+            alert(
+                'Pendaftaran berhasil! Silakan login.'
+            );
+
+
+            /* Pindah ke login */
+            switchTab('login');
+
+
+            document
+                .getElementById('loginEmail')
+                .value = email;
+
+
+        } catch (err) {
+
+            alert(
+                'Gagal Mendaftar: ' + err.message
+            );
+
+        } finally {
+
+            btn.innerText = 'Daftar Sekarang';
+
+            btn.disabled = false;
         }
-
-        // 2. Masukkan pengguna baru sesuai struktur kolom Supabase (name, username, password, role)
-        const { error: insertErr } = await _supabase
-          .from(TABLE_NAME)
-          .insert([{ 
-            name: name, 
-            username: email, 
-            password: password, 
-            role: 'user' 
-          }]);
-
-        if (insertErr) throw insertErr;
-
-        alert("Pendaftaran berhasil! Silakan login.");
-        switchTab('login');
-        document.getElementById('loginEmail').value = email;
-
-      } catch (err) {
-        alert("Gagal Mendaftar: " + err.message);
-      } finally {
-        btn.innerText = "Daftar Sekarang";
-        btn.disabled = false;
-      }
     }
-  </script>
-</body>
-</html>
+</script>
