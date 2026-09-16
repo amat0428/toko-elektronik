@@ -75,6 +75,10 @@
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
+        /* =========================
+           LOGO
+        ========================= */
+
         .logo {
             text-align: center;
             margin-bottom: 20px;
@@ -92,6 +96,10 @@
             font-size: 12px;
             margin-top: 2px;
         }
+
+        /* =========================
+           TAB
+        ========================= */
 
         .tab-menu {
             display: flex;
@@ -119,8 +127,14 @@
         .tab-btn.active {
             background: white;
             color: #4f46e5;
-            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.08);
+
+            box-shadow:
+                0 2px 7px rgba(0, 0, 0, 0.08);
         }
+
+        /* =========================
+           FORM
+        ========================= */
 
         .form-container {
             display: none;
@@ -166,7 +180,6 @@
             position: absolute;
             left: 13px;
             top: 50%;
-
             transform: translateY(-50%);
 
             color: #94a3b8;
@@ -185,7 +198,6 @@
             border-radius: 9px;
 
             outline: none;
-
             background: #f8fafc;
 
             font-size: 13px;
@@ -205,24 +217,28 @@
             color: #94a3b8;
         }
 
+        /* =========================
+           PASSWORD TOGGLE
+        ========================= */
+
         .toggle-password {
             position: absolute;
-
             right: 13px;
             top: 50%;
-
             transform: translateY(-50%);
 
             color: #94a3b8;
-
             cursor: pointer;
-
             font-size: 14px;
         }
 
         .toggle-password:hover {
             color: #4f46e5;
         }
+
+        /* =========================
+           BUTTON
+        ========================= */
 
         .submit-btn {
             width: 100%;
@@ -241,7 +257,6 @@
                 );
 
             color: white;
-
             font-size: 13px;
             font-weight: 600;
 
@@ -254,7 +269,6 @@
 
         .submit-btn:hover {
             opacity: 0.9;
-
             transform: translateY(-1px);
 
             box-shadow:
@@ -264,22 +278,24 @@
         .submit-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-
             transform: none;
-
             box-shadow: none;
         }
+
+        /* =========================
+           ALERT
+        ========================= */
 
         .alert {
             display: none;
 
             padding: 10px 12px;
-
             border-radius: 8px;
 
             margin-bottom: 16px;
 
             font-size: 12px;
+            line-height: 1.5;
         }
 
         .alert.error {
@@ -300,15 +316,17 @@
             border: 1px solid #86efac;
         }
 
+        /* =========================
+           BACK
+        ========================= */
+
         .back {
             display: block;
 
             text-align: center;
-
             margin-top: 17px;
 
             color: #4f46e5;
-
             font-size: 12px;
 
             text-decoration: none;
@@ -317,6 +335,10 @@
         .back:hover {
             text-decoration: underline;
         }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
 
         @media (min-width: 768px) {
             body {
@@ -359,13 +381,19 @@
 
     <div class="card">
 
-        <!-- LOGO -->
+        <!-- =========================
+             LOGO
+        ========================= -->
+
         <div class="logo">
             <h1>BlueShop</h1>
             <p>Toko Elektronik Online</p>
         </div>
 
-        <!-- TAB -->
+        <!-- =========================
+             TAB
+        ========================= -->
+
         <div class="tab-menu">
 
             <button
@@ -386,10 +414,19 @@
 
         </div>
 
-        <!-- ALERT -->
-        <div id="alertBox" class="alert"></div>
+        <!-- =========================
+             ALERT
+        ========================= -->
 
-        <!-- LOGIN -->
+        <div
+            id="alertBox"
+            class="alert"
+        ></div>
+
+        <!-- =========================
+             LOGIN
+        ========================= -->
+
         <div
             id="loginFormContainer"
             class="form-container active"
@@ -406,6 +443,7 @@
             <form id="loginForm">
 
                 <!-- EMAIL -->
+
                 <div class="input-group">
 
                     <label for="loginEmail">
@@ -429,6 +467,7 @@
                 </div>
 
                 <!-- PASSWORD -->
+
                 <div class="input-group">
 
                     <label for="loginPassword">
@@ -457,6 +496,7 @@
                 </div>
 
                 <!-- BUTTON -->
+
                 <button
                     type="submit"
                     id="btnLogin"
@@ -469,7 +509,10 @@
 
         </div>
 
-        <!-- REGISTER -->
+        <!-- =========================
+             REGISTER
+        ========================= -->
+
         <div
             id="registerFormContainer"
             class="form-container"
@@ -486,6 +529,7 @@
             <form id="registerForm">
 
                 <!-- NAMA -->
+
                 <div class="input-group">
 
                     <label for="regName">
@@ -509,6 +553,7 @@
                 </div>
 
                 <!-- EMAIL -->
+
                 <div class="input-group">
 
                     <label for="regEmail">
@@ -532,6 +577,7 @@
                 </div>
 
                 <!-- PASSWORD -->
+
                 <div class="input-group">
 
                     <label for="regPassword">
@@ -561,6 +607,7 @@
                 </div>
 
                 <!-- BUTTON -->
+
                 <button
                     type="submit"
                     id="btnRegister"
@@ -573,7 +620,10 @@
 
         </div>
 
-        <!-- BACK -->
+        <!-- =========================
+             BACK
+        ========================= -->
+
         <a
             href="index.html"
             class="back"
@@ -598,15 +648,9 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
-
 
 /* =====================================================
-   CEK SUPABASE
+   CEK SUPABASE JS
 ===================================================== */
 
 if (!window.supabase) {
@@ -616,6 +660,37 @@ if (!window.supabase) {
     alert(
         "Supabase gagal dimuat. Periksa koneksi internet atau CDN."
     );
+
+} else {
+
+    console.log("Supabase JS berhasil dimuat.");
+
+}
+
+
+/* =====================================================
+   BUAT SUPABASE CLIENT
+===================================================== */
+
+const supabaseClient =
+    window.supabase
+        ? window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        )
+        : null;
+
+
+/* =====================================================
+   CEK CLIENT
+===================================================== */
+
+if (!supabaseClient) {
+
+    console.error(
+        "Supabase Client gagal dibuat."
+    );
+
 }
 
 
@@ -657,7 +732,9 @@ function switchTab(tab) {
 
         buttons[1].classList.add("active");
         buttons[0].classList.remove("active");
+
     }
+
 }
 
 
@@ -669,6 +746,10 @@ function togglePassword(inputId, icon) {
 
     const input =
         document.getElementById(inputId);
+
+    if (!input) {
+        return;
+    }
 
     if (input.type === "password") {
 
@@ -683,7 +764,9 @@ function togglePassword(inputId, icon) {
 
         icon.classList.remove("fa-eye-slash");
         icon.classList.add("fa-eye");
+
     }
+
 }
 
 
@@ -700,6 +783,7 @@ function showAlert(message, type = "error") {
 
     box.className =
         "alert " + type;
+
 }
 
 
@@ -711,6 +795,7 @@ function hideAlert() {
     box.className = "alert";
 
     box.textContent = "";
+
 }
 
 
@@ -728,6 +813,16 @@ document
 
             hideAlert();
 
+            if (!supabaseClient) {
+
+                showAlert(
+                    "Supabase belum siap. Periksa koneksi atau API Key."
+                );
+
+                return;
+            }
+
+
             const email =
                 document
                     .getElementById("loginEmail")
@@ -735,15 +830,18 @@ document
                     .trim()
                     .toLowerCase();
 
+
             const password =
                 document
                     .getElementById("loginPassword")
                     .value;
 
+
             const button =
                 document.getElementById(
                     "btnLogin"
                 );
+
 
             button.disabled = true;
             button.textContent = "Memeriksa...";
@@ -757,9 +855,9 @@ document
                 );
 
 
-                /* =========================================
-                   LOGIN SUPABASE AUTH
-                ========================================= */
+                /* =========================
+                   SUPABASE AUTH LOGIN
+                ========================= */
 
                 const {
                     data,
@@ -779,14 +877,41 @@ document
                         error
                     );
 
-                    if (
+
+                    const errorMessage =
                         error.message
-                            .toLowerCase()
-                            .includes("invalid login credentials")
+                            ? error.message.toLowerCase()
+                            : "";
+
+
+                    if (
+                        errorMessage.includes(
+                            "invalid login credentials"
+                        )
                     ) {
 
                         showAlert(
-                            "Email atau password salah!"
+                            "Email atau password salah."
+                        );
+
+                    } else if (
+                        errorMessage.includes(
+                            "email not confirmed"
+                        )
+                    ) {
+
+                        showAlert(
+                            "Email belum diverifikasi. Silakan cek email kamu."
+                        );
+
+                    } else if (
+                        errorMessage.includes(
+                            "invalid api key"
+                        )
+                    ) {
+
+                        showAlert(
+                            "API Key Supabase tidak valid. Periksa Publishable Key."
                         );
 
                     } else {
@@ -795,33 +920,44 @@ document
                             "Gagal Login: " +
                             error.message
                         );
+
                     }
 
                     return;
                 }
 
 
-                if (!data || !data.user) {
+                if (
+                    !data ||
+                    !data.user
+                ) {
 
                     showAlert(
                         "Akun tidak ditemukan."
                     );
 
                     return;
+
                 }
 
 
-                /* =========================================
+                /* =========================
                    USER BERHASIL LOGIN
-                ========================================= */
+                ========================= */
 
                 const user =
                     data.user;
 
 
-                /* =========================================
-                   SIMPAN DATA USER AUTH
-                ========================================= */
+                console.log(
+                    "Login berhasil:",
+                    user
+                );
+
+
+                /* =========================
+                   SIMPAN USER
+                ========================= */
 
                 localStorage.setItem(
                     "user",
@@ -845,9 +981,9 @@ document
                 );
 
 
-                /* =========================================
+                /* =========================
                    REDIRECT
-                ========================================= */
+                ========================= */
 
                 setTimeout(function () {
 
@@ -856,12 +992,32 @@ document
                             window.location.search
                         );
 
+
                     const redirectTo =
                         params.get("redirect") ||
                         "toko.html";
 
-                    window.location.href =
-                        redirectTo;
+
+                    /*
+                       Hanya izinkan redirect
+                       ke halaman lokal.
+                    */
+
+                    if (
+                        redirectTo.startsWith("http://") ||
+                        redirectTo.startsWith("https://") ||
+                        redirectTo.startsWith("//")
+                    ) {
+
+                        window.location.href =
+                            "toko.html";
+
+                    } else {
+
+                        window.location.href =
+                            redirectTo;
+
+                    }
 
                 }, 800);
 
@@ -873,6 +1029,7 @@ document
                     error
                 );
 
+
                 showAlert(
                     "Gagal Login: " +
                     (
@@ -881,13 +1038,14 @@ document
                     )
                 );
 
+
             } finally {
 
                 button.disabled = false;
+                button.textContent = "Masuk";
 
-                button.textContent =
-                    "Masuk";
             }
+
         }
     );
 
@@ -905,6 +1063,16 @@ document
             event.preventDefault();
 
             hideAlert();
+
+
+            if (!supabaseClient) {
+
+                showAlert(
+                    "Supabase belum siap. Periksa koneksi atau API Key."
+                );
+
+                return;
+            }
 
 
             const name =
@@ -934,9 +1102,9 @@ document
                 );
 
 
-            /* =========================================
+            /* =========================
                VALIDASI
-            ========================================= */
+            ========================= */
 
             if (!name) {
 
@@ -948,10 +1116,20 @@ document
             }
 
 
+            if (!email) {
+
+                showAlert(
+                    "Email wajib diisi."
+                );
+
+                return;
+            }
+
+
             if (password.length < 6) {
 
                 showAlert(
-                    "Password minimal 6 karakter!"
+                    "Password minimal 6 karakter."
                 );
 
                 return;
@@ -959,7 +1137,6 @@ document
 
 
             button.disabled = true;
-
             button.textContent =
                 "Mendaftarkan...";
 
@@ -972,9 +1149,9 @@ document
                 );
 
 
-                /* =========================================
-                   REGISTER SUPABASE AUTH
-                ========================================= */
+                /* =========================
+                   SUPABASE AUTH REGISTER
+                ========================= */
 
                 const {
                     data,
@@ -982,21 +1159,16 @@ document
                 } =
                     await supabaseClient.auth
                         .signUp({
-
                             email: email,
-
                             password: password,
 
                             options: {
 
                                 data: {
-
                                     name: name
-
                                 }
 
                             }
-
                         });
 
 
@@ -1007,20 +1179,44 @@ document
                         error
                     );
 
-                    showAlert(
-                        "Gagal daftar: " +
+
+                    if (
                         error.message
-                    );
+                            .toLowerCase()
+                            .includes("invalid api key")
+                    ) {
+
+                        showAlert(
+                            "API Key Supabase tidak valid. Periksa Publishable Key."
+                        );
+
+                    } else if (
+                        error.message
+                            .toLowerCase()
+                            .includes("already registered")
+                    ) {
+
+                        showAlert(
+                            "Email tersebut sudah terdaftar."
+                        );
+
+                    } else {
+
+                        showAlert(
+                            "Gagal daftar: " +
+                            error.message
+                        );
+
+                    }
 
                     return;
                 }
 
 
-                /* =========================================
-                   HASIL REGISTER
-                ========================================= */
-
-                if (!data || !data.user) {
+                if (
+                    !data ||
+                    !data.user
+                ) {
 
                     showAlert(
                         "Pendaftaran gagal. Silakan coba lagi."
@@ -1030,9 +1226,21 @@ document
                 }
 
 
-                /* =========================================
-                   CEK EMAIL CONFIRMATION
-                ========================================= */
+                /* =========================
+                   HASIL REGISTER
+                ========================= */
+
+                console.log(
+                    "Register berhasil:",
+                    data.user
+                );
+
+
+                /*
+                   Jika session null:
+                   kemungkinan email confirmation
+                   sedang aktif di Supabase.
+                */
 
                 if (!data.session) {
 
@@ -1047,12 +1255,13 @@ document
                         "Pendaftaran berhasil! Silakan login.",
                         "success"
                     );
+
                 }
 
 
-                /* =========================================
+                /* =========================
                    PINDAH KE LOGIN
-                ========================================= */
+                ========================= */
 
                 setTimeout(function () {
 
@@ -1074,6 +1283,7 @@ document
                     error
                 );
 
+
                 showAlert(
                     "Gagal daftar: " +
                     (
@@ -1082,13 +1292,16 @@ document
                     )
                 );
 
+
             } finally {
 
                 button.disabled = false;
 
                 button.textContent =
                     "Daftar Sekarang";
+
             }
+
         }
     );
 
@@ -1098,6 +1311,11 @@ document
 ===================================================== */
 
 async function checkSession() {
+
+    if (!supabaseClient) {
+        return;
+    }
+
 
     try {
 
@@ -1123,10 +1341,18 @@ async function checkSession() {
         if (data.session) {
 
             console.log(
-                "Sudah login:",
+                "Session aktif:",
                 data.session.user.email
             );
+
+        } else {
+
+            console.log(
+                "Belum ada session."
+            );
+
         }
+
 
     } catch (error) {
 
@@ -1134,9 +1360,15 @@ async function checkSession() {
             "Check Session Error:",
             error
         );
+
     }
+
 }
 
+
+/* =====================================================
+   JALANKAN CEK SESSION
+===================================================== */
 
 checkSession();
 
