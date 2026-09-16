@@ -1,124 +1,482 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout - Toko Elektronik</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background-color: #f4f6f9; color: #333; }
-    header { background-color: #0284c7; padding: 15px 5%; color: white; text-align: center; }
-    .container { max-width: 600px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    h2 { margin-bottom: 20px; color: #0284c7; border-bottom: 2px solid #0284c7; padding-bottom: 8px; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #1e293b; }
-    .form-group input, .form-group textarea { 
-      width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; 
-      font-size: 14px; color: #0f172a !important; background-color: #ffffff !important; 
-    }
-    .summary-box { background: #f8fafc; border: 1px dashed #0284c7; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
-    .summary-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; color: #1e293b; }
-    .btn-submit { background-color: #10b981; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-    .btn-submit:hover { background-color: #059669; }
-    .btn-submit:disabled { background-color: #9ca3af; cursor: not-allowed; }
 
-    /* STYLING MODAL NOTA PEMBAYARAN */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-    .modal-card {
-      background: #fff;
-      width: 90%;
-      max-width: 480px;
-      padding: 24px;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    .nota-header { text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 15px; }
-    .nota-header h3 { color: #0284c7; margin-bottom: 4px; }
-    .nota-details p { font-size: 14px; margin-bottom: 6px; color: #334155; }
-    .nota-items { margin: 15px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; padding: 10px 0; max-height: 180px; overflow-y: auto; }
-    .nota-item-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
-    .nota-total { display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; color: #0f172a; margin-top: 10px; }
-    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-    .btn-secondary { background: #64748b; color: white; border: none; padding: 10px; flex: 1; border-radius: 6px; cursor: pointer; font-weight: bold; }
-    .btn-primary { background: #0284c7; color: white; border: none; padding: 10px; flex: 1; border-radius: 6px; cursor: pointer; font-weight: bold; }
-  </style>
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Checkout - Toko Elektronik</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 18px 30px;
+        }
+
+        header h1 {
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .checkout-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .summary-box {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .summary-total {
+            color: #0d6efd;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #0d6efd;
+        }
+
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #0d6efd;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background: #0b5ed7;
+        }
+
+        .btn-submit:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        /* MODAL */
+
+        #notaModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 9999;
+        }
+
+        .nota-box {
+            background: white;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .nota-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nota-header h2 {
+            margin-bottom: 5px;
+        }
+
+        .nota-info {
+            margin-bottom: 20px;
+        }
+
+        .nota-info p {
+            margin-bottom: 8px;
+        }
+
+        .nota-items {
+            margin: 20px 0;
+        }
+
+        .nota-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: bold;
+            border-top: 2px solid #222;
+            padding-top: 15px;
+        }
+
+        .nota-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .nota-buttons button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-print {
+            background: #198754;
+            color: white;
+        }
+
+        .btn-orders {
+            background: #0d6efd;
+            color: white;
+        }
+
+        @media print {
+
+            body * {
+                visibility: hidden;
+            }
+
+            .nota-box,
+            .nota-box * {
+                visibility: visible;
+            }
+
+            .nota-box {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                max-width: none;
+                box-shadow: none;
+            }
+
+            .nota-buttons {
+                display: none;
+            }
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-  <header>
-    <h1>Toko Elektronik</h1>
-  </header>
 
-  <div class="container">
-    <h2>Form Checkout</h2>
-    
-    <div class="summary-box">
-      <div class="summary-row">
-        <span>Total Ringkasan:</span>
-        <span id="checkoutTotal">Rp 0</span>
-      </div>
+    <!-- HEADER -->
+
+    <header>
+        <h1>Toko Elektronik</h1>
+    </header>
+
+
+    <!-- CHECKOUT -->
+
+    <div class="container">
+
+        <div class="checkout-box">
+
+            <h2>Form Checkout</h2>
+
+
+            <!-- RINGKASAN -->
+
+            <div class="summary-box">
+
+                <!-- ITEM PRODUK AKAN MUNCUL DI SINI -->
+
+                <div id="checkoutItems"></div>
+
+
+                <!-- TOTAL -->
+
+                <div class="summary-row">
+
+                    <span>
+                        Total Ringkasan:
+                    </span>
+
+                    <span
+                        id="checkoutTotal"
+                        class="summary-total"
+                    >
+                        Rp 0
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORM -->
+
+            <form id="checkoutForm">
+
+                <div class="form-group">
+
+                    <label for="namaLengkap">
+                        Nama Lengkap
+                    </label>
+
+                    <input
+                        type="text"
+                        id="namaLengkap"
+                        placeholder="Masukkan nama lengkap"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="nomorHp">
+                        Nomor HP / WhatsApp
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="nomorHp"
+                        placeholder="Contoh: 081234567890"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="alamatPengiriman">
+                        Alamat Pengiriman
+                    </label>
+
+                    <textarea
+                        id="alamatPengiriman"
+                        placeholder="Masukkan alamat lengkap"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="btnBayar"
+                    class="btn-submit"
+                >
+                    Bayar Sekarang
+                </button>
+
+            </form>
+
+        </div>
+
     </div>
 
-    <form id="checkoutForm">
-      <div class="form-group">
-        <label for="namaLengkap">Nama Lengkap</label>
-        <input type="text" id="namaLengkap" placeholder="Masukkan nama Anda" required>
-      </div>
 
-      <div class="form-group">
-        <label for="nomorHp">Nomor HP / WhatsApp</label>
-        <input type="tel" id="nomorHp" placeholder="08xxxxxxxxxx" required>
-      </div>
+    <!-- ================================ -->
+    <!-- MODAL NOTA -->
+    <!-- ================================ -->
 
-      <div class="form-group">
-        <label for="alamatPengiriman">Alamat Pengiriman</label>
-        <textarea id="alamatPengiriman" rows="3" placeholder="Masukkan alamat lengkap..." required></textarea>
-      </div>
+    <div id="notaModal">
 
-      <button type="submit" id="btnBayar" class="btn-submit">Konfirmasi & Bayar</button>
-    </form>
-  </div>
+        <div class="nota-box">
 
-  <!-- POP-UP NOTA PEMBAYARAN -->
-  <div id="notaModal" class="modal-overlay">
-    <div class="modal-card">
-      <div class="nota-header">
-        <h3>NOTA PEMBAYARAN</h3>
-        <p style="font-size:12px; color:#64748b;" id="notaTanggal"></p>
-        <p style="font-size:12px; color:#0284c7; font-weight:bold; margin-top:2px;" id="notaOrderId"></p>
-      </div>
+            <div class="nota-header">
 
-      <div class="nota-details">
-        <p><strong>Pembeli:</strong> <span id="notaNama"></span></p>
-        <p><strong>No. HP:</strong> <span id="notaHp"></span></p>
-        <p><strong>Alamat:</strong> <span id="notaAlamat"></span></p>
-      </div>
+                <h2>
+                    Pesanan Berhasil
+                </h2>
 
-      <div class="nota-items" id="notaItemsList">
-        <!-- Rincian produk akan di-render otomatis via JS -->
-      </div>
+                <p>
+                    Terima kasih telah berbelanja
+                </p>
 
-      <div class="nota-total">
-        <span>Total Bayar:</span>
-        <span id="notaTotalBayar">Rp 0</span>
-      </div>
+            </div>
 
-      <div class="modal-actions">
-        <button type="button" class="btn-secondary" onclick="window.print()">Cetak Nota</button>
-        <button type="button" class="btn-primary" onclick="selesaiCheckout()">Lihat Pesanan</button>
-      </div>
+
+            <!-- INFORMASI ORDER -->
+
+            <div class="nota-info">
+
+                <p>
+                    <strong>Tanggal:</strong>
+                    <span id="notaTanggal">
+                        -
+                    </span>
+                </p>
+
+                <p>
+                    <strong>ID Pesanan:</strong>
+                    <span id="notaOrderId">
+                        -
+                    </span>
+                </p>
+
+                <p>
+                    <strong>Nama:</strong>
+                    <span id="notaNama">
+                        -
+                    </span>
+                </p>
+
+                <p>
+                    <strong>No. HP:</strong>
+                    <span id="notaHp">
+                        -
+                    </span>
+                </p>
+
+                <p>
+                    <strong>Alamat:</strong>
+                    <span id="notaAlamat">
+                        -
+                    </span>
+                </p>
+
+            </div>
+
+
+            <!-- ITEM -->
+
+            <div class="nota-items">
+
+                <h3 style="margin-bottom: 10px;">
+                    Detail Pesanan
+                </h3>
+
+                <div id="notaItemsList"></div>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="nota-total">
+
+                <span>
+                    Total Bayar
+                </span>
+
+                <span id="notaTotalBayar">
+                    Rp 0
+                </span>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="nota-buttons">
+
+                <button
+                    type="button"
+                    class="btn-print"
+                    onclick="cetakNota()"
+                >
+                    Cetak Nota
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-orders"
+                    onclick="selesaiCheckout()"
+                >
+                    Lihat Pesanan
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/checkout.js"></script>
+
+    <!-- ================================= -->
+    <!-- SUPABASE -->
+    <!-- ================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <!-- ================================= -->
+    <!-- CHECKOUT JS -->
+    <!-- ================================= -->
+
+    <script src="js/checkout.js"></script>
+
 </body>
+
 </html>
