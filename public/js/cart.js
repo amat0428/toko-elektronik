@@ -2,23 +2,18 @@
    BLUESHOP - CART.JS
    ===================================================== */
 
-
 /* =====================================================
    SUPABASE
    ===================================================== */
 
-const SUPABASE_URL =
-    "https://fbnknnrltrsvydyxgujr.supabase.co";
+const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
 
 const SUPABASE_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzg4MjQwNDI2LCJleHAiOjIxMDM4MTY0MjZ9.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
 
 const _supabase =
     typeof supabase !== "undefined"
-        ? supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        )
+        ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
         : null;
 
 
@@ -27,7 +22,6 @@ const _supabase =
    ===================================================== */
 
 function getCurrentUser() {
-
     const userData =
         localStorage.getItem("user") ||
         localStorage.getItem("currentUser") ||
@@ -38,20 +32,11 @@ function getCurrentUser() {
     }
 
     try {
-
         return JSON.parse(userData);
-
     } catch (error) {
-
-        console.error(
-            "Data user tidak valid:",
-            error
-        );
-
+        console.error("Data user tidak valid:", error);
         return null;
-
     }
-
 }
 
 
@@ -60,7 +45,6 @@ function getCurrentUser() {
    ===================================================== */
 
 function getUserKey() {
-
     const user = getCurrentUser();
 
     if (!user) {
@@ -73,29 +57,34 @@ function getUserKey() {
         user.name ||
         "user"
     )
-    .toString()
-    .replace(
-        /[^a-zA-Z0-9_-]/g,
-        "_"
-    );
-
+        .toString()
+        .replace(/[^a-zA-Z0-9_-]/g, "_");
 }
 
 
 /* =====================================================
-   CART STORAGE KEY
+   CART STORAGE
    ===================================================== */
 
-function getCartStorageKey() {
+/*
+   KEY UTAMA:
+   blueshop_cart
 
-    const key = getUserKey();
+   KEY LAMA PER USER:
+   blueshop_cart_<user>
+*/
 
-    if (!key) {
+const CART_KEY = "blueshop_cart";
+
+
+function getUserCartKey() {
+    const userKey = getUserKey();
+
+    if (!userKey) {
         return null;
     }
 
-    return "blueshop_cart_" + key;
-
+    return "blueshop_cart_" + userKey;
 }
 
 
@@ -112,30 +101,62 @@ let cartData = [];
 
 function loadCart() {
 
-    const storageKey =
-        getCartStorageKey();
+    let rawCart = null;
 
-    if (!storageKey) {
+    /*
+       1. Coba cart global terlebih dahulu
+    */
 
-        cartData = [];
+    rawCart = localStorage.getItem(CART_KEY);
 
-        return;
+    /*
+       2. Jika kosong, coba cart lama berdasarkan user
+    */
 
+    if (!rawCart) {
+
+        const userCartKey = getUserCartKey();
+
+        if (userCartKey) {
+            rawCart = localStorage.getItem(userCartKey);
+        }
     }
+
+    /*
+       3. Jika masih kosong, coba key lama lainnya
+    */
+
+    if (!rawCart) {
+        rawCart = localStorage.getItem("cart");
+    }
+
+    if (!rawCart) {
+        rawCart = localStorage.getItem("shopping_cart");
+    }
+
+
+    /*
+       4. Parse data
+    */
 
     try {
 
-        cartData =
-            JSON.parse(
-                localStorage.getItem(
-                    storageKey
-                ) || "[]"
-            );
+        const parsed = JSON.parse(rawCart || "[]");
 
-        if (!Array.isArray(cartData)) {
+        if (Array.isArray(parsed)) {
+
+            cartData = parsed;
+
+        } else if (
+            parsed &&
+            Array.isArray(parsed.items)
+        ) {
+
+            cartData = parsed.items;
+
+        } else {
 
             cartData = [];
-
         }
 
     } catch (error) {
@@ -146,53 +167,80 @@ function loadCart() {
         );
 
         cartData = [];
-
     }
 
 
     /*
-     * Pastikan semua item punya selected.
-     *
-     * Item lama dari toko.html mungkin belum
-     * mempunyai selected.
-     */
+       5. Normalisasi data
+    */
 
-    cartData =
-        cartData.map(function (item) {
+    cartData = cartData.map(function (item) {
 
-            return {
+        return {
 
-                id:
-                    item.id,
+            id: item.id,
 
-                name:
-                    item.name ||
-                    item.title ||
-                    "Produk",
+            name:
+                item.name ||
+                item.title ||
+                item.nama ||
+                "Produk",
 
-                price:
+            price:
+                Number(
+                    item.price ||
+                    item.harga ||
+                    0
+                ),
+
+            image:
+                item.image ||
+                item.img ||
+                "",
+
+            qty:
+                Math.max(
+                    1,
                     Number(
-                        item.price || 0
-                    ),
+                        item.qty ||
+                        item.quantity ||
+                        1
+                    )
+                ),
 
-                image:
-                    item.image || "",
+            selected:
+                item.selected !== false
+        };
 
-                qty:
-                    Math.max(
-                        1,
-                        Number(
-                            item.qty || 1
-                        )
-                    ),
+    });
 
-                selected:
-                    item.selected !== false
 
-            };
+    /*
+       6. SIMPAN KE KEY GLOBAL
 
-        });
+       Ini bagian penting supaya checkout.html
+       bisa membaca data yang sama.
+    */
 
+    if (cartData.length > 0) {
+
+        localStorage.setItem(
+            CART_KEY,
+            JSON.stringify(cartData)
+        );
+
+    }
+
+
+    console.log(
+        "🛒 Cart storage key:",
+        CART_KEY
+    );
+
+    console.log(
+        "🛒 Cart loaded:",
+        cartData
+    );
 }
 
 
@@ -202,18 +250,37 @@ function loadCart() {
 
 function saveCart() {
 
-    const storageKey =
-        getCartStorageKey();
-
-    if (!storageKey) {
-        return;
-    }
+    /*
+       Simpan ke key global
+    */
 
     localStorage.setItem(
-        storageKey,
+        CART_KEY,
         JSON.stringify(cartData)
     );
 
+
+    /*
+       Simpan juga ke key user lama
+       supaya tidak merusak sistem lama.
+    */
+
+    const userCartKey = getUserCartKey();
+
+    if (userCartKey) {
+
+        localStorage.setItem(
+            userCartKey,
+            JSON.stringify(cartData)
+        );
+
+    }
+
+
+    console.log(
+        "💾 Cart tersimpan:",
+        cartData
+    );
 }
 
 
@@ -225,9 +292,7 @@ function formatRupiah(number) {
 
     return (
         "Rp " +
-        Number(
-            number || 0
-        ).toLocaleString("id-ID")
+        Number(number || 0).toLocaleString("id-ID")
     );
 
 }
@@ -240,26 +305,11 @@ function formatRupiah(number) {
 function escapeHTML(text) {
 
     return String(text || "")
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
 
@@ -271,19 +321,13 @@ function escapeHTML(text) {
 function renderCart() {
 
     const cartList =
-        document.getElementById(
-            "cartItemsList"
-        );
+        document.getElementById("cartItemsList");
 
     const cartContent =
-        document.getElementById(
-            "cartContent"
-        );
+        document.getElementById("cartContent");
 
     const emptyCart =
-        document.getElementById(
-            "emptyCart"
-        );
+        document.getElementById("emptyCart");
 
 
     if (!cartList) {
@@ -291,7 +335,9 @@ function renderCart() {
     }
 
 
-    /* KERANJANG KOSONG */
+    /*
+       KERANJANG KOSONG
+    */
 
     if (
         !cartData ||
@@ -299,188 +345,159 @@ function renderCart() {
     ) {
 
         if (cartContent) {
-
-            cartContent.classList.add(
-                "hidden"
-            );
-
+            cartContent.classList.add("hidden");
         }
 
         if (emptyCart) {
-
-            emptyCart.classList.remove(
-                "hidden"
-            );
-
+            emptyCart.classList.remove("hidden");
         }
 
         updateSummary();
 
         return;
-
     }
 
 
-    /* ADA PRODUK */
+    /*
+       ADA PRODUK
+    */
 
     if (cartContent) {
-
-        cartContent.classList.remove(
-            "hidden"
-        );
-
+        cartContent.classList.remove("hidden");
     }
 
     if (emptyCart) {
-
-        emptyCart.classList.add(
-            "hidden"
-        );
-
+        emptyCart.classList.add("hidden");
     }
 
 
-    cartList.innerHTML =
-        cartData.map(
-            function (item) {
+    cartList.innerHTML = cartData
+        .map(function (item) {
 
-                const image =
-                    item.image ||
-                    "https://placehold.co/100x100?text=No+Image";
+            const image =
+                item.image ||
+                "https://placehold.co/100x100?text=No+Image";
 
-                const name =
-                    item.name ||
-                    "Produk";
+            const name =
+                item.name ||
+                "Produk";
 
-                const price =
-                    Number(
-                        item.price || 0
-                    );
+            const price =
+                Number(item.price || 0);
 
-                const qty =
-                    Math.max(
-                        1,
-                        Number(
-                            item.qty || 1
-                        )
-                    );
+            const qty =
+                Math.max(
+                    1,
+                    Number(item.qty || 1)
+                );
 
 
-                return `
+            return `
+                <div
+                    class="bg-white p-3.5 rounded-lg shadow-sm flex items-center gap-3 border border-gray-100 mb-3"
+                >
 
-                    <div
-                        class="bg-white p-3.5 rounded-lg shadow-sm flex items-center gap-3 border border-gray-100 mb-3"
+                    <!-- CHECKBOX -->
+
+                    <input
+                        type="checkbox"
+                        ${item.selected ? "checked" : ""}
+                        onchange="toggleSelect(${JSON.stringify(item.id)})"
+                        class="w-4 h-4 accent-blue-600 rounded cursor-pointer shrink-0"
                     >
 
-                        <!-- CHECKBOX -->
 
-                        <input
-                            type="checkbox"
-                            ${item.selected ? "checked" : ""}
-                            onchange="toggleSelect(${item.id})"
-                            class="w-4 h-4 accent-blue-600 rounded cursor-pointer shrink-0"
+                    <!-- GAMBAR -->
+
+                    <img
+                        src="${escapeHTML(image)}"
+                        alt="${escapeHTML(name)}"
+                        class="w-16 h-16 md:w-20 md:h-20 object-cover rounded border border-gray-100 shrink-0"
+                        onerror="this.src='https://placehold.co/100x100?text=No+Image'"
+                    >
+
+
+                    <!-- DETAIL -->
+
+                    <div class="flex-1 min-w-0">
+
+                        <p
+                            class="text-xs md:text-sm font-medium text-gray-800 line-clamp-2 leading-snug"
                         >
+                            ${escapeHTML(name)}
+                        </p>
 
-
-                        <!-- GAMBAR -->
-
-                        <img
-                            src="${escapeHTML(image)}"
-                            alt="${escapeHTML(name)}"
-                            class="w-16 h-16 md:w-20 md:h-20 object-cover rounded border border-gray-100 shrink-0"
-                            onerror="this.src='https://placehold.co/100x100?text=No+Image'"
+                        <p
+                            class="text-blue-600 font-bold text-xs md:text-sm mt-1"
                         >
+                            ${formatRupiah(price)}
+                        </p>
+
+                        <p
+                            class="text-[11px] text-gray-400 mt-1"
+                        >
+                            Subtotal:
+                            ${formatRupiah(price * qty)}
+                        </p>
+
+                    </div>
 
 
-                        <!-- DETAIL -->
+                    <!-- ACTION -->
+
+                    <div
+                        class="flex flex-col items-end gap-2 shrink-0"
+                    >
+
+                        <!-- HAPUS -->
+
+                        <button
+                            onclick="removeItem(${JSON.stringify(item.id)})"
+                            class="text-gray-400 hover:text-red-500 text-xs transition"
+                            title="Hapus produk"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+
+
+                        <!-- QUANTITY -->
 
                         <div
-                            class="flex-1 min-w-0"
+                            class="flex items-center border border-gray-200 rounded overflow-hidden text-xs"
                         >
-
-                            <p
-                                class="text-xs md:text-sm font-medium text-gray-800 line-clamp-2 leading-snug"
-                            >
-                                ${escapeHTML(name)}
-                            </p>
-
-                            <p
-                                class="text-blue-600 font-bold text-xs md:text-sm mt-1"
-                            >
-                                ${formatRupiah(price)}
-                            </p>
-
-                            <p
-                                class="text-[11px] text-gray-400 mt-1"
-                            >
-                                Subtotal:
-                                ${formatRupiah(price * qty)}
-                            </p>
-
-                        </div>
-
-
-                        <!-- ACTION -->
-
-                        <div
-                            class="flex flex-col items-end gap-2 shrink-0"
-                        >
-
-                            <!-- HAPUS -->
 
                             <button
-                                onclick="removeItem(${item.id})"
-                                class="text-gray-400 hover:text-red-500 text-xs transition"
-                                title="Hapus produk"
+                                onclick="updateQty(${JSON.stringify(item.id)}, -1)"
+                                class="px-2 py-1 bg-gray-50 hover:bg-gray-200 font-bold text-gray-600"
                             >
-
-                                <i
-                                    class="fa-solid fa-trash"
-                                ></i>
-
+                                -
                             </button>
 
-
-                            <!-- QUANTITY -->
-
-                            <div
-                                class="flex items-center border border-gray-200 rounded overflow-hidden text-xs"
+                            <span
+                                class="px-2.5 py-1 font-semibold text-gray-700"
                             >
+                                ${qty}
+                            </span>
 
-                                <button
-                                    onclick="updateQty(${item.id}, -1)"
-                                    class="px-2 py-1 bg-gray-50 hover:bg-gray-200 font-bold text-gray-600"
-                                >
-                                    -
-                                </button>
-
-                                <span
-                                    class="px-2.5 py-1 font-semibold text-gray-700"
-                                >
-                                    ${qty}
-                                </span>
-
-                                <button
-                                    onclick="updateQty(${item.id}, 1)"
-                                    class="px-2 py-1 bg-gray-50 hover:bg-gray-200 font-bold text-gray-600"
-                                >
-                                    +
-                                </button>
-
-                            </div>
+                            <button
+                                onclick="updateQty(${JSON.stringify(item.id)}, 1)"
+                                class="px-2 py-1 bg-gray-50 hover:bg-gray-200 font-bold text-gray-600"
+                            >
+                                +
+                            </button>
 
                         </div>
 
                     </div>
 
-                `;
+                </div>
+            `;
 
-            }
-        ).join("");
+        })
+        .join("");
 
 
     updateSummary();
-
 }
 
 
@@ -488,19 +505,12 @@ function renderCart() {
    UPDATE QUANTITY
    ===================================================== */
 
-function updateQty(
-    id,
-    change
-) {
+function updateQty(id, change) {
 
     const item =
-        cartData.find(
-            function (item) {
-
-                return item.id == id;
-
-            }
-        );
+        cartData.find(function (item) {
+            return item.id == id;
+        });
 
 
     if (!item) {
@@ -509,31 +519,26 @@ function updateQty(
 
 
     item.qty =
-        Number(
-            item.qty || 1
-        ) + Number(change);
+        Number(item.qty || 1) +
+        Number(change);
 
 
-    /* Jika quantity 0 → hapus */
+    /*
+       Jika quantity 0 → hapus
+    */
 
     if (item.qty <= 0) {
 
         cartData =
-            cartData.filter(
-                function (item) {
-
-                    return item.id != id;
-
-                }
-            );
+            cartData.filter(function (item) {
+                return item.id != id;
+            });
 
     }
 
 
     saveCart();
-
     renderCart();
-
 }
 
 
@@ -544,13 +549,9 @@ function updateQty(
 function removeItem(id) {
 
     const item =
-        cartData.find(
-            function (item) {
-
-                return item.id == id;
-
-            }
-        );
+        cartData.find(function (item) {
+            return item.id == id;
+        });
 
 
     if (!item) {
@@ -572,19 +573,13 @@ function removeItem(id) {
 
 
     cartData =
-        cartData.filter(
-            function (item) {
-
-                return item.id != id;
-
-            }
-        );
+        cartData.filter(function (item) {
+            return item.id != id;
+        });
 
 
     saveCart();
-
     renderCart();
-
 }
 
 
@@ -595,13 +590,9 @@ function removeItem(id) {
 function toggleSelect(id) {
 
     const item =
-        cartData.find(
-            function (item) {
-
-                return item.id == id;
-
-            }
-        );
+        cartData.find(function (item) {
+            return item.id == id;
+        });
 
 
     if (!item) {
@@ -614,9 +605,7 @@ function toggleSelect(id) {
 
 
     saveCart();
-
     updateSummary();
-
 }
 
 
@@ -627,33 +616,24 @@ function toggleSelect(id) {
 function updateSummary() {
 
     const selectedItems =
-        cartData.filter(
-            function (item) {
-
-                return item.selected;
-
-            }
-        );
+        cartData.filter(function (item) {
+            return item.selected;
+        });
 
 
-    /* TOTAL HARGA */
+    /*
+       TOTAL HARGA
+    */
 
     const total =
         selectedItems.reduce(
-            function (
-                sum,
-                item
-            ) {
+            function (sum, item) {
 
                 return (
                     sum +
                     (
-                        Number(
-                            item.price || 0
-                        ) *
-                        Number(
-                            item.qty || 0
-                        )
+                        Number(item.price || 0) *
+                        Number(item.qty || 0)
                     )
                 );
 
@@ -662,20 +642,17 @@ function updateSummary() {
         );
 
 
-    /* JUMLAH PRODUK */
+    /*
+       JUMLAH PRODUK TERPILIH
+    */
 
     const count =
         selectedItems.reduce(
-            function (
-                sum,
-                item
-            ) {
+            function (sum, item) {
 
                 return (
                     sum +
-                    Number(
-                        item.qty || 0
-                    )
+                    Number(item.qty || 0)
                 );
 
             },
@@ -683,7 +660,9 @@ function updateSummary() {
         );
 
 
-    /* TOTAL ITEM DI KERANJANG */
+    /*
+       TOTAL ITEM DI KERANJANG
+    */
 
     const totalItemCount =
         document.getElementById(
@@ -691,7 +670,9 @@ function updateSummary() {
         );
 
 
-    /* PRODUK TERPILIH */
+    /*
+       PRODUK TERPILIH
+    */
 
     const selectedCount =
         document.getElementById(
@@ -699,7 +680,9 @@ function updateSummary() {
         );
 
 
-    /* SUBTOTAL */
+    /*
+       SUBTOTAL
+    */
 
     const subtotalPrice =
         document.getElementById(
@@ -707,7 +690,9 @@ function updateSummary() {
         );
 
 
-    /* TOTAL */
+    /*
+       TOTAL
+    */
 
     const totalPrice =
         document.getElementById(
@@ -719,16 +704,11 @@ function updateSummary() {
 
         totalItemCount.innerText =
             cartData.reduce(
-                function (
-                    sum,
-                    item
-                ) {
+                function (sum, item) {
 
                     return (
                         sum +
-                        Number(
-                            item.qty || 0
-                        )
+                        Number(item.qty || 0)
                     );
 
                 },
@@ -762,7 +742,9 @@ function updateSummary() {
     }
 
 
-    /* SELECT ALL */
+    /*
+       SELECT ALL
+    */
 
     const selectAllBtn =
         document.getElementById(
@@ -774,18 +756,16 @@ function updateSummary() {
 
         selectAllBtn.checked =
             cartData.length > 0 &&
-            cartData.every(
-                function (item) {
-
-                    return item.selected;
-
-                }
-            );
+            cartData.every(function (item) {
+                return item.selected;
+            });
 
     }
 
 
-    /* DISABLE CHECKOUT JIKA BELUM PILIH */
+    /*
+       DISABLE CHECKOUT JIKA BELUM PILIH
+    */
 
     const checkoutBtn =
         document.getElementById(
@@ -816,7 +796,6 @@ function updateSummary() {
         }
 
     }
-
 }
 
 
@@ -839,18 +818,14 @@ function requireLogin() {
 
         window.location.href =
             "login.html?redirect=" +
-            encodeURIComponent(
-                "cart.html"
-            );
+            encodeURIComponent("cart.html");
 
 
         return false;
-
     }
 
 
     return true;
-
 }
 
 
@@ -858,25 +833,25 @@ function requireLogin() {
    CHECKOUT
    ===================================================== */
 
-async function proceedToCheckout() {
+function proceedToCheckout() {
 
-    /* CEK LOGIN */
+    /*
+       CEK LOGIN
+    */
 
     if (!requireLogin()) {
         return;
     }
 
 
-    /* AMBIL PRODUK YANG DIPILIH */
+    /*
+       AMBIL PRODUK YANG DIPILIH
+    */
 
     const selectedItems =
-        cartData.filter(
-            function (item) {
-
-                return item.selected;
-
-            }
-        );
+        cartData.filter(function (item) {
+            return item.selected;
+        });
 
 
     if (
@@ -888,28 +863,22 @@ async function proceedToCheckout() {
         );
 
         return;
-
     }
 
 
-    /* HITUNG TOTAL */
+    /*
+       HITUNG TOTAL
+    */
 
     const total =
         selectedItems.reduce(
-            function (
-                sum,
-                item
-            ) {
+            function (sum, item) {
 
                 return (
                     sum +
                     (
-                        Number(
-                            item.price || 0
-                        ) *
-                        Number(
-                            item.qty || 0
-                        )
+                        Number(item.price || 0) *
+                        Number(item.qty || 0)
                     )
                 );
 
@@ -918,7 +887,9 @@ async function proceedToCheckout() {
         );
 
 
-    /* USER */
+    /*
+       USER
+    */
 
     const currentUser =
         getCurrentUser();
@@ -929,18 +900,17 @@ async function proceedToCheckout() {
     }
 
 
-    /* DATA CHECKOUT */
+    /*
+       DATA CHECKOUT
+    */
 
     const checkoutData = {
 
-        items:
-            selectedItems,
+        items: selectedItems,
 
-        total:
-            total,
+        total: total,
 
-        user:
-            currentUser,
+        user: currentUser,
 
         createdAt:
             new Date().toISOString()
@@ -948,29 +918,55 @@ async function proceedToCheckout() {
     };
 
 
-    /* SIMPAN DATA CHECKOUT */
+    /*
+       SIMPAN PRODUK CHECKOUT
+
+       INI YANG AKAN DIBACA checkout.js
+    */
 
     localStorage.setItem(
         "checkoutItems",
-        JSON.stringify(
-            selectedItems
-        )
+        JSON.stringify(selectedItems)
     );
 
+
+    /*
+       SIMPAN DATA CHECKOUT
+    */
 
     localStorage.setItem(
         "checkoutData",
-        JSON.stringify(
-            checkoutData
-        )
+        JSON.stringify(checkoutData)
     );
 
 
-    /* KE HALAMAN CHECKOUT */
+    /*
+       PASTIKAN CART GLOBAL JUGA TERSIMPAN
+    */
+
+    localStorage.setItem(
+        CART_KEY,
+        JSON.stringify(cartData)
+    );
+
+
+    console.log(
+        "🛒 Item dikirim ke checkout:",
+        selectedItems
+    );
+
+    console.log(
+        "💰 Total checkout:",
+        total
+    );
+
+
+    /*
+       KE HALAMAN CHECKOUT
+    */
 
     window.location.href =
         "checkout.html";
-
 }
 
 
@@ -1000,25 +996,21 @@ function setupSelectAll() {
 
 
             cartData =
-                cartData.map(
-                    function (item) {
+                cartData.map(function (item) {
 
-                        item.selected =
-                            checked;
+                    item.selected =
+                        checked;
 
-                        return item;
+                    return item;
 
-                    }
-                );
+                });
 
 
             saveCart();
-
             renderCart();
 
         }
     );
-
 }
 
 
@@ -1044,13 +1036,9 @@ function setupDeleteSelected() {
         function () {
 
             const selectedItems =
-                cartData.filter(
-                    function (item) {
-
-                        return item.selected;
-
-                    }
-                );
+                cartData.filter(function (item) {
+                    return item.selected;
+                });
 
 
             if (
@@ -1062,7 +1050,6 @@ function setupDeleteSelected() {
                 );
 
                 return;
-
             }
 
 
@@ -1080,22 +1067,16 @@ function setupDeleteSelected() {
 
 
             cartData =
-                cartData.filter(
-                    function (item) {
-
-                        return !item.selected;
-
-                    }
-                );
+                cartData.filter(function (item) {
+                    return !item.selected;
+                });
 
 
             saveCart();
-
             renderCart();
 
         }
     );
-
 }
 
 
@@ -1112,34 +1093,46 @@ document.addEventListener(
         );
 
 
-        /* CEK LOGIN */
+        /*
+           CEK LOGIN
+        */
 
         if (!requireLogin()) {
             return;
         }
 
 
-        /* LOAD CART */
+        /*
+           LOAD CART
+        */
 
         loadCart();
 
 
-        /* RENDER */
+        /*
+           RENDER
+        */
 
         renderCart();
 
 
-        /* SELECT ALL */
+        /*
+           SELECT ALL
+        */
 
         setupSelectAll();
 
 
-        /* DELETE SELECTED */
+        /*
+           DELETE SELECTED
+        */
 
         setupDeleteSelected();
 
 
-        /* CHECKOUT */
+        /*
+           CHECKOUT
+        */
 
         const checkoutBtn =
             document.getElementById(
