@@ -3,16 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Checkout - Toko Elektronik</title>
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -73,8 +68,13 @@
             border-bottom: 1px solid #eee;
         }
 
+        .checkout-item:last-child {
+            border-bottom: none;
+        }
+
         .checkout-item-info {
             flex: 1;
+            min-width: 0;
         }
 
         .checkout-item-name {
@@ -92,6 +92,15 @@
             font-weight: 700;
             white-space: nowrap;
             color: #111;
+        }
+
+        .checkout-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            flex-shrink: 0;
         }
 
         .summary-row {
@@ -247,7 +256,6 @@
         }
 
         @media (max-width: 600px) {
-
             .container {
                 margin: 15px auto;
                 padding: 0 12px;
@@ -275,8 +283,7 @@
         }
 
         @media print {
-
-            body * {
+            body > * {
                 visibility: hidden;
             }
 
@@ -298,9 +305,7 @@
                 display: none;
             }
         }
-
     </style>
-
 </head>
 
 <body>
@@ -326,9 +331,11 @@
             <div class="summary-box">
 
                 <div id="checkoutItems">
+
                     <div class="empty-checkout">
                         Memuat pesanan...
                     </div>
+
                 </div>
 
 

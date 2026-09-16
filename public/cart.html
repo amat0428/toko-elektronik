@@ -18,7 +18,6 @@
 
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 </head>
 
 
@@ -36,6 +35,7 @@
             <div class="flex items-center gap-3">
 
                 <!-- Kembali ke toko -->
+
                 <a
                     href="toko.html"
                     class="hover:text-gray-200 transition"
@@ -64,6 +64,7 @@
         </div>
 
     </header>
+
 
 
     <!-- =====================================================
@@ -98,6 +99,7 @@
         </div>
 
 
+
         <!-- =================================================
              ISI KERANJANG
         ================================================== -->
@@ -129,6 +131,7 @@
 
                 <button
                     id="deleteSelected"
+                    type="button"
                     class="text-xs text-red-500 hover:text-red-700 font-semibold flex items-center gap-1 transition"
                 >
 
@@ -141,6 +144,7 @@
             </div>
 
 
+
             <!-- LIST PRODUK -->
 
             <div
@@ -151,6 +155,7 @@
         </div>
 
     </main>
+
 
 
     <!-- =====================================================
@@ -175,9 +180,11 @@
                     <p class="text-[11px] text-gray-500">
 
                         Total (
+
                         <span id="selectedCount">
                             0
                         </span>
+
                         produk):
 
                     </p>
@@ -203,10 +210,12 @@
             </div>
 
 
+
             <!-- CHECKOUT -->
 
             <button
                 id="btnCheckout"
+                type="button"
                 class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs md:text-sm px-6 py-3 rounded-xl shadow-md transition flex items-center gap-2"
             >
 
@@ -223,12 +232,12 @@
     </div>
 
 
+
     <!-- =====================================================
          CART JAVASCRIPT
     ====================================================== -->
 
     <script src="js/cart.js"></script>
-
 
 </body>
 
