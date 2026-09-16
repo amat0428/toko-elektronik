@@ -4,9 +4,8 @@
 
 const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
 
-// PENTING:
-// Gunakan Publishable/Anon Key yang SAMA dengan checkout.js
-const SUPABASE_KEY = "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+const SUPABASE_KEY =
+    "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
 // ==========================================
 // INISIALISASI SUPABASE
@@ -31,13 +30,21 @@ if (typeof supabase !== "undefined") {
 
 document.addEventListener("DOMContentLoaded", async function () {
 
+    console.log("📋 Halaman orders dimuat");
+
     const userData = localStorage.getItem("user");
 
     let currentUser = null;
 
+    // ======================================
+    // AMBIL USER
+    // ======================================
+
     if (userData) {
         try {
             currentUser = JSON.parse(userData);
+
+            console.log("👤 User ditemukan:", currentUser);
 
             const name =
                 currentUser.name ||
@@ -62,12 +69,17 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
         } catch (error) {
+
             console.error(
                 "❌ Gagal membaca profil user:",
                 error
             );
         }
     }
+
+    // ======================================
+    // LOAD ORDERS
+    // ======================================
 
     await loadOrders(currentUser);
 });
@@ -83,7 +95,7 @@ async function loadOrders(user) {
 
     if (!container) {
         console.error(
-            "❌ ordersContainer tidak ditemukan."
+            "❌ Element #ordersContainer tidak ditemukan."
         );
         return;
     }
@@ -92,20 +104,58 @@ async function loadOrders(user) {
     // CEK USER
     // ======================================
 
-    const userId = user
-        ? (user.id || user.user_id)
-        : null;
+    if (!user) {
 
-    console.log("👤 User saat ini:", user);
-    console.log("🆔 User ID:", userId);
-
-    if (!userId) {
+        console.error("❌ User tidak ditemukan.");
 
         container.innerHTML = `
             <div class="empty-state">
-                <p style="color:#ef4444;">
+
+                <p style="
+                    color:#ef4444;
+                    font-weight:bold;
+                ">
                     User belum login.
                 </p>
+
+                <a
+                    href="login.html"
+                    class="btn-shop"
+                >
+                    Login
+                </a>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    // ======================================
+    // AMBIL USER ID
+    // ======================================
+
+    const userId =
+        user.id !== undefined && user.id !== null
+            ? user.id
+            : user.user_id;
+
+    console.log("🆔 User ID:", userId);
+    console.log("🔎 Tipe User ID:", typeof userId);
+
+    if (
+        userId === undefined ||
+        userId === null ||
+        userId === ""
+    ) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+
+                <p style="color:#ef4444;">
+                    ID user tidak ditemukan.
+                </p>
+
             </div>
         `;
 
@@ -120,9 +170,11 @@ async function loadOrders(user) {
 
         container.innerHTML = `
             <div class="empty-state">
+
                 <p style="color:#ef4444;">
                     Koneksi Supabase belum tersedia.
                 </p>
+
             </div>
         `;
 
@@ -130,12 +182,15 @@ async function loadOrders(user) {
     }
 
     // ======================================
-    // QUERY ORDERS
+    // AMBIL DATA ORDERS
     // ======================================
 
     try {
 
-        console.log("🔎 Mengambil orders untuk user:", userId);
+        console.log(
+            "🔎 Mengambil pesanan user:",
+            userId
+        );
 
         const {
             data: orders,
@@ -149,18 +204,19 @@ async function loadOrders(user) {
             });
 
         // ==================================
-        // ERROR
+        // CEK ERROR SUPABASE
         // ==================================
 
         if (error) {
 
             console.error(
-                "❌ Supabase error:",
+                "❌ SUPABASE ERROR:",
                 error
             );
 
             container.innerHTML = `
                 <div class="empty-state">
+
                     <p style="
                         color:#ef4444;
                         font-weight:bold;
@@ -175,19 +231,32 @@ async function loadOrders(user) {
                     ">
                         ${escapeHTML(error.message)}
                     </p>
+
                 </div>
             `;
 
             return;
         }
 
-        console.log("📦 Orders dari Supabase:", orders);
+        // ==================================
+        // DATA BERHASIL
+        // ==================================
+
+        console.log(
+            "📦 Data orders:",
+            orders
+        );
 
         // ==================================
         // TIDAK ADA PESANAN
         // ==================================
 
         if (!orders || orders.length === 0) {
+
+            console.log(
+                "ℹ️ Belum ada pesanan untuk user:",
+                userId
+            );
 
             container.innerHTML = `
                 <div class="empty-state">
@@ -213,7 +282,7 @@ async function loadOrders(user) {
         }
 
         // ==================================
-        // RENDER SEMUA PESANAN
+        // RENDER ORDERS
         // ==================================
 
         container.innerHTML = orders
@@ -236,7 +305,10 @@ async function loadOrders(user) {
         container.innerHTML = `
             <div class="empty-state">
 
-                <p style="color:#ef4444;">
+                <p style="
+                    color:#ef4444;
+                    font-weight:bold;
+                ">
                     Terjadi kesalahan saat memuat pesanan.
                 </p>
 
@@ -387,9 +459,11 @@ function renderOrder(order) {
 
         itemsHtml = `
             <div class="item-row">
+
                 <span>
                     Detail produk tidak tersedia
                 </span>
+
             </div>
         `;
     }
