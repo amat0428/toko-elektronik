@@ -1,27 +1,44 @@
 /* ==========================================
-   1. VARIABLES & RESET (SHOPEE BLUE THEME)
+   1. VARIABLES & RESET
    ========================================== */
+
 :root {
-  --shopee-blue: #0056b3;         /* Biru utama ala Shopee */
-  --shopee-blue-dark: #004085;    /* Hover button/interactive */
-  --shopee-blue-light: #1890ff;   /* Biru cerah aksen */
-  --shopee-blue-bg: #e6f7ff;      /* Background soft biru */
-  --orange-price: #ee4d2d;        /* Warna harga khas e-commerce */
-  --bg-dark: #0f172a;             /* Background hero portofolio */
-  --bg-gray: #f5f5f5;             /* Background toko */
+  --shopee-blue: #0056b3;
+  --shopee-blue-dark: #004085;
+  --shopee-blue-light: #1890ff;
+  --shopee-blue-bg: #e6f7ff;
+
+  --orange-price: #ee4d2d;
+
+  --bg-dark: #07111f;
+  --bg-gray: #f5f5f5;
   --surface-white: #ffffff;
+
   --text-dark: #222222;
   --text-muted: #757575;
+
   --border-color: #e8e8e8;
-  --shadow-shopee: 0 1px 1px 0 rgba(0,0,0,.05);
-  --shadow-hover: 0 1px 20px 0 rgba(0,0,0,.1);
+
+  --shadow-shopee:
+    0 1px 1px 0 rgba(0, 0, 0, 0.05);
+
+  --shadow-hover:
+    0 1px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
 }
 
 body {
@@ -30,35 +47,53 @@ body {
   line-height: 1.4;
 }
 
+a {
+  text-decoration: none;
+}
+
+
 /* ==========================================
-   2. HEADER & NAVIGATION (TOKO & PORTOFOLIO)
+   2. HEADER & NAVIGATION
    ========================================== */
+
 header {
   background: var(--shopee-blue);
   color: white;
+
   position: sticky;
   top: 0;
+
   z-index: 1000;
+
   padding: 0.75rem 8%;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 1.5rem;
+
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.logo h1, .logo a {
+.logo h1,
+.logo a {
   font-size: 1.6rem;
   font-weight: 800;
+
   color: white;
+
   text-decoration: none;
+
   display: flex;
   align-items: center;
+
   gap: 0.5rem;
 }
 
@@ -66,33 +101,54 @@ header {
   color: #38bdf8;
 }
 
-/* Search Bar Besar di Laptop */
+
+/* ==========================================
+   SEARCH BAR
+   ========================================== */
+
 .search-bar {
   flex: 1;
+
   display: flex;
+
   max-width: 650px;
+
   background: white;
+
   border-radius: 2px;
+
   padding: 3px;
 }
 
 .search-bar input {
   width: 100%;
+
   border: none;
+
   padding: 0.6rem 1rem;
+
   font-size: 0.9rem;
+
   outline: none;
+
   color: var(--text-dark);
 }
 
 .search-bar button {
   background: var(--shopee-blue);
+
   color: white;
+
   border: none;
+
   padding: 0 1.5rem;
+
   cursor: pointer;
+
   border-radius: 2px;
+
   font-weight: bold;
+
   transition: background 0.2s;
 }
 
@@ -100,21 +156,34 @@ header {
   background: var(--shopee-blue-dark);
 }
 
-/* Navigasi User */
+
+/* ==========================================
+   NAVIGASI USER
+   ========================================== */
+
 nav {
   display: flex;
+
   align-items: center;
+
   gap: 1.5rem;
 }
 
 nav a {
   color: white;
+
   text-decoration: none;
+
   font-size: 0.9rem;
+
   font-weight: 500;
+
   display: flex;
+
   align-items: center;
+
   gap: 0.4rem;
+
   transition: opacity 0.2s;
 }
 
@@ -122,329 +191,806 @@ nav a:hover {
   opacity: 0.85;
 }
 
-/* Bottom Navigation Bar (Muncul di HP) */
+
+/* ==========================================
+   MOBILE BOTTOM NAV
+   ========================================== */
+
 .mobile-bottom-nav {
   display: none;
 }
 
+
 /* ==========================================
-   3. KATALOG PRODUK ALA GRID (toko.html)
+   3. KATALOG PRODUK - TOKO
    ========================================== */
+
 .main-container {
   max-width: 1200px;
+
   margin: 1.5rem auto;
+
   padding: 0 1rem;
 }
 
 .section-header {
   background: white;
+
   padding: 1rem 1.5rem;
-  border-bottom: 3px solid var(--shopee-blue);
+
+  border-bottom:
+    3px solid var(--shopee-blue);
+
   font-weight: 700;
+
   color: var(--shopee-blue);
+
   font-size: 1.1rem;
+
   margin-bottom: 1rem;
+
   text-transform: uppercase;
+
   letter-spacing: 0.5px;
 }
 
-/* Grid Laptop: 5 Sampai 6 Kolom Produk */
+
+/* ==========================================
+   PRODUCT GRID
+   ========================================== */
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(180px, 1fr));
+
   gap: 0.75rem;
 }
 
 .product-card {
   background: white;
+
   border-radius: 2px;
+
   border: 1px solid transparent;
+
   box-shadow: var(--shadow-shopee);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
   overflow: hidden;
+
   display: flex;
+
   flex-direction: column;
+
   cursor: pointer;
+
   position: relative;
+
   text-decoration: none;
 }
 
 .product-card:hover {
   transform: translateY(-2px);
+
   box-shadow: var(--shadow-hover);
-  border-color: var(--shopee-blue);
+
+  border-color:
+    var(--shopee-blue);
 }
+
+
+/* ==========================================
+   PRODUCT IMAGE
+   ========================================== */
 
 .product-image {
   width: 100%;
+
   height: 180px;
+
   object-fit: cover;
+
   background-color: #eee;
 }
 
 .product-info {
   padding: 0.75rem;
+
   display: flex;
+
   flex-direction: column;
+
   flex: 1;
+
   justify-content: space-between;
 }
 
 .product-title {
   font-size: 0.875rem;
+
   line-height: 1.25rem;
+
   height: 2.5rem;
+
   overflow: hidden;
+
   text-overflow: ellipsis;
+
   display: -webkit-box;
+
   line-clamp: 2;
+
   -webkit-line-clamp: 2;
+
   -webkit-box-orient: vertical;
+
   color: var(--text-dark);
+
   margin-bottom: 0.5rem;
 }
 
 .product-price-row {
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   margin-top: auto;
 }
 
 .product-price {
   font-size: 1rem;
+
   font-weight: 700;
+
   color: var(--orange-price);
 }
 
 .product-sold {
   font-size: 0.75rem;
+
   color: var(--text-muted);
 }
 
+
+/* ==========================================
+   ADD CART BUTTON
+   ========================================== */
+
 .btn-add-cart {
   width: 100%;
+
   margin-top: 0.5rem;
+
   background: var(--shopee-blue-bg);
+
   color: var(--shopee-blue);
-  border: 1px solid var(--shopee-blue);
+
+  border:
+    1px solid var(--shopee-blue);
+
   padding: 0.4rem;
+
   font-size: 0.8rem;
+
   font-weight: 600;
+
   border-radius: 2px;
+
   cursor: pointer;
+
   transition: all 0.2s;
 }
 
 .btn-add-cart:hover {
   background: var(--shopee-blue);
+
   color: white;
 }
 
+
 /* ==========================================
-   4. PORTOFOLIO (index.html)
+   4. PORTFOLIO INDEX
    ========================================== */
+
 .hero-portfolio {
   padding: 4rem 5%;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+
+  background:
+    linear-gradient(
+      135deg,
+      #0f172a 0%,
+      #1e293b 100%
+    );
+
   color: white;
+
   text-align: center;
 }
 
-/* Wrapper Foto Profil */
-.profile-img-wrapper {
-  width: 160px;
-  height: 160px;
-  margin: 0 auto 1.25rem auto;
+
+/* ==========================================
+   FOTO PROFIL - ALVI
+   ========================================== */
+
+.profile-area {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  position: relative;
 }
 
-/* Elemen Foto Profil Native HTML <img> */
+
+/* Glow belakang */
+
+.profile-area::before {
+  content: "";
+
+  position: absolute;
+
+  width: 340px;
+  height: 340px;
+
+  border-radius: 50%;
+
+  background: #38bdf8;
+
+  filter: blur(80px);
+
+  opacity: 0.18;
+
+  z-index: 0;
+
+  animation:
+    profileGlow 4s ease-in-out infinite;
+}
+
+
+/* Lingkaran foto */
+
+.profile-wrapper {
+  position: relative;
+
+  z-index: 1;
+
+  width: 320px;
+  height: 320px;
+
+  padding: 6px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #38bdf8,
+      #2563eb,
+      #8b5cf6,
+      #06b6d4
+    );
+
+  box-shadow:
+    0 0 25px rgba(56, 189, 248, 0.45),
+    0 0 60px rgba(37, 99, 235, 0.25);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+
+  animation:
+    profileFloat 4s ease-in-out infinite;
+}
+
+
+/* Foto */
+
+.profile-wrapper img {
+  width: 100%;
+
+  height: 100%;
+
+  display: block;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  border:
+    7px solid #07111f;
+
+  background: #1e293b;
+
+  transition:
+    transform 0.4s ease,
+    filter 0.4s ease;
+}
+
+
+/* Hover */
+
+.profile-wrapper:hover {
+  transform:
+    translateY(-10px)
+    scale(1.04);
+
+  box-shadow:
+    0 0 35px rgba(56, 189, 248, 0.75),
+    0 0 80px rgba(37, 99, 235, 0.45);
+}
+
+.profile-wrapper:hover img {
+  transform: scale(1.03);
+
+  filter:
+    brightness(1.08)
+    contrast(1.05);
+}
+
+
+/* Animasi glow */
+
+@keyframes profileGlow {
+
+  0%,
+  100% {
+    transform: scale(0.95);
+
+    opacity: 0.15;
+  }
+
+  50% {
+    transform: scale(1.08);
+
+    opacity: 0.25;
+  }
+}
+
+
+/* Animasi foto naik turun */
+
+@keyframes profileFloat {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+
+/* ==========================================
+   COMPATIBILITY CLASS
+   Kalau HTML lama masih menggunakan
+   profile-img-wrapper / profile-img
+   ========================================== */
+
+.profile-img-wrapper {
+  width: 320px;
+
+  height: 320px;
+
+  margin: 0 auto 1.25rem auto;
+
+  padding: 6px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #38bdf8,
+      #2563eb,
+      #8b5cf6,
+      #06b6d4
+    );
+
+  box-shadow:
+    0 0 25px rgba(56, 189, 248, 0.45),
+    0 0 60px rgba(37, 99, 235, 0.25);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.profile-img-wrapper:hover {
+  transform:
+    translateY(-8px)
+    scale(1.04);
+
+  box-shadow:
+    0 0 35px rgba(56, 189, 248, 0.75),
+    0 0 80px rgba(37, 99, 235, 0.45);
+}
+
 .profile-img {
   width: 100%;
+
   height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid var(--shopee-blue-light, #1890ff);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+
   display: block;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  border:
+    7px solid #07111f;
+
+  transition:
+    transform 0.4s ease;
 }
 
+.profile-img-wrapper:hover .profile-img {
+  transform: scale(1.03);
+}
+
+
+/* ==========================================
+   BADGE
+   ========================================== */
+
 .badge {
-  background: rgba(24, 144, 255, 0.15);
+  background:
+    rgba(24, 144, 255, 0.15);
+
   color: #38bdf8;
-  border: 1px solid #38bdf8;
-  padding: 0.35rem 1rem;
+
+  border:
+    1px solid #38bdf8;
+
+  padding:
+    0.35rem 1rem;
+
   border-radius: 20px;
+
   font-size: 0.85rem;
+
   font-weight: 700;
+
   display: inline-block;
+
   margin-bottom: 1rem;
 }
 
+
+/* ==========================================
+   HERO TEXT
+   ========================================== */
+
 .hero-portfolio h2 {
   font-size: 2.3rem;
+
   font-weight: 800;
+
   margin-bottom: 0.25rem;
 }
 
 .subtitle {
   font-size: 1.1rem;
+
   color: #94a3b8;
+
   font-weight: 600;
+
   margin-bottom: 1.5rem;
 }
 
+
+/* ==========================================
+   HERO BUTTON
+   ========================================== */
+
 .hero-btns {
   display: flex;
+
   justify-content: center;
+
   gap: 1rem;
+
   flex-wrap: wrap;
 }
 
 .btn-main {
-  background: var(--shopee-blue);
+  background:
+    var(--shopee-blue);
+
   color: white;
-  padding: 0.8rem 1.75rem;
+
+  padding:
+    0.8rem 1.75rem;
+
   border-radius: 4px;
+
   font-weight: 700;
+
   text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
-  box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+
+  transition:
+    background 0.2s,
+    transform 0.2s;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0, 86, 179, 0.3);
 }
 
 .btn-main:hover {
-  background: var(--shopee-blue-dark);
-  transform: translateY(-2px);
+  background:
+    var(--shopee-blue-dark);
+
+  transform:
+    translateY(-2px);
 }
 
 .btn-sub {
   background: transparent;
+
   color: white;
-  border: 1px solid #334155;
-  padding: 0.8rem 1.75rem;
+
+  border:
+    1px solid #334155;
+
+  padding:
+    0.8rem 1.75rem;
+
   border-radius: 4px;
+
   font-weight: 600;
+
   text-decoration: none;
 }
 
+
+/* ==========================================
+   PORTFOLIO SECTION
+   ========================================== */
+
 .portfolio-section {
   background: white;
+
   padding: 2rem;
+
   border-radius: 4px;
+
   margin-bottom: 1.5rem;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-shopee);
+
+  border:
+    1px solid var(--border-color);
+
+  box-shadow:
+    var(--shadow-shopee);
 }
 
 .about-text {
   font-size: 0.95rem;
+
   color: #334155;
+
   line-height: 1.8;
 }
 
 .grid-2-col {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(300px, 1fr)
+    );
+
   gap: 1.5rem;
 }
 
 .info-card h4 {
   font-size: 1.1rem;
+
   color: var(--shopee-blue);
+
   margin-bottom: 0.25rem;
 }
 
+
+/* ==========================================
+   SKILLS
+   ========================================== */
+
 .skills-grid {
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 0.75rem;
 }
 
 .skill-tag {
-  background: var(--shopee-blue-bg);
-  color: var(--shopee-blue);
-  border: 1px solid #91caff;
-  padding: 0.4rem 1rem;
+  background:
+    var(--shopee-blue-bg);
+
+  color:
+    var(--shopee-blue);
+
+  border:
+    1px solid #91caff;
+
+  padding:
+    0.4rem 1rem;
+
   border-radius: 20px;
+
   font-weight: 600;
+
   font-size: 0.85rem;
 }
 
+
+/* ==========================================
+   ORGANISASI
+   ========================================== */
+
 .org-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(260px, 1fr)
+    );
+
   gap: 1rem;
 }
 
 .org-card {
   background: #f8fafc;
+
   padding: 1.25rem;
+
   border-radius: 4px;
-  border-left: 4px solid var(--shopee-blue);
+
+  border-left:
+    4px solid var(--shopee-blue);
 }
 
 .org-card h4 {
   color: #0f172a;
+
   margin-bottom: 0.4rem;
 }
 
 .org-card p {
   font-size: 0.85rem;
+
   color: var(--text-muted);
+
   line-height: 1.5;
 }
 
+
+/* ==========================================
+   PROJECT
+   ========================================== */
+
 .project-card-highlight {
-  background: linear-gradient(135deg, #e6f7ff 0%, #ffffff 100%);
-  border: 2px solid var(--shopee-blue);
+  background:
+    linear-gradient(
+      135deg,
+      #e6f7ff 0%,
+      #ffffff 100%
+    );
+
+  border:
+    2px solid var(--shopee-blue);
+
   padding: 2rem;
+
   border-radius: 6px;
 }
 
 .badge-blue {
-  background: var(--shopee-blue);
+  background:
+    var(--shopee-blue);
+
   color: white;
-  padding: 0.25rem 0.75rem;
+
+  padding:
+    0.25rem 0.75rem;
+
   border-radius: 2px;
+
   font-size: 0.75rem;
+
   font-weight: 700;
+
   display: inline-block;
+
   margin-bottom: 0.75rem;
 }
 
 .btn-main-sm {
   display: inline-block;
-  background: var(--shopee-blue);
+
+  background:
+    var(--shopee-blue);
+
   color: white;
-  padding: 0.65rem 1.25rem;
+
+  padding:
+    0.65rem 1.25rem;
+
   border-radius: 4px;
+
   font-weight: 700;
+
   text-decoration: none;
+
   margin-top: 1rem;
 }
 
+
 /* ==========================================
-   5. LAYOUT KHUSUS HP / MOBILE (RESPONSIF)
+   5. RESPONSIVE - TABLET
    ========================================== */
+
+@media (max-width: 900px) {
+
+  .profile-wrapper {
+    width: 260px;
+    height: 260px;
+  }
+
+  .profile-area::before {
+    width: 280px;
+    height: 280px;
+  }
+
+  .profile-img-wrapper {
+    width: 260px;
+    height: 260px;
+  }
+
+}
+
+
+/* ==========================================
+   6. RESPONSIVE - HP
+   ========================================== */
+
 @media (max-width: 768px) {
+
   body {
     padding-bottom: 60px;
   }
 
   header {
-    padding: 0.5rem 1rem;
+    padding:
+      0.5rem 1rem;
   }
 
   .header-container {
     gap: 0.5rem;
   }
 
-  .logo h1, .logo a {
+  .logo h1,
+  .logo a {
     font-size: 1.2rem;
   }
 
   .search-bar button {
-    padding: 0 0.8rem;
+    padding:
+      0 0.8rem;
+
     font-size: 0.8rem;
   }
 
@@ -453,12 +999,17 @@ nav a:hover {
   }
 
   .main-container {
-    margin: 0.5rem auto;
-    padding: 0 0.5rem;
+    margin:
+      0.5rem auto;
+
+    padding:
+      0 0.5rem;
   }
 
   .product-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+      repeat(2, 1fr);
+
     gap: 0.5rem;
   }
 
@@ -466,36 +1017,117 @@ nav a:hover {
     height: 150px;
   }
 
+
+  /* FOTO HP */
+
+  .profile-wrapper {
+    width: 230px;
+    height: 230px;
+
+    padding: 5px;
+  }
+
+  .profile-wrapper img {
+    border-width: 5px;
+  }
+
+  .profile-area::before {
+    width: 240px;
+    height: 240px;
+
+    filter: blur(60px);
+  }
+
+
+  /* FOTO LAMA */
+
+  .profile-img-wrapper {
+    width: 230px;
+    height: 230px;
+
+    padding: 5px;
+  }
+
+  .profile-img {
+    border-width: 5px;
+  }
+
+
+  /* BOTTOM NAV */
+
   .mobile-bottom-nav {
     display: flex;
+
     justify-content: space-around;
+
     align-items: center;
+
     position: fixed;
+
     bottom: 0;
+
     left: 0;
+
     right: 0;
+
     height: 55px;
+
     background: white;
-    border-top: 1px solid var(--border-color);
+
+    border-top:
+      1px solid var(--border-color);
+
     z-index: 1000;
   }
 
   .mobile-bottom-nav a {
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     text-decoration: none;
+
     color: var(--text-muted);
+
     font-size: 0.65rem;
   }
 
   .mobile-bottom-nav a.active,
   .mobile-bottom-nav a:hover {
-    color: var(--shopee-blue);
+    color:
+      var(--shopee-blue);
   }
 
   .mobile-bottom-nav i {
     font-size: 1.2rem;
+
     margin-bottom: 2px;
   }
+
+}
+
+
+/* ==========================================
+   7. RESPONSIVE - HP KECIL
+   ========================================== */
+
+@media (max-width: 480px) {
+
+  .profile-wrapper {
+    width: 200px;
+    height: 200px;
+  }
+
+  .profile-area::before {
+    width: 210px;
+    height: 210px;
+  }
+
+  .profile-img-wrapper {
+    width: 200px;
+    height: 200px;
+  }
+
 }
