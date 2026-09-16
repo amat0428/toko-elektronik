@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Login - BlueShop</title>
 
     <!-- Tailwind CSS Framework -->
@@ -38,63 +36,78 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #4f46e5, #06b6d4);
-            padding: 20px;
+            background:
+                radial-gradient(circle at top left, rgba(79, 70, 229, 0.45), transparent 35%),
+                radial-gradient(circle at bottom right, rgba(6, 182, 212, 0.35), transparent 35%),
+                linear-gradient(135deg, #eef2ff, #ecfeff);
+            padding: 30px 20px;
         }
 
+        /* CONTAINER */
         .container {
             width: 100%;
-            max-width: 420px;
+            max-width: 390px;
         }
 
+        /* CARD */
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 30px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            background: rgba(255, 255, 255, 0.97);
+            padding: 28px 26px;
+            border-radius: 18px;
+            box-shadow:
+                0 20px 50px rgba(15, 23, 42, 0.12),
+                0 4px 15px rgba(15, 23, 42, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
+        /* LOGO */
         .logo {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .logo h1 {
             color: #4f46e5;
-            font-size: 30px;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .logo p {
             color: #64748b;
-            font-size: 13px;
+            font-size: 12px;
+            margin-top: 2px;
         }
 
+        /* TAB */
         .tab-menu {
             display: flex;
             background: #eef2ff;
-            padding: 5px;
-            border-radius: 10px;
-            margin-bottom: 25px;
+            padding: 4px;
+            border-radius: 9px;
+            margin-bottom: 22px;
         }
 
         .tab-btn {
             flex: 1;
             border: none;
             background: transparent;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 9px;
+            border-radius: 7px;
             cursor: pointer;
             font-weight: 600;
             color: #64748b;
+            font-size: 13px;
             transition: 0.2s ease;
         }
 
         .tab-btn.active {
             background: white;
             color: #4f46e5;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.08);
         }
 
+        /* FORM */
         .form-container {
             display: none;
         }
@@ -105,26 +118,27 @@
 
         .form-title {
             text-align: center;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: #1e293b;
+            margin-bottom: 4px;
         }
 
         .form-subtitle {
             text-align: center;
             color: #64748b;
-            font-size: 13px;
-            margin-bottom: 25px;
+            font-size: 12px;
+            margin-bottom: 20px;
         }
 
         .input-group {
-            margin-bottom: 18px;
+            margin-bottom: 15px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 6px;
-            font-size: 13px;
+            margin-bottom: 5px;
+            font-size: 12px;
             color: #334155;
             font-weight: 600;
         }
@@ -135,20 +149,23 @@
 
         .input-icon {
             position: absolute;
-            left: 14px;
+            left: 13px;
             top: 50%;
             transform: translateY(-50%);
             color: #94a3b8;
+            font-size: 14px;
+            z-index: 2;
         }
 
         input {
             width: 100%;
-            padding: 13px 42px;
+            height: 44px;
+            padding: 10px 40px;
             border: 1px solid #cbd5e1;
-            border-radius: 10px;
+            border-radius: 9px;
             outline: none;
             background: #f8fafc;
-            font-size: 14px;
+            font-size: 13px;
             transition: 0.2s ease;
         }
 
@@ -158,44 +175,60 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
+        input::placeholder {
+            color: #94a3b8;
+        }
+
         .toggle-password {
             position: absolute;
-            right: 14px;
+            right: 13px;
             top: 50%;
             transform: translateY(-50%);
             color: #94a3b8;
             cursor: pointer;
+            font-size: 14px;
         }
 
+        .toggle-password:hover {
+            color: #4f46e5;
+        }
+
+        /* BUTTON */
         .submit-btn {
             width: 100%;
+            height: 44px;
             border: none;
-            padding: 13px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 9px;
             background: linear-gradient(135deg, #4f46e5, #06b6d4);
             color: white;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 5px;
+            margin-top: 4px;
             transition: 0.2s ease;
         }
 
         .submit-btn:hover {
             opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.2);
         }
 
         .submit-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
+        /* ALERT */
         .alert {
             display: none;
-            padding: 12px;
+            padding: 10px 12px;
             border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 13px;
+            margin-bottom: 16px;
+            font-size: 12px;
         }
 
         .alert.error {
@@ -212,17 +245,53 @@
             border: 1px solid #86efac;
         }
 
+        /* BACK */
         .back {
             display: block;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 17px;
             color: #4f46e5;
-            font-size: 13px;
+            font-size: 12px;
             text-decoration: none;
         }
 
         .back:hover {
             text-decoration: underline;
+        }
+
+        /* LAPTOP / DESKTOP */
+        @media (min-width: 768px) {
+            body {
+                padding: 40px;
+            }
+
+            .container {
+                max-width: 370px;
+            }
+
+            .card {
+                padding: 30px 28px;
+            }
+        }
+
+        /* HP */
+        @media (max-width: 480px) {
+            body {
+                padding: 18px 14px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .card {
+                padding: 24px 20px;
+                border-radius: 16px;
+            }
+
+            .logo h1 {
+                font-size: 26px;
+            }
         }
     </style>
 </head>
@@ -230,7 +299,6 @@
 <body class="antialiased">
 
     <div class="container">
-
         <div class="card">
 
             <!-- LOGO -->
@@ -241,7 +309,6 @@
 
             <!-- TAB -->
             <div class="tab-menu">
-
                 <button
                     type="button"
                     class="tab-btn active"
@@ -257,7 +324,6 @@
                 >
                     Daftar
                 </button>
-
             </div>
 
             <!-- ALERT -->
@@ -268,7 +334,6 @@
                 id="loginFormContainer"
                 class="form-container active"
             >
-
                 <div class="form-title">
                     Selamat Datang
                 </div>
@@ -281,13 +346,11 @@
 
                     <!-- EMAIL -->
                     <div class="input-group">
-
                         <label for="loginEmail">
                             Email
                         </label>
 
                         <div class="input-wrapper">
-
                             <i class="fa-solid fa-envelope input-icon"></i>
 
                             <input
@@ -297,19 +360,16 @@
                                 autocomplete="email"
                                 required
                             >
-
                         </div>
                     </div>
 
                     <!-- PASSWORD -->
                     <div class="input-group">
-
                         <label for="loginPassword">
                             Kata Sandi
                         </label>
 
                         <div class="input-wrapper">
-
                             <i class="fa-solid fa-lock input-icon"></i>
 
                             <input
@@ -324,7 +384,6 @@
                                 class="fa-solid fa-eye toggle-password"
                                 onclick="togglePassword('loginPassword', this)"
                             ></i>
-
                         </div>
                     </div>
 
@@ -338,7 +397,6 @@
                     </button>
 
                 </form>
-
             </div>
 
             <!-- ================= REGISTER ================= -->
@@ -346,7 +404,6 @@
                 id="registerFormContainer"
                 class="form-container"
             >
-
                 <div class="form-title">
                     Buat Akun
                 </div>
@@ -359,13 +416,11 @@
 
                     <!-- NAMA -->
                     <div class="input-group">
-
                         <label for="regName">
                             Nama Lengkap
                         </label>
 
                         <div class="input-wrapper">
-
                             <i class="fa-solid fa-user input-icon"></i>
 
                             <input
@@ -375,19 +430,16 @@
                                 autocomplete="name"
                                 required
                             >
-
                         </div>
                     </div>
 
                     <!-- EMAIL -->
                     <div class="input-group">
-
                         <label for="regEmail">
                             Email
                         </label>
 
                         <div class="input-wrapper">
-
                             <i class="fa-solid fa-envelope input-icon"></i>
 
                             <input
@@ -397,19 +449,16 @@
                                 autocomplete="email"
                                 required
                             >
-
                         </div>
                     </div>
 
                     <!-- PASSWORD -->
                     <div class="input-group">
-
                         <label for="regPassword">
                             Kata Sandi
                         </label>
 
                         <div class="input-wrapper">
-
                             <i class="fa-solid fa-lock input-icon"></i>
 
                             <input
@@ -424,7 +473,6 @@
                                 class="fa-solid fa-eye toggle-password"
                                 onclick="togglePassword('regPassword', this)"
                             ></i>
-
                         </div>
                     </div>
 
@@ -438,7 +486,6 @@
                     </button>
 
                 </form>
-
             </div>
 
             <!-- BACK -->
@@ -450,9 +497,7 @@
             </a>
 
         </div>
-
     </div>
-
 
     <script>
         // =====================================================
@@ -463,8 +508,7 @@
             "https://fbnknnrltrsvydyxgujr.supabase.co";
 
         const SUPABASE_ANON_KEY =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
-
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndXhqciIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzg4MjQwNDI2LCJleHAiOjIxMDM4MTY0MjN9.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
 
         // =====================================================
         // CEK SUPABASE
@@ -478,7 +522,6 @@
             );
         }
 
-
         // =====================================================
         // BUAT SUPABASE CLIENT
         // =====================================================
@@ -488,10 +531,7 @@
             SUPABASE_ANON_KEY
         );
 
-
-        // Nama tabel
         const TABLE_NAME = "users_list";
-
 
         // =====================================================
         // SWITCH TAB
@@ -528,7 +568,6 @@
             }
         }
 
-
         // =====================================================
         // TOGGLE PASSWORD
         // =====================================================
@@ -554,7 +593,6 @@
             }
         }
 
-
         // =====================================================
         // ALERT
         // =====================================================
@@ -565,11 +603,8 @@
                 document.getElementById("alertBox");
 
             box.textContent = message;
-
-            box.className =
-                "alert " + type;
+            box.className = "alert " + type;
         }
-
 
         function hideAlert() {
 
@@ -577,10 +612,8 @@
                 document.getElementById("alertBox");
 
             box.className = "alert";
-
             box.textContent = "";
         }
-
 
         // =====================================================
         // LOGIN
@@ -591,7 +624,6 @@
             .addEventListener("submit", async function (event) {
 
                 event.preventDefault();
-
                 hideAlert();
 
                 const email =
@@ -612,11 +644,9 @@
                 button.disabled = true;
                 button.textContent = "Memeriksa...";
 
-
                 try {
 
                     console.log("Mencoba login:", email);
-
 
                     const {
                         data,
@@ -628,9 +658,7 @@
                         .eq("password", password)
                         .limit(1);
 
-
                     if (error) {
-
                         console.error(
                             "Supabase Login Error:",
                             error
@@ -638,7 +666,6 @@
 
                         throw error;
                     }
-
 
                     if (!data || data.length === 0) {
 
@@ -649,12 +676,8 @@
                         return;
                     }
 
-
-                    // User ditemukan
                     const user = data[0];
 
-
-                    // Simpan data user
                     localStorage.setItem(
                         "user",
                         JSON.stringify(user)
@@ -670,14 +693,11 @@
                         "true"
                     );
 
-
                     showAlert(
                         "Login berhasil! Membuka toko...",
                         "success"
                     );
 
-
-                    // Pindah ke halaman tujuan
                     setTimeout(function () {
 
                         const params =
@@ -693,7 +713,6 @@
                             redirectTo;
 
                     }, 800);
-
 
                 } catch (error) {
 
@@ -717,7 +736,6 @@
                 }
             });
 
-
         // =====================================================
         // REGISTER
         // =====================================================
@@ -727,16 +745,13 @@
             .addEventListener("submit", async function (event) {
 
                 event.preventDefault();
-
                 hideAlert();
-
 
                 const name =
                     document
                         .getElementById("regName")
                         .value
                         .trim();
-
 
                 const email =
                     document
@@ -745,18 +760,14 @@
                         .trim()
                         .toLowerCase();
 
-
                 const password =
                     document
                         .getElementById("regPassword")
                         .value;
 
-
                 const button =
                     document.getElementById("btnRegister");
 
-
-                // Cek password
                 if (password.length < 6) {
 
                     showAlert(
@@ -766,16 +777,10 @@
                     return;
                 }
 
-
                 button.disabled = true;
                 button.textContent = "Mendaftarkan...";
 
-
                 try {
-
-                    // -----------------------------------------
-                    // CEK EMAIL SUDAH ADA
-                    // -----------------------------------------
 
                     const {
                         data: existing,
@@ -786,11 +791,9 @@
                         .eq("username", email)
                         .limit(1);
 
-
                     if (checkError) {
                         throw checkError;
                     }
-
 
                     if (
                         existing &&
@@ -804,11 +807,6 @@
                         return;
                     }
 
-
-                    // -----------------------------------------
-                    // INSERT USER BARU
-                    // -----------------------------------------
-
                     const {
                         error: insertError
                     } = await _supabase
@@ -820,20 +818,15 @@
                             role: "user"
                         });
 
-
                     if (insertError) {
                         throw insertError;
                     }
 
-
-                    // Berhasil
                     showAlert(
                         "Pendaftaran berhasil! Silakan login.",
                         "success"
                     );
 
-
-                    // Pindah ke login
                     setTimeout(function () {
 
                         switchTab("login");
@@ -843,7 +836,6 @@
                             .value = email;
 
                     }, 1000);
-
 
                 } catch (error) {
 
@@ -863,7 +855,6 @@
                 } finally {
 
                     button.disabled = false;
-
                     button.textContent =
                         "Daftar Sekarang";
                 }
@@ -871,5 +862,4 @@
     </script>
 
 </body>
-
 </html>
