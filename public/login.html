@@ -108,9 +108,11 @@
             padding: 9px;
             border-radius: 7px;
             cursor: pointer;
+
             font-weight: 600;
             color: #64748b;
             font-size: 13px;
+
             transition: 0.2s ease;
         }
 
@@ -152,6 +154,7 @@
         .input-group label {
             display: block;
             margin-bottom: 5px;
+
             font-size: 12px;
             color: #334155;
             font-weight: 600;
@@ -165,29 +168,36 @@
             position: absolute;
             left: 13px;
             top: 50%;
+
             transform: translateY(-50%);
+
             color: #94a3b8;
             font-size: 14px;
+
             z-index: 2;
         }
 
         input {
             width: 100%;
             height: 44px;
+
             padding: 10px 40px;
 
             border: 1px solid #cbd5e1;
             border-radius: 9px;
 
             outline: none;
+
             background: #f8fafc;
 
             font-size: 13px;
+
             transition: 0.2s ease;
         }
 
         input:focus {
             border-color: #4f46e5;
+
             background: white;
 
             box-shadow:
@@ -202,10 +212,13 @@
             position: absolute;
             right: 13px;
             top: 50%;
+
             transform: translateY(-50%);
 
             color: #94a3b8;
+
             cursor: pointer;
+
             font-size: 14px;
         }
 
@@ -219,6 +232,7 @@
 
             border: none;
             padding: 10px;
+
             border-radius: 9px;
 
             background:
@@ -229,10 +243,12 @@
                 );
 
             color: white;
+
             font-size: 13px;
             font-weight: 600;
 
             cursor: pointer;
+
             margin-top: 4px;
 
             transition: 0.2s ease;
@@ -240,6 +256,7 @@
 
         .submit-btn:hover {
             opacity: 0.9;
+
             transform: translateY(-1px);
 
             box-shadow:
@@ -248,40 +265,57 @@
 
         .submit-btn:disabled {
             opacity: 0.6;
+
             cursor: not-allowed;
+
             transform: none;
+
             box-shadow: none;
         }
 
         .alert {
             display: none;
+
             padding: 10px 12px;
+
             border-radius: 8px;
+
             margin-bottom: 16px;
+
             font-size: 12px;
         }
 
         .alert.error {
             display: block;
+
             background: #fee2e2;
+
             color: #b91c1c;
+
             border: 1px solid #fca5a5;
         }
 
         .alert.success {
             display: block;
+
             background: #dcfce7;
+
             color: #15803d;
+
             border: 1px solid #86efac;
         }
 
         .back {
             display: block;
+
             text-align: center;
+
             margin-top: 17px;
 
             color: #4f46e5;
+
             font-size: 12px;
+
             text-decoration: none;
         }
 
@@ -290,6 +324,7 @@
         }
 
         @media (min-width: 768px) {
+
             body {
                 padding: 40px;
             }
@@ -304,6 +339,7 @@
         }
 
         @media (max-width: 480px) {
+
             body {
                 padding: 18px 14px;
             }
@@ -327,6 +363,7 @@
 <body>
 
     <div class="container">
+
         <div class="card">
 
             <!-- LOGO -->
@@ -335,8 +372,10 @@
                 <p>Toko Elektronik Online</p>
             </div>
 
+
             <!-- TAB -->
             <div class="tab-menu">
+
                 <button
                     type="button"
                     class="tab-btn active"
@@ -352,12 +391,16 @@
                 >
                     Daftar
                 </button>
+
             </div>
+
 
             <!-- ALERT -->
             <div id="alertBox" class="alert"></div>
 
+
             <!-- ================= LOGIN ================= -->
+
             <div
                 id="loginFormContainer"
                 class="form-container active"
@@ -371,16 +414,21 @@
                     Silakan masuk ke akun BlueShop
                 </div>
 
+
                 <form id="loginForm">
 
                     <!-- EMAIL -->
                     <div class="input-group">
+
                         <label for="loginEmail">
                             Email
                         </label>
 
                         <div class="input-wrapper">
-                            <i class="fa-solid fa-envelope input-icon"></i>
+
+                            <i
+                                class="fa-solid fa-envelope input-icon"
+                            ></i>
 
                             <input
                                 type="email"
@@ -389,18 +437,24 @@
                                 autocomplete="email"
                                 required
                             >
+
                         </div>
+
                     </div>
+
 
                     <!-- PASSWORD -->
                     <div class="input-group">
+
                         <label for="loginPassword">
                             Kata Sandi
                         </label>
 
                         <div class="input-wrapper">
 
-                            <i class="fa-solid fa-lock input-icon"></i>
+                            <i
+                                class="fa-solid fa-lock input-icon"
+                            ></i>
 
                             <input
                                 type="password"
@@ -416,7 +470,9 @@
                             ></i>
 
                         </div>
+
                     </div>
+
 
                     <!-- BUTTON -->
                     <button
@@ -428,9 +484,12 @@
                     </button>
 
                 </form>
+
             </div>
 
+
             <!-- ================= REGISTER ================= -->
+
             <div
                 id="registerFormContainer"
                 class="form-container"
@@ -444,6 +503,7 @@
                     Daftar untuk menggunakan BlueShop
                 </div>
 
+
                 <form id="registerForm">
 
                     <!-- NAMA -->
@@ -455,7 +515,9 @@
 
                         <div class="input-wrapper">
 
-                            <i class="fa-solid fa-user input-icon"></i>
+                            <i
+                                class="fa-solid fa-user input-icon"
+                            ></i>
 
                             <input
                                 type="text"
@@ -466,7 +528,9 @@
                             >
 
                         </div>
+
                     </div>
+
 
                     <!-- EMAIL -->
                     <div class="input-group">
@@ -477,7 +541,9 @@
 
                         <div class="input-wrapper">
 
-                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <i
+                                class="fa-solid fa-envelope input-icon"
+                            ></i>
 
                             <input
                                 type="email"
@@ -488,7 +554,9 @@
                             >
 
                         </div>
+
                     </div>
+
 
                     <!-- PASSWORD -->
                     <div class="input-group">
@@ -499,7 +567,9 @@
 
                         <div class="input-wrapper">
 
-                            <i class="fa-solid fa-lock input-icon"></i>
+                            <i
+                                class="fa-solid fa-lock input-icon"
+                            ></i>
 
                             <input
                                 type="password"
@@ -515,7 +585,9 @@
                             ></i>
 
                         </div>
+
                     </div>
+
 
                     <!-- BUTTON -->
                     <button
@@ -527,7 +599,9 @@
                     </button>
 
                 </form>
+
             </div>
+
 
             <!-- BACK -->
             <a
@@ -538,7 +612,9 @@
             </a>
 
         </div>
+
     </div>
+
 
     <script>
 
@@ -549,15 +625,8 @@
         const SUPABASE_URL =
             "https://fbnknnrltrsvydyxgujr.supabase.co";
 
-        /*
-         * PENTING:
-         * GANTI nilai di bawah dengan ANON/PUBLISHABLE KEY
-         * dari project Supabase kamu.
-         *
-         * Jangan pakai service_role key.
-         */
         const SUPABASE_ANON_KEY =
-            "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndXhqciIsInJvbGUiOiJub25uIiwiaWF0IjoxNzg4MjQwNDI2LCJleHAiOjIxMDM4MTY0MjN9.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
 
         const TABLE_NAME = "users_list";
 
@@ -575,7 +644,6 @@
             alert(
                 "Supabase gagal dimuat. Periksa koneksi internet atau CDN."
             );
-
         }
 
 
@@ -613,20 +681,25 @@
 
             hideAlert();
 
+
             if (tab === "login") {
 
                 login.classList.add("active");
+
                 register.classList.remove("active");
 
                 buttons[0].classList.add("active");
+
                 buttons[1].classList.remove("active");
 
             } else {
 
                 register.classList.add("active");
+
                 login.classList.remove("active");
 
                 buttons[1].classList.add("active");
+
                 buttons[0].classList.remove("active");
 
             }
@@ -637,12 +710,16 @@
         // TOGGLE PASSWORD
         // =====================================================
 
-        function togglePassword(inputId, icon) {
+        function togglePassword(
+            inputId,
+            icon
+        ) {
 
             const input =
                 document.getElementById(
                     inputId
                 );
+
 
             if (input.type === "password") {
 
@@ -667,7 +744,6 @@
                 icon.classList.add(
                     "fa-eye"
                 );
-
             }
         }
 
@@ -720,6 +796,7 @@
 
                     hideAlert();
 
+
                     const email =
                         document
                             .getElementById(
@@ -729,6 +806,7 @@
                             .trim()
                             .toLowerCase();
 
+
                     const password =
                         document
                             .getElementById(
@@ -736,10 +814,12 @@
                             )
                             .value;
 
+
                     const button =
                         document.getElementById(
                             "btnLogin"
                         );
+
 
                     button.disabled = true;
 
@@ -846,6 +926,7 @@
                                     ) ||
                                     "toko.html";
 
+
                                 window.location.href =
                                     redirectTo;
 
@@ -861,6 +942,7 @@
                             error
                         );
 
+
                         showAlert(
                             "Gagal Login: " +
                             (
@@ -868,6 +950,7 @@
                                 "Kesalahan sistem"
                             )
                         );
+
 
                     } finally {
 
@@ -1052,6 +1135,7 @@
                             error
                         );
 
+
                         showAlert(
                             "Gagal daftar: " +
                             (
@@ -1059,6 +1143,7 @@
                                 "Kesalahan sistem"
                             )
                         );
+
 
                     } finally {
 
