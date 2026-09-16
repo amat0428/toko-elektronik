@@ -69,15 +69,27 @@ async function loadOrders(user) {
   }
 
   container.innerHTML = orders.map(order => {
-    const items = Array.isArray(order.items) ? order.items : [];
+    let items = [];
+    try {
+      items = typeof order.items === 'string' ? JSON.parse(order.items) : Array.isArray(order.items) ? order.items : [];
+    } catch (e) {
+      items = [];
+    }
+
     const dateFormatted = order.created_at ? new Date(order.created_at).toLocaleString('id-ID') : 'Baru saja';
-    
-    const itemsHtml = items.map(item => `
-      <div class="item-row">
-        <span>${item.title || item.nama || 'Produk'} (x${item.qty || 1})</span>
-        <span>Rp ${Number((item.price || item.harga || 0) * (item.qty || 1)).toLocaleString('id-ID')}</span>
-      </div>
-    `).join('');
+    const statusText = order.status || 'Menunggu Konfirmasi';
+
+    const itemsHtml = items.map(item => {
+      const itemName = item.title || item.nama || item.nama_produk || 'Produk';
+      const qty = Number(item.qty || 1);
+      const price = Number(item.price || item.harga || item.harga_produk || 0);
+      return `
+        <div class="item-row">
+          <span>${itemName} (x${qty})</span>
+          <span>Rp ${(price * qty).toLocaleString('id-ID')}</span>
+        </div>
+      `;
+    }).join('') || '<div class="item-row"><span>Detail produk tidak tersedia</span></div>';
 
     return `
       <div class="order-card">
@@ -86,7 +98,7 @@ async function loadOrders(user) {
             <div class="order-id">ID Pesanan: #${order.id || 'N/A'}</div>
             <div class="order-date">${dateFormatted}</div>
           </div>
-          <span class="status-badge ${order.status === 'Selesai' ? 'selesai' : ''}">${order.status || 'Menunggu Konfirmasi'}</span>
+          <span class="status-badge ${statusText === 'Selesai' ? 'selesai' : ''}">${statusText}</span>
         </div>
         <div class="item-list">
           ${itemsHtml}

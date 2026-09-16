@@ -112,13 +112,13 @@
               </td>
               <td class="p-3.5 text-center">
                 <div class="flex items-center justify-center gap-1">
-                  <button onclick="updateStatus(${order.id}, 'Diproses')" class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold shadow-sm transition">
+                  <button onclick="updateStatus('${order.id}', 'Diproses')" class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold shadow-sm transition">
                     Proses
                   </button>
-                  <button onclick="updateStatus(${order.id}, 'Selesai')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-semibold shadow-sm transition">
+                  <button onclick="updateStatus('${order.id}', 'Selesai')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-semibold shadow-sm transition">
                     Selesai
                   </button>
-                  <button onclick="deleteOrder(${order.id})" class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs font-semibold shadow-sm transition">
+                  <button onclick="deleteOrder('${order.id}')" class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs font-semibold shadow-sm transition">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </div>

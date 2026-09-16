@@ -20,6 +20,15 @@
     .container { max-width: 600px; margin: 40px auto; padding: 0 15px; }
     .card { background: white; border-radius: 12px; padding: 25px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
     .card h2 { color: #1e293b; margin-bottom: 20px; border-bottom: 2px solid #2563eb; padding-bottom: 8px; font-size: 20px; }
+    .profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .profile-avatar {
+      width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #60a5fa, #2563eb); color: white;
+      font-size: 28px; font-weight: bold; border: 3px solid #dbeafe;
+      object-fit: cover;
+    }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .profile-field { margin-bottom: 15px; font-size: 15px; }
     .profile-field strong { color: #475569; display: inline-block; width: 80px; }
     
@@ -47,6 +56,11 @@
   <div class="container">
     <div class="card">
       <h2>👤 Profil Saya</h2>
+
+      <div class="profile-header">
+        <div id="userAvatar" class="profile-avatar">U</div>
+      </div>
+
       <div id="profile-info">Memuat data pengguna...</div>
 
       <div class="action-buttons">
@@ -61,21 +75,32 @@
       const userData = localStorage.getItem('user');
       const info = document.getElementById('profile-info');
       const roleBadge = document.getElementById('roleBadge');
+      const avatarEl = document.getElementById('userAvatar');
 
       if (!userData) {
         info.innerHTML = `<p>Kamu belum login. <a href="login.html" style="color:#2563eb; font-weight:bold;">Login di sini</a></p>`;
         roleBadge.innerText = 'Guest';
         roleBadge.style.background = '#64748b';
+        if (avatarEl) avatarEl.innerHTML = 'G';
         return;
       }
 
       const user = JSON.parse(userData);
-      const name = user.name || user.nama || 'Pengguna';
-      const email = user.email || 'Tidak ada email';
+      const name = user.name || user.nama || user.username || 'Pengguna';
+      const email = user.email || user.username || 'Tidak ada email';
       const role = (user.role || 'user').toUpperCase();
+      const avatarUrl = user.avatar_url || user.photo_url || user.foto_url || user.profile_photo || user.avatar || '';
 
       roleBadge.innerText = role === 'ADMIN' ? '🛡️ Admin' : `👤 ${name}`;
       roleBadge.style.background = role === 'ADMIN' ? '#10b981' : '#0284c7';
+
+      if (avatarEl) {
+        if (avatarUrl) {
+          avatarEl.innerHTML = `<img src="${avatarUrl}" alt="Foto Profil ${name}">`;
+        } else {
+          avatarEl.innerText = name.charAt(0).toUpperCase() || 'U';
+        }
+      }
 
       info.innerHTML = `
         <div class="profile-field"><strong>Nama:</strong> ${name}</div>
@@ -86,6 +111,8 @@
 
     function logout() {
       localStorage.removeItem('user');
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('isLoggedIn');
       window.location.href = 'login.html';
     }
   </script>

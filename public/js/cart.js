@@ -1,26 +1,9 @@
 const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const _supabase = typeof supabase !== 'undefined' ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-// 1. Ambil data keranjang dari LocalStorage (atau pakai data awal jika kosong)
-let cartData = JSON.parse(localStorage.getItem('cart')) || [
-  {
-    id: 1,
-    title: "Laptop Gaming RGB 15 Inch High Performance",
-    price: 12500000,
-    qty: 1,
-    image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400",
-    selected: true
-  },
-  {
-    id: 3,
-    title: "TWS Wireless Earbuds Pro Bass Boost",
-    price: 350000,
-    qty: 2,
-    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400",
-    selected: true
-  }
-];
+// Keranjang harus bersih saat pertama kali dibuka, kecuali ada data yang sudah tersimpan
+let cartData = JSON.parse(localStorage.getItem('cart')) || [];
 
 function saveCart() {
   localStorage.setItem('cart', JSON.stringify(cartData));

@@ -1,13 +1,11 @@
-// ISI DENGAN API KEY PUBLIC (anon) TERBARU DARI DASHBOARD SUPABASE
-// (Project Settings -> API -> Project API keys -> anon public)
 const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
-const SUPABASE_KEY = 'PASTE_ANON_KEY_BARU_KAMU_DI_SINI'; 
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
 
 let _supabase = null;
-if (typeof supabase !== 'undefined' && SUPABASE_KEY !== 'PASTE_ANON_KEY_BARU_KAMU_DI_SINI') {
+if (typeof supabase !== 'undefined') {
   _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 } else {
-  console.warn("Supabase SDK belum dimuat atau API Key belum diperbarui!");
+  console.warn('Supabase SDK belum dimuat.');
 }
 
 // Helper ambil data keranjang terbaru
