@@ -840,7 +840,7 @@ function requireLogin() {
         window.location.href =
             "login.html?redirect=" +
             encodeURIComponent(
-                "keranjang.html"
+                "cart.html"
             );
 
 
