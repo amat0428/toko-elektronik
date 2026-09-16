@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,6 +37,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+
             background:
                 radial-gradient(
                     circle at top left,
@@ -54,6 +54,7 @@
                     #eef2ff,
                     #ecfeff
                 );
+
             padding: 30px 20px;
         }
 
@@ -66,9 +67,11 @@
             background: rgba(255, 255, 255, 0.97);
             padding: 28px 26px;
             border-radius: 18px;
+
             box-shadow:
                 0 20px 50px rgba(15, 23, 42, 0.12),
                 0 4px 15px rgba(15, 23, 42, 0.06);
+
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
@@ -105,9 +108,11 @@
             padding: 9px;
             border-radius: 7px;
             cursor: pointer;
+
             font-weight: 600;
             color: #64748b;
             font-size: 13px;
+
             transition: 0.2s ease;
         }
 
@@ -147,6 +152,7 @@
         .input-group label {
             display: block;
             margin-bottom: 5px;
+
             font-size: 12px;
             color: #334155;
             font-weight: 600;
@@ -160,28 +166,39 @@
             position: absolute;
             left: 13px;
             top: 50%;
+
             transform: translateY(-50%);
+
             color: #94a3b8;
             font-size: 14px;
+
             z-index: 2;
         }
 
         input {
             width: 100%;
             height: 44px;
+
             padding: 10px 40px;
+
             border: 1px solid #cbd5e1;
             border-radius: 9px;
+
             outline: none;
+
             background: #f8fafc;
+
             font-size: 13px;
+
             transition: 0.2s ease;
         }
 
         input:focus {
             border-color: #4f46e5;
             background: white;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+
+            box-shadow:
+                0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
         input::placeholder {
@@ -190,11 +207,16 @@
 
         .toggle-password {
             position: absolute;
+
             right: 13px;
             top: 50%;
+
             transform: translateY(-50%);
+
             color: #94a3b8;
+
             cursor: pointer;
+
             font-size: 14px;
         }
 
@@ -205,26 +227,36 @@
         .submit-btn {
             width: 100%;
             height: 44px;
+
             border: none;
             padding: 10px;
+
             border-radius: 9px;
+
             background:
                 linear-gradient(
                     135deg,
                     #4f46e5,
                     #06b6d4
                 );
+
             color: white;
+
             font-size: 13px;
             font-weight: 600;
+
             cursor: pointer;
+
             margin-top: 4px;
+
             transition: 0.2s ease;
         }
 
         .submit-btn:hover {
             opacity: 0.9;
+
             transform: translateY(-1px);
+
             box-shadow:
                 0 5px 15px rgba(79, 70, 229, 0.2);
         }
@@ -232,38 +264,53 @@
         .submit-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+
             transform: none;
+
             box-shadow: none;
         }
 
         .alert {
             display: none;
+
             padding: 10px 12px;
+
             border-radius: 8px;
+
             margin-bottom: 16px;
+
             font-size: 12px;
         }
 
         .alert.error {
             display: block;
+
             background: #fee2e2;
             color: #b91c1c;
+
             border: 1px solid #fca5a5;
         }
 
         .alert.success {
             display: block;
+
             background: #dcfce7;
             color: #15803d;
+
             border: 1px solid #86efac;
         }
 
         .back {
             display: block;
+
             text-align: center;
+
             margin-top: 17px;
+
             color: #4f46e5;
+
             font-size: 12px;
+
             text-decoration: none;
         }
 
@@ -308,704 +355,792 @@
 
 <body>
 
-    <div class="container">
-        <div class="card">
+<div class="container">
 
-            <!-- LOGO -->
-            <div class="logo">
-                <h1>BlueShop</h1>
-                <p>Toko Elektronik Online</p>
+    <div class="card">
+
+        <!-- LOGO -->
+        <div class="logo">
+            <h1>BlueShop</h1>
+            <p>Toko Elektronik Online</p>
+        </div>
+
+        <!-- TAB -->
+        <div class="tab-menu">
+
+            <button
+                type="button"
+                class="tab-btn active"
+                onclick="switchTab('login')"
+            >
+                Masuk
+            </button>
+
+            <button
+                type="button"
+                class="tab-btn"
+                onclick="switchTab('register')"
+            >
+                Daftar
+            </button>
+
+        </div>
+
+        <!-- ALERT -->
+        <div id="alertBox" class="alert"></div>
+
+        <!-- LOGIN -->
+        <div
+            id="loginFormContainer"
+            class="form-container active"
+        >
+
+            <div class="form-title">
+                Selamat Datang
             </div>
 
-            <!-- TAB -->
-            <div class="tab-menu">
+            <div class="form-subtitle">
+                Silakan masuk ke akun BlueShop
+            </div>
+
+            <form id="loginForm">
+
+                <!-- EMAIL -->
+                <div class="input-group">
+
+                    <label for="loginEmail">
+                        Email
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-envelope input-icon"></i>
+
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            placeholder="nama@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="input-group">
+
+                    <label for="loginPassword">
+                        Kata Sandi
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-lock input-icon"></i>
+
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            placeholder="Kata sandi"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <i
+                            class="fa-solid fa-eye toggle-password"
+                            onclick="togglePassword('loginPassword', this)"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+                <!-- BUTTON -->
                 <button
-                    type="button"
-                    class="tab-btn active"
-                    onclick="switchTab('login')"
+                    type="submit"
+                    id="btnLogin"
+                    class="submit-btn"
                 >
                     Masuk
                 </button>
 
-                <button
-                    type="button"
-                    class="tab-btn"
-                    onclick="switchTab('register')"
-                >
-                    Daftar
-                </button>
-            </div>
-
-            <!-- ALERT -->
-            <div id="alertBox" class="alert"></div>
-
-            <!-- LOGIN -->
-            <div
-                id="loginFormContainer"
-                class="form-container active"
-            >
-
-                <div class="form-title">
-                    Selamat Datang
-                </div>
-
-                <div class="form-subtitle">
-                    Silakan masuk ke akun BlueShop
-                </div>
-
-                <form id="loginForm">
-
-                    <!-- EMAIL -->
-                    <div class="input-group">
-
-                        <label for="loginEmail">
-                            Email
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <i class="fa-solid fa-envelope input-icon"></i>
-
-                            <input
-                                type="email"
-                                id="loginEmail"
-                                placeholder="nama@email.com"
-                                autocomplete="email"
-                                required
-                            >
-
-                        </div>
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div class="input-group">
-
-                        <label for="loginPassword">
-                            Kata Sandi
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <i class="fa-solid fa-lock input-icon"></i>
-
-                            <input
-                                type="password"
-                                id="loginPassword"
-                                placeholder="Kata sandi"
-                                autocomplete="current-password"
-                                required
-                            >
-
-                            <i
-                                class="fa-solid fa-eye toggle-password"
-                                onclick="togglePassword('loginPassword', this)"
-                            ></i>
-
-                        </div>
-                    </div>
-
-                    <!-- BUTTON -->
-                    <button
-                        type="submit"
-                        id="btnLogin"
-                        class="submit-btn"
-                    >
-                        Masuk
-                    </button>
-
-                </form>
-            </div>
-
-            <!-- REGISTER -->
-            <div
-                id="registerFormContainer"
-                class="form-container"
-            >
-
-                <div class="form-title">
-                    Buat Akun
-                </div>
-
-                <div class="form-subtitle">
-                    Daftar untuk menggunakan BlueShop
-                </div>
-
-                <form id="registerForm">
-
-                    <!-- NAMA -->
-                    <div class="input-group">
-
-                        <label for="regName">
-                            Nama Lengkap
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <i class="fa-solid fa-user input-icon"></i>
-
-                            <input
-                                type="text"
-                                id="regName"
-                                placeholder="Nama lengkap"
-                                autocomplete="name"
-                                required
-                            >
-
-                        </div>
-                    </div>
-
-                    <!-- EMAIL -->
-                    <div class="input-group">
-
-                        <label for="regEmail">
-                            Email
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <i class="fa-solid fa-envelope input-icon"></i>
-
-                            <input
-                                type="email"
-                                id="regEmail"
-                                placeholder="nama@email.com"
-                                autocomplete="email"
-                                required
-                            >
-
-                        </div>
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div class="input-group">
-
-                        <label for="regPassword">
-                            Kata Sandi
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <i class="fa-solid fa-lock input-icon"></i>
-
-                            <input
-                                type="password"
-                                id="regPassword"
-                                placeholder="Minimal 6 karakter"
-                                autocomplete="new-password"
-                                required
-                            >
-
-                            <i
-                                class="fa-solid fa-eye toggle-password"
-                                onclick="togglePassword('regPassword', this)"
-                            ></i>
-
-                        </div>
-                    </div>
-
-                    <!-- BUTTON -->
-                    <button
-                        type="submit"
-                        id="btnRegister"
-                        class="submit-btn"
-                    >
-                        Daftar Sekarang
-                    </button>
-
-                </form>
-            </div>
-
-            <!-- BACK -->
-            <a href="index.html" class="back">
-                ← Kembali ke Portfolio
-            </a>
+            </form>
 
         </div>
+
+        <!-- REGISTER -->
+        <div
+            id="registerFormContainer"
+            class="form-container"
+        >
+
+            <div class="form-title">
+                Buat Akun
+            </div>
+
+            <div class="form-subtitle">
+                Daftar untuk menggunakan BlueShop
+            </div>
+
+            <form id="registerForm">
+
+                <!-- NAMA -->
+                <div class="input-group">
+
+                    <label for="regName">
+                        Nama Lengkap
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-user input-icon"></i>
+
+                        <input
+                            type="text"
+                            id="regName"
+                            placeholder="Nama lengkap"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <!-- EMAIL -->
+                <div class="input-group">
+
+                    <label for="regEmail">
+                        Email
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-envelope input-icon"></i>
+
+                        <input
+                            type="email"
+                            id="regEmail"
+                            placeholder="nama@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="input-group">
+
+                    <label for="regPassword">
+                        Kata Sandi
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-lock input-icon"></i>
+
+                        <input
+                            type="password"
+                            id="regPassword"
+                            placeholder="Minimal 6 karakter"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+
+                        <i
+                            class="fa-solid fa-eye toggle-password"
+                            onclick="togglePassword('regPassword', this)"
+                        ></i>
+
+                    </div>
+
+                </div>
+
+                <!-- BUTTON -->
+                <button
+                    type="submit"
+                    id="btnRegister"
+                    class="submit-btn"
+                >
+                    Daftar Sekarang
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- BACK -->
+        <a
+            href="index.html"
+            class="back"
+        >
+            ← Kembali ke Portfolio
+        </a>
+
     </div>
 
-    <script>
-
-        // =====================================================
-        // KONFIGURASI SUPABASE
-        // =====================================================
-
-        const SUPABASE_URL =
-            "https://fbnknnrltrsvydyxgujr.supabase.co";
-
-        const SUPABASE_PUBLISHABLE_KEY =
-            "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
-
-        const TABLE_NAME = "users_list";
+</div>
 
 
-        // =====================================================
-        // CEK SUPABASE
-        // =====================================================
+<script>
 
-        if (!window.supabase) {
+/* =====================================================
+   KONFIGURASI SUPABASE
+===================================================== */
 
-            console.error("Supabase JS gagal dimuat.");
+const SUPABASE_URL =
+    "https://fbnknnrltrsvydyxgujr.supabase.co";
 
-            alert(
-                "Supabase gagal dimuat. Periksa koneksi internet atau CDN."
-            );
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
-        }
-
-
-        // =====================================================
-        // BUAT SUPABASE CLIENT
-        // =====================================================
-
-        const _supabase =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_PUBLISHABLE_KEY
-            );
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
 
-        // =====================================================
-        // SWITCH TAB
-        // =====================================================
+/* =====================================================
+   CEK SUPABASE
+===================================================== */
 
-        function switchTab(tab) {
+if (!window.supabase) {
 
-            const login =
-                document.getElementById(
-                    "loginFormContainer"
-                );
+    console.error("Supabase JS gagal dimuat.");
 
-            const register =
-                document.getElementById(
-                    "registerFormContainer"
-                );
+    alert(
+        "Supabase gagal dimuat. Periksa koneksi internet atau CDN."
+    );
+}
 
-            const buttons =
-                document.querySelectorAll(
-                    ".tab-btn"
-                );
+
+/* =====================================================
+   SWITCH TAB
+===================================================== */
+
+function switchTab(tab) {
+
+    const login =
+        document.getElementById(
+            "loginFormContainer"
+        );
+
+    const register =
+        document.getElementById(
+            "registerFormContainer"
+        );
+
+    const buttons =
+        document.querySelectorAll(
+            ".tab-btn"
+        );
+
+    hideAlert();
+
+    if (tab === "login") {
+
+        login.classList.add("active");
+        register.classList.remove("active");
+
+        buttons[0].classList.add("active");
+        buttons[1].classList.remove("active");
+
+    } else {
+
+        register.classList.add("active");
+        login.classList.remove("active");
+
+        buttons[1].classList.add("active");
+        buttons[0].classList.remove("active");
+    }
+}
+
+
+/* =====================================================
+   TOGGLE PASSWORD
+===================================================== */
+
+function togglePassword(inputId, icon) {
+
+    const input =
+        document.getElementById(inputId);
+
+    if (input.type === "password") {
+
+        input.type = "text";
+
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+
+    } else {
+
+        input.type = "password";
+
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+    }
+}
+
+
+/* =====================================================
+   ALERT
+===================================================== */
+
+function showAlert(message, type = "error") {
+
+    const box =
+        document.getElementById("alertBox");
+
+    box.textContent = message;
+
+    box.className =
+        "alert " + type;
+}
+
+
+function hideAlert() {
+
+    const box =
+        document.getElementById("alertBox");
+
+    box.className = "alert";
+
+    box.textContent = "";
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
 
             hideAlert();
 
-            if (tab === "login") {
+            const email =
+                document
+                    .getElementById("loginEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
 
-                login.classList.add("active");
-                register.classList.remove("active");
+            const password =
+                document
+                    .getElementById("loginPassword")
+                    .value;
 
-                buttons[0].classList.add("active");
-                buttons[1].classList.remove("active");
+            const button =
+                document.getElementById(
+                    "btnLogin"
+                );
 
-            } else {
-
-                register.classList.add("active");
-                login.classList.remove("active");
-
-                buttons[1].classList.add("active");
-                buttons[0].classList.remove("active");
-
-            }
-        }
-
-
-        // =====================================================
-        // TOGGLE PASSWORD
-        // =====================================================
-
-        function togglePassword(inputId, icon) {
-
-            const input =
-                document.getElementById(inputId);
-
-            if (input.type === "password") {
-
-                input.type = "text";
-
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
-
-            } else {
-
-                input.type = "password";
-
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
-
-            }
-        }
+            button.disabled = true;
+            button.textContent = "Memeriksa...";
 
 
-        // =====================================================
-        // ALERT
-        // =====================================================
+            try {
 
-        function showAlert(message, type = "error") {
-
-            const box =
-                document.getElementById("alertBox");
-
-            box.textContent = message;
-
-            box.className =
-                "alert " + type;
-        }
+                console.log(
+                    "Mencoba login:",
+                    email
+                );
 
 
-        function hideAlert() {
+                /* =========================================
+                   LOGIN SUPABASE AUTH
+                ========================================= */
 
-            const box =
-                document.getElementById("alertBox");
-
-            box.className = "alert";
-
-            box.textContent = "";
-        }
-
-
-        // =====================================================
-        // LOGIN
-        // =====================================================
-
-        document
-            .getElementById("loginForm")
-            .addEventListener(
-                "submit",
-                async function (event) {
-
-                    event.preventDefault();
-
-                    hideAlert();
-
-                    const email =
-                        document
-                            .getElementById("loginEmail")
-                            .value
-                            .trim()
-                            .toLowerCase();
-
-                    const password =
-                        document
-                            .getElementById("loginPassword")
-                            .value;
-
-                    const button =
-                        document.getElementById(
-                            "btnLogin"
-                        );
-
-                    button.disabled = true;
-
-                    button.textContent =
-                        "Memeriksa...";
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth
+                        .signInWithPassword({
+                            email: email,
+                            password: password
+                        });
 
 
-                    try {
+                if (error) {
 
-                        console.log(
-                            "Mencoba login:",
-                            email
-                        );
+                    console.error(
+                        "Supabase Login Error:",
+                        error
+                    );
 
-
-                        const {
-                            data,
-                            error
-                        } = await _supabase
-                            .from(TABLE_NAME)
-                            .select("*")
-                            .eq(
-                                "username",
-                                email
-                            )
-                            .eq(
-                                "password",
-                                password
-                            )
-                            .limit(1);
-
-
-                        if (error) {
-
-                            console.error(
-                                "Supabase Login Error:",
-                                error
-                            );
-
-                            throw error;
-                        }
-
-
-                        if (
-                            !data ||
-                            data.length === 0
-                        ) {
-
-                            showAlert(
-                                "Email atau password salah!"
-                            );
-
-                            return;
-                        }
-
-
-                        // USER DITEMUKAN
-
-                        const user = data[0];
-
-
-                        // SIMPAN USER
-
-                        localStorage.setItem(
-                            "user",
-                            JSON.stringify(user)
-                        );
-
-                        localStorage.setItem(
-                            "currentUser",
-                            JSON.stringify(user)
-                        );
-
-                        localStorage.setItem(
-                            "isLoggedIn",
-                            "true"
-                        );
-
+                    if (
+                        error.message
+                            .toLowerCase()
+                            .includes("invalid login credentials")
+                    ) {
 
                         showAlert(
-                            "Login berhasil! Membuka toko...",
-                            "success"
+                            "Email atau password salah!"
                         );
 
-
-                        // REDIRECT
-
-                        setTimeout(function () {
-
-                            const params =
-                                new URLSearchParams(
-                                    window.location.search
-                                );
-
-                            const redirectTo =
-                                params.get("redirect") ||
-                                "toko.html";
-
-                            window.location.href =
-                                redirectTo;
-
-                        }, 800);
-
-
-                    } catch (error) {
-
-                        console.error(
-                            "Login Error:",
-                            error
-                        );
+                    } else {
 
                         showAlert(
                             "Gagal Login: " +
-                            (
-                                error.message ||
-                                "Kesalahan sistem"
-                            )
+                            error.message
                         );
-
-                    } finally {
-
-                        button.disabled = false;
-
-                        button.textContent =
-                            "Masuk";
                     }
 
+                    return;
                 }
+
+
+                if (!data || !data.user) {
+
+                    showAlert(
+                        "Akun tidak ditemukan."
+                    );
+
+                    return;
+                }
+
+
+                /* =========================================
+                   USER BERHASIL LOGIN
+                ========================================= */
+
+                const user =
+                    data.user;
+
+
+                /* =========================================
+                   SIMPAN DATA USER AUTH
+                ========================================= */
+
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(user)
+                );
+
+                localStorage.setItem(
+                    "currentUser",
+                    JSON.stringify(user)
+                );
+
+                localStorage.setItem(
+                    "isLoggedIn",
+                    "true"
+                );
+
+
+                showAlert(
+                    "Login berhasil! Membuka toko...",
+                    "success"
+                );
+
+
+                /* =========================================
+                   REDIRECT
+                ========================================= */
+
+                setTimeout(function () {
+
+                    const params =
+                        new URLSearchParams(
+                            window.location.search
+                        );
+
+                    const redirectTo =
+                        params.get("redirect") ||
+                        "toko.html";
+
+                    window.location.href =
+                        redirectTo;
+
+                }, 800);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Login Error:",
+                    error
+                );
+
+                showAlert(
+                    "Gagal Login: " +
+                    (
+                        error.message ||
+                        "Kesalahan sistem"
+                    )
+                );
+
+            } finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Masuk";
+            }
+        }
+    );
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+document
+    .getElementById("registerForm")
+    .addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            hideAlert();
+
+
+            const name =
+                document
+                    .getElementById("regName")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("regEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const password =
+                document
+                    .getElementById("regPassword")
+                    .value;
+
+
+            const button =
+                document.getElementById(
+                    "btnRegister"
+                );
+
+
+            /* =========================================
+               VALIDASI
+            ========================================= */
+
+            if (!name) {
+
+                showAlert(
+                    "Nama lengkap wajib diisi."
+                );
+
+                return;
+            }
+
+
+            if (password.length < 6) {
+
+                showAlert(
+                    "Password minimal 6 karakter!"
+                );
+
+                return;
+            }
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Mendaftarkan...";
+
+
+            try {
+
+                console.log(
+                    "Mendaftarkan:",
+                    email
+                );
+
+
+                /* =========================================
+                   REGISTER SUPABASE AUTH
+                ========================================= */
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth
+                        .signUp({
+
+                            email: email,
+
+                            password: password,
+
+                            options: {
+
+                                data: {
+
+                                    name: name
+
+                                }
+
+                            }
+
+                        });
+
+
+                if (error) {
+
+                    console.error(
+                        "Supabase Register Error:",
+                        error
+                    );
+
+                    showAlert(
+                        "Gagal daftar: " +
+                        error.message
+                    );
+
+                    return;
+                }
+
+
+                /* =========================================
+                   HASIL REGISTER
+                ========================================= */
+
+                if (!data || !data.user) {
+
+                    showAlert(
+                        "Pendaftaran gagal. Silakan coba lagi."
+                    );
+
+                    return;
+                }
+
+
+                /* =========================================
+                   CEK EMAIL CONFIRMATION
+                ========================================= */
+
+                if (!data.session) {
+
+                    showAlert(
+                        "Pendaftaran berhasil! Silakan cek email untuk verifikasi.",
+                        "success"
+                    );
+
+                } else {
+
+                    showAlert(
+                        "Pendaftaran berhasil! Silakan login.",
+                        "success"
+                    );
+                }
+
+
+                /* =========================================
+                   PINDAH KE LOGIN
+                ========================================= */
+
+                setTimeout(function () {
+
+                    switchTab("login");
+
+                    document
+                        .getElementById(
+                            "loginEmail"
+                        )
+                        .value = email;
+
+                }, 1500);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Register Error:",
+                    error
+                );
+
+                showAlert(
+                    "Gagal daftar: " +
+                    (
+                        error.message ||
+                        "Kesalahan sistem"
+                    )
+                );
+
+            } finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Daftar Sekarang";
+            }
+        }
+    );
+
+
+/* =====================================================
+   CEK SESSION SAAT HALAMAN DIBUKA
+===================================================== */
+
+async function checkSession() {
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+
+        if (error) {
+
+            console.error(
+                "Session Error:",
+                error
             );
 
-
-        // =====================================================
-        // REGISTER
-        // =====================================================
-
-        document
-            .getElementById("registerForm")
-            .addEventListener(
-                "submit",
-                async function (event) {
-
-                    event.preventDefault();
-
-                    hideAlert();
+            return;
+        }
 
 
-                    const name =
-                        document
-                            .getElementById("regName")
-                            .value
-                            .trim();
+        if (data.session) {
 
-
-                    const email =
-                        document
-                            .getElementById("regEmail")
-                            .value
-                            .trim()
-                            .toLowerCase();
-
-
-                    const password =
-                        document
-                            .getElementById("regPassword")
-                            .value;
-
-
-                    const button =
-                        document.getElementById(
-                            "btnRegister"
-                        );
-
-
-                    // CEK PASSWORD
-
-                    if (password.length < 6) {
-
-                        showAlert(
-                            "Password minimal 6 karakter!"
-                        );
-
-                        return;
-                    }
-
-
-                    button.disabled = true;
-
-                    button.textContent =
-                        "Mendaftarkan...";
-
-
-                    try {
-
-                        // =====================================
-                        // CEK EMAIL
-                        // =====================================
-
-                        const {
-                            data: existing,
-                            error: checkError
-                        } = await _supabase
-                            .from(TABLE_NAME)
-                            .select("id")
-                            .eq(
-                                "username",
-                                email
-                            )
-                            .limit(1);
-
-
-                        if (checkError) {
-
-                            console.error(
-                                "Cek email error:",
-                                checkError
-                            );
-
-                            throw checkError;
-                        }
-
-
-                        if (
-                            existing &&
-                            existing.length > 0
-                        ) {
-
-                            showAlert(
-                                "Email sudah terdaftar!"
-                            );
-
-                            return;
-                        }
-
-
-                        // =====================================
-                        // INSERT USER
-                        // =====================================
-
-                        const {
-                            error: insertError
-                        } = await _supabase
-                            .from(TABLE_NAME)
-                            .insert({
-
-                                name: name,
-
-                                username: email,
-
-                                password: password,
-
-                                role: "user"
-
-                            });
-
-
-                        if (insertError) {
-
-                            console.error(
-                                "Insert user error:",
-                                insertError
-                            );
-
-                            throw insertError;
-                        }
-
-
-                        showAlert(
-                            "Pendaftaran berhasil! Silakan login.",
-                            "success"
-                        );
-
-
-                        // PINDAH KE LOGIN
-
-                        setTimeout(function () {
-
-                            switchTab("login");
-
-                            document
-                                .getElementById(
-                                    "loginEmail"
-                                )
-                                .value = email;
-
-                        }, 1000);
-
-
-                    } catch (error) {
-
-                        console.error(
-                            "Register Error:",
-                            error
-                        );
-
-                        showAlert(
-                            "Gagal daftar: " +
-                            (
-                                error.message ||
-                                "Kesalahan sistem"
-                            )
-                        );
-
-                    } finally {
-
-                        button.disabled = false;
-
-                        button.textContent =
-                            "Daftar Sekarang";
-                    }
-
-                }
+            console.log(
+                "Sudah login:",
+                data.session.user.email
             );
+        }
 
-    </script>
+    } catch (error) {
+
+        console.error(
+            "Check Session Error:",
+            error
+        );
+    }
+}
+
+
+checkSession();
+
+</script>
 
 </body>
-
 </html>
