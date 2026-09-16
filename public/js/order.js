@@ -5,7 +5,7 @@
 const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
 
 // ==========================================
 // INISIALISASI SUPABASE
