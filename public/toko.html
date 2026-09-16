@@ -7,7 +7,7 @@
 
     <title>BlueShop - Toko Online</title>
 
-    <!-- TAILWIND CSS FRAMEWORK -->
+    <!-- TAILWIND CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- FONT AWESOME -->
@@ -20,6 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -32,16 +33,25 @@
             color: #1f2937;
         }
 
+
         /* ================= NAVBAR ================= */
 
         .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(
+                135deg,
+                #667eea 0%,
+                #764ba2 100%
+            );
+
             color: white;
             padding: 15px 30px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
             flex-wrap: wrap;
             gap: 15px;
         }
@@ -87,13 +97,21 @@
             display: flex;
             align-items: center;
             gap: 6px;
+
             cursor: pointer;
+
             padding: 8px 15px;
+
             background: rgba(255, 255, 255, 0.2);
+
             border-radius: 20px;
+
             transition: 0.3s;
+
             border: none;
+
             color: white;
+
             font-size: 13px;
         }
 
@@ -104,21 +122,33 @@
         .cart-count,
         .order-count {
             background: #ff4757;
+
             padding: 2px 8px;
+
             border-radius: 10px;
+
             font-weight: bold;
+
             font-size: 12px;
         }
 
         .btn-login {
             background: #10b981;
+
             color: white;
+
             border: none;
+
             padding: 8px 16px;
+
             border-radius: 6px;
+
             cursor: pointer;
+
             font-size: 13px;
+
             font-weight: 600;
+
             text-decoration: none;
         }
 
@@ -128,12 +158,19 @@
 
         .btn-logout {
             background: #dc2626;
+
             color: white;
+
             border: none;
+
             padding: 8px 16px;
+
             border-radius: 6px;
+
             cursor: pointer;
+
             font-size: 13px;
+
             font-weight: 600;
         }
 
@@ -141,11 +178,14 @@
             background: #b91c1c;
         }
 
+
         /* ================= CONTAINER ================= */
 
         .container {
             max-width: 1200px;
+
             margin: 30px auto;
+
             padding: 0 20px;
         }
 
@@ -155,55 +195,83 @@
 
         #sectionTitle {
             font-size: 28px;
+
             color: #111827;
+
             margin-bottom: 15px;
         }
+
 
         /* ================= INFO ================= */
 
         .guest-info {
             background: #eff6ff;
+
             border: 1px solid #bfdbfe;
+
             color: #1d4ed8;
+
             padding: 12px 15px;
+
             border-radius: 8px;
+
             margin-bottom: 20px;
+
             font-size: 14px;
         }
+
 
         /* ================= SEARCH ================= */
 
         .search-box {
             display: flex;
+
             gap: 10px;
-            margin-bottom: 20px;
+
+            margin-bottom: 15px;
         }
 
         #searchInput {
             flex: 1;
+
             padding: 12px 15px;
+
             border: 2px solid #e5e7eb;
+
             border-radius: 8px;
+
             background: white;
+
             color: #111827;
+
             font-size: 14px;
         }
 
         #searchInput:focus {
             outline: none;
+
             border-color: #667eea;
         }
 
         #btnAddProductNav {
             display: none;
+
             background: #10b981;
+
             color: white;
+
             border: none;
+
             padding: 12px 20px;
+
             border-radius: 8px;
+
             cursor: pointer;
+
             font-size: 14px;
+
             font-weight: 600;
+
             white-space: nowrap;
         }
 
@@ -211,50 +279,169 @@
             background: #059669;
         }
 
+
+        /* =====================================================
+           PROMO / FLASH SALE BERGERAK
+        ===================================================== */
+
+        .promo-banner {
+            width: 100%;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff416c,
+                    #ff4b2b,
+                    #ff416c
+                );
+
+            color: white;
+
+            border-radius: 12px;
+
+            margin: 0 0 25px;
+
+            padding: 13px 0;
+
+            box-shadow:
+                0 5px 15px
+                rgba(255, 65, 108, 0.25);
+
+            position: relative;
+        }
+
+        .promo-track {
+            display: flex;
+
+            width: max-content;
+
+            animation:
+                promoBerjalan
+                22s
+                linear
+                infinite;
+        }
+
+        .promo-track span {
+            display: inline-flex;
+
+            align-items: center;
+
+            margin-right: 45px;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .promo-track .promo-highlight {
+            background: white;
+
+            color: #ff416c;
+
+            padding: 5px 12px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.12);
+        }
+
+        @keyframes promoBerjalan {
+
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+
+        }
+
+        .promo-banner:hover .promo-track {
+            animation-play-state: paused;
+        }
+
+
         /* ================= PRODUCT ================= */
 
         #productGrid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(250px, 1fr)
+                );
+
             gap: 20px;
+
             margin-top: 20px;
         }
 
         .product-card {
             background: white;
+
             border: 1px solid #e5e7eb;
+
             border-radius: 12px;
+
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+
+            box-shadow:
+                0 2px 8px
+                rgba(15, 23, 42, 0.06);
+
             transition: 0.3s;
         }
 
         .product-card:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            box-shadow:
+                0 8px 20px
+                rgba(0, 0, 0, 0.12);
+
             transform: translateY(-3px);
         }
 
         .product-img {
             width: 100%;
+
             height: 200px;
+
             object-fit: cover;
+
             background: #f3f4f6;
+
             display: block;
+
             cursor: pointer;
         }
 
         .product-details {
             padding: 15px;
+
             display: flex;
+
             flex-direction: column;
+
             gap: 10px;
         }
 
         .product-name {
             font-size: 16px;
+
             font-weight: 600;
+
             color: #333;
+
             min-height: 40px;
+
             cursor: pointer;
         }
 
@@ -264,12 +451,15 @@
 
         .product-price {
             font-size: 18px;
+
             color: #dc2626;
+
             font-weight: bold;
         }
 
         .product-rating {
             color: #f59e0b;
+
             font-size: 13px;
         }
 
@@ -279,13 +469,17 @@
 
         .product-stock {
             font-size: 12px;
+
             color: #64748b;
         }
 
         .product-buttons {
             display: flex;
+
             gap: 8px;
+
             flex-wrap: wrap;
+
             margin-top: 5px;
         }
 
@@ -293,17 +487,25 @@
         .btn-add-cart,
         .btn-detail {
             flex: 1;
+
             min-width: 90px;
+
             padding: 10px;
+
             border: none;
+
             border-radius: 6px;
+
             cursor: pointer;
+
             font-size: 12px;
+
             font-weight: 600;
         }
 
         .btn-buy {
             background: #667eea;
+
             color: white;
         }
 
@@ -313,7 +515,9 @@
 
         .btn-add-cart {
             background: white;
+
             color: #1f2937;
+
             border: 2px solid #e5e7eb;
         }
 
@@ -323,6 +527,7 @@
 
         .btn-detail {
             background: #111827;
+
             color: white;
         }
 
@@ -330,83 +535,124 @@
             background: #374151;
         }
 
+
         /* ================= RATING BUTTON ================= */
 
         .btn-rate {
             width: 100%;
+
             padding: 10px;
+
             border: none;
+
             border-radius: 6px;
+
             cursor: pointer;
+
             font-size: 12px;
+
             font-weight: 600;
+
             background: #f59e0b;
+
             color: white;
+
             margin-top: 8px;
+
             transition: 0.3s;
         }
 
         .btn-rate:hover {
             background: #d97706;
+
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(245, 158, 11, 0.25);
+
+            box-shadow:
+                0 6px 15px
+                rgba(245, 158, 11, 0.25);
         }
+
 
         /* ================= RATING STAR ================= */
 
         .rating-star {
             border: none;
+
             background: none;
+
             font-size: 36px;
+
             color: #cbd5e1;
+
             cursor: pointer;
+
             transition: 0.2s;
+
             padding: 5px;
         }
 
         .rating-star:hover,
         .rating-star.active {
             color: #f59e0b;
+
             transform: scale(1.1);
         }
 
         .rating-stars-container {
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             gap: 5px;
+
             margin: 20px 0;
         }
 
         .rating-info {
             text-align: center;
+
             color: #64748b;
+
             font-size: 13px;
+
             margin-bottom: 15px;
         }
+
 
         /* ================= ADMIN ================= */
 
         .admin-actions {
             display: flex;
+
             gap: 8px;
+
             padding-top: 10px;
+
             border-top: 1px solid #eee;
         }
 
         .btn-edit,
         .btn-delete {
             flex: 1;
+
             padding: 8px;
+
             border: none;
+
             border-radius: 6px;
+
             cursor: pointer;
+
             font-size: 12px;
+
             font-weight: 600;
         }
 
         .btn-edit {
             background: #3b82f6;
+
             color: white;
         }
 
@@ -416,6 +662,7 @@
 
         .btn-delete {
             background: #ef4444;
+
             color: white;
         }
 
@@ -423,52 +670,80 @@
             background: #dc2626;
         }
 
+
         /* ================= MODAL ================= */
 
         .modal {
             display: none;
+
             position: fixed;
+
             inset: 0;
+
             width: 100%;
+
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+
+            background:
+                rgba(0, 0, 0, 0.5);
+
             justify-content: center;
+
             align-items: center;
+
             z-index: 1000;
+
             overflow-y: auto;
+
             padding: 20px;
         }
 
         .modal-content {
             background: white;
+
             border-radius: 12px;
+
             padding: 30px;
+
             max-width: 600px;
+
             width: 100%;
+
             max-height: 90vh;
+
             overflow-y: auto;
         }
 
         .modal-header {
             font-size: 20px;
+
             font-weight: bold;
+
             margin-bottom: 20px;
+
             color: #333;
         }
 
         .close-btn {
             float: right;
+
             font-size: 28px;
+
             font-weight: bold;
+
             cursor: pointer;
+
             color: #999;
+
             background: none;
+
             border: none;
         }
 
         .close-btn:hover {
             color: #333;
         }
+
 
         /* ================= FORM ================= */
 
@@ -478,9 +753,13 @@
 
         label {
             display: block;
+
             margin-bottom: 6px;
+
             font-weight: 600;
+
             color: #333;
+
             font-size: 13px;
         }
 
@@ -488,40 +767,57 @@
         input[type="number"],
         textarea {
             width: 100%;
+
             padding: 10px;
+
             border: 2px solid #e5e7eb;
+
             border-radius: 6px;
+
             background: white;
+
             color: #111827;
+
             font-size: 14px;
+
             font-family: inherit;
         }
 
         textarea {
             min-height: 120px;
+
             resize: vertical;
         }
 
         input:focus,
         textarea:focus {
             outline: none;
+
             border-color: #667eea;
         }
+
 
         /* ================= BUTTON ================= */
 
         .btn {
             padding: 12px 20px;
+
             border: none;
+
             border-radius: 6px;
+
             cursor: pointer;
+
             font-size: 14px;
+
             font-weight: 600;
         }
 
         .btn-primary {
             background: #667eea;
+
             color: white;
+
             width: 100%;
         }
 
@@ -531,7 +827,9 @@
 
         .btn-secondary {
             background: white;
+
             color: #1f2937;
+
             border: 2px solid #e5e7eb;
         }
 
@@ -541,7 +839,9 @@
 
         .modal-buttons {
             display: flex;
+
             gap: 10px;
+
             margin-top: 20px;
         }
 
@@ -552,10 +852,14 @@
         .loading,
         .empty-product {
             text-align: center;
+
             padding: 50px;
+
             color: #777;
+
             grid-column: 1 / -1;
         }
+
 
         /* ================= RESPONSIVE ================= */
 
@@ -563,21 +867,28 @@
 
             .navbar {
                 flex-direction: column;
+
                 align-items: flex-start;
             }
 
             .navbar-left {
                 width: 100%;
+
                 justify-content: space-between;
             }
 
             .navbar-right {
                 width: 100%;
+
                 justify-content: flex-start;
             }
 
             #productGrid {
-                grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+                grid-template-columns:
+                    repeat(
+                        auto-fill,
+                        minmax(170px, 1fr)
+                    );
             }
 
             .product-img {
@@ -595,7 +906,13 @@
             .modal-content {
                 padding: 20px;
             }
+
+            .promo-track span {
+                font-size: 13px;
+            }
+
         }
+
 
         @media (max-width: 480px) {
 
@@ -605,7 +922,9 @@
 
             .navbar-left {
                 flex-direction: column;
+
                 align-items: flex-start;
+
                 gap: 8px;
             }
 
@@ -618,6 +937,7 @@
             .btn-login,
             .btn-logout {
                 font-size: 11px;
+
                 padding: 7px 10px;
             }
 
@@ -631,6 +951,7 @@
 
             #productGrid {
                 grid-template-columns: 1fr 1fr;
+
                 gap: 10px;
             }
 
@@ -651,11 +972,29 @@
             .rating-star {
                 font-size: 30px;
             }
+
+            .promo-banner {
+                border-radius: 8px;
+
+                padding: 11px 0;
+
+                margin-bottom: 20px;
+            }
+
+            .promo-track span {
+                font-size: 12px;
+
+                margin-right: 30px;
+            }
+
         }
+
     </style>
 </head>
 
+
 <body class="antialiased">
+
 
     <!-- ================= NAVBAR ================= -->
 
@@ -676,6 +1015,7 @@
 
         </div>
 
+
         <div class="navbar-right">
 
             <span
@@ -685,11 +1025,13 @@
                 👤 Guest
             </span>
 
+
             <button
                 class="nav-page-btn"
                 onclick="openCartPage()"
             >
                 🛒 Keranjang
+
                 <span
                     class="cart-count"
                     id="cartBadge"
@@ -698,11 +1040,13 @@
                 </span>
             </button>
 
+
             <button
                 class="nav-page-btn"
                 onclick="openOrdersPage()"
             >
                 📦 Pesanan
+
                 <span
                     class="order-count"
                     id="orderBadge"
@@ -711,6 +1055,7 @@
                 </span>
             </button>
 
+
             <a
                 href="login.html?redirect=toko.html"
                 class="btn-login"
@@ -718,6 +1063,7 @@
             >
                 Login
             </a>
+
 
             <button
                 class="btn-logout"
@@ -732,15 +1078,19 @@
 
     </div>
 
+
+
     <!-- ================= CONTENT ================= -->
 
     <div class="container">
 
         <div class="section-header">
 
+
             <h1 id="sectionTitle">
                 DAFTAR PRODUK
             </h1>
+
 
             <div
                 class="guest-info"
@@ -751,6 +1101,9 @@
                 produk ke keranjang atau melakukan pembelian.
             </div>
 
+
+            <!-- ================= SEARCH ================= -->
+
             <div class="search-box">
 
                 <input
@@ -759,7 +1112,6 @@
                     placeholder="🔍 Cari produk..."
                 >
 
-                <!-- HANYA ADMIN -->
 
                 <button
                     id="btnAddProductNav"
@@ -770,7 +1122,117 @@
 
             </div>
 
+
+            <!-- =====================================================
+                 PROMO BERGERAK / FLASH SALE
+            ====================================================== -->
+
+            <div class="promo-banner">
+
+                <div class="promo-track">
+
+
+                    <span class="promo-highlight">
+                        🔥 FLASH SALE
+                    </span>
+
+
+                    <span>
+                        💥 Diskon hingga 50%
+                    </span>
+
+
+                    <span>
+                        💻 Laptop Murah
+                    </span>
+
+
+                    <span>
+                        📱 Smartphone Terbaru
+                    </span>
+
+
+                    <span>
+                        🎧 Headset & Audio
+                    </span>
+
+
+                    <span>
+                        ⌨️ Keyboard Gaming
+                    </span>
+
+
+                    <span>
+                        🖱️ Mouse Gaming
+                    </span>
+
+
+                    <span>
+                        🚚 Gratis Ongkir
+                    </span>
+
+
+                    <span>
+                        🛒 Belanja Sekarang di BlueShop!
+                    </span>
+
+
+                    <!-- DUPLIKAT AGAR ANIMASI LOOP -->
+
+                    <span class="promo-highlight">
+                        🔥 FLASH SALE
+                    </span>
+
+
+                    <span>
+                        💥 Diskon hingga 50%
+                    </span>
+
+
+                    <span>
+                        💻 Laptop Murah
+                    </span>
+
+
+                    <span>
+                        📱 Smartphone Terbaru
+                    </span>
+
+
+                    <span>
+                        🎧 Headset & Audio
+                    </span>
+
+
+                    <span>
+                        ⌨️ Keyboard Gaming
+                    </span>
+
+
+                    <span>
+                        🖱️ Mouse Gaming
+                    </span>
+
+
+                    <span>
+                        🚚 Gratis Ongkir
+                    </span>
+
+
+                    <span>
+                        🛒 Belanja Sekarang di BlueShop!
+                    </span>
+
+
+                </div>
+
+            </div>
+
         </div>
+
+
+
+        <!-- ================= PRODUCT GRID ================= -->
 
         <div id="productGrid">
 
@@ -782,6 +1244,8 @@
 
     </div>
 
+
+
     <!-- ================= ADMIN MODAL ================= -->
 
     <div
@@ -791,12 +1255,14 @@
 
         <div class="modal-content">
 
+
             <button
                 class="close-btn"
                 onclick="closeProductModal()"
             >
                 &times;
             </button>
+
 
             <div
                 class="modal-header"
@@ -805,10 +1271,12 @@
                 Tambah Produk Baru
             </div>
 
+
             <input
                 type="hidden"
                 id="productId"
             >
+
 
             <div class="form-group">
 
@@ -823,6 +1291,7 @@
                 >
 
             </div>
+
 
             <div class="form-group">
 
@@ -839,6 +1308,7 @@
 
             </div>
 
+
             <div class="form-group">
 
                 <label for="productStock">
@@ -854,6 +1324,7 @@
                 >
 
             </div>
+
 
             <div class="form-group">
 
@@ -873,6 +1344,7 @@
 
             </div>
 
+
             <div class="form-group">
 
                 <label for="productImage">
@@ -887,6 +1359,7 @@
 
             </div>
 
+
             <div class="form-group">
 
                 <label for="productDescription">
@@ -900,6 +1373,7 @@
 
             </div>
 
+
             <div class="modal-buttons">
 
                 <button
@@ -908,6 +1382,7 @@
                 >
                     Batal
                 </button>
+
 
                 <button
                     class="btn btn-primary"
@@ -922,6 +1397,8 @@
 
     </div>
 
+
+
     <!-- ================= RATING MODAL ================= -->
 
     <div
@@ -934,6 +1411,7 @@
             style="max-width: 450px;"
         >
 
+
             <button
                 class="close-btn"
                 onclick="closeRatingModal()"
@@ -941,9 +1419,11 @@
                 &times;
             </button>
 
+
             <div class="modal-header">
                 ⭐ Beri Rating Produk
             </div>
+
 
             <div
                 id="ratingProductName"
@@ -956,6 +1436,7 @@
             >
                 Nama Produk
             </div>
+
 
             <div class="rating-stars-container">
 
@@ -1001,12 +1482,14 @@
 
             </div>
 
+
             <div
                 id="ratingValue"
                 class="rating-info"
             >
                 Pilih rating 1–5
             </div>
+
 
             <div class="modal-buttons">
 
@@ -1016,6 +1499,7 @@
                 >
                     Batal
                 </button>
+
 
                 <button
                     class="btn btn-primary"
@@ -1030,9 +1514,12 @@
 
     </div>
 
+
+
     <!-- ================= JAVASCRIPT ================= -->
 
     <script>
+
 
         // =====================================================
         // SUPABASE
@@ -1041,8 +1528,10 @@
         const SUPABASE_URL =
             "https://fbnknnrltrsvydyxgujr.supabase.co";
 
+
         const SUPABASE_KEY =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndXJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYm5rbm5ybHRyd3Z5ZHl4Z3VqciIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzg4MjQwNDI2LCJleHAiOjIxMDM4MTY0MjZ9.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
+
 
         const _supabase =
             supabase.createClient(
@@ -1051,24 +1540,34 @@
             );
 
 
+
         // =====================================================
         // DATA
         // =====================================================
 
         let allProducts = [];
+
         let currentUser = null;
+
         let isAdmin = false;
+
         let cart = [];
+
         let orders = [];
 
-        // RATING
+
+        // ================= RATING =================
+
         let selectedRating = 0;
+
         let ratingProductId = null;
+
         let productRatings = {};
 
 
+
         // =====================================================
-        // USER DATA
+        // GET USER DATA
         // =====================================================
 
         function getUserData() {
@@ -1082,8 +1581,9 @@
         }
 
 
+
         // =====================================================
-        // USER KEY
+        // GET USER KEY
         // =====================================================
 
         function getUserKey() {
@@ -1092,6 +1592,7 @@
                 return "guest";
             }
 
+
             return (
                 currentUser.username ||
                 currentUser.email ||
@@ -1099,9 +1600,13 @@
                 "user"
             )
                 .toString()
-                .replace(/[^a-zA-Z0-9_-]/g, "_");
+                .replace(
+                    /[^a-zA-Z0-9_-]/g,
+                    "_"
+                );
 
         }
+
 
 
         // =====================================================
@@ -1117,55 +1622,63 @@
                         "blueshop_cart"
                     ) || "[]";
 
-                cart = JSON.parse(rawCart);
+
+                cart =
+                    JSON.parse(rawCart);
+
 
                 if (!Array.isArray(cart)) {
                     cart = [];
                 }
 
-                cart = cart.map(function (item) {
 
-                    return {
+                cart =
+                    cart.map(
+                        function (item) {
 
-                        id:
-                            item.id ??
-                            item.id_produk,
+                            return {
 
-                        name:
-                            item.name ||
-                            item.nama ||
-                            item.nama_produk ||
-                            item.title ||
-                            "Produk",
+                                id:
+                                    item.id ??
+                                    item.id_produk,
 
-                        price:
-                            Number(
-                                item.price ??
-                                item.harga ??
-                                0
-                            ),
+                                name:
+                                    item.name ||
+                                    item.nama ||
+                                    item.nama_produk ||
+                                    item.title ||
+                                    "Produk",
 
-                        image:
-                            item.image ||
-                            item.gambar ||
-                            "",
+                                price:
+                                    Number(
+                                        item.price ??
+                                        item.harga ??
+                                        0
+                                    ),
 
-                        qty:
-                            Math.max(
-                                1,
-                                Number(
-                                    item.qty ??
-                                    item.quantity ??
-                                    1
-                                )
-                            ),
+                                image:
+                                    item.image ||
+                                    item.gambar ||
+                                    "",
 
-                        selected:
-                            item.selected !== false
+                                qty:
+                                    Math.max(
+                                        1,
+                                        Number(
+                                            item.qty ??
+                                            item.quantity ??
+                                            1
+                                        )
+                                    ),
 
-                    };
+                                selected:
+                                    item.selected !== false
 
-                });
+                            };
+
+                        }
+                    );
+
 
             } catch (error) {
 
@@ -1179,21 +1692,26 @@
             }
 
 
+
             try {
 
                 const key =
                     getUserKey();
 
+
                 orders =
                     JSON.parse(
                         localStorage.getItem(
-                            "blueshop_orders_" + key
+                            "blueshop_orders_" +
+                            key
                         ) || "[]"
                     );
+
 
                 if (!Array.isArray(orders)) {
                     orders = [];
                 }
+
 
             } catch (error) {
 
@@ -1209,6 +1727,7 @@
         }
 
 
+
         // =====================================================
         // SAVE CART
         // =====================================================
@@ -1222,7 +1741,9 @@
                     JSON.stringify(cart)
                 );
 
+
                 updateBadges();
+
 
             } catch (error) {
 
@@ -1231,6 +1752,7 @@
                     error
                 );
 
+
                 alert(
                     "Gagal menyimpan keranjang."
                 );
@@ -1238,6 +1760,7 @@
             }
 
         }
+
 
 
         // =====================================================
@@ -1249,27 +1772,41 @@
             const userData =
                 getUserData();
 
+
             if (!userData) {
 
                 currentUser = {
+
                     name: "Guest",
+
                     username: "guest",
+
                     role: "guest"
+
                 };
+
 
                 isAdmin = false;
 
+
                 updateNavbar();
+
                 loadUserData();
 
+
                 return false;
+
             }
+
 
 
             try {
 
                 currentUser =
-                    JSON.parse(userData);
+                    JSON.parse(
+                        userData
+                    );
+
 
             } catch (error) {
 
@@ -1278,24 +1815,41 @@
                     error
                 );
 
+
                 localStorage.removeItem("user");
-                localStorage.removeItem("currentUser");
-                localStorage.removeItem("user_session");
+
+                localStorage.removeItem(
+                    "currentUser"
+                );
+
+                localStorage.removeItem(
+                    "user_session"
+                );
+
 
                 currentUser = {
+
                     name: "Guest",
+
                     username: "guest",
+
                     role: "guest"
+
                 };
+
 
                 isAdmin = false;
 
+
                 updateNavbar();
+
                 loadUserData();
+
 
                 return false;
 
             }
+
 
 
             const role =
@@ -1303,21 +1857,27 @@
                     currentUser.role || ""
                 ).toLowerCase();
 
+
             const username =
                 String(
                     currentUser.username || ""
                 ).toLowerCase();
 
+
             isAdmin =
                 role === "admin" ||
                 username === "admin";
 
+
             updateNavbar();
+
             loadUserData();
+
 
             return true;
 
         }
+
 
 
         // =====================================================
@@ -1331,25 +1891,30 @@
                     "roleBadge"
                 );
 
+
             const loginButton =
                 document.getElementById(
                     "loginButton"
                 );
+
 
             const logoutButton =
                 document.getElementById(
                     "logoutButton"
                 );
 
+
             const guestInfo =
                 document.getElementById(
                     "guestInfo"
                 );
 
+
             const addButton =
                 document.getElementById(
                     "btnAddProductNav"
                 );
+
 
             const title =
                 document.getElementById(
@@ -1368,31 +1933,41 @@
                 ).toLowerCase();
 
 
+
             if (role === "guest") {
 
                 badge.innerText =
                     "👤 Guest";
 
+
                 badge.style.background =
                     "#0284c7";
+
 
                 loginButton.style.display =
                     "inline-block";
 
+
                 logoutButton.style.display =
                     "none";
+
 
                 guestInfo.style.display =
                     "block";
 
+
                 addButton.style.display =
                     "none";
+
 
                 title.innerText =
                     "DAFTAR PRODUK";
 
+
                 return;
+
             }
+
 
 
             const displayName =
@@ -1401,20 +1976,25 @@
                 "User";
 
 
+
             if (isAdmin) {
 
                 badge.innerText =
                     "🛡️ Admin: " +
                     displayName;
 
+
                 badge.style.background =
                     "#10b981";
+
 
                 addButton.style.display =
                     "block";
 
+
                 title.innerText =
                     "DAFTAR PRODUK (ADMIN)";
+
 
             } else {
 
@@ -1422,11 +2002,14 @@
                     "👤 User: " +
                     displayName;
 
+
                 badge.style.background =
                     "#0284c7";
 
+
                 addButton.style.display =
                     "none";
+
 
                 title.innerText =
                     "DAFTAR PRODUK";
@@ -1434,16 +2017,20 @@
             }
 
 
+
             loginButton.style.display =
                 "none";
 
+
             logoutButton.style.display =
                 "inline-block";
+
 
             guestInfo.style.display =
                 "none";
 
         }
+
 
 
         // =====================================================
@@ -1458,16 +2045,21 @@
                     "✅ BlueShop starting..."
                 );
 
+
                 checkUserRole();
+
 
                 await fetchProducts();
 
+
                 updateBadges();
+
 
                 const searchInput =
                     document.getElementById(
                         "searchInput"
                     );
+
 
                 if (searchInput) {
 
@@ -1482,6 +2074,7 @@
         );
 
 
+
         // =====================================================
         // FETCH PRODUCTS
         // =====================================================
@@ -1492,6 +2085,7 @@
                 document.getElementById(
                     "productGrid"
                 );
+
 
             grid.innerHTML = `
                 <div class="loading">
@@ -1540,17 +2134,25 @@
                     error
                 );
 
+
                 grid.innerHTML = `
                     <div class="empty-product">
+
                         ❌ Gagal mengambil data produk.
+
                         <br><br>
-                        ${escapeHTML(error.message)}
+
+                        ${escapeHTML(
+                            error.message
+                        )}
+
                     </div>
                 `;
 
             }
 
         }
+
 
 
         // =====================================================
@@ -1579,11 +2181,14 @@
                 productRatings = {};
 
 
+
                 const {
                     data: {
                         user
                     }
-                } = await _supabase.auth.getUser();
+                } =
+                    await _supabase.auth.getUser();
+
 
 
                 (data || []).forEach(
@@ -1595,30 +2200,53 @@
                             );
 
 
-                        if (!productRatings[productId]) {
+                        if (
+                            !productRatings[
+                                productId
+                            ]
+                        ) {
 
-                            productRatings[productId] = {
+                            productRatings[
+                                productId
+                            ] = {
+
                                 total: 0,
+
                                 count: 0,
+
                                 mine: null
+
                             };
 
                         }
 
 
-                        productRatings[productId].total +=
-                            Number(item.rating);
+                        productRatings[
+                            productId
+                        ].total +=
+                            Number(
+                                item.rating
+                            );
 
-                        productRatings[productId].count++;
+
+                        productRatings[
+                            productId
+                        ].count++;
+
 
 
                         if (
                             user &&
-                            item.user_id === user.id
+                            item.user_id ===
+                            user.id
                         ) {
 
-                            productRatings[productId].mine =
-                                Number(item.rating);
+                            productRatings[
+                                productId
+                            ].mine =
+                                Number(
+                                    item.rating
+                                );
 
                         }
 
@@ -1633,11 +2261,13 @@
                     error
                 );
 
+
                 productRatings = {};
 
             }
 
         }
+
 
 
         // =====================================================
@@ -1650,6 +2280,7 @@
                 document.getElementById(
                     "productGrid"
                 );
+
 
             grid.innerHTML = "";
 
@@ -1665,8 +2296,11 @@
                     </div>
                 `;
 
+
                 return;
+
             }
+
 
 
             products.forEach(
@@ -1676,19 +2310,23 @@
                         p.id_produk ??
                         p.id;
 
+
                     const name =
                         p.nama_produk ||
                         "Produk Tanpa Nama";
+
 
                     const price =
                         Number(
                             p.harga ?? 0
                         );
 
+
                     const stock =
                         Number(
                             p.stok ?? 0
                         );
+
 
 
                     // =========================
@@ -1705,9 +2343,13 @@
                         productRatings[
                             String(id)
                         ] || {
+
                             total: 0,
+
                             count: 0,
+
                             mine: null
+
                         };
 
 
@@ -1722,6 +2364,7 @@
                         ratingData.count > 0
                             ? `
                                 ⭐ ${averageRating.toFixed(1)} / 5
+
                                 <span class="rating-count">
                                     (${ratingData.count} rating)
                                 </span>
@@ -1736,6 +2379,7 @@
                         "https://placehold.co/600x400?text=No+Image";
 
 
+
                     // =========================
                     // ADMIN BUTTON
                     // =========================
@@ -1746,26 +2390,34 @@
                     if (isAdmin) {
 
                         adminButtonsHTML = `
+
                             <div class="admin-actions">
 
                                 <button
                                     class="btn-edit"
-                                    onclick='editProduct(${JSON.stringify(String(id))})'
+                                    onclick='editProduct(${JSON.stringify(
+                                        String(id)
+                                    )})'
                                 >
                                     ✏️ Edit
                                 </button>
 
+
                                 <button
                                     class="btn-delete"
-                                    onclick='deleteProduct(${JSON.stringify(String(id))})'
+                                    onclick='deleteProduct(${JSON.stringify(
+                                        String(id)
+                                    )})'
                                 >
                                     🗑️ Hapus
                                 </button>
 
                             </div>
+
                         `;
 
                     }
+
 
 
                     // =========================
@@ -1777,6 +2429,7 @@
                             "div"
                         );
 
+
                     card.className =
                         "product-card";
 
@@ -1787,15 +2440,21 @@
                             src="${escapeAttribute(image)}"
                             class="product-img"
                             alt="${escapeAttribute(name)}"
-                            onclick='goToDetail(${JSON.stringify(String(id))})'
+                            onclick='goToDetail(${JSON.stringify(
+                                String(id)
+                            )})'
                             onerror="this.src='https://placehold.co/600x400?text=No+Image'"
                         >
 
+
                         <div class="product-details">
+
 
                             <div
                                 class="product-name"
-                                onclick='goToDetail(${JSON.stringify(String(id))})'
+                                onclick='goToDetail(${JSON.stringify(
+                                    String(id)
+                                )})'
                             >
                                 ${escapeHTML(name)}
                             </div>
@@ -1818,9 +2477,12 @@
 
                             <div class="product-buttons">
 
+
                                 <button
                                     class="btn-detail"
-                                    onclick='goToDetail(${JSON.stringify(String(id))})'
+                                    onclick='goToDetail(${JSON.stringify(
+                                        String(id)
+                                    )})'
                                 >
                                     👁️ Detail
                                 </button>
@@ -1828,7 +2490,9 @@
 
                                 <button
                                     class="btn-buy"
-                                    onclick='buyNow(${JSON.stringify(String(id))})'
+                                    onclick='buyNow(${JSON.stringify(
+                                        String(id)
+                                    )})'
                                 >
                                     Beli
                                 </button>
@@ -1836,25 +2500,29 @@
 
                                 <button
                                     class="btn-add-cart"
-                                    onclick='addToCart(${JSON.stringify(String(id))})'
+                                    onclick='addToCart(${JSON.stringify(
+                                        String(id)
+                                    )})'
                                 >
                                     🛒
                                 </button>
 
+
                             </div>
 
 
-                            <!-- RATING -->
-
                             <button
                                 class="btn-rate"
-                                onclick='openRatingModal(${JSON.stringify(String(id))})'
+                                onclick='openRatingModal(${JSON.stringify(
+                                    String(id)
+                                )})'
                             >
                                 ⭐ Beri Rating
                             </button>
 
 
                             ${adminButtonsHTML}
+
 
                         </div>
 
@@ -1869,6 +2537,7 @@
         }
 
 
+
         // =====================================================
         // ESCAPE HTML
         // =====================================================
@@ -1876,11 +2545,26 @@
         function escapeHTML(text) {
 
             return String(text ?? "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
 
         }
 
@@ -1890,6 +2574,7 @@
             return escapeHTML(text);
 
         }
+
 
 
         // =====================================================
@@ -1903,6 +2588,7 @@
                 encodeURIComponent(id);
 
         }
+
 
 
         // =====================================================
@@ -1940,8 +2626,12 @@
 
 
                         return (
-                            name.includes(keyword) ||
-                            description.includes(keyword)
+                            name.includes(
+                                keyword
+                            ) ||
+                            description.includes(
+                                keyword
+                            )
                         );
 
                     }
@@ -1953,6 +2643,7 @@
             );
 
         }
+
 
 
         // =====================================================
@@ -1994,6 +2685,7 @@
         }
 
 
+
         // =====================================================
         // GET PRODUCT
         // =====================================================
@@ -2004,8 +2696,10 @@
                 function (p) {
 
                     return String(
-                        p.id_produk ?? p.id
-                    ) === String(productId);
+                        p.id_produk ??
+                        p.id
+                    ) ===
+                    String(productId);
 
                 }
             );
@@ -2013,11 +2707,14 @@
         }
 
 
+
         // =====================================================
         // RATING - OPEN
         // =====================================================
 
-        async function openRatingModal(productId) {
+        async function openRatingModal(
+            productId
+        ) {
 
             if (
                 !requireLoginForAction(
@@ -2025,17 +2722,18 @@
                     "toko.html"
                 )
             ) {
+
                 return;
+
             }
 
-
-            // Pastikan user benar-benar login di Supabase
 
             const {
                 data: {
                     user
                 }
-            } = await _supabase.auth.getUser();
+            } =
+                await _supabase.auth.getUser();
 
 
             if (!user) {
@@ -2066,6 +2764,7 @@
                     "Produk tidak ditemukan."
                 );
 
+
                 return;
 
             }
@@ -2085,23 +2784,27 @@
                 "Produk";
 
 
-            // Cek rating user
+
+            // =========================
+            // CEK RATING USER
+            // =========================
 
             const {
                 data,
                 error
-            } = await _supabase
-                .from("product_ratings")
-                .select("rating")
-                .eq(
-                    "product_id",
-                    product.id_produk
-                )
-                .eq(
-                    "user_id",
-                    user.id
-                )
-                .maybeSingle();
+            } =
+                await _supabase
+                    .from("product_ratings")
+                    .select("rating")
+                    .eq(
+                        "product_id",
+                        product.id_produk
+                    )
+                    .eq(
+                        "user_id",
+                        user.id
+                    )
+                    .maybeSingle();
 
 
             if (error) {
@@ -2116,6 +2819,7 @@
                     "Gagal mengecek rating:\n" +
                     error.message
                 );
+
 
                 return;
 
@@ -2143,6 +2847,7 @@
         }
 
 
+
         // =====================================================
         // RATING - SELECT
         // =====================================================
@@ -2152,9 +2857,11 @@
             selectedRating =
                 Number(value);
 
+
             updateRatingStars();
 
         }
+
 
 
         // =====================================================
@@ -2205,6 +2912,11 @@
                 );
 
 
+            if (!valueText) {
+                return;
+            }
+
+
             if (selectedRating > 0) {
 
                 valueText.innerText =
@@ -2222,6 +2934,7 @@
         }
 
 
+
         // =====================================================
         // RATING - SAVE
         // =====================================================
@@ -2237,6 +2950,7 @@
                     "Silakan pilih rating 1 sampai 5."
                 );
 
+
                 return;
 
             }
@@ -2246,7 +2960,8 @@
                 data: {
                     user
                 }
-            } = await _supabase.auth.getUser();
+            } =
+                await _supabase.auth.getUser();
 
 
             if (!user) {
@@ -2254,6 +2969,7 @@
                 alert(
                     "Silakan login terlebih dahulu."
                 );
+
 
                 return;
 
@@ -2264,27 +2980,33 @@
 
                 const {
                     error
-                } = await _supabase
-                    .from("product_ratings")
-                    .upsert(
-                        {
-                            product_id:
-                                ratingProductId,
+                } =
+                    await _supabase
+                        .from("product_ratings")
+                        .upsert(
+                            {
 
-                            user_id:
-                                user.id,
+                                product_id:
+                                    ratingProductId,
 
-                            rating:
-                                selectedRating,
+                                user_id:
+                                    user.id,
 
-                            updated_at:
-                                new Date().toISOString()
-                        },
-                        {
-                            onConflict:
-                                "product_id,user_id"
-                        }
-                    );
+                                rating:
+                                    selectedRating,
+
+                                updated_at:
+                                    new Date()
+                                        .toISOString()
+
+                            },
+                            {
+
+                                onConflict:
+                                    "product_id,user_id"
+
+                            }
+                        );
 
 
                 if (error) {
@@ -2326,20 +3048,28 @@
         }
 
 
+
         // =====================================================
         // RATING - CLOSE
         // =====================================================
 
         function closeRatingModal() {
 
-            document.getElementById(
-                "ratingModal"
-            ).style.display =
-                "none";
+            const modal =
+                document.getElementById(
+                    "ratingModal"
+                );
+
+
+            if (modal) {
+
+                modal.style.display =
+                    "none";
+
+            }
 
 
             ratingProductId = null;
-
 
             selectedRating = 0;
 
@@ -2347,6 +3077,7 @@
             updateRatingStars();
 
         }
+
 
 
         // =====================================================
@@ -2361,7 +3092,9 @@
                     "toko.html"
                 )
             ) {
+
                 return;
+
             }
 
 
@@ -2376,6 +3109,7 @@
                 alert(
                     "Produk tidak ditemukan."
                 );
+
 
                 return;
 
@@ -2412,6 +3146,7 @@
                     "Maaf, stok produk habis."
                 );
 
+
                 return;
 
             }
@@ -2421,8 +3156,10 @@
                 cart.find(
                     function (item) {
 
-                        return String(item.id) ===
-                            String(id);
+                        return String(
+                            item.id
+                        ) ===
+                        String(id);
 
                     }
                 );
@@ -2436,11 +3173,15 @@
                     );
 
 
-                if (currentQty >= stock) {
+                if (
+                    currentQty >=
+                    stock
+                ) {
 
                     alert(
                         "Jumlah produk sudah mencapai batas stok."
                     );
+
 
                     return;
 
@@ -2449,6 +3190,7 @@
 
                 existingItem.qty =
                     currentQty + 1;
+
 
                 existingItem.selected =
                     true;
@@ -2459,10 +3201,15 @@
                 cart.push({
 
                     id: id,
+
                     name: name,
+
                     price: price,
+
                     image: image,
+
                     qty: 1,
+
                     selected: true
 
                 });
@@ -2481,6 +3228,7 @@
         }
 
 
+
         // =====================================================
         // BELI SEKARANG
         // =====================================================
@@ -2493,7 +3241,9 @@
                     "toko.html"
                 )
             ) {
+
                 return;
+
             }
 
 
@@ -2508,6 +3258,7 @@
                 alert(
                     "Produk tidak ditemukan."
                 );
+
 
                 return;
 
@@ -2543,6 +3294,7 @@
                 alert(
                     "Maaf, stok produk habis."
                 );
+
 
                 return;
 
@@ -2569,8 +3321,10 @@
                 cart.find(
                     function (item) {
 
-                        return String(item.id) ===
-                            String(id);
+                        return String(
+                            item.id
+                        ) ===
+                        String(id);
 
                     }
                 );
@@ -2579,17 +3333,24 @@
             if (existingItem) {
 
                 existingItem.qty = 1;
-                existingItem.selected = true;
+
+                existingItem.selected =
+                    true;
 
             } else {
 
                 cart.push({
 
                     id: id,
+
                     name: name,
+
                     price: price,
+
                     image: image,
+
                     qty: 1,
+
                     selected: true
 
                 });
@@ -2606,6 +3367,7 @@
         }
 
 
+
         // =====================================================
         // BUKA KERANJANG
         // =====================================================
@@ -2618,7 +3380,9 @@
                     "cart.html"
                 )
             ) {
+
                 return;
+
             }
 
 
@@ -2626,6 +3390,7 @@
                 "cart.html";
 
         }
+
 
 
         // =====================================================
@@ -2640,7 +3405,9 @@
                     "orders.html"
                 )
             ) {
+
                 return;
+
             }
 
 
@@ -2648,6 +3415,7 @@
                 "orders.html";
 
         }
+
 
 
         // =====================================================
@@ -2705,6 +3473,7 @@
         }
 
 
+
         // =====================================================
         // ADMIN MODAL
         // =====================================================
@@ -2718,6 +3487,7 @@
                 alert(
                     "Hanya admin yang dapat mengelola produk."
                 );
+
 
                 return;
 
@@ -2787,18 +3557,28 @@
         }
 
 
+
         // =====================================================
         // CLOSE PRODUCT MODAL
         // =====================================================
 
         function closeProductModal() {
 
-            document.getElementById(
-                "productModal"
-            ).style.display =
-                "none";
+            const modal =
+                document.getElementById(
+                    "productModal"
+                );
+
+
+            if (modal) {
+
+                modal.style.display =
+                    "none";
+
+            }
 
         }
+
 
 
         // =====================================================
@@ -2812,6 +3592,7 @@
                 alert(
                     "Hanya admin yang dapat mengelola produk."
                 );
+
 
                 return;
 
@@ -2872,6 +3653,7 @@
                     "Nama produk wajib diisi."
                 );
 
+
                 return;
 
             }
@@ -2885,6 +3667,7 @@
                 alert(
                     "Harga produk tidak valid."
                 );
+
 
                 return;
 
@@ -2900,6 +3683,7 @@
                     "Stok produk tidak valid."
                 );
 
+
                 return;
 
             }
@@ -2914,6 +3698,7 @@
                 alert(
                     "Rating harus antara 0 sampai 5."
                 );
+
 
                 return;
 
@@ -2960,6 +3745,7 @@
                                 "id_produk",
                                 id
                             );
+
 
                 } else {
 
@@ -3009,6 +3795,7 @@
         }
 
 
+
         // =====================================================
         // EDIT PRODUCT
         // =====================================================
@@ -3029,6 +3816,7 @@
                 alert(
                     "Produk tidak ditemukan."
                 );
+
 
                 return;
 
@@ -3082,6 +3870,7 @@
         }
 
 
+
         // =====================================================
         // DELETE PRODUCT
         // =====================================================
@@ -3093,6 +3882,7 @@
                 alert(
                     "Hanya admin yang dapat menghapus produk."
                 );
+
 
                 return;
 
@@ -3153,6 +3943,7 @@
         }
 
 
+
         // =====================================================
         // LOGOUT
         // =====================================================
@@ -3162,6 +3953,7 @@
             try {
 
                 await _supabase.auth.signOut();
+
 
             } catch (error) {
 
@@ -3173,15 +3965,26 @@
             }
 
 
-            localStorage.removeItem("user");
-            localStorage.removeItem("currentUser");
-            localStorage.removeItem("user_session");
+            localStorage.removeItem(
+                "user"
+            );
+
+
+            localStorage.removeItem(
+                "currentUser"
+            );
+
+
+            localStorage.removeItem(
+                "user_session"
+            );
 
 
             window.location.href =
                 "toko.html";
 
         }
+
 
 
         // =====================================================
