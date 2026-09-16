@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login - BlueShop</title>
 
-    <!-- Tailwind CSS Framework -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Google Font -->
@@ -36,7 +37,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
             background:
                 radial-gradient(
                     circle at top left,
@@ -53,7 +53,6 @@
                     #eef2ff,
                     #ecfeff
                 );
-
             padding: 30px 20px;
         }
 
@@ -66,11 +65,9 @@
             background: rgba(255, 255, 255, 0.97);
             padding: 28px 26px;
             border-radius: 18px;
-
             box-shadow:
                 0 20px 50px rgba(15, 23, 42, 0.12),
                 0 4px 15px rgba(15, 23, 42, 0.06);
-
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
@@ -116,7 +113,6 @@
         .tab-btn.active {
             background: white;
             color: #4f46e5;
-
             box-shadow:
                 0 2px 7px rgba(0, 0, 0, 0.08);
         }
@@ -174,13 +170,10 @@
             width: 100%;
             height: 44px;
             padding: 10px 40px;
-
             border: 1px solid #cbd5e1;
             border-radius: 9px;
-
             outline: none;
             background: #f8fafc;
-
             font-size: 13px;
             transition: 0.2s ease;
         }
@@ -188,7 +181,6 @@
         input:focus {
             border-color: #4f46e5;
             background: white;
-
             box-shadow:
                 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
@@ -202,7 +194,6 @@
             right: 13px;
             top: 50%;
             transform: translateY(-50%);
-
             color: #94a3b8;
             cursor: pointer;
             font-size: 14px;
@@ -215,22 +206,18 @@
         .submit-btn {
             width: 100%;
             height: 44px;
-
             border: none;
             padding: 10px;
             border-radius: 9px;
-
             background:
                 linear-gradient(
                     135deg,
                     #4f46e5,
                     #06b6d4
                 );
-
             color: white;
             font-size: 13px;
             font-weight: 600;
-
             cursor: pointer;
             margin-top: 4px;
             transition: 0.2s ease;
@@ -239,7 +226,6 @@
         .submit-btn:hover {
             opacity: 0.9;
             transform: translateY(-1px);
-
             box-shadow:
                 0 5px 15px rgba(79, 70, 229, 0.2);
         }
@@ -253,11 +239,9 @@
 
         .alert {
             display: none;
-
             padding: 10px 12px;
             border-radius: 8px;
             margin-bottom: 16px;
-
             font-size: 12px;
         }
 
@@ -278,9 +262,7 @@
         .back {
             display: block;
             text-align: center;
-
             margin-top: 17px;
-
             color: #4f46e5;
             font-size: 12px;
             text-decoration: none;
@@ -328,7 +310,6 @@
 <body>
 
     <div class="container">
-
         <div class="card">
 
             <!-- LOGO -->
@@ -337,10 +318,8 @@
                 <p>Toko Elektronik Online</p>
             </div>
 
-
             <!-- TAB -->
             <div class="tab-menu">
-
                 <button
                     type="button"
                     class="tab-btn active"
@@ -356,21 +335,16 @@
                 >
                     Daftar
                 </button>
-
             </div>
-
 
             <!-- ALERT -->
             <div id="alertBox" class="alert"></div>
 
-
             <!-- ================= LOGIN ================= -->
-
             <div
                 id="loginFormContainer"
                 class="form-container active"
             >
-
                 <div class="form-title">
                     Selamat Datang
                 </div>
@@ -379,21 +353,16 @@
                     Silakan masuk ke akun BlueShop
                 </div>
 
-
                 <form id="loginForm">
 
                     <!-- EMAIL -->
                     <div class="input-group">
-
                         <label for="loginEmail">
                             Email
                         </label>
 
                         <div class="input-wrapper">
-
-                            <i
-                                class="fa-solid fa-envelope input-icon"
-                            ></i>
+                            <i class="fa-solid fa-envelope input-icon"></i>
 
                             <input
                                 type="email"
@@ -402,24 +371,17 @@
                                 autocomplete="email"
                                 required
                             >
-
                         </div>
-
                     </div>
-
 
                     <!-- PASSWORD -->
                     <div class="input-group">
-
                         <label for="loginPassword">
                             Kata Sandi
                         </label>
 
                         <div class="input-wrapper">
-
-                            <i
-                                class="fa-solid fa-lock input-icon"
-                            ></i>
+                            <i class="fa-solid fa-lock input-icon"></i>
 
                             <input
                                 type="password"
@@ -433,11 +395,8 @@
                                 class="fa-solid fa-eye toggle-password"
                                 onclick="togglePassword('loginPassword', this)"
                             ></i>
-
                         </div>
-
                     </div>
-
 
                     <!-- BUTTON -->
                     <button
@@ -449,17 +408,13 @@
                     </button>
 
                 </form>
-
             </div>
 
-
             <!-- ================= REGISTER ================= -->
-
             <div
                 id="registerFormContainer"
                 class="form-container"
             >
-
                 <div class="form-title">
                     Buat Akun
                 </div>
@@ -468,21 +423,16 @@
                     Daftar untuk menggunakan BlueShop
                 </div>
 
-
                 <form id="registerForm">
 
                     <!-- NAMA -->
                     <div class="input-group">
-
                         <label for="regName">
                             Nama Lengkap
                         </label>
 
                         <div class="input-wrapper">
-
-                            <i
-                                class="fa-solid fa-user input-icon"
-                            ></i>
+                            <i class="fa-solid fa-user input-icon"></i>
 
                             <input
                                 type="text"
@@ -491,24 +441,17 @@
                                 autocomplete="name"
                                 required
                             >
-
                         </div>
-
                     </div>
-
 
                     <!-- EMAIL -->
                     <div class="input-group">
-
                         <label for="regEmail">
                             Email
                         </label>
 
                         <div class="input-wrapper">
-
-                            <i
-                                class="fa-solid fa-envelope input-icon"
-                            ></i>
+                            <i class="fa-solid fa-envelope input-icon"></i>
 
                             <input
                                 type="email"
@@ -517,30 +460,24 @@
                                 autocomplete="email"
                                 required
                             >
-
                         </div>
-
                     </div>
-
 
                     <!-- PASSWORD -->
                     <div class="input-group">
-
                         <label for="regPassword">
                             Kata Sandi
                         </label>
 
                         <div class="input-wrapper">
-
-                            <i
-                                class="fa-solid fa-lock input-icon"
-                            ></i>
+                            <i class="fa-solid fa-lock input-icon"></i>
 
                             <input
                                 type="password"
                                 id="regPassword"
                                 placeholder="Minimal 6 karakter"
                                 autocomplete="new-password"
+                                minlength="6"
                                 required
                             >
 
@@ -548,11 +485,8 @@
                                 class="fa-solid fa-eye toggle-password"
                                 onclick="togglePassword('regPassword', this)"
                             ></i>
-
                         </div>
-
                     </div>
-
 
                     <!-- BUTTON -->
                     <button
@@ -564,9 +498,7 @@
                     </button>
 
                 </form>
-
             </div>
-
 
             <!-- BACK -->
             <a
@@ -577,12 +509,9 @@
             </a>
 
         </div>
-
     </div>
 
-
     <script>
-
         // =====================================================
         // KONFIGURASI SUPABASE
         // =====================================================
@@ -601,15 +530,11 @@
         // =====================================================
 
         if (!window.supabase) {
-
-            console.error(
-                "Supabase JS gagal dimuat."
-            );
+            console.error("Supabase JS gagal dimuat.");
 
             alert(
                 "Supabase gagal dimuat. Periksa koneksi internet atau CDN."
             );
-
         }
 
 
@@ -617,11 +542,10 @@
         // BUAT SUPABASE CLIENT
         // =====================================================
 
-        const _supabase =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_ANON_KEY
-            );
+        const _supabase = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
 
 
         // =====================================================
@@ -641,12 +565,9 @@
                 );
 
             const buttons =
-                document.querySelectorAll(
-                    ".tab-btn"
-                );
+                document.querySelectorAll(".tab-btn");
 
             hideAlert();
-
 
             if (tab === "login") {
 
@@ -663,9 +584,7 @@
 
                 buttons[1].classList.add("active");
                 buttons[0].classList.remove("active");
-
             }
-
         }
 
 
@@ -676,37 +595,22 @@
         function togglePassword(inputId, icon) {
 
             const input =
-                document.getElementById(
-                    inputId
-                );
-
+                document.getElementById(inputId);
 
             if (input.type === "password") {
 
                 input.type = "text";
 
-                icon.classList.remove(
-                    "fa-eye"
-                );
-
-                icon.classList.add(
-                    "fa-eye-slash"
-                );
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
 
             } else {
 
                 input.type = "password";
 
-                icon.classList.remove(
-                    "fa-eye-slash"
-                );
-
-                icon.classList.add(
-                    "fa-eye"
-                );
-
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
             }
-
         }
 
 
@@ -714,35 +618,23 @@
         // ALERT
         // =====================================================
 
-        function showAlert(
-            message,
-            type = "error"
-        ) {
+        function showAlert(message, type = "error") {
 
             const box =
-                document.getElementById(
-                    "alertBox"
-                );
+                document.getElementById("alertBox");
 
             box.textContent = message;
-
-            box.className =
-                "alert " + type;
-
+            box.className = "alert " + type;
         }
 
 
         function hideAlert() {
 
             const box =
-                document.getElementById(
-                    "alertBox"
-                );
+                document.getElementById("alertBox");
 
             box.className = "alert";
-
             box.textContent = "";
-
         }
 
 
@@ -757,39 +649,25 @@
                 async function (event) {
 
                     event.preventDefault();
-
                     hideAlert();
-
 
                     const email =
                         document
-                            .getElementById(
-                                "loginEmail"
-                            )
+                            .getElementById("loginEmail")
                             .value
                             .trim()
                             .toLowerCase();
 
-
                     const password =
                         document
-                            .getElementById(
-                                "loginPassword"
-                            )
+                            .getElementById("loginPassword")
                             .value;
 
-
                     const button =
-                        document.getElementById(
-                            "btnLogin"
-                        );
-
+                        document.getElementById("btnLogin");
 
                     button.disabled = true;
-
-                    button.textContent =
-                        "Memeriksa...";
-
+                    button.textContent = "Memeriksa...";
 
                     try {
 
@@ -798,28 +676,15 @@
                             email
                         );
 
-
                         const {
                             data,
                             error
                         } = await _supabase
-
                             .from(TABLE_NAME)
-
                             .select("*")
-
-                            .eq(
-                                "username",
-                                email
-                            )
-
-                            .eq(
-                                "password",
-                                password
-                            )
-
+                            .eq("username", email)
+                            .eq("password", password)
                             .limit(1);
-
 
                         if (error) {
 
@@ -829,9 +694,7 @@
                             );
 
                             throw error;
-
                         }
-
 
                         if (
                             !data ||
@@ -843,14 +706,12 @@
                             );
 
                             return;
-
                         }
 
 
                         // USER DITEMUKAN
 
-                        const user =
-                            data[0];
+                        const user = data[0];
 
 
                         // SIMPAN USER
@@ -879,28 +740,21 @@
 
                         // REDIRECT
 
-                        setTimeout(
-                            function () {
+                        setTimeout(function () {
 
-                                const params =
-                                    new URLSearchParams(
-                                        window.location.search
-                                    );
+                            const params =
+                                new URLSearchParams(
+                                    window.location.search
+                                );
 
-                                const redirectTo =
-                                    params.get(
-                                        "redirect"
-                                    ) ||
-                                    "toko.html";
+                            const redirectTo =
+                                params.get("redirect") ||
+                                "toko.html";
 
+                            window.location.href =
+                                redirectTo;
 
-                                window.location.href =
-                                    redirectTo;
-
-                            },
-                            800
-                        );
-
+                        }, 800);
 
                     } catch (error) {
 
@@ -908,7 +762,6 @@
                             "Login Error:",
                             error
                         );
-
 
                         showAlert(
                             "Gagal Login: " +
@@ -918,16 +771,11 @@
                             )
                         );
 
-
                     } finally {
 
                         button.disabled = false;
-
-                        button.textContent =
-                            "Masuk";
-
+                        button.textContent = "Masuk";
                     }
-
                 }
             );
 
@@ -943,36 +791,25 @@
                 async function (event) {
 
                     event.preventDefault();
-
                     hideAlert();
-
 
                     const name =
                         document
-                            .getElementById(
-                                "regName"
-                            )
+                            .getElementById("regName")
                             .value
                             .trim();
 
-
                     const email =
                         document
-                            .getElementById(
-                                "regEmail"
-                            )
+                            .getElementById("regEmail")
                             .value
                             .trim()
                             .toLowerCase();
 
-
                     const password =
                         document
-                            .getElementById(
-                                "regPassword"
-                            )
+                            .getElementById("regPassword")
                             .value;
-
 
                     const button =
                         document.getElementById(
@@ -989,14 +826,11 @@
                         );
 
                         return;
-
                     }
 
 
                     button.disabled = true;
-
-                    button.textContent =
-                        "Mendaftarkan...";
+                    button.textContent = "Mendaftarkan...";
 
 
                     try {
@@ -1009,23 +843,20 @@
                             data: existing,
                             error: checkError
                         } = await _supabase
-
                             .from(TABLE_NAME)
-
                             .select("id")
-
-                            .eq(
-                                "username",
-                                email
-                            )
-
+                            .eq("username", email)
                             .limit(1);
 
 
                         if (checkError) {
 
-                            throw checkError;
+                            console.error(
+                                "Cek user error:",
+                                checkError
+                            );
 
+                            throw checkError;
                         }
 
 
@@ -1039,7 +870,6 @@
                             );
 
                             return;
-
                         }
 
 
@@ -1048,29 +878,34 @@
                         // =====================================
 
                         const {
+                            data: insertedUser,
                             error: insertError
                         } = await _supabase
-
                             .from(TABLE_NAME)
-
                             .insert({
-
                                 name: name,
-
                                 username: email,
-
                                 password: password,
-
                                 role: "user"
-
-                            });
+                            })
+                            .select();
 
 
                         if (insertError) {
 
-                            throw insertError;
+                            console.error(
+                                "Insert user error:",
+                                insertError
+                            );
 
+                            throw insertError;
                         }
+
+
+                        console.log(
+                            "User berhasil dibuat:",
+                            insertedUser
+                        );
 
 
                         showAlert(
@@ -1081,24 +916,15 @@
 
                         // PINDAH KE LOGIN
 
-                        setTimeout(
-                            function () {
+                        setTimeout(function () {
 
-                                switchTab(
-                                    "login"
-                                );
+                            switchTab("login");
 
+                            document
+                                .getElementById("loginEmail")
+                                .value = email;
 
-                                document
-                                    .getElementById(
-                                        "loginEmail"
-                                    )
-                                    .value =
-                                    email;
-
-                            },
-                            1000
-                        );
+                        }, 1000);
 
 
                     } catch (error) {
@@ -1106,6 +932,26 @@
                         console.error(
                             "Register Error:",
                             error
+                        );
+
+                        console.error(
+                            "Register Error Code:",
+                            error.code
+                        );
+
+                        console.error(
+                            "Register Error Message:",
+                            error.message
+                        );
+
+                        console.error(
+                            "Register Error Details:",
+                            error.details
+                        );
+
+                        console.error(
+                            "Register Error Hint:",
+                            error.hint
                         );
 
 
@@ -1121,15 +967,11 @@
                     } finally {
 
                         button.disabled = false;
-
                         button.textContent =
                             "Daftar Sekarang";
-
                     }
-
                 }
             );
-
     </script>
 
 </body>
