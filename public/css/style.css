@@ -1,805 +1,502 @@
 /* ==========================================
-   1. VARIABLES & RESET
+   RESET
    ========================================== */
 
-:root {
-  --shopee-blue: #0056b3;
-  --shopee-blue-dark: #004085;
-  --shopee-blue-light: #1890ff;
-  --shopee-blue-bg: #e6f7ff;
-
-  --orange-price: #ee4d2d;
-
-  --bg-dark: #07111f;
-  --bg-gray: #f5f5f5;
-  --surface-white: #ffffff;
-
-  --text-dark: #222222;
-  --text-muted: #757575;
-
-  --border-color: #e8e8e8;
-
-  --shadow-shopee:
-    0 1px 1px 0 rgba(0, 0, 0, 0.05);
-
-  --shadow-hover:
-    0 1px 20px 0 rgba(0, 0, 0, 0.1);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--bg-gray);
-  color: var(--text-dark);
-  line-height: 1.4;
+    background: #07111f;
+    color: #f8fafc;
+    line-height: 1.7;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
+    color: inherit;
 }
 
 
 /* ==========================================
-   2. HEADER & NAVIGATION
+   NAVBAR
    ========================================== */
 
 header {
-  background: var(--shopee-blue);
-  color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 
-  position: sticky;
-  top: 0;
+    background: rgba(7, 17, 31, 0.92);
+    backdrop-filter: blur(12px);
 
-  z-index: 1000;
-
-  padding: 0.75rem 8%;
-
-  box-shadow:
-    0 3px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #1e293b;
 }
-
-.header-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 1.5rem;
-
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.logo h1,
-.logo a {
-  font-size: 1.6rem;
-  font-weight: 800;
-
-  color: white;
-
-  text-decoration: none;
-
-  display: flex;
-  align-items: center;
-
-  gap: 0.5rem;
-}
-
-.logo h1 span {
-  color: #38bdf8;
-}
-
-
-/* ==========================================
-   SEARCH BAR
-   ========================================== */
-
-.search-bar {
-  flex: 1;
-
-  display: flex;
-
-  max-width: 650px;
-
-  background: white;
-
-  border-radius: 2px;
-
-  padding: 3px;
-}
-
-.search-bar input {
-  width: 100%;
-
-  border: none;
-
-  padding: 0.6rem 1rem;
-
-  font-size: 0.9rem;
-
-  outline: none;
-
-  color: var(--text-dark);
-}
-
-.search-bar button {
-  background: var(--shopee-blue);
-
-  color: white;
-
-  border: none;
-
-  padding: 0 1.5rem;
-
-  cursor: pointer;
-
-  border-radius: 2px;
-
-  font-weight: bold;
-
-  transition: background 0.2s;
-}
-
-.search-bar button:hover {
-  background: var(--shopee-blue-dark);
-}
-
-
-/* ==========================================
-   NAVIGASI USER
-   ========================================== */
 
 nav {
-  display: flex;
+    max-width: 1200px;
+    margin: auto;
+    padding: 16px 25px;
 
-  align-items: center;
-
-  gap: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-nav a {
-  color: white;
-
-  text-decoration: none;
-
-  font-size: 0.9rem;
-
-  font-weight: 500;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 0.4rem;
-
-  transition: opacity 0.2s;
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #38bdf8;
 }
 
-nav a:hover {
-  opacity: 0.85;
+.logo span {
+    color: white;
 }
 
-
-/* ==========================================
-   MOBILE BOTTOM NAV
-   ========================================== */
-
-.mobile-bottom-nav {
-  display: none;
+.nav-menu {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    list-style: none;
 }
 
-
-/* ==========================================
-   3. KATALOG PRODUK - TOKO
-   ========================================== */
-
-.main-container {
-  max-width: 1200px;
-
-  margin: 1.5rem auto;
-
-  padding: 0 1rem;
+.nav-menu a {
+    color: #cbd5e1;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
-.section-header {
-  background: white;
-
-  padding: 1rem 1.5rem;
-
-  border-bottom:
-    3px solid var(--shopee-blue);
-
-  font-weight: 700;
-
-  color: var(--shopee-blue);
-
-  font-size: 1.1rem;
-
-  margin-bottom: 1rem;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.5px;
+.nav-menu a:hover {
+    color: #38bdf8;
 }
 
-
-/* ==========================================
-   PRODUCT GRID
-   ========================================== */
-
-.product-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(auto-fill, minmax(180px, 1fr));
-
-  gap: 0.75rem;
-}
-
-.product-card {
-  background: white;
-
-  border-radius: 2px;
-
-  border: 1px solid transparent;
-
-  box-shadow: var(--shadow-shopee);
-
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
-
-  overflow: hidden;
-
-  display: flex;
-
-  flex-direction: column;
-
-  cursor: pointer;
-
-  position: relative;
-
-  text-decoration: none;
-}
-
-.product-card:hover {
-  transform: translateY(-2px);
-
-  box-shadow: var(--shadow-hover);
-
-  border-color:
-    var(--shopee-blue);
-}
-
-
-/* ==========================================
-   PRODUCT IMAGE
-   ========================================== */
-
-.product-image {
-  width: 100%;
-
-  height: 180px;
-
-  object-fit: cover;
-
-  background-color: #eee;
-}
-
-.product-info {
-  padding: 0.75rem;
-
-  display: flex;
-
-  flex-direction: column;
-
-  flex: 1;
-
-  justify-content: space-between;
-}
-
-.product-title {
-  font-size: 0.875rem;
-
-  line-height: 1.25rem;
-
-  height: 2.5rem;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  display: -webkit-box;
-
-  line-clamp: 2;
-
-  -webkit-line-clamp: 2;
-
-  -webkit-box-orient: vertical;
-
-  color: var(--text-dark);
-
-  margin-bottom: 0.5rem;
-}
-
-.product-price-row {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  margin-top: auto;
-}
-
-.product-price {
-  font-size: 1rem;
-
-  font-weight: 700;
-
-  color: var(--orange-price);
-}
-
-.product-sold {
-  font-size: 0.75rem;
-
-  color: var(--text-muted);
-}
-
-
-/* ==========================================
-   ADD CART BUTTON
-   ========================================== */
-
-.btn-add-cart {
-  width: 100%;
-
-  margin-top: 0.5rem;
-
-  background: var(--shopee-blue-bg);
-
-  color: var(--shopee-blue);
-
-  border:
-    1px solid var(--shopee-blue);
-
-  padding: 0.4rem;
-
-  font-size: 0.8rem;
-
-  font-weight: 600;
-
-  border-radius: 2px;
-
-  cursor: pointer;
-
-  transition: all 0.2s;
-}
-
-.btn-add-cart:hover {
-  background: var(--shopee-blue);
-
-  color: white;
-}
-
-
-/* ==========================================
-   4. PORTFOLIO INDEX
-   ========================================== */
-
-.hero-portfolio {
-  padding: 4rem 5%;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0f172a 0%,
-      #1e293b 100%
+.store-btn {
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #06b6d4
     );
 
-  color: white;
+    color: white !important;
 
-  text-align: center;
+    padding: 10px 18px;
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.store-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
 }
 
 
 /* ==========================================
-   FOTO PROFIL - ALVI
+   HERO
+   ========================================== */
+
+.hero {
+    min-height: 100vh;
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 150px 25px 80px;
+
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+
+    gap: 50px;
+
+    align-items: center;
+}
+
+.hero-content {
+    animation: fadeUp 0.8s ease;
+}
+
+.badge {
+    display: inline-block;
+
+    padding: 7px 14px;
+
+    border: 1px solid rgba(56, 189, 248, 0.3);
+
+    background: rgba(56, 189, 248, 0.08);
+
+    color: #38bdf8;
+
+    border-radius: 30px;
+
+    font-size: 13px;
+
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 6vw, 72px);
+
+    line-height: 1.08;
+
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #38bdf8;
+}
+
+.hero-description {
+    color: #94a3b8;
+
+    font-size: 17px;
+
+    max-width: 650px;
+
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 14px;
+
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+
+    padding: 12px 22px;
+
+    border-radius: 9px;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #06b6d4
+    );
+
+    color: white;
+
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 35px rgba(37, 99, 235, 0.45);
+}
+
+.btn-secondary {
+    border: 1px solid #334155;
+
+    color: #cbd5e1;
+}
+
+.btn-secondary:hover {
+    border-color: #38bdf8;
+
+    color: #38bdf8;
+
+    transform: translateY(-3px);
+}
+
+
+/* ==========================================
+   FOTO PROFIL
    ========================================== */
 
 .profile-area {
-  display: flex;
+    display: flex;
 
-  justify-content: center;
+    justify-content: center;
 
-  align-items: center;
-
-  position: relative;
+    align-items: center;
 }
 
 
-/* Glow belakang */
+/* Glow besar di belakang foto */
 
-.profile-area::before {
-  content: "";
+.profile-glow {
+    position: relative;
 
-  position: absolute;
+    width: 330px;
+    height: 330px;
 
-  width: 340px;
-  height: 340px;
+    display: flex;
 
-  border-radius: 50%;
+    justify-content: center;
 
-  background: #38bdf8;
-
-  filter: blur(80px);
-
-  opacity: 0.18;
-
-  z-index: 0;
-
-  animation:
-    profileGlow 4s ease-in-out infinite;
+    align-items: center;
 }
 
 
-/* Lingkaran foto */
+/* Lingkaran glow */
 
-.profile-wrapper {
-  position: relative;
+.profile-glow::before {
+    content: "";
 
-  z-index: 1;
+    position: absolute;
 
-  width: 320px;
-  height: 320px;
+    width: 100%;
+    height: 100%;
 
-  padding: 6px;
+    border-radius: 50%;
 
-  border-radius: 50%;
-
-  background:
-    linear-gradient(
-      135deg,
-      #38bdf8,
-      #2563eb,
-      #8b5cf6,
-      #06b6d4
+    background: linear-gradient(
+        135deg,
+        #38bdf8,
+        #2563eb,
+        #8b5cf6
     );
 
-  box-shadow:
-    0 0 25px rgba(56, 189, 248, 0.45),
-    0 0 60px rgba(37, 99, 235, 0.25);
+    filter: blur(25px);
 
-  transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease;
+    opacity: 0.45;
 
-  animation:
-    profileFloat 4s ease-in-out infinite;
+    animation: glowPulse 3s ease-in-out infinite;
+}
+
+
+/* Ring luar */
+
+.profile-wrapper {
+    position: relative;
+
+    width: 310px;
+    height: 310px;
+
+    padding: 7px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #38bdf8,
+        #2563eb,
+        #8b5cf6
+    );
+
+    box-shadow:
+        0 0 25px rgba(56, 189, 248, 0.5),
+        0 0 60px rgba(37, 99, 235, 0.35);
+
+    transition:
+        transform 0.5s ease,
+        box-shadow 0.5s ease;
+}
+
+
+/* Hover foto */
+
+.profile-wrapper:hover {
+    transform: scale(1.05) rotate(2deg);
+
+    box-shadow:
+        0 0 35px rgba(56, 189, 248, 0.8),
+        0 0 80px rgba(37, 99, 235, 0.55);
 }
 
 
 /* Foto */
 
 .profile-wrapper img {
-  width: 100%;
+    width: 100%;
+    height: 100%;
 
-  height: 100%;
+    display: block;
 
-  display: block;
+    border-radius: 50%;
 
-  border-radius: 50%;
+    object-fit: cover;
 
-  object-fit: cover;
+    border: 6px solid #07111f;
 
-  border:
-    7px solid #07111f;
+    background: #1e293b;
 
-  background: #1e293b;
-
-  transition:
-    transform 0.4s ease,
-    filter 0.4s ease;
+    transition: transform 0.5s ease;
 }
 
 
-/* Hover */
-
-.profile-wrapper:hover {
-  transform:
-    translateY(-10px)
-    scale(1.04);
-
-  box-shadow:
-    0 0 35px rgba(56, 189, 248, 0.75),
-    0 0 80px rgba(37, 99, 235, 0.45);
-}
+/* Efek zoom foto saat hover */
 
 .profile-wrapper:hover img {
-  transform: scale(1.03);
-
-  filter:
-    brightness(1.08)
-    contrast(1.05);
+    transform: scale(1.03);
 }
 
 
-/* Animasi glow */
+/* ==========================================
+   SECTION
+   ========================================== */
 
-@keyframes profileGlow {
+section {
+    max-width: 1200px;
 
-  0%,
-  100% {
-    transform: scale(0.95);
+    margin: auto;
 
-    opacity: 0.15;
-  }
+    padding: 90px 25px;
+}
 
-  50% {
-    transform: scale(1.08);
+.section-title {
+    text-align: center;
 
-    opacity: 0.25;
-  }
+    margin-bottom: 50px;
+}
+
+.section-title small {
+    color: #38bdf8;
+
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+}
+
+.section-title h2 {
+    font-size: 36px;
+
+    margin-top: 8px;
+}
+
+.section-title p {
+    color: #64748b;
+
+    max-width: 650px;
+
+    margin: 10px auto 0;
 }
 
 
-/* Animasi foto naik turun */
+/* ==========================================
+   ABOUT
+   ========================================== */
 
-@keyframes profileFloat {
+.about-grid {
+    display: grid;
 
-  0%,
-  100% {
-    transform: translateY(0);
-  }
+    grid-template-columns: 1fr 1fr;
 
-  50% {
+    gap: 25px;
+}
+
+.card {
+    background: #0f172a;
+
+    border: 1px solid #1e293b;
+
+    border-radius: 16px;
+
+    padding: 28px;
+
+    transition: 0.3s;
+}
+
+.card:hover {
     transform: translateY(-5px);
-  }
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.card h3 {
+    margin-bottom: 12px;
+
+    color: #38bdf8;
+}
+
+.card p {
+    color: #94a3b8;
+
+    font-size: 15px;
+}
+
+.quote {
+    margin-top: 20px;
+
+    padding: 18px;
+
+    border-left: 4px solid #38bdf8;
+
+    background: rgba(56, 189, 248, 0.06);
+
+    color: #cbd5e1;
+
+    font-style: italic;
 }
 
 
 /* ==========================================
-   COMPATIBILITY CLASS
-   Kalau HTML lama masih menggunakan
-   profile-img-wrapper / profile-img
+   PENDIDIKAN
    ========================================== */
 
-.profile-img-wrapper {
-  width: 320px;
+.timeline {
+    max-width: 850px;
 
-  height: 320px;
-
-  margin: 0 auto 1.25rem auto;
-
-  padding: 6px;
-
-  border-radius: 50%;
-
-  background:
-    linear-gradient(
-      135deg,
-      #38bdf8,
-      #2563eb,
-      #8b5cf6,
-      #06b6d4
-    );
-
-  box-shadow:
-    0 0 25px rgba(56, 189, 248, 0.45),
-    0 0 60px rgba(37, 99, 235, 0.25);
-
-  transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease;
+    margin: auto;
 }
 
-.profile-img-wrapper:hover {
-  transform:
-    translateY(-8px)
-    scale(1.04);
+.timeline-item {
+    position: relative;
 
-  box-shadow:
-    0 0 35px rgba(56, 189, 248, 0.75),
-    0 0 80px rgba(37, 99, 235, 0.45);
+    padding: 0 0 35px 35px;
+
+    border-left: 2px solid #1e40af;
 }
 
-.profile-img {
-  width: 100%;
+.timeline-item::before {
+    content: "";
 
-  height: 100%;
+    position: absolute;
 
-  display: block;
+    left: -7px;
 
-  border-radius: 50%;
+    top: 4px;
 
-  object-fit: cover;
+    width: 12px;
+    height: 12px;
 
-  border:
-    7px solid #07111f;
+    background: #38bdf8;
 
-  transition:
-    transform 0.4s ease;
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 15px rgba(56, 189, 248, 0.8);
 }
 
-.profile-img-wrapper:hover .profile-img {
-  transform: scale(1.03);
+.timeline-year {
+    color: #38bdf8;
+
+    font-size: 13px;
+
+    font-weight: bold;
 }
 
-
-/* ==========================================
-   BADGE
-   ========================================== */
-
-.badge {
-  background:
-    rgba(24, 144, 255, 0.15);
-
-  color: #38bdf8;
-
-  border:
-    1px solid #38bdf8;
-
-  padding:
-    0.35rem 1rem;
-
-  border-radius: 20px;
-
-  font-size: 0.85rem;
-
-  font-weight: 700;
-
-  display: inline-block;
-
-  margin-bottom: 1rem;
+.timeline-item h3 {
+    margin: 4px 0;
 }
 
-
-/* ==========================================
-   HERO TEXT
-   ========================================== */
-
-.hero-portfolio h2 {
-  font-size: 2.3rem;
-
-  font-weight: 800;
-
-  margin-bottom: 0.25rem;
-}
-
-.subtitle {
-  font-size: 1.1rem;
-
-  color: #94a3b8;
-
-  font-weight: 600;
-
-  margin-bottom: 1.5rem;
-}
-
-
-/* ==========================================
-   HERO BUTTON
-   ========================================== */
-
-.hero-btns {
-  display: flex;
-
-  justify-content: center;
-
-  gap: 1rem;
-
-  flex-wrap: wrap;
-}
-
-.btn-main {
-  background:
-    var(--shopee-blue);
-
-  color: white;
-
-  padding:
-    0.8rem 1.75rem;
-
-  border-radius: 4px;
-
-  font-weight: 700;
-
-  text-decoration: none;
-
-  transition:
-    background 0.2s,
-    transform 0.2s;
-
-  box-shadow:
-    0 4px 12px
-    rgba(0, 86, 179, 0.3);
-}
-
-.btn-main:hover {
-  background:
-    var(--shopee-blue-dark);
-
-  transform:
-    translateY(-2px);
-}
-
-.btn-sub {
-  background: transparent;
-
-  color: white;
-
-  border:
-    1px solid #334155;
-
-  padding:
-    0.8rem 1.75rem;
-
-  border-radius: 4px;
-
-  font-weight: 600;
-
-  text-decoration: none;
-}
-
-
-/* ==========================================
-   PORTFOLIO SECTION
-   ========================================== */
-
-.portfolio-section {
-  background: white;
-
-  padding: 2rem;
-
-  border-radius: 4px;
-
-  margin-bottom: 1.5rem;
-
-  border:
-    1px solid var(--border-color);
-
-  box-shadow:
-    var(--shadow-shopee);
-}
-
-.about-text {
-  font-size: 0.95rem;
-
-  color: #334155;
-
-  line-height: 1.8;
-}
-
-.grid-2-col {
-  display: grid;
-
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(300px, 1fr)
-    );
-
-  gap: 1.5rem;
-}
-
-.info-card h4 {
-  font-size: 1.1rem;
-
-  color: var(--shopee-blue);
-
-  margin-bottom: 0.25rem;
+.timeline-item p {
+    color: #94a3b8;
 }
 
 
@@ -807,74 +504,111 @@ nav a:hover {
    SKILLS
    ========================================== */
 
-.skills-grid {
-  display: flex;
+.skills {
+    display: grid;
 
-  flex-wrap: wrap;
+    grid-template-columns: repeat(4, 1fr);
 
-  gap: 0.75rem;
+    gap: 18px;
 }
 
-.skill-tag {
-  background:
-    var(--shopee-blue-bg);
+.skill {
+    padding: 25px 15px;
 
-  color:
-    var(--shopee-blue);
+    text-align: center;
 
-  border:
-    1px solid #91caff;
+    background: #0f1c2e;
 
-  padding:
-    0.4rem 1rem;
+    border: 1px solid #1e293b;
 
-  border-radius: 20px;
+    border-radius: 14px;
 
-  font-weight: 600;
+    transition: 0.3s;
+}
 
-  font-size: 0.85rem;
+.skill:hover {
+    transform: translateY(-6px);
+
+    border-color: #38bdf8;
+
+    box-shadow:
+        0 10px 30px rgba(37, 99, 235, 0.2);
+}
+
+.skill-icon {
+    font-size: 32px;
+
+    margin-bottom: 10px;
+}
+
+.skill h3 {
+    font-size: 16px;
+
+    margin-bottom: 5px;
+}
+
+.skill p {
+    color: #64748b;
+
+    font-size: 12px;
 }
 
 
 /* ==========================================
-   ORGANISASI
+   ORGANISASI & PRESTASI
    ========================================== */
 
-.org-grid {
-  display: grid;
+.organization-grid,
+.achievement-grid,
+.project-grid {
+    display: grid;
 
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(260px, 1fr)
-    );
+    grid-template-columns: repeat(3, 1fr);
 
-  gap: 1rem;
+    gap: 20px;
 }
 
-.org-card {
-  background: #f8fafc;
+.organization-card,
+.achievement-card {
+    padding: 28px;
 
-  padding: 1.25rem;
+    border-radius: 15px;
 
-  border-radius: 4px;
+    background: #0f1c2e;
 
-  border-left:
-    4px solid var(--shopee-blue);
+    border: 1px solid #1e293b;
+
+    transition: 0.3s;
 }
 
-.org-card h4 {
-  color: #0f172a;
+.organization-card:hover,
+.achievement-card:hover {
+    transform: translateY(-5px);
 
-  margin-bottom: 0.4rem;
+    border-color: #38bdf8;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
-.org-card p {
-  font-size: 0.85rem;
+.number {
+    color: #38bdf8;
 
-  color: var(--text-muted);
+    font-size: 28px;
 
-  line-height: 1.5;
+    font-weight: bold;
+}
+
+.organization-card h3,
+.achievement-card h3 {
+    margin: 8px 0;
+}
+
+.organization-card p,
+.achievement-card p {
+    color: #94a3b8;
+
+    font-size: 14px;
 }
 
 
@@ -882,252 +616,322 @@ nav a:hover {
    PROJECT
    ========================================== */
 
-.project-card-highlight {
-  background:
-    linear-gradient(
-      135deg,
-      #e6f7ff 0%,
-      #ffffff 100%
+.project-card {
+    overflow: hidden;
+
+    border-radius: 15px;
+
+    background: #0f1c2e;
+
+    border: 1px solid #1e293b;
+
+    transition: 0.3s;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #38bdf8;
+
+    box-shadow:
+        0 15px 35px rgba(37, 99, 235, 0.25);
+}
+
+.project-top {
+    padding: 30px;
+
+    background: linear-gradient(
+        135deg,
+        #172554,
+        #083344
     );
 
-  border:
-    2px solid var(--shopee-blue);
-
-  padding: 2rem;
-
-  border-radius: 6px;
+    font-size: 40px;
 }
 
-.badge-blue {
-  background:
-    var(--shopee-blue);
-
-  color: white;
-
-  padding:
-    0.25rem 0.75rem;
-
-  border-radius: 2px;
-
-  font-size: 0.75rem;
-
-  font-weight: 700;
-
-  display: inline-block;
-
-  margin-bottom: 0.75rem;
+.project-content {
+    padding: 23px;
 }
 
-.btn-main-sm {
-  display: inline-block;
+.project-content h3 {
+    margin-bottom: 8px;
+}
 
-  background:
-    var(--shopee-blue);
+.project-content p {
+    color: #94a3b8;
 
-  color: white;
-
-  padding:
-    0.65rem 1.25rem;
-
-  border-radius: 4px;
-
-  font-weight: 700;
-
-  text-decoration: none;
-
-  margin-top: 1rem;
+    font-size: 14px;
 }
 
 
 /* ==========================================
-   5. RESPONSIVE - TABLET
+   CONTACT
+   ========================================== */
+
+.contact-box {
+    background: linear-gradient(
+        135deg,
+        rgba(37, 99, 235, 0.18),
+        rgba(6, 182, 212, 0.08)
+    );
+
+    border: 1px solid #1e40af;
+
+    border-radius: 20px;
+
+    padding: 45px;
+
+    text-align: center;
+}
+
+.contact-box h2 {
+    font-size: 34px;
+
+    margin-bottom: 10px;
+}
+
+.contact-box > p {
+    color: #94a3b8;
+
+    margin-bottom: 30px;
+}
+
+.contact-list {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 30px;
+}
+
+.contact-item {
+    background: rgba(7, 17, 31, 0.6);
+
+    padding: 18px;
+
+    border-radius: 10px;
+}
+
+.contact-item strong {
+    display: block;
+
+    color: #38bdf8;
+
+    font-size: 13px;
+
+    margin-bottom: 5px;
+}
+
+.contact-item span {
+    color: #cbd5e1;
+
+    font-size: 14px;
+
+    word-break: break-word;
+}
+
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+
+footer {
+    text-align: center;
+
+    padding: 35px 20px;
+
+    border-top: 1px solid #1e293b;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+footer span {
+    color: #38bdf8;
+}
+
+
+/* ==========================================
+   ANIMATION
+   ========================================== */
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        transform: scale(0.95);
+
+        opacity: 0.35;
+    }
+
+    50% {
+        transform: scale(1.08);
+
+        opacity: 0.6;
+    }
+}
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+/* ==========================================
+   TABLET
    ========================================== */
 
 @media (max-width: 900px) {
 
-  .profile-wrapper {
-    width: 260px;
-    height: 260px;
-  }
+    .hero {
+        grid-template-columns: 1fr;
 
-  .profile-area::before {
-    width: 280px;
-    height: 280px;
-  }
+        text-align: center;
 
-  .profile-img-wrapper {
-    width: 260px;
-    height: 260px;
-  }
+        padding-top: 130px;
+    }
 
+    .hero-content {
+        order: 2;
+    }
+
+    .profile-area {
+        order: 1;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .profile-glow {
+        width: 260px;
+        height: 260px;
+    }
+
+    .profile-wrapper {
+        width: 240px;
+        height: 240px;
+    }
+
+    .skills {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .organization-grid,
+    .achievement-grid,
+    .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 
 /* ==========================================
-   6. RESPONSIVE - HP
+   MOBILE
    ========================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
 
-  body {
-    padding-bottom: 60px;
-  }
+    header {
+        padding: 8px 15px;
+    }
 
-  header {
-    padding:
-      0.5rem 1rem;
-  }
+    nav {
+        padding: 10px 5px;
+    }
 
-  .header-container {
-    gap: 0.5rem;
-  }
+    .nav-menu {
+        gap: 10px;
+    }
 
-  .logo h1,
-  .logo a {
-    font-size: 1.2rem;
-  }
+    .nav-menu li:not(:last-child) {
+        display: none;
+    }
 
-  .search-bar button {
-    padding:
-      0 0.8rem;
+    .store-btn {
+        padding: 8px 12px;
 
-    font-size: 0.8rem;
-  }
+        font-size: 12px;
+    }
 
-  header nav {
-    display: none;
-  }
+    .hero {
+        padding:
+            120px 18px
+            60px;
+    }
 
-  .main-container {
-    margin:
-      0.5rem auto;
+    .hero h1 {
+        font-size: 40px;
+    }
 
-    padding:
-      0 0.5rem;
-  }
+    .hero-description {
+        font-size: 15px;
+    }
 
-  .product-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
+    .profile-glow {
+        width: 220px;
+        height: 220px;
+    }
 
-    gap: 0.5rem;
-  }
+    .profile-wrapper {
+        width: 205px;
+        height: 205px;
 
-  .product-image {
-    height: 150px;
-  }
+        padding: 5px;
+    }
 
+    .profile-wrapper img {
+        border-width: 5px;
+    }
 
-  /* FOTO HP */
+    section {
+        padding: 65px 18px;
+    }
 
-  .profile-wrapper {
-    width: 230px;
-    height: 230px;
+    .section-title h2 {
+        font-size: 29px;
+    }
 
-    padding: 5px;
-  }
+    .about-grid,
+    .organization-grid,
+    .achievement-grid,
+    .project-grid,
+    .contact-list {
+        grid-template-columns: 1fr;
+    }
 
-  .profile-wrapper img {
-    border-width: 5px;
-  }
+    .skills {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
 
-  .profile-area::before {
-    width: 240px;
-    height: 240px;
+    .skill {
+        padding: 20px 10px;
+    }
 
-    filter: blur(60px);
-  }
+    .contact-box {
+        padding: 30px 18px;
+    }
 
-
-  /* FOTO LAMA */
-
-  .profile-img-wrapper {
-    width: 230px;
-    height: 230px;
-
-    padding: 5px;
-  }
-
-  .profile-img {
-    border-width: 5px;
-  }
-
-
-  /* BOTTOM NAV */
-
-  .mobile-bottom-nav {
-    display: flex;
-
-    justify-content: space-around;
-
-    align-items: center;
-
-    position: fixed;
-
-    bottom: 0;
-
-    left: 0;
-
-    right: 0;
-
-    height: 55px;
-
-    background: white;
-
-    border-top:
-      1px solid var(--border-color);
-
-    z-index: 1000;
-  }
-
-  .mobile-bottom-nav a {
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    text-decoration: none;
-
-    color: var(--text-muted);
-
-    font-size: 0.65rem;
-  }
-
-  .mobile-bottom-nav a.active,
-  .mobile-bottom-nav a:hover {
-    color:
-      var(--shopee-blue);
-  }
-
-  .mobile-bottom-nav i {
-    font-size: 1.2rem;
-
-    margin-bottom: 2px;
-  }
-
-}
-
-
-/* ==========================================
-   7. RESPONSIVE - HP KECIL
-   ========================================== */
-
-@media (max-width: 480px) {
-
-  .profile-wrapper {
-    width: 200px;
-    height: 200px;
-  }
-
-  .profile-area::before {
-    width: 210px;
-    height: 210px;
-  }
-
-  .profile-img-wrapper {
-    width: 200px;
-    height: 200px;
-  }
+    .contact-box h2 {
+        font-size: 27px;
+    }
 
 }
