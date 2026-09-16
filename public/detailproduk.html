@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detail Produk | BlueShop</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #2196f3;
+            color: white;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 2px 8px rgba(0,0,0,.15);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255,255,255,.15);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .back {
+            display: inline-block;
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* PRODUCT */
+        .product-detail {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            box-shadow: 0 3px 15px rgba(0,0,0,.08);
+        }
+
+        .product-image {
+            background: #f8f8f8;
+            border-radius: 10px;
+            min-height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 450px;
+            object-fit: contain;
+            padding: 25px;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+
+        .product-info h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #222;
+        }
+
+        .rating {
+            color: #ff9800;
+            font-size: 19px;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f44336;
+            margin: 15px 0;
+        }
+
+        .stock {
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        .stock span {
+            font-weight: bold;
+            color: #2196f3;
+        }
+
+        .description-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            line-height: 1.7;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* QUANTITY */
+        .quantity-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .quantity button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .quantity button:hover {
+            background: #eee;
+        }
+
+        .quantity input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        /* BUTTON */
+        .buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            border: none;
+            padding: 14px 20px;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .btn-cart {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-buy {
+            background: #2196f3;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: .9;
+            transform: translateY(-1px);
+        }
+
+        /* LOADING */
+        .loading {
+            background: white;
+            padding: 60px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .error {
+            background: white;
+            padding: 50px;
+            text-align: center;
+            border-radius: 10px;
+            color: red;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .product-detail {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .product-image {
+                min-height: 300px;
+            }
+
+            .product-image img {
+                height: 300px;
+            }
+
+            .product-info h1 {
+                font-size: 25px;
+            }
+
+            .price {
+                font-size: 25px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .nav-menu a {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            BlueShop
+        </div>
+
+        <div class="nav-menu">
+
+            <a href="toko.html">
+                🏠 Toko
+            </a>
+
+            <a href="toko.html#cart">
+                🛒 Keranjang
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- CONTENT -->
+    <main class="container">
+
+        <a href="toko.html" class="back">
+            ← Kembali ke Toko
+        </a>
+
+
+        <!-- LOADING -->
+        <div id="loading" class="loading">
+            <h3>Memuat produk...</h3>
+        </div>
+
+
+        <!-- ERROR -->
+        <div id="error" class="error" style="display:none;">
+
+            <h3>Produk tidak ditemukan</h3>
+
+            <br>
+
+            <a href="toko.html">
+                Kembali ke toko
+            </a>
+
+        </div>
+
+
+        <!-- DETAIL -->
+        <section
+            id="productDetail"
+            class="product-detail"
+            style="display:none;"
+        >
+
+            <!-- IMAGE -->
+            <div class="product-image">
+
+                <img
+                    id="productImage"
+                    src=""
+                    alt="Produk"
+                >
+
+            </div>
+
+
+            <!-- INFORMATION -->
+            <div class="product-info">
+
+                <h1 id="productName">
+                    Nama Produk
+                </h1>
+
+
+                <div
+                    id="productRating"
+                    class="rating"
+                >
+                    ⭐⭐⭐⭐⭐
+                </div>
+
+
+                <div
+                    id="productPrice"
+                    class="price"
+                >
+                    Rp0
+                </div>
+
+
+                <div class="stock">
+
+                    Stok tersedia:
+                    <span id="productStock">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div class="description-title">
+                    Deskripsi Produk
+                </div>
+
+
+                <p
+                    id="productDescription"
+                    class="description"
+                >
+                    Deskripsi produk.
+                </p>
+
+
+                <!-- QUANTITY -->
+
+                <div class="quantity-title">
+                    Jumlah
+                </div>
+
+                <div class="quantity">
+
+                    <button onclick="kurangi()">
+                        −
+                    </button>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        value="1"
+                        min="1"
+                    >
+
+                    <button onclick="tambah()">
+                        +
+                    </button>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <div class="buttons">
+
+                    <button
+                        class="btn btn-cart"
+                        onclick="tambahKeranjang()"
+                    >
+                        🛒 Tambah ke Keranjang
+                    </button>
+
+
+                    <button
+                        class="btn btn-buy"
+                        onclick="beliSekarang()"
+                    >
+                        ⚡ Beli Sekarang
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+<script>
+
+    // ==========================================
+    // SUPABASE
+    // ==========================================
+
+    const SUPABASE_URL =
+        "https://fbnknnrltrsvydyxgujr.supabase.co";
+
+    const SUPABASE_KEY =
+        "MASUKKAN_ANON_KEY_KAMU_DI_SINI";
+
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    // ==========================================
+    // AMBIL ID DARI URL
+    // ==========================================
+
+    const urlParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const productId =
+        urlParams.get("id");
+
+
+    let product = null;
+
+
+    // ==========================================
+    // FORMAT RUPIAH
+    // ==========================================
+
+    function formatRupiah(value) {
+
+        return new Intl.NumberFormat(
+            "id-ID",
+            {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0
+            }
+        ).format(value || 0);
+
+    }
+
+
+    // ==========================================
+    // LOAD PRODUCT
+    // ==========================================
+
+    async function loadProduct() {
+
+        if (!productId) {
+
+            showError();
+
+            return;
+
+        }
+
+
+        try {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("products")
+                    .select("*")
+                    .eq("id", productId)
+                    .single();
+
+
+            if (error || !data) {
+
+                console.error(error);
+
+                showError();
+
+                return;
+
+            }
+
+
+            product = data;
+
+
+            // NAMA
+            document.getElementById(
+                "productName"
+            ).textContent =
+                data.name ||
+                data.nama ||
+                "Produk";
+
+
+            // HARGA
+            document.getElementById(
+                "productPrice"
+            ).textContent =
+                formatRupiah(
+                    data.price ||
+                    data.harga ||
+                    0
+                );
+
+
+            // STOCK
+            document.getElementById(
+                "productStock"
+            ).textContent =
+                data.stock ??
+                data.stok ??
+                0;
+
+
+            // DESKRIPSI
+            document.getElementById(
+                "productDescription"
+            ).textContent =
+                data.description ||
+                data.deskripsi ||
+                "Belum ada deskripsi produk.";
+
+
+            // GAMBAR
+            const image =
+                data.image_url ||
+                data.image ||
+                data.gambar ||
+                data.imageUrl ||
+                "https://via.placeholder.com/500";
+
+
+            document.getElementById(
+                "productImage"
+            ).src = image;
+
+
+            // RATING
+            const rating =
+                Math.round(
+                    Number(data.rating || 5)
+                );
+
+
+            document.getElementById(
+                "productRating"
+            ).textContent =
+                "⭐".repeat(
+                    Math.max(
+                        1,
+                        Math.min(rating, 5)
+                    )
+                );
+
+
+            // TAMPILKAN
+            document.getElementById(
+                "loading"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "productDetail"
+            ).style.display = "grid";
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            showError();
+
+        }
+
+    }
+
+
+    // ==========================================
+    // ERROR
+    // ==========================================
+
+    function showError() {
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "productDetail"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "error"
+        ).style.display = "block";
+
+    }
+
+
+    // ==========================================
+    // TAMBAH JUMLAH
+    // ==========================================
+
+    function tambah() {
+
+        const input =
+            document.getElementById(
+                "quantity"
+            );
+
+
+        const stock =
+            Number(
+                document.getElementById(
+                    "productStock"
+                ).textContent
+            );
+
+
+        let jumlah =
+            Number(input.value);
+
+
+        if (jumlah < stock) {
+
+            input.value =
+                jumlah + 1;
+
+        }
+
+    }
+
+
+    // ==========================================
+    // KURANGI JUMLAH
+    // ==========================================
+
+    function kurangi() {
+
+        const input =
+            document.getElementById(
+                "quantity"
+            );
+
+
+        let jumlah =
+            Number(input.value);
+
+
+        if (jumlah > 1) {
+
+            input.value =
+                jumlah - 1;
+
+        }
+
+    }
+
+
+    // ==========================================
+    // TAMBAH KERANJANG
+    // ==========================================
+
+    function tambahKeranjang() {
+
+        if (!product) return;
+
+
+        const jumlah =
+            Number(
+                document.getElementById(
+                    "quantity"
+                ).value
+            );
+
+
+        const stok =
+            Number(
+                product.stock ??
+                product.stok ??
+                0
+            );
+
+
+        if (jumlah <= 0) {
+
+            alert("Jumlah produk tidak valid.");
+
+            return;
+
+        }
+
+
+        if (jumlah > stok) {
+
+            alert("Jumlah melebihi stok.");
+
+            return;
+
+        }
+
+
+        let cart =
+            JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
+
+
+        const existing =
+            cart.find(
+                item =>
+                    String(item.id) ===
+                    String(product.id)
+            );
+
+
+        if (existing) {
+
+            existing.quantity += jumlah;
+
+        } else {
+
+            cart.push({
+
+                id: product.id,
+
+                name:
+                    product.name ||
+                    product.nama ||
+                    "Produk",
+
+                price:
+                    Number(
+                        product.price ||
+                        product.harga ||
+                        0
+                    ),
+
+                image:
+                    product.image_url ||
+                    product.image ||
+                    product.gambar ||
+                    "",
+
+                quantity: jumlah
+
+            });
+
+        }
+
+
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(cart)
+        );
+
+
+        alert(
+            "✅ Produk berhasil ditambahkan ke keranjang!"
+        );
+
+    }
+
+
+    // ==========================================
+    // BELI SEKARANG
+    // ==========================================
+
+    function beliSekarang() {
+
+        tambahKeranjang();
+
+        setTimeout(() => {
+
+            window.location.href =
+                "toko.html#cart";
+
+        }, 300);
+
+    }
+
+
+    // ==========================================
+    // START
+    // ==========================================
+
+    loadProduct();
+
+</script>
+
+</body>
+</html>
