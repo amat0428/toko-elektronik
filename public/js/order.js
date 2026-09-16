@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     if (userData) {
         try {
+
             currentUser = JSON.parse(userData);
 
             console.log("👤 User ditemukan:", currentUser);
@@ -74,6 +75,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "❌ Gagal membaca profil user:",
                 error
             );
+
         }
     }
 
@@ -82,6 +84,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // ======================================
 
     await loadOrders(currentUser);
+
 });
 
 // ==========================================
@@ -94,9 +97,11 @@ async function loadOrders(user) {
         document.getElementById("ordersContainer");
 
     if (!container) {
+
         console.error(
             "❌ Element #ordersContainer tidak ditemukan."
         );
+
         return;
     }
 
@@ -272,7 +277,7 @@ async function loadOrders(user) {
                         href="toko.html"
                         class="btn-shop"
                     >
-                        Mulai Belanja
+                        🛍️ Mulai Belanja
                     </a>
 
                 </div>
@@ -452,6 +457,7 @@ function renderOrder(order) {
 
                     </div>
                 `;
+
             })
             .join("");
 
@@ -521,6 +527,35 @@ function renderOrder(order) {
                 <span class="total-price">
                     Rp ${totalHarga.toLocaleString("id-ID")}
                 </span>
+
+            </div>
+
+            <!-- ==================================
+                 TOMBOL BELANJA
+                 ================================== -->
+
+            <div style="
+                padding:15px 20px;
+                border-top:1px solid #e5e7eb;
+                text-align:right;
+            ">
+
+                <a
+                    href="toko.html"
+                    class="btn-shop"
+                    style="
+                        display:inline-block;
+                        padding:10px 18px;
+                        background:#2563eb;
+                        color:white;
+                        text-decoration:none;
+                        border-radius:8px;
+                        font-weight:600;
+                        transition:0.2s;
+                    "
+                >
+                    🛍️ Belanja Lagi
+                </a>
 
             </div>
 
