@@ -868,8 +868,24 @@
             renderProducts(filtered);
         }
 
+        function requireLoginForAction(actionText = "melakukan aksi ini") {
+            const userData = localStorage.getItem("user") || localStorage.getItem("currentUser") || localStorage.getItem("user_session");
+
+            if (!userData) {
+                alert("Silakan login terlebih dahulu sebelum " + actionText + ".");
+                window.location.href = "login.html?redirect=toko.html";
+                return false;
+            }
+
+            return true;
+        }
+
         // ===== TAMBAH KERANJANG =====
         function addToCart(productId) {
+            if (!requireLoginForAction("menambahkan produk ke keranjang")) {
+                return;
+            }
+
             const product = allProducts.find(function (p) {
                 return (p.id_produk ?? p.id) == productId;
             });
@@ -900,6 +916,10 @@
 
         // ===== BELI SEKARANG =====
         function buyNow(productId) {
+            if (!requireLoginForAction("melakukan checkout")) {
+                return;
+            }
+
             addToCart(productId);
             openCartModal();
         }
@@ -945,6 +965,13 @@
 
         // ===== CART MODAL =====
         function openCartModal() {
+            const userData = localStorage.getItem("user") || localStorage.getItem("currentUser") || localStorage.getItem("user_session");
+            if (!userData) {
+                alert("Silakan login terlebih dahulu sebelum membuka keranjang.");
+                window.location.href = "login.html?redirect=toko.html";
+                return;
+            }
+
             const modal = document.getElementById("cartModal");
             if (!modal) return;
             renderCartItems();

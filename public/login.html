@@ -683,11 +683,12 @@
                 );
 
 
-                // Pindah ke toko
+                // Pindah ke toko atau halaman tujuan
                 setTimeout(function() {
 
-                    window.location.href =
-                        "toko.html";
+                    const params = new URLSearchParams(window.location.search);
+                    const redirectTo = params.get("redirect") || "toko.html";
+                    window.location.href = redirectTo;
 
                 }, 800);
 

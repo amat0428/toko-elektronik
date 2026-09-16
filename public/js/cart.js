@@ -114,7 +114,7 @@ async function proceedToCheckout() {
   const currentUser = JSON.parse(localStorage.getItem('user'));
   if (!currentUser) {
     alert("Silakan login terlebih dahulu untuk checkout!");
-    window.location.href = "login.html";
+    window.location.href = "login.html?redirect=checkout.html";
     return;
   }
 
