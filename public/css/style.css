@@ -508,6 +508,62 @@ section {
 
 
 /* ==========================================
+   FOTO PENGALAMAN PKL
+   ========================================== */
+
+.experience-photo {
+    width: 100%;
+    height: 260px;
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #07111f;
+    border: 1px solid #1e293b;
+}
+
+.experience-photo img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.experience-photo:hover img {
+    transform: scale(1.05);
+}
+
+
+/* ==========================================
+   FOTO PRESTASI
+   ========================================== */
+
+.achievement-photo {
+    width: 100%;
+    height: 240px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #07111f;
+    border: 1px solid #1e293b;
+}
+
+.achievement-photo img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.achievement-photo:hover img {
+    transform: scale(1.05);
+}
+
+
+/* ==========================================
    PROJECT
    ========================================== */
 
@@ -604,6 +660,66 @@ section {
 
 
 /* ==========================================
+   GALERI
+   ========================================== */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.gallery-card {
+    overflow: hidden;
+    border-radius: 15px;
+    background: #0f1c2e;
+    border: 1px solid #1e293b;
+    transition: 0.3s;
+}
+
+.gallery-card:hover {
+    transform: translateY(-6px);
+    border-color: #38bdf8;
+    box-shadow:
+        0 15px 35px rgba(37, 99, 235, 0.25);
+}
+
+.gallery-image {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: #07111f;
+}
+
+.gallery-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.gallery-card:hover .gallery-image img {
+    transform: scale(1.06);
+}
+
+.gallery-content {
+    padding: 20px;
+}
+
+.gallery-content h3 {
+    margin-bottom: 6px;
+    color: #f8fafc;
+}
+
+.gallery-content p {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+
+/* ==========================================
    FOOTER
    ========================================== */
 
@@ -625,7 +741,6 @@ footer span {
    ========================================== */
 
 @keyframes glowPulse {
-
     0%,
     100% {
         transform: scale(0.95);
@@ -639,7 +754,6 @@ footer span {
 }
 
 @keyframes fadeUp {
-
     from {
         opacity: 0;
         transform: translateY(25px);
@@ -697,8 +811,21 @@ footer span {
 
     .organization-grid,
     .achievement-grid,
-    .project-grid {
+    .project-grid,
+    .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .experience-photo {
+        height: 230px;
+    }
+
+    .achievement-photo {
+        height: 220px;
+    }
+
+    .gallery-image {
+        height: 200px;
     }
 }
 
@@ -715,6 +842,10 @@ footer span {
 
     nav {
         padding: 10px 5px;
+    }
+
+    .logo {
+        font-size: 18px;
     }
 
     .nav-menu {
@@ -771,7 +902,8 @@ footer span {
     .organization-grid,
     .achievement-grid,
     .project-grid,
-    .contact-list {
+    .contact-list,
+    .gallery-grid {
         grid-template-columns: 1fr;
     }
 
@@ -793,9 +925,36 @@ footer span {
     }
 
     /* Tombol belanja di HP */
+
     .btn-shop {
         width: 100%;
         text-align: center;
         padding: 11px 15px;
+    }
+
+    /* Foto pengalaman di HP */
+
+    .experience-photo {
+        height: 200px;
+        margin-top: 18px;
+        border-radius: 12px;
+    }
+
+    /* Foto prestasi di HP */
+
+    .achievement-photo {
+        height: 200px;
+        margin-bottom: 18px;
+        border-radius: 12px;
+    }
+
+    /* Foto galeri di HP */
+
+    .gallery-image {
+        height: 210px;
+    }
+
+    .gallery-content {
+        padding: 18px;
     }
 }
