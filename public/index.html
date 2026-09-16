@@ -7,13 +7,17 @@
 
     <title>Portfolio | Ahmad Alvi Fauji</title>
 
+    <!-- Tailwind CSS Framework -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSS Custom -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="bg-gray-50 text-gray-800 antialiased">
 
     <!-- ================= NAVBAR ================= -->
-    <header>
+    <header class="sticky top-0 z-50">
         <nav>
             <a href="#home" class="logo">
                 ALVI<span>.</span>
@@ -33,7 +37,7 @@
                 <li><a href="#contact">Kontak</a></li>
 
                 <li>
-                    <a href="toko.html" class="store-btn">
+                    <a href="toko.html" class="store-btn transition duration-300 hover:scale-105">
                         🛒 BlueShop
                     </a>
                 </li>
@@ -41,11 +45,10 @@
         </nav>
     </header>
 
-
     <main>
 
         <!-- ================= HOME ================= -->
-        <section class="hero" id="home">
+        <section class="hero py-10 md:py-16" id="home">
 
             <div class="hero-content">
 
@@ -65,19 +68,18 @@
                 </p>
 
                 <div class="hero-buttons">
-
-                    <a href="#about" class="btn btn-primary">
+                    <a href="#about"
+                       class="btn btn-primary transition duration-300 hover:-translate-y-1">
                         Kenali Saya →
                     </a>
 
-                    <a href="#project" class="btn btn-secondary">
+                    <a href="#project"
+                       class="btn btn-secondary transition duration-300 hover:-translate-y-1">
                         Lihat Project
                     </a>
-
                 </div>
 
             </div>
-
 
             <!-- FOTO PROFIL -->
             <div class="profile-area">
@@ -85,12 +87,11 @@
                 <div class="profile-glow">
 
                     <div class="profile-wrapper">
-
                         <img
                             src="img/alvi.jpg"
                             alt="Foto Ahmad Alvi Fauji"
+                            class="object-cover"
                         >
-
                     </div>
 
                 </div>
@@ -101,10 +102,9 @@
 
 
         <!-- ================= TENTANG ================= -->
-        <section id="about">
+        <section id="about" class="py-10">
 
             <div class="section-title">
-
                 <small>About Me</small>
 
                 <h2>Tentang Saya</h2>
@@ -113,14 +113,12 @@
                     Mengenal lebih dekat perjalanan dan ketertarikan
                     saya di dunia teknologi.
                 </p>
-
             </div>
-
 
             <div class="about-grid">
 
                 <!-- SIAPA SAYA -->
-                <div class="card">
+                <div class="card transition duration-300 hover:-translate-y-1">
 
                     <h3>
                         👨‍💻 Siapa Saya?
@@ -151,7 +149,7 @@
 
 
                 <!-- FOKUS -->
-                <div class="card">
+                <div class="card transition duration-300 hover:-translate-y-1">
 
                     <h3>
                         🚀 Fokus Saya
@@ -186,7 +184,7 @@
 
 
         <!-- ================= PENDIDIKAN ================= -->
-        <section id="pendidikan">
+        <section id="pendidikan" class="py-10">
 
             <div class="section-title">
 
@@ -195,7 +193,6 @@
                 <h2>Riwayat Pendidikan</h2>
 
             </div>
-
 
             <div class="timeline">
 
@@ -264,7 +261,7 @@
 
 
         <!-- ================= PENGALAMAN ================= -->
-        <section id="pengalaman">
+        <section id="pengalaman" class="py-10">
 
             <div class="section-title">
 
@@ -283,7 +280,7 @@
             <div class="experience-grid">
 
                 <!-- INKA -->
-                <div class="experience-card">
+                <div class="experience-card transition duration-300 hover:-translate-y-1">
 
                     <div class="experience-icon">
                         🏭
@@ -309,14 +306,12 @@
                         </p>
 
                         <div class="experience-skills">
-
                             <span>Google Sheets</span>
                             <span>Looker Studio</span>
                             <span>Data Analysis</span>
                             <span>n8n</span>
                             <span>Web Development</span>
                             <span>Automation</span>
-
                         </div>
 
                     </div>
@@ -325,7 +320,7 @@
 
 
                 <!-- KUNJUNGAN INDUSTRI -->
-                <div class="experience-card">
+                <div class="experience-card transition duration-300 hover:-translate-y-1">
 
                     <div class="experience-icon">
                         💻
@@ -355,6 +350,7 @@
                                 src="img/gamelab.jpg"
                                 alt="Foto Kunjungan Industri Gamelab Indonesia"
                                 loading="lazy"
+                                class="object-cover"
                             >
 
                         </div>
@@ -369,7 +365,7 @@
 
 
         <!-- ================= KEGIATAN ================= -->
-        <section id="kegiatan">
+        <section id="kegiatan" class="py-10">
 
             <div class="section-title">
 
@@ -388,7 +384,7 @@
             <div class="project-grid">
 
                 <!-- KEGIATAN 1 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🏭
@@ -413,7 +409,7 @@
 
 
                 <!-- KEGIATAN 2 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         📊
@@ -438,7 +434,7 @@
 
 
                 <!-- KEGIATAN 3 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         ⚙️
@@ -462,7 +458,7 @@
 
 
                 <!-- KEGIATAN 4 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         💻
@@ -486,7 +482,7 @@
 
 
                 <!-- KEGIATAN 5 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🗄️
@@ -510,7 +506,7 @@
 
 
                 <!-- KEGIATAN 6 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🔗
@@ -534,7 +530,7 @@
 
 
                 <!-- KEGIATAN 7 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🏃
@@ -563,7 +559,7 @@
 
 
         <!-- ================= ARTIKEL ================= -->
-        <section id="artikel">
+        <section id="artikel" class="py-10">
 
             <div class="section-title">
 
@@ -582,7 +578,7 @@
             <div class="project-grid">
 
                 <!-- ARTIKEL 1 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         👋
@@ -619,7 +615,7 @@
 
 
                 <!-- ARTIKEL 2 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🏫
@@ -658,7 +654,7 @@
 
 
                 <!-- ARTIKEL 3 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         👥
@@ -702,7 +698,7 @@
 
 
                 <!-- ARTIKEL 4 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🏭
@@ -750,7 +746,7 @@
 
 
                 <!-- ARTIKEL 5 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         📊
@@ -792,7 +788,7 @@
 
 
                 <!-- ARTIKEL 6 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         ⚙️
@@ -834,7 +830,7 @@
 
 
                 <!-- ARTIKEL 7 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         💻
@@ -871,7 +867,7 @@
 
 
                 <!-- ARTIKEL 8 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🚀
@@ -921,7 +917,7 @@
 
 
         <!-- ================= PROJECT ================= -->
-        <section id="project">
+        <section id="project" class="py-10">
 
             <div class="section-title">
 
@@ -940,7 +936,7 @@
             <div class="project-grid">
 
                 <!-- PROJECT 1 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         ⚙️
@@ -966,7 +962,7 @@
 
 
                 <!-- PROJECT 2 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🛒
@@ -992,7 +988,7 @@
 
 
                 <!-- PROJECT 3 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🌐
@@ -1017,7 +1013,7 @@
 
 
                 <!-- PROJECT 4 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🚆
@@ -1043,7 +1039,7 @@
 
 
                 <!-- PROJECT 5 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         📊
@@ -1068,7 +1064,7 @@
 
 
                 <!-- PROJECT 6 -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🤖
@@ -1098,7 +1094,7 @@
 
 
         <!-- ================= KEAHLIAN ================= -->
-        <section id="keahlian">
+        <section id="keahlian" class="py-10">
 
             <div class="section-title">
 
@@ -1116,7 +1112,7 @@
             <div class="project-grid">
 
                 <!-- WEB -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         💻
@@ -1139,7 +1135,7 @@
 
 
                 <!-- DATA -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         📊
@@ -1162,7 +1158,7 @@
 
 
                 <!-- AUTOMATION -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         ⚙️
@@ -1185,7 +1181,7 @@
 
 
                 <!-- DATABASE -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🗄️
@@ -1208,7 +1204,7 @@
 
 
                 <!-- AI -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🤖
@@ -1231,7 +1227,7 @@
 
 
                 <!-- API -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🔗
@@ -1258,7 +1254,7 @@
 
 
         <!-- ================= ORGANISASI ================= -->
-        <section id="organisasi">
+        <section id="organisasi" class="py-10">
 
             <div class="section-title">
 
@@ -1276,7 +1272,7 @@
             <div class="project-grid">
 
                 <!-- OSIS -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         👥
@@ -1300,7 +1296,7 @@
 
 
                 <!-- TARUNA -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🎖️
@@ -1324,7 +1320,7 @@
 
 
                 <!-- DEWAN -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
                         🏅
@@ -1352,7 +1348,7 @@
 
 
         <!-- ================= PRESTASI ================= -->
-        <section id="prestasi">
+        <section id="prestasi" class="py-10">
 
             <div class="section-title">
 
@@ -1371,7 +1367,7 @@
             <div class="project-grid">
 
                 <!-- LKBB -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top image-card">
 
@@ -1379,6 +1375,7 @@
                             src="img/LKBB.jpg"
                             alt="Foto kegiatan LKBB"
                             loading="lazy"
+                            class="object-cover"
                         >
 
                     </div>
@@ -1401,7 +1398,7 @@
 
 
                 <!-- GERAK JALAN -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top image-card">
 
@@ -1409,6 +1406,7 @@
                             src="img/gerakjalan.jpg"
                             alt="Foto kegiatan Gerak Jalan"
                             loading="lazy"
+                            class="object-cover"
                         >
 
                     </div>
@@ -1431,10 +1429,12 @@
 
 
                 <!-- TENIS MEJA -->
-                <div class="project-card">
+                <div class="project-card transition duration-300 hover:-translate-y-1">
 
                     <div class="project-top">
+
                         🏓
+
                     </div>
 
                     <div class="project-content">
@@ -1459,7 +1459,7 @@
 
 
         <!-- ================= GALERI ================= -->
-        <section id="galeri">
+        <section id="galeri" class="py-10">
 
             <div class="section-title">
 
@@ -1477,7 +1477,7 @@
             <div class="gallery-grid">
 
                 <!-- FOTO INKA -->
-                <div class="gallery-card">
+                <div class="gallery-card transition duration-300 hover:-translate-y-1">
 
                     <div class="gallery-image">
 
@@ -1485,6 +1485,7 @@
                             src="img/inka.jpg"
                             alt="Foto kegiatan PKL di INKA"
                             loading="lazy"
+                            class="object-cover"
                         >
 
                     </div>
@@ -1506,7 +1507,7 @@
 
 
                 <!-- FOTO GAMELAB -->
-                <div class="gallery-card">
+                <div class="gallery-card transition duration-300 hover:-translate-y-1">
 
                     <div class="gallery-image">
 
@@ -1514,6 +1515,7 @@
                             src="img/gamelab.jpg"
                             alt="Foto kunjungan industri Gamelab Indonesia"
                             loading="lazy"
+                            class="object-cover"
                         >
 
                     </div>
@@ -1535,7 +1537,7 @@
 
 
                 <!-- FOTO GERAK JALAN -->
-                <div class="gallery-card">
+                <div class="gallery-card transition duration-300 hover:-translate-y-1">
 
                     <div class="gallery-image">
 
@@ -1543,6 +1545,7 @@
                             src="img/gerakjalan.jpg"
                             alt="Foto kegiatan Gerak Jalan"
                             loading="lazy"
+                            class="object-cover"
                         >
 
                     </div>
@@ -1564,7 +1567,7 @@
 
 
                 <!-- FOTO LKBB -->
-                <div class="gallery-card">
+                <div class="gallery-card transition duration-300 hover:-translate-y-1">
 
                     <div class="gallery-image">
 
@@ -1572,6 +1575,7 @@
                             src="img/LKBB.jpg"
                             alt="Foto kegiatan LKBB"
                             loading="lazy"
+                            class="object-cover"
                         >
 
                     </div>
@@ -1680,7 +1684,7 @@
             <!-- BUTTON BLUESHOP -->
             <a
                 href="toko.html"
-                class="btn btn-primary"
+                class="btn btn-primary transition duration-300 hover:-translate-y-1"
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -1691,13 +1695,7 @@
 
 
         <!-- COPYRIGHT -->
-        <div
-            style="
-                text-align: center;
-                padding-top: 30px;
-                padding-bottom: 20px;
-            "
-        >
+        <div class="text-center pt-8 pb-5 px-4">
 
             <p>
                 &copy; 2026 Ahmad Alvi Fauji. All Rights Reserved.

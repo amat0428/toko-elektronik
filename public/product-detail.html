@@ -1,60 +1,177 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detail Produk - Toko Elektronik</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detail Produk - Toko Elektronik</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSS Utama -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <header>
-    <h1>Toko Elektronik</h1>
-    <nav>
-      <a href="products.html">← Kembali ke Produk</a>
-    </nav>
-  </header>
 
-  <main id="detail-container">
-    <div id="product-detail" class="detail-card">Memuat detail produk...</div>
-  </main>
+<body class="antialiased">
 
-  <script src="js/app.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      const container = document.getElementById('product-detail');
+    <!-- HEADER -->
+    <header class="shadow-md">
+        <h1>Toko Elektronik</h1>
 
-      try {
-        const res = await fetch(`/api/products/detail?id=${id}`);
-        const result = await res.json();
-        if (result.success) {
-          const p = result.data;
-          container.innerHTML = `
-            <img src="${p.image}" alt="${p.name}" width="300">
-            <div>
-              <h2>${p.name}</h2>
-              <p class="price">${formatRupiah(p.price)}</p>
-              <p><strong>Kategori:</strong> ${p.category}</p>
-              <p>${p.description}</p>
-              <button onclick="addToCart('${p.id}', '${p.name}', ${p.price}, '${p.image}')" class="btn btn-primary">+ Keranjang</button>
-            </div>
-          `;
+        <nav>
+            <a href="products.html" class="transition duration-200 hover:opacity-80">
+                ← Kembali ke Produk
+            </a>
+        </nav>
+    </header>
+
+    <!-- DETAIL PRODUK -->
+    <main
+        id="detail-container"
+        class="min-h-screen px-4 py-8 md:px-8"
+    >
+        <div
+            id="product-detail"
+            class="detail-card mx-auto max-w-5xl"
+        >
+            Memuat detail produk...
+        </div>
+    </main>
+
+    <!-- JAVASCRIPT UTAMA -->
+    <script src="js/app.js"></script>
+
+    <!-- DETAIL PRODUK -->
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+
+            const container = document.getElementById("product-detail");
+
+            if (!id) {
+                container.innerHTML = `
+                    <p class="text-center text-red-500">
+                        ID produk tidak ditemukan.
+                    </p>
+                `;
+                return;
+            }
+
+            try {
+                const res = await fetch(
+                    `/api/products/detail?id=${encodeURIComponent(id)}`
+                );
+
+                const result = await res.json();
+
+                if (result.success) {
+                    const p = result.data;
+
+                    container.innerHTML = `
+                        <div class="grid gap-8 md:grid-cols-2 md:items-center">
+
+                            <div class="flex justify-center">
+                                <img
+                                    src="${p.image}"
+                                    alt="${p.name}"
+                                    class="max-h-[400px] w-full max-w-md rounded-xl object-contain shadow-sm"
+                                    onerror="this.src='https://placehold.co/500x400?text=No+Image'"
+                                >
+                            </div>
+
+                            <div class="space-y-4">
+
+                                <h2 class="text-2xl font-bold text-gray-800 md:text-3xl">
+                                    ${p.name}
+                                </h2>
+
+                                <p class="price text-xl font-bold">
+                                    ${formatRupiah(p.price)}
+                                </p>
+
+                                <p class="text-gray-600">
+                                    <strong>Kategori:</strong>
+                                    ${p.category}
+                                </p>
+
+                                <div class="border-t pt-4">
+                                    <h3 class="mb-2 font-semibold text-gray-800">
+                                        Deskripsi Produk
+                                    </h3>
+
+                                    <p class="leading-relaxed text-gray-600">
+                                        ${p.description || "Tidak ada deskripsi produk."}
+                                    </p>
+                                </div>
+
+                                <button
+                                    onclick="addToCart(
+                                        '${String(p.id).replace(/'/g, "\\'")}',
+                                        '${String(p.name).replace(/'/g, "\\'")}',
+                                        ${Number(p.price) || 0},
+                                        '${String(p.image || "").replace(/'/g, "\\'")}'
+                                    )"
+                                    class="btn btn-primary w-full rounded-lg px-5 py-3 font-semibold transition duration-200 hover:scale-[1.02] hover:shadow-md md:w-auto"
+                                >
+                                    + Keranjang
+                                </button>
+
+                            </div>
+
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <p class="text-center text-red-500">
+                            Produk tidak ditemukan.
+                        </p>
+                    `;
+                }
+
+            } catch (err) {
+                console.error("Error:", err);
+
+                container.innerHTML = `
+                    <p class="text-center text-red-500">
+                        Gagal memuat detail produk.
+                    </p>
+                `;
+            }
+        });
+
+        function addToCart(id, name, price, image) {
+            let cart = JSON.parse(
+                localStorage.getItem("cart") || "[]"
+            );
+
+            const existing = cart.find(item => item.id === id);
+
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    image,
+                    qty: 1
+                });
+            }
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+            if (typeof updateCartBadge === "function") {
+                updateCartBadge();
+            }
+
+            alert(`${name} ditambahkan ke keranjang!`);
         }
-      } catch (err) {
-        container.innerHTML = '<p>Gagal memuat detail produk.</p>';
-      }
-    });
+    </script>
 
-    function addToCart(id, name, price, image) {
-      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const existing = cart.find(item => item.id === id);
-      if (existing) existing.qty += 1;
-      else cart.push({ id, name, price, image, qty: 1 });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartBadge();
-      alert(`${name} ditambahkan ke keranjang!`);
-    }
-  </script>
 </body>
 </html>

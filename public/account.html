@@ -1,254 +1,503 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Akun Saya - BlueShop</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Supabase CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Akun Saya - BlueShop</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body class="bg-gray-100 min-h-screen text-gray-800 pb-20 md:pb-10">
 
-  <!-- Header Utama -->
-  <header class="bg-blue-600 text-white sticky top-0 z-50 shadow-md">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-      <a href="index.html" class="text-lg md:text-xl font-black tracking-wide flex items-center gap-2">
-        <i class="fa-solid fa-bag-shopping"></i>
-        <span>BlueShop</span>
-      </a>
-      <span class="text-xs md:text-sm font-semibold border-l border-blue-400 pl-3">Saya / Profil</span>
-      <a href="index.html" class="text-xs md:text-sm hover:underline ml-auto flex items-center gap-1">
-        <i class="fa-solid fa-house"></i> Beranda
-      </a>
-    </div>
-  </header>
+    <!-- Header Utama -->
+    <header class="bg-blue-600 text-white sticky top-0 z-50 shadow-md">
 
-  <main class="max-w-4xl mx-auto px-2 md:px-4 mt-4 space-y-4">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
 
-    <!-- Card Top Header Profil ala Shopee -->
-    <div class="bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl p-4 md:p-6 text-white shadow-md flex items-center justify-between">
-      <div class="flex items-center gap-3 md:gap-4">
-        <!-- Foto Profil / Avatar -->
-        <div class="relative">
-          <div id="userAvatar" class="w-16 h-16 md:w-20 md:h-20 bg-white/20 border-2 border-white rounded-full flex items-center justify-center text-2xl md:text-3xl font-bold uppercase overflow-hidden shadow-inner">
-            <i class="fa-solid fa-user"></i>
-          </div>
-          <button class="absolute bottom-0 right-0 bg-yellow-400 text-blue-900 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-[10px] md:text-xs shadow">
-            <i class="fa-solid fa-camera"></i>
-          </button>
-        </div>
+            <a
+                href="index.html"
+                class="text-lg md:text-xl font-black tracking-wide flex items-center gap-2"
+            >
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span>BlueShop</span>
+            </a>
 
-        <!-- Info Nama & Member -->
-        <div>
-          <h2 id="userName" class="text-base md:text-xl font-bold flex items-center gap-2">
-            <span>Memuat...</span>
-          </h2>
-          <div class="flex items-center gap-2 mt-1">
-            <span class="bg-yellow-400 text-blue-950 font-extrabold text-[10px] md:text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
-              <i class="fa-solid fa-crown text-[9px]"></i> Member Classic
+            <span class="text-xs md:text-sm font-semibold border-l border-blue-400 pl-3">
+                Saya / Profil
             </span>
-            <span id="userEmail" class="text-xs text-blue-100 hidden sm:inline">...</span>
-          </div>
+
+            <a
+                href="index.html"
+                class="text-xs md:text-sm hover:underline ml-auto flex items-center gap-1"
+            >
+                <i class="fa-solid fa-house"></i>
+                Beranda
+            </a>
+
         </div>
-      </div>
 
-      <!-- Setting / Pengaturan Icon -->
-      <a href="#pengaturan" class="text-white hover:text-blue-200 text-xl p-2">
-        <i class="fa-solid fa-gear"></i>
-      </a>
-    </div>
+    </header>
 
-    <!-- Dompet & Koin (Shopee Pay / Koin Blue) -->
-    <div class="bg-white rounded-xl p-3 md:p-4 shadow-sm grid grid-cols-3 divide-x text-center text-xs md:text-sm">
-      <div class="flex flex-col items-center justify-center cursor-pointer hover:text-blue-600">
-        <div class="flex items-center gap-1.5 font-bold text-gray-800">
-          <i class="fa-solid fa-wallet text-blue-600"></i>
-          <span>Rp 0</span>
+
+    <main class="max-w-4xl mx-auto px-2 md:px-4 mt-4 space-y-4">
+
+        <!-- Card Profil -->
+        <div class="bg-gradient-to-r from-blue-600 to-blue-500 rounded-xl p-4 md:p-6 text-white shadow-md flex items-center justify-between">
+
+            <div class="flex items-center gap-3 md:gap-4">
+
+                <!-- Foto Profil -->
+                <div class="relative">
+
+                    <div
+                        id="userAvatar"
+                        class="w-16 h-16 md:w-20 md:h-20 bg-white/20 border-2 border-white rounded-full flex items-center justify-center text-2xl md:text-3xl font-bold uppercase overflow-hidden shadow-inner"
+                    >
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <button
+                        class="absolute bottom-0 right-0 bg-yellow-400 text-blue-900 w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-[10px] md:text-xs shadow"
+                    >
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
+
+                </div>
+
+
+                <!-- Info Nama -->
+                <div>
+
+                    <h2
+                        id="userName"
+                        class="text-base md:text-xl font-bold flex items-center gap-2"
+                    >
+                        <span>Memuat...</span>
+                    </h2>
+
+                    <div class="flex items-center gap-2 mt-1">
+
+                        <span
+                            class="bg-yellow-400 text-blue-950 font-extrabold text-[10px] md:text-xs px-2 py-0.5 rounded-full flex items-center gap-1"
+                        >
+                            <i class="fa-solid fa-crown text-[9px]"></i>
+                            Member Classic
+                        </span>
+
+                        <span
+                            id="userEmail"
+                            class="text-xs text-blue-100 hidden sm:inline"
+                        >
+                            ...
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Pengaturan -->
+            <a
+                href="#pengaturan"
+                class="text-white hover:text-blue-200 text-xl p-2"
+            >
+                <i class="fa-solid fa-gear"></i>
+            </a>
+
         </div>
-        <span class="text-[11px] text-gray-500 mt-0.5">BluePay</span>
-      </div>
 
-      <div class="flex flex-col items-center justify-center cursor-pointer hover:text-blue-600">
-        <div class="flex items-center gap-1.5 font-bold text-yellow-500">
-          <i class="fa-solid fa-coins"></i>
-          <span>0 Koin</span>
+
+        <!-- Dompet & Koin -->
+        <div class="bg-white rounded-xl p-3 md:p-4 shadow-sm grid grid-cols-3 divide-x text-center text-xs md:text-sm">
+
+            <div class="flex flex-col items-center justify-center cursor-pointer hover:text-blue-600">
+
+                <div class="flex items-center gap-1.5 font-bold text-gray-800">
+                    <i class="fa-solid fa-wallet text-blue-600"></i>
+                    <span>Rp 0</span>
+                </div>
+
+                <span class="text-[11px] text-gray-500 mt-0.5">
+                    BluePay
+                </span>
+
+            </div>
+
+
+            <div class="flex flex-col items-center justify-center cursor-pointer hover:text-blue-600">
+
+                <div class="flex items-center gap-1.5 font-bold text-yellow-500">
+                    <i class="fa-solid fa-coins"></i>
+                    <span>0 Koin</span>
+                </div>
+
+                <span class="text-[11px] text-gray-500 mt-0.5">
+                    Koin Blue
+                </span>
+
+            </div>
+
+
+            <div class="flex flex-col items-center justify-center cursor-pointer hover:text-blue-600">
+
+                <div class="flex items-center gap-1.5 font-bold text-blue-600">
+                    <i class="fa-solid fa-ticket"></i>
+                    <span>5 Voucher</span>
+                </div>
+
+                <span class="text-[11px] text-gray-500 mt-0.5">
+                    Voucher Saya
+                </span>
+
+            </div>
+
         </div>
-        <span class="text-[11px] text-gray-500 mt-0.5">Koin Blue</span>
-      </div>
 
-      <div class="flex flex-col items-center justify-center cursor-pointer hover:text-blue-600">
-        <div class="flex items-center gap-1.5 font-bold text-blue-600">
-          <i class="fa-solid fa-ticket"></i>
-          <span>5 Voucher</span>
+
+        <!-- Status Pesanan -->
+        <div class="bg-white rounded-xl p-4 shadow-sm space-y-3">
+
+            <div class="flex items-center justify-between border-b pb-2.5">
+
+                <span class="font-bold text-sm md:text-base text-gray-800">
+                    Pesanan Saya
+                </span>
+
+                <a
+                    href="orders.html"
+                    class="text-xs text-gray-500 hover:text-blue-600 flex items-center gap-1"
+                >
+                    Lihat Riwayat Pesanan
+                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                </a>
+
+            </div>
+
+
+            <div class="grid grid-cols-4 text-center text-xs py-1">
+
+                <a
+                    href="orders.html?tab=unpaid"
+                    class="flex flex-col items-center gap-1.5 hover:text-blue-600"
+                >
+                    <i class="fa-solid fa-wallet text-xl text-gray-600"></i>
+                    <span class="text-[11px]">Belum Bayar</span>
+                </a>
+
+                <a
+                    href="orders.html?tab=packed"
+                    class="flex flex-col items-center gap-1.5 hover:text-blue-600"
+                >
+                    <i class="fa-solid fa-box text-xl text-gray-600"></i>
+                    <span class="text-[11px]">Dikemas</span>
+                </a>
+
+                <a
+                    href="orders.html?tab=shipped"
+                    class="flex flex-col items-center gap-1.5 hover:text-blue-600"
+                >
+                    <i class="fa-solid fa-truck-fast text-xl text-gray-600"></i>
+                    <span class="text-[11px]">Dikirim</span>
+                </a>
+
+                <a
+                    href="orders.html?tab=rated"
+                    class="flex flex-col items-center gap-1.5 hover:text-blue-600"
+                >
+                    <i class="fa-solid fa-star text-xl text-gray-600"></i>
+                    <span class="text-[11px]">Beri Penilaian</span>
+                </a>
+
+            </div>
+
         </div>
-        <span class="text-[11px] text-gray-500 mt-0.5">Voucher Saya</span>
-      </div>
-    </div>
 
-    <!-- Status Pesanan Saya -->
-    <div class="bg-white rounded-xl p-4 shadow-sm space-y-3">
-      <div class="flex items-center justify-between border-b pb-2.5">
-        <span class="font-bold text-sm md:text-base text-gray-800">Pesanan Saya</span>
-        <a href="orders.html" class="text-xs text-gray-500 hover:text-blue-600 flex items-center gap-1">
-          Lihat Riwayat Pesanan <i class="fa-solid fa-chevron-right text-[10px]"></i>
-        </a>
-      </div>
 
-      <div class="grid grid-cols-4 text-center text-xs py-1">
-        <a href="orders.html?tab=unpaid" class="flex flex-col items-center gap-1.5 hover:text-blue-600">
-          <i class="fa-solid fa-wallet text-xl text-gray-600"></i>
-          <span class="text-[11px]">Belum Bayar</span>
-        </a>
-        <a href="orders.html?tab=packed" class="flex flex-col items-center gap-1.5 hover:text-blue-600">
-          <i class="fa-solid fa-box text-xl text-gray-600"></i>
-          <span class="text-[11px]">Dikemas</span>
-        </a>
-        <a href="orders.html?tab=shipped" class="flex flex-col items-center gap-1.5 hover:text-blue-600">
-          <i class="fa-solid fa-truck-fast text-xl text-gray-600"></i>
-          <span class="text-[11px]">Dikirim</span>
-        </a>
-        <a href="orders.html?tab=rated" class="flex flex-col items-center gap-1.5 hover:text-blue-600">
-          <i class="fa-solid fa-star text-xl text-gray-600"></i>
-          <span class="text-[11px]">Beri Penilaian</span>
-        </a>
-      </div>
-    </div>
+        <!-- Informasi Akun -->
+        <div class="bg-white rounded-xl p-4 shadow-sm space-y-4">
 
-    <!-- Detail Informasi Akun -->
-    <div class="bg-white rounded-xl p-4 shadow-sm space-y-4">
-      <h3 class="font-bold text-sm md:text-base text-gray-800 border-b pb-2">Informasi Akun</h3>
-      
-      <div class="space-y-3 text-xs md:text-sm">
-        <div class="flex justify-between items-center py-1 border-b border-gray-100">
-          <span class="text-gray-500">Nama Lengkap</span>
-          <span id="infoFullname" class="font-medium text-gray-800">...</span>
+            <h3 class="font-bold text-sm md:text-base text-gray-800 border-b pb-2">
+                Informasi Akun
+            </h3>
+
+            <div class="space-y-3 text-xs md:text-sm">
+
+                <div class="flex justify-between items-center py-1 border-b border-gray-100">
+                    <span class="text-gray-500">Nama Lengkap</span>
+                    <span id="infoFullname" class="font-medium text-gray-800">...</span>
+                </div>
+
+                <div class="flex justify-between items-center py-1 border-b border-gray-100">
+                    <span class="text-gray-500">Email</span>
+                    <span id="infoEmail" class="font-medium text-gray-800">...</span>
+                </div>
+
+                <div class="flex justify-between items-center py-1 border-b border-gray-100">
+                    <span class="text-gray-500">Nomor HP</span>
+                    <span id="infoPhone" class="font-medium text-gray-800">
+                        Belum diatur
+                    </span>
+                </div>
+
+                <div class="flex justify-between items-center py-1 border-b border-gray-100">
+                    <span class="text-gray-500">Jenis Kelamin</span>
+                    <span id="infoGender" class="font-medium text-gray-800">
+                        Rahasia
+                    </span>
+                </div>
+
+            </div>
+
         </div>
-        <div class="flex justify-between items-center py-1 border-b border-gray-100">
-          <span class="text-gray-500">Email</span>
-          <span id="infoEmail" class="font-medium text-gray-800">...</span>
+
+
+        <!-- Menu Tambahan -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden divide-y text-xs md:text-sm">
+
+            <a
+                href="#"
+                class="flex items-center justify-between p-3.5 hover:bg-gray-50"
+            >
+                <span class="flex items-center gap-3 text-gray-700 font-medium">
+                    <i class="fa-solid fa-location-dot text-blue-600 w-5"></i>
+                    Alamat Saya
+                </span>
+
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            </a>
+
+
+            <a
+                href="#"
+                class="flex items-center justify-between p-3.5 hover:bg-gray-50"
+            >
+                <span class="flex items-center gap-3 text-gray-700 font-medium">
+                    <i class="fa-solid fa-credit-card text-blue-600 w-5"></i>
+                    Kartu / Rekening Bank
+                </span>
+
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            </a>
+
+
+            <a
+                href="#"
+                class="flex items-center justify-between p-3.5 hover:bg-gray-50"
+            >
+                <span class="flex items-center gap-3 text-gray-700 font-medium">
+                    <i class="fa-solid fa-shield-halved text-blue-600 w-5"></i>
+                    Keamanan Akun
+                </span>
+
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+            </a>
+
         </div>
-        <div class="flex justify-between items-center py-1 border-b border-gray-100">
-          <span class="text-gray-500">Nomor HP</span>
-          <span id="infoPhone" class="font-medium text-gray-800">Belum diatur</span>
+
+
+        <!-- Logout -->
+        <button
+            id="logoutBtn"
+            class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3 rounded-xl border border-red-200 transition text-sm flex items-center justify-center gap-2"
+        >
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Keluar / Logout
+        </button>
+
+    </main>
+
+
+    <!-- Bottom Navigation Mobile -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-1.5 z-40 shadow-lg">
+
+        <div class="grid grid-cols-3 text-center text-gray-500">
+
+            <a
+                href="index.html"
+                class="flex flex-col items-center hover:text-blue-600"
+            >
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px] mt-0.5">Beranda</span>
+            </a>
+
+            <a
+                href="cart.html"
+                class="flex flex-col items-center hover:text-blue-600"
+            >
+                <i class="fa-solid fa-cart-shopping text-lg"></i>
+                <span class="text-[10px] mt-0.5">Keranjang</span>
+            </a>
+
+            <a
+                href="orders.html"
+                class="flex flex-col items-center hover:text-blue-600"
+            >
+                <i class="fa-solid fa-receipt text-lg"></i>
+                <span class="text-[10px] mt-0.5">Pesanan</span>
+            </a>
+
         </div>
-        <div class="flex justify-between items-center py-1 border-b border-gray-100">
-          <span class="text-gray-500">Jenis Kelamin</span>
-          <span id="infoGender" class="font-medium text-gray-800">Rahasia</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- Menu Pilihan Tambahan -->
-    <div class="bg-white rounded-xl shadow-sm overflow-hidden divide-y text-xs md:text-sm">
-      <a href="#" class="flex items-center justify-between p-3.5 hover:bg-gray-50">
-        <span class="flex items-center gap-3 text-gray-700 font-medium">
-          <i class="fa-solid fa-location-dot text-blue-600 w-5"></i> Alamat Saya
-        </span>
-        <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
-      </a>
-      <a href="#" class="flex items-center justify-between p-3.5 hover:bg-gray-50">
-        <span class="flex items-center gap-3 text-gray-700 font-medium">
-          <i class="fa-solid fa-credit-card text-blue-600 w-5"></i> Kartu / Rekening Bank
-        </span>
-        <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
-      </a>
-      <a href="#" class="flex items-center justify-between p-3.5 hover:bg-gray-50">
-        <span class="flex items-center gap-3 text-gray-700 font-medium">
-          <i class="fa-solid fa-shield-halved text-blue-600 w-5"></i> Keamanan Akun
-        </span>
-        <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
-      </a>
-    </div>
+    </nav>
 
-    <!-- Tombol Logout -->
-    <button id="logoutBtn" class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3 rounded-xl border border-red-200 transition text-sm flex items-center justify-center gap-2">
-      <i class="fa-solid fa-right-from-bracket"></i> Keluar / Logout
-    </button>
 
-  </main>
+    <!-- Script Auth State -->
+    <script src="js/auth-state.js"></script>
 
-  <!-- Bottom Nav Bar Mobile -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-1.5 z-40 shadow-lg">
-    <div class="grid grid-cols-3 text-center text-gray-500">
-      <a href="index.html" class="flex flex-col items-center hover:text-blue-600">
-        <i class="fa-solid fa-house text-lg"></i>
-        <span class="text-[10px] mt-0.5">Beranda</span>
-      </a>
-      <a href="cart.html" class="flex flex-col items-center hover:text-blue-600">
-        <i class="fa-solid fa-cart-shopping text-lg"></i>
-        <span class="text-[10px] mt-0.5">Keranjang</span>
-      </a>
-      <a href="orders.html" class="flex flex-col items-center hover:text-blue-600">
-        <i class="fa-solid fa-receipt text-lg"></i>
-        <span class="text-[10px] mt-0.5">Pesanan</span>
-      </a>
-    </div>
-  </nav>
 
-  <!-- Script Penangan Data Sesi Supabase -->
-  <script src="js/auth-state.js"></script>
-  <script>
-    async function initAccountPage() {
-      // Tunggu hingga client Supabase siap
-      let client = window.supabaseClient || (typeof supabase !== 'undefined' ? supabase : null);
-      
-      if (!client) {
-        setTimeout(initAccountPage, 300);
-        return;
-      }
+    <!-- Script Halaman Akun -->
+    <script>
 
-      try {
-        const { data: { session }, error } = await client.auth.getSession();
+        async function initAccountPage() {
 
-        if (error || !session) {
-          // Jika tidak ada user login, arahkan ke login.html
-          window.location.href = "login.html";
-          return;
+            // Tunggu hingga client Supabase siap
+            let client =
+                window.supabaseClient ||
+                (typeof supabase !== 'undefined' ? supabase : null);
+
+
+            if (!client) {
+                setTimeout(initAccountPage, 300);
+                return;
+            }
+
+
+            try {
+
+                const {
+                    data: { session },
+                    error
+                } = await client.auth.getSession();
+
+
+                // Jika belum login
+                if (error || !session) {
+
+                    window.location.href = "login.html";
+
+                    return;
+                }
+
+
+                const user = session.user;
+
+                const userMeta =
+                    user.user_metadata || {};
+
+
+                // Nama user
+                const fullName =
+                    userMeta.full_name ||
+                    userMeta.name ||
+                    userMeta.username ||
+                    user.email.split('@')[0];
+
+
+                const email = user.email;
+
+
+                // Tampilkan data
+                document.getElementById("userName").textContent =
+                    fullName;
+
+                document.getElementById("userEmail").textContent =
+                    email;
+
+                document.getElementById("infoFullname").textContent =
+                    fullName;
+
+                document.getElementById("infoEmail").textContent =
+                    email;
+
+
+                // Nomor HP
+                if (userMeta.phone) {
+
+                    document.getElementById("infoPhone").textContent =
+                        userMeta.phone;
+
+                }
+
+
+                // Avatar
+                const avatarEl =
+                    document.getElementById("userAvatar");
+
+
+                if (userMeta.avatar_url) {
+
+                    avatarEl.innerHTML = `
+                        <img
+                            src="${userMeta.avatar_url}"
+                            class="w-full h-full object-cover"
+                            alt="Foto Profil"
+                        >
+                    `;
+
+                } else {
+
+                    avatarEl.textContent =
+                        fullName.charAt(0).toUpperCase();
+
+                }
+
+
+                // Logout
+                const logoutBtn =
+                    document.getElementById("logoutBtn");
+
+
+                if (logoutBtn) {
+
+                    logoutBtn.addEventListener(
+                        "click",
+                        async () => {
+
+                            await client.auth.signOut();
+
+                            window.location.href =
+                                "login.html";
+
+                        }
+                    );
+
+                }
+
+            } catch (err) {
+
+                console.error(
+                    "Gagal memuat profil:",
+                    err
+                );
+
+            }
+
         }
 
-        const user = session.user;
-        const userMeta = user.user_metadata || {};
 
-        // Penentuan nama user
-        const fullName = userMeta.full_name || userMeta.name || userMeta.username || user.email.split('@')[0];
-        const email = user.email;
+        // Jalankan saat halaman siap
+        document.addEventListener(
+            "DOMContentLoaded",
+            initAccountPage
+        );
 
-        // Render data ke elemen HTML
-        document.getElementById("userName").textContent = fullName;
-        document.getElementById("userEmail").textContent = email;
-        document.getElementById("infoFullname").textContent = fullName;
-        document.getElementById("infoEmail").textContent = email;
+    </script>
 
-        if (userMeta.phone) {
-          document.getElementById("infoPhone").textContent = userMeta.phone;
-        }
-
-        // Render Avatar / Inisial Nama
-        const avatarEl = document.getElementById("userAvatar");
-        if (userMeta.avatar_url) {
-          avatarEl.innerHTML = `<img src="${userMeta.avatar_url}" class="w-full h-full object-cover">`;
-        } else {
-          avatarEl.textContent = fullName.charAt(0).toUpperCase();
-        }
-
-        // Tombol Logout
-        const logoutBtn = document.getElementById("logoutBtn");
-        if (logoutBtn) {
-          logoutBtn.addEventListener("click", async () => {
-            await client.auth.signOut();
-            window.location.href = "login.html";
-          });
-        }
-
-      } catch (err) {
-        console.error("Gagal memuat profil:", err);
-      }
-    }
-
-    // Jalankan fungsi saat DOM siap
-    document.addEventListener("DOMContentLoaded", initAccountPage);
-  </script>
 </body>
+
 </html>

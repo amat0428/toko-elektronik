@@ -7,6 +7,15 @@
 
     <title>Checkout - Toko Elektronik</title>
 
+    <!-- Tailwind CSS Framework -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
     <style>
         * {
             margin: 0;
@@ -255,7 +264,12 @@
             color: white;
         }
 
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
         @media (max-width: 600px) {
+
             .container {
                 margin: 15px auto;
                 padding: 0 12px;
@@ -282,7 +296,12 @@
             }
         }
 
+        /* =========================
+           PRINT
+        ========================= */
+
         @media print {
+
             body > * {
                 visibility: hidden;
             }
@@ -308,32 +327,65 @@
     </style>
 </head>
 
-<body>
 
-    <!-- HEADER -->
+<body class="bg-gray-100 text-gray-800">
 
-    <header>
-        <h1>Toko Elektronik</h1>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header class="bg-blue-600 text-white px-6 py-5 shadow-md">
+
+        <div class="max-w-3xl mx-auto flex items-center gap-3">
+
+            <a
+                href="cart.html"
+                class="hover:text-blue-200 transition"
+                title="Kembali ke keranjang"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+            <h1 class="text-2xl font-bold">
+                Toko Elektronik
+            </h1>
+
+        </div>
+
     </header>
 
 
-    <!-- CHECKOUT -->
+    <!-- =========================
+         CHECKOUT
+    ========================= -->
 
     <div class="container">
 
         <div class="checkout-box">
 
-            <h2>Form Checkout</h2>
+
+            <!-- JUDUL -->
+
+            <h2 class="text-2xl font-bold text-gray-800">
+                Form Checkout
+            </h2>
 
 
-            <!-- RINGKASAN PESANAN -->
+            <!-- =========================
+                 RINGKASAN PESANAN
+            ========================= -->
 
             <div class="summary-box">
 
                 <div id="checkoutItems">
 
                     <div class="empty-checkout">
+
+                        <i class="fa-solid fa-spinner fa-spin mr-2"></i>
+
                         Memuat pesanan...
+
                     </div>
 
                 </div>
@@ -359,9 +411,14 @@
             </div>
 
 
-            <!-- FORM CHECKOUT -->
+            <!-- =========================
+                 FORM CHECKOUT
+            ========================= -->
 
             <form id="checkoutForm">
+
+
+                <!-- NAMA -->
 
                 <div class="form-group">
 
@@ -374,10 +431,13 @@
                         id="namaLengkap"
                         placeholder="Masukkan nama lengkap"
                         required
+                        class="focus:ring-2 focus:ring-blue-500"
                     >
 
                 </div>
 
+
+                <!-- NOMOR HP -->
 
                 <div class="form-group">
 
@@ -390,10 +450,13 @@
                         id="nomorHp"
                         placeholder="Contoh: 081234567890"
                         required
+                        class="focus:ring-2 focus:ring-blue-500"
                     >
 
                 </div>
 
+
+                <!-- ALAMAT -->
 
                 <div class="form-group">
 
@@ -405,17 +468,24 @@
                         id="alamatPengiriman"
                         placeholder="Masukkan alamat lengkap"
                         required
+                        class="focus:ring-2 focus:ring-blue-500"
                     ></textarea>
 
                 </div>
 
 
+                <!-- BUTTON -->
+
                 <button
                     type="submit"
                     id="btnBayar"
-                    class="btn-submit"
+                    class="btn-submit bg-blue-600 hover:bg-blue-700 transition duration-200"
                 >
+
+                    <i class="fa-solid fa-credit-card mr-2"></i>
+
                     Bayar Sekarang
+
                 </button>
 
             </form>
@@ -427,24 +497,39 @@
 
     <!-- =========================
          MODAL NOTA
-    ========================== -->
+    ========================= -->
 
     <div id="notaModal">
 
-        <div class="nota-box">
+        <div class="nota-box shadow-2xl">
+
+
+            <!-- HEADER NOTA -->
 
             <div class="nota-header">
 
-                <h2>
+                <div class="text-green-600 text-4xl mb-3">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+                <h2 class="text-2xl font-bold">
+
                     Pesanan Berhasil
+
                 </h2>
 
-                <p>
+                <p class="text-gray-500">
+
                     Terima kasih telah berbelanja
+
                 </p>
 
             </div>
 
+
+            <!-- INFORMASI NOTA -->
 
             <div class="nota-info">
 
@@ -476,9 +561,13 @@
             </div>
 
 
+            <!-- DETAIL PESANAN -->
+
             <div class="nota-items">
 
-                <h3 style="margin-bottom: 10px;">
+                <h3
+                    class="font-bold text-lg mb-3"
+                >
                     Detail Pesanan
                 </h3>
 
@@ -487,35 +576,51 @@
             </div>
 
 
+            <!-- TOTAL BAYAR -->
+
             <div class="nota-total">
 
                 <span>
                     Total Bayar
                 </span>
 
-                <span id="notaTotalBayar">
+                <span
+                    id="notaTotalBayar"
+                    class="text-blue-600"
+                >
                     Rp 0
                 </span>
 
             </div>
 
 
+            <!-- BUTTON NOTA -->
+
             <div class="nota-buttons">
 
                 <button
                     type="button"
-                    class="btn-print"
+                    class="btn-print hover:bg-green-700 transition"
                     onclick="cetakNota()"
                 >
+
+                    <i class="fa-solid fa-print mr-2"></i>
+
                     Cetak Nota
+
                 </button>
+
 
                 <button
                     type="button"
-                    class="btn-orders"
+                    class="btn-orders hover:bg-blue-700 transition"
                     onclick="selesaiCheckout()"
                 >
+
+                    <i class="fa-solid fa-box mr-2"></i>
+
                     Lihat Pesanan
+
                 </button>
 
             </div>
@@ -525,12 +630,16 @@
     </div>
 
 
-    <!-- SUPABASE -->
+    <!-- =========================
+         SUPABASE
+    ========================= -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-    <!-- CHECKOUT JS -->
+    <!-- =========================
+         CHECKOUT JAVASCRIPT
+    ========================= -->
 
     <script src="js/checkout.js"></script>
 

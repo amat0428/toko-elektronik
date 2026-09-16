@@ -1,110 +1,274 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toko Elektronik - Belanja Online</title>
-  <!-- Tailwind CSS & FontAwesome Icons -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* Styling khusus ala Shopee */
-    .shopee-bg { background-color: #ee4d2d; }
-    .shopee-text { color: #ee4d2d; }
-    .shopee-border { border-color: #ee4d2d; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Toko Elektronik - Belanja Online</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+    <style>
+        /* Styling khusus ala Shopee */
+        .shopee-bg {
+            background-color: #ee4d2d;
+        }
+
+        .shopee-text {
+            color: #ee4d2d;
+        }
+
+        .shopee-border {
+            border-color: #ee4d2d;
+        }
+    </style>
 </head>
+
 <body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
 
-  <!-- TOP BAR / HEADER ALA SHOPEE -->
-  <header class="shopee-bg text-white shadow-md sticky top-0 z-50">
-    <!-- Sub Nav Bar (Atas) -->
-    <div class="max-w-7xl mx-auto px-4 py-1 text-xs flex justify-between items-center border-b border-orange-400/40 opacity-90">
-      <div class="flex items-center gap-4">
-        <span><i class="fa-solid fa-store mr-1"></i> Mitra Toko Elektronik</span>
-        <span><i class="fa-solid fa-mobile-screen mr-1"></i> Download Aplikasi</span>
-      </div>
-      <div class="flex items-center gap-4">
-        <a href="admin/dashboard.html" class="hover:underline"><i class="fa-solid fa-user-shield mr-1"></i> Panel Admin</a>
-        <span id="userInfo" class="font-medium">Halo, Pembeli</span>
-      </div>
-    </div>
+    <!-- TOP BAR / HEADER ALA SHOPEE -->
+    <header class="shopee-bg text-white shadow-md sticky top-0 z-50">
 
-    <!-- Main Header Bar -->
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-      <!-- Logo -->
-      <a href="index.html" class="flex items-center gap-2 text-white no-underline">
-        <i class="fa-solid fa-bag-shopping text-3xl"></i>
-        <h1 class="text-2xl font-black tracking-tight leading-none">TokoElektronik</h1>
-      </a>
+        <!-- Sub Nav Bar -->
+        <div
+            class="max-w-7xl mx-auto px-4 py-1 text-xs flex justify-between items-center border-b border-orange-400/40 opacity-90"
+        >
 
-      <!-- Search Bar Besar -->
-      <div class="flex-1 max-w-2xl mx-2">
-        <div class="relative flex">
-          <input type="text" id="searchInput" placeholder="Cari laptop, HP, TWS, atau aksesoris..." 
-            class="w-full pl-4 pr-12 py-2.5 text-sm text-gray-900 rounded-sm focus:outline-none shadow-inner">
-          <button class="shopee-bg text-white px-5 py-2 absolute right-1 top-1 bottom-1 rounded-sm hover:opacity-90 transition">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
+            <div class="flex items-center gap-4">
+                <span>
+                    <i class="fa-solid fa-store mr-1"></i>
+                    Mitra Toko Elektronik
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-mobile-screen mr-1"></i>
+                    Download Aplikasi
+                </span>
+            </div>
+
+            <div class="flex items-center gap-4">
+
+                <a
+                    href="admin/dashboard.html"
+                    class="hover:underline"
+                >
+                    <i class="fa-solid fa-user-shield mr-1"></i>
+                    Panel Admin
+                </a>
+
+                <span
+                    id="userInfo"
+                    class="font-medium"
+                >
+                    Halo, Pembeli
+                </span>
+
+            </div>
+
         </div>
-      </div>
 
-      <!-- Icon Keranjang -->
-      <a href="cart.html" class="relative p-2 text-white hover:opacity-80 transition">
-        <i class="fa-solid fa-cart-shopping text-2xl"></i>
-        <span id="cartCount" class="absolute -top-1 -right-1 bg-white shopee-text font-bold text-[11px] px-1.5 py-0.2 rounded-full border border-orange-500 shadow">0</span>
-      </a>
-    </div>
-  </header>
 
-  <!-- BANNER KHUSUS DISKON (ALA SHOPEE) -->
-  <section class="max-w-7xl mx-auto px-4 pt-4 w-full">
-    <div class="shopee-bg text-white rounded-md p-3 flex items-center justify-between shadow-sm">
-      <div class="flex items-center gap-3">
-        <span class="bg-yellow-400 text-red-600 text-xs font-black px-2 py-1 rounded">FLASH SALE</span>
-        <span class="text-xs md:text-sm font-semibold">Gratis Ongkir Rp0 Min. Belanja Rp0!</span>
-      </div>
-      <span class="text-xs underline font-medium cursor-pointer">Cek Voucher Sekarang &gt;</span>
-    </div>
-  </section>
+        <!-- Main Header Bar -->
+        <div
+            class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4"
+        >
 
-  <!-- MAIN CATALOG -->
-  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
-    <!-- Tab Menu Kategori -->
-    <div class="bg-white rounded-t-sm shadow-sm border-b border-gray-200 p-3 mb-4 flex items-center justify-between">
-      <span class="shopee-text font-bold text-base uppercase tracking-wide border-b-2 border-orange-500 pb-2">Rekomendasi Utama</span>
-      <span class="text-xs text-gray-500">Menampilkan Produk Terbaru</span>
-    </div>
+            <!-- Logo -->
+            <a
+                href="index.html"
+                class="flex items-center gap-2 text-white no-underline"
+            >
+                <i class="fa-solid fa-bag-shopping text-3xl"></i>
 
-    <!-- GRID KATALOG PRODUK ALA SHOPEE -->
-    <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5">
-      <!-- Loading Spinner -->
-      <div class="col-span-full py-16 text-center text-gray-400">
-        <i class="fa-solid fa-spinner fa-spin text-4xl mb-3 shopee-text"></i>
-        <p class="text-sm font-medium">Memuat katalog ala Shopee...</p>
-      </div>
-    </div>
-  </main>
+                <h1 class="text-2xl font-black tracking-tight leading-none">
+                    TokoElektronik
+                </h1>
+            </a>
 
-  <!-- FOOTER SHOPEE STYLE -->
-  <footer class="bg-white border-t-4 border-orange-500 py-6 mt-12 text-gray-500 text-xs">
-    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div>
-        <h4 class="font-bold text-gray-800 mb-2">LAYANAN PELANGGAN</h4>
-        <p>Bantuan, Cara Pembelian, Pengiriman, Garansi Produk.</p>
-      </div>
-      <div>
-        <h4 class="font-bold text-gray-800 mb-2">METODE PEMBAYARAN</h4>
-        <p>Transfer Bank, SPayLater, QRIS, COD (Bayar di Tempat).</p>
-      </div>
-      <div>
-        <h4 class="font-bold text-gray-800 mb-2">TENTANG TOKO ELEKTRONIK</h4>
-        <p>&copy; 2026 TokoElektronik Indonesia. All Rights Reserved.</p>
-      </div>
-    </div>
-  </footer>
 
-  <!-- SCRIPT INTEGRASI JAVASCRIPT & SUPABASE -->
-  <script src="js/products.js"></script>
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-2xl mx-2">
+
+                <div class="relative flex">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Cari laptop, HP, TWS, atau aksesoris..."
+                        class="w-full pl-4 pr-12 py-2.5 text-sm text-gray-900 rounded-sm focus:outline-none shadow-inner"
+                    >
+
+                    <button
+                        class="shopee-bg text-white px-5 py-2 absolute right-1 top-1 bottom-1 rounded-sm hover:opacity-90 transition"
+                    >
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Icon Keranjang -->
+            <a
+                href="cart.html"
+                class="relative p-2 text-white hover:opacity-80 transition"
+            >
+
+                <i class="fa-solid fa-cart-shopping text-2xl"></i>
+
+                <span
+                    id="cartCount"
+                    class="absolute -top-1 -right-1 bg-white shopee-text font-bold text-[11px] px-1.5 py-0.5 rounded-full border border-orange-500 shadow"
+                >
+                    0
+                </span>
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- BANNER KHUSUS DISKON -->
+    <section class="max-w-7xl mx-auto px-4 pt-4 w-full">
+
+        <div
+            class="shopee-bg text-white rounded-md p-3 flex items-center justify-between shadow-sm"
+        >
+
+            <div class="flex items-center gap-3">
+
+                <span
+                    class="bg-yellow-400 text-red-600 text-xs font-black px-2 py-1 rounded"
+                >
+                    FLASH SALE
+                </span>
+
+                <span class="text-xs md:text-sm font-semibold">
+                    Gratis Ongkir Rp0 Min. Belanja Rp0!
+                </span>
+
+            </div>
+
+            <span class="text-xs underline font-medium cursor-pointer">
+                Cek Voucher Sekarang &gt;
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAIN CATALOG -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
+
+        <!-- Tab Menu Kategori -->
+        <div
+            class="bg-white rounded-t-sm shadow-sm border-b border-gray-200 p-3 mb-4 flex items-center justify-between"
+        >
+
+            <span
+                class="shopee-text font-bold text-base uppercase tracking-wide border-b-2 border-orange-500 pb-2"
+            >
+                Rekomendasi Utama
+            </span>
+
+            <span class="text-xs text-gray-500">
+                Menampilkan Produk Terbaru
+            </span>
+
+        </div>
+
+
+        <!-- GRID KATALOG PRODUK -->
+        <div
+            id="product-list"
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5"
+        >
+
+            <!-- Loading Spinner -->
+            <div class="col-span-full py-16 text-center text-gray-400">
+
+                <i
+                    class="fa-solid fa-spinner fa-spin text-4xl mb-3 shopee-text"
+                ></i>
+
+                <p class="text-sm font-medium">
+                    Memuat katalog ala Shopee...
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer
+        class="bg-white border-t-4 border-orange-500 py-6 mt-12 text-gray-500 text-xs"
+    >
+
+        <div
+            class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6"
+        >
+
+            <div>
+
+                <h4 class="font-bold text-gray-800 mb-2">
+                    LAYANAN PELANGGAN
+                </h4>
+
+                <p>
+                    Bantuan, Cara Pembelian, Pengiriman, Garansi Produk.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h4 class="font-bold text-gray-800 mb-2">
+                    METODE PEMBAYARAN
+                </h4>
+
+                <p>
+                    Transfer Bank, SPayLater, QRIS, COD (Bayar di Tempat).
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h4 class="font-bold text-gray-800 mb-2">
+                    TENTANG TOKO ELEKTRONIK
+                </h4>
+
+                <p>
+                    &copy; 2026 TokoElektronik Indonesia. All Rights Reserved.
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JavaScript Produk & Supabase -->
+    <script src="js/products.js"></script>
+
 </body>
+
 </html>

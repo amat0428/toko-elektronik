@@ -7,7 +7,7 @@
 
     <title>Keranjang Belanja - BlueShop</title>
 
-    <!-- Tailwind -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Font Awesome -->
@@ -24,10 +24,7 @@
 <body class="bg-gray-100 text-gray-800 pb-28 md:pb-12">
 
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-
+    <!-- HEADER -->
     <header class="bg-blue-600 text-white sticky top-0 z-40 shadow-md">
 
         <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -35,7 +32,6 @@
             <div class="flex items-center gap-3">
 
                 <!-- Kembali ke toko -->
-
                 <a
                     href="toko.html"
                     class="hover:text-gray-200 transition"
@@ -66,18 +62,11 @@
     </header>
 
 
-
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
+    <!-- MAIN -->
     <main class="max-w-4xl mx-auto px-4 pt-4">
 
 
-        <!-- =================================================
-             KERANJANG KOSONG
-        ================================================== -->
-
+        <!-- KERANJANG KOSONG -->
         <div
             id="emptyCart"
             class="hidden bg-white rounded-xl p-8 text-center shadow-sm my-6 border border-gray-100"
@@ -99,16 +88,11 @@
         </div>
 
 
-
-        <!-- =================================================
-             ISI KERANJANG
-        ================================================== -->
-
+        <!-- ISI KERANJANG -->
         <div id="cartContent">
 
 
             <!-- SELECT ALL -->
-
             <div
                 class="bg-white p-3.5 rounded-xl shadow-sm flex items-center justify-between border border-gray-100 mb-3"
             >
@@ -144,9 +128,7 @@
             </div>
 
 
-
             <!-- LIST PRODUK -->
-
             <div
                 id="cartItemsList"
                 class="space-y-3"
@@ -157,11 +139,7 @@
     </main>
 
 
-
-    <!-- =====================================================
-         BOTTOM CHECKOUT
-    ====================================================== -->
-
+    <!-- BOTTOM CHECKOUT -->
     <div
         class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]"
     >
@@ -172,7 +150,6 @@
 
 
             <!-- TOTAL -->
-
             <div class="flex items-center gap-3">
 
                 <div class="text-left">
@@ -199,7 +176,6 @@
 
 
                     <!-- Untuk kompatibilitas cart.js -->
-
                     <span
                         id="subtotalPrice"
                         class="hidden"
@@ -210,9 +186,7 @@
             </div>
 
 
-
             <!-- CHECKOUT -->
-
             <button
                 id="btnCheckout"
                 type="button"
@@ -232,11 +206,7 @@
     </div>
 
 
-
-    <!-- =====================================================
-         CART JAVASCRIPT
-    ====================================================== -->
-
+    <!-- CART JAVASCRIPT -->
     <script src="js/cart.js"></script>
 
 </body>

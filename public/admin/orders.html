@@ -1,172 +1,390 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Kelola Pesanan</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin - Kelola Pesanan</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body class="bg-gray-100 text-gray-800 pb-10">
 
-  <!-- Header Admin -->
-  <header class="bg-blue-600 text-white sticky top-0 z-40 shadow-md">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <a href="../index.html" class="hover:text-gray-200"><i class="fa-solid fa-arrow-left text-lg"></i></a>
-        <h1 class="font-bold text-lg">Admin Panel: Kelola Pesanan</h1>
-      </div>
-      <button onclick="loadOrders()" class="text-xs bg-blue-700 hover:bg-blue-800 px-3 py-1.5 rounded-lg flex items-center gap-1 transition">
-        <i class="fa-solid fa-rotate-right"></i> Refresh
-      </button>
-    </div>
-  </header>
+    <!-- Header Admin -->
+    <header class="bg-blue-600 text-white sticky top-0 z-40 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
 
-  <main class="max-w-6xl mx-auto px-4 pt-6">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div class="p-4 border-b border-gray-100 flex justify-between items-center">
-        <h2 class="font-bold text-gray-700 text-base">Daftar Pesanan Pelanggan</h2>
-        <span class="text-xs text-gray-500" id="orderCount">Total: 0 pesanan</span>
-      </div>
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="hover:text-gray-200">
+                    <i class="fa-solid fa-arrow-left text-lg"></i>
+                </a>
 
-      <!-- Tabel Pesanan -->
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs md:text-sm">
-          <thead class="bg-blue-50 text-blue-800 font-bold border-b border-blue-100">
-            <tr>
-              <th class="p-3.5">ID Pesanan</th>
-              <th class="p-3.5">Pemesan</th>
-              <th class="p-3.5">Detail Barang</th>
-              <th class="p-3.5">Total Harga</th>
-              <th class="p-3.5">Status</th>
-              <th class="p-3.5 text-center">Aksi Status</th>
-            </tr>
-          </thead>
-          <tbody id="ordersList" class="divide-y divide-gray-100">
-            <tr>
-              <td colspan="6" class="text-center py-6 text-gray-400">Memuat data pesanan...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </main>
+                <h1 class="font-bold text-lg">
+                    Admin Panel: Kelola Pesanan
+                </h1>
+            </div>
 
-  <script>
-    const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            <button
+                onclick="loadOrders()"
+                class="text-xs bg-blue-700 hover:bg-blue-800 px-3 py-1.5 rounded-lg flex items-center gap-1 transition"
+            >
+                <i class="fa-solid fa-rotate-right"></i>
+                Refresh
+            </button>
 
-    function formatRupiah(number) {
-      return 'Rp ' + Number(number || 0).toLocaleString('id-ID');
-    }
+        </div>
+    </header>
 
-    // 1. Ambil data pesanan langsung dari tabel 'orders' di Supabase
-    async function loadOrders() {
-      const tbody = document.getElementById('ordersList');
-      tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-gray-400">Memuat data pesanan...</td></tr>';
+    <main class="max-w-6xl mx-auto px-4 pt-6">
 
-      try {
-        const { data: orders, error } = await _supabase
-          .from('orders')
-          .select('*')
-          .order('created_at', { ascending: false });
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
 
-        if (error) throw error;
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center">
 
-        document.getElementById('orderCount').innerText = `Total: ${orders ? orders.length : 0} pesanan`;
+                <h2 class="font-bold text-gray-700 text-base">
+                    Daftar Pesanan Pelanggan
+                </h2>
 
-        if (!orders || orders.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-gray-500">Belum ada pesanan masuk.</td></tr>';
-          return;
+                <span
+                    class="text-xs text-gray-500"
+                    id="orderCount"
+                >
+                    Total: 0 pesanan
+                </span>
+
+            </div>
+
+            <!-- Tabel Pesanan -->
+            <div class="overflow-x-auto">
+
+                <table class="w-full text-left text-xs md:text-sm">
+
+                    <thead class="bg-blue-50 text-blue-800 font-bold border-b border-blue-100">
+                        <tr>
+                            <th class="p-3.5">ID Pesanan</th>
+                            <th class="p-3.5">Pemesan</th>
+                            <th class="p-3.5">Detail Barang</th>
+                            <th class="p-3.5">Total Harga</th>
+                            <th class="p-3.5">Status</th>
+                            <th class="p-3.5 text-center">Aksi Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody
+                        id="ordersList"
+                        class="divide-y divide-gray-100"
+                    >
+                        <tr>
+                            <td
+                                colspan="6"
+                                class="text-center py-6 text-gray-400"
+                            >
+                                Memuat data pesanan...
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        const SUPABASE_URL =
+            'https://fbnknnrltrsvydyxgujr.supabase.co';
+
+        const SUPABASE_KEY =
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+
+        const _supabase = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+        // Format Rupiah
+        function formatRupiah(number) {
+            return 'Rp ' + Number(number || 0).toLocaleString('id-ID');
         }
 
-        let html = '';
-        orders.forEach(order => {
-          let itemsList = [];
-          try {
-            itemsList = typeof order.items === 'string' ? JSON.parse(order.items) : order.items;
-          } catch(e) {}
 
-          const itemsText = Array.isArray(itemsList) 
-            ? itemsList.map(i => `• ${i.title || i.nama_produk} (x${i.qty})`).join('<br>') 
-            : 'Detail tidak tersedia';
+        // 1. Ambil data pesanan dari Supabase
+        async function loadOrders() {
 
-          const currentStatus = order.status || 'Menunggu Konfirmasi';
-          
-          let badgeColor = 'bg-yellow-100 text-yellow-800';
-          if (currentStatus === 'Diproses') badgeColor = 'bg-blue-100 text-blue-800';
-          if (currentStatus === 'Selesai') badgeColor = 'bg-green-100 text-green-800';
+            const tbody = document.getElementById('ordersList');
 
-          html += `
-            <tr class="hover:bg-gray-50 transition">
-              <td class="p-3.5 font-bold text-gray-700">#${order.id}</td>
-              <td class="p-3.5">${order.user_name || order.user_id}</td>
-              <td class="p-3.5 text-xs text-gray-600">${itemsText}</td>
-              <td class="p-3.5 font-bold text-blue-600">${formatRupiah(order.total_harga)}</td>
-              <td class="p-3.5">
-                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold ${badgeColor}">
-                  ${currentStatus}
-                </span>
-              </td>
-              <td class="p-3.5 text-center">
-                <div class="flex items-center justify-center gap-1">
-                  <button onclick="updateStatus('${order.id}', 'Diproses')" class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold shadow-sm transition">
-                    Proses
-                  </button>
-                  <button onclick="updateStatus('${order.id}', 'Selesai')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-semibold shadow-sm transition">
-                    Selesai
-                  </button>
-                  <button onclick="deleteOrder('${order.id}')" class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs font-semibold shadow-sm transition">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          `;
-        });
+            tbody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="6"
+                        class="text-center py-6 text-gray-400"
+                    >
+                        Memuat data pesanan...
+                    </td>
+                </tr>
+            `;
 
-        tbody.innerHTML = html;
+            try {
 
-      } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-red-500">Gagal mengambil data: ${err.message}</td></tr>`;
-      }
-    }
+                const { data: orders, error } = await _supabase
+                    .from('orders')
+                    .select('*')
+                    .order('created_at', {
+                        ascending: false
+                    });
 
-    // 2. Update Status Pesanan di Supabase
-    async function updateStatus(orderId, newStatus) {
-      try {
-        const { error } = await _supabase
-          .from('orders')
-          .update({ status: newStatus })
-          .eq('id', orderId);
+                if (error) {
+                    throw error;
+                }
 
-        if (error) throw error;
-        loadOrders();
-      } catch (err) {
-        alert('Gagal mengupdate status: ' + err.message);
-      }
-    }
+                document.getElementById('orderCount').innerText =
+                    `Total: ${orders ? orders.length : 0} pesanan`;
 
-    // 3. Hapus Pesanan
-    async function deleteOrder(orderId) {
-      if (!confirm('Apakah Anda yakin ingin menghapus pesanan ini?')) return;
 
-      try {
-        const { error } = await _supabase
-          .from('orders')
-          .delete()
-          .eq('id', orderId);
+                if (!orders || orders.length === 0) {
 
-        if (error) throw error;
-        loadOrders();
-      } catch (err) {
-        alert('Gagal menghapus pesanan: ' + err.message);
-      }
-    }
+                    tbody.innerHTML = `
+                        <tr>
+                            <td
+                                colspan="6"
+                                class="text-center py-6 text-gray-500"
+                            >
+                                Belum ada pesanan masuk.
+                            </td>
+                        </tr>
+                    `;
 
-    document.addEventListener('DOMContentLoaded', loadOrders);
-  </script>
+                    return;
+                }
+
+
+                let html = '';
+
+
+                orders.forEach(order => {
+
+                    let itemsList = [];
+
+                    try {
+
+                        itemsList =
+                            typeof order.items === 'string'
+                                ? JSON.parse(order.items)
+                                : order.items;
+
+                    } catch (e) {
+                        itemsList = [];
+                    }
+
+
+                    const itemsText =
+                        Array.isArray(itemsList)
+                            ? itemsList
+                                .map(item =>
+                                    `• ${item.title || item.nama_produk || item.name || 'Produk'} (x${item.qty || 1})`
+                                )
+                                .join('<br>')
+                            : 'Detail tidak tersedia';
+
+
+                    const currentStatus =
+                        order.status || 'Menunggu Konfirmasi';
+
+
+                    let badgeColor =
+                        'bg-yellow-100 text-yellow-800';
+
+
+                    if (currentStatus === 'Diproses') {
+                        badgeColor =
+                            'bg-blue-100 text-blue-800';
+                    }
+
+
+                    if (currentStatus === 'Selesai') {
+                        badgeColor =
+                            'bg-green-100 text-green-800';
+                    }
+
+
+                    html += `
+                        <tr class="hover:bg-gray-50 transition">
+
+                            <td class="p-3.5 font-bold text-gray-700">
+                                #${order.id}
+                            </td>
+
+                            <td class="p-3.5">
+                                ${order.user_name || order.user_id || '-'}
+                            </td>
+
+                            <td class="p-3.5 text-xs text-gray-600">
+                                ${itemsText}
+                            </td>
+
+                            <td class="p-3.5 font-bold text-blue-600">
+                                ${formatRupiah(order.total_harga)}
+                            </td>
+
+                            <td class="p-3.5">
+
+                                <span
+                                    class="px-2.5 py-1 rounded-full text-[11px] font-bold ${badgeColor}"
+                                >
+                                    ${currentStatus}
+                                </span>
+
+                            </td>
+
+                            <td class="p-3.5 text-center">
+
+                                <div class="flex items-center justify-center gap-1">
+
+                                    <button
+                                        onclick="updateStatus('${order.id}', 'Diproses')"
+                                        class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold shadow-sm transition"
+                                    >
+                                        Proses
+                                    </button>
+
+
+                                    <button
+                                        onclick="updateStatus('${order.id}', 'Selesai')"
+                                        class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-semibold shadow-sm transition"
+                                    >
+                                        Selesai
+                                    </button>
+
+
+                                    <button
+                                        onclick="deleteOrder('${order.id}')"
+                                        class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs font-semibold shadow-sm transition"
+                                    >
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    `;
+                });
+
+
+                tbody.innerHTML = html;
+
+            } catch (err) {
+
+                console.error(err);
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="6"
+                            class="text-center py-6 text-red-500"
+                        >
+                            Gagal mengambil data: ${err.message}
+                        </td>
+                    </tr>
+                `;
+
+            }
+        }
+
+
+        // 2. Update Status Pesanan
+        async function updateStatus(orderId, newStatus) {
+
+            try {
+
+                const { error } = await _supabase
+                    .from('orders')
+                    .update({
+                        status: newStatus
+                    })
+                    .eq('id', orderId);
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                loadOrders();
+
+            } catch (err) {
+
+                alert(
+                    'Gagal mengupdate status: ' +
+                    err.message
+                );
+
+            }
+        }
+
+
+        // 3. Hapus Pesanan
+        async function deleteOrder(orderId) {
+
+            if (
+                !confirm(
+                    'Apakah Anda yakin ingin menghapus pesanan ini?'
+                )
+            ) {
+                return;
+            }
+
+
+            try {
+
+                const { error } = await _supabase
+                    .from('orders')
+                    .delete()
+                    .eq('id', orderId);
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                loadOrders();
+
+            } catch (err) {
+
+                alert(
+                    'Gagal menghapus pesanan: ' +
+                    err.message
+                );
+
+            }
+        }
+
+
+        // Jalankan ketika halaman dibuka
+        document.addEventListener(
+            'DOMContentLoaded',
+            loadOrders
+        );
+
+    </script>
+
 </body>
+
 </html>

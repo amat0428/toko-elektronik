@@ -1,213 +1,220 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Daftar Pesanan - Toko Elektronik</title>
+    <title>Daftar Pesanan - Toko Elektronik</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    body {
-      background-color: #f4f6f9;
-      color: #333;
-    }
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    header {
-      background-color: #0284c7;
-      padding: 15px 5%;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-    header h1 {
-      font-size: 20px;
-    }
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+        }
 
-    .profile-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255,255,255,0.15);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: bold;
-    }
+        header {
+            background-color: #0284c7;
+            padding: 15px 5%;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .profile-avatar {
-      width: 28px;
-      height: 28px;
-      background: white;
-      color: #0284c7;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
+        header h1 {
+            font-size: 20px;
+        }
 
-    .container {
-      max-width: 800px;
-      margin: 30px auto;
-      padding: 0 15px;
-    }
+        .profile-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
 
-    .page-title {
-      margin-bottom: 20px;
-      color: #0f172a;
-      border-bottom: 2px solid #0284c7;
-      padding-bottom: 8px;
-    }
+        .profile-avatar {
+            width: 28px;
+            height: 28px;
+            background: white;
+            color: #0284c7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
-    .order-card {
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      border-left: 5px solid #0284c7;
-    }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
 
-    .order-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px dashed #e2e8f0;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
-      gap: 10px;
-    }
+        .page-title {
+            margin-bottom: 20px;
+            color: #0f172a;
+            border-bottom: 2px solid #0284c7;
+            padding-bottom: 8px;
+        }
 
-    .order-id {
-      font-size: 14px;
-      font-weight: bold;
-      color: #0284c7;
-    }
+        .order-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #0284c7;
+        }
 
-    .order-date {
-      font-size: 12px;
-      color: #64748b;
-      margin-top: 4px;
-    }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
 
-    .status-badge {
-      background: #fef3c7;
-      color: #d97706;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
+        .order-id {
+            font-size: 14px;
+            font-weight: bold;
+            color: #0284c7;
+        }
 
-    .status-badge.selesai {
-      background: #d1fae5;
-      color: #059669;
-    }
+        .order-date {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
 
-    .item-list {
-      margin-bottom: 15px;
-    }
+        .status-badge {
+            background: #fef3c7;
+            color: #d97706;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
 
-    .item-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      margin-bottom: 6px;
-      color: #334155;
-    }
+        .status-badge.selesai {
+            background: #d1fae5;
+            color: #059669;
+        }
 
-    .order-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 12px;
-      font-weight: bold;
-    }
+        .item-list {
+            margin-bottom: 15px;
+        }
 
-    .total-price {
-      font-size: 16px;
-      color: #0f172a;
-    }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #334155;
+        }
 
-    .empty-state {
-      text-align: center;
-      padding: 50px 20px;
-      background: white;
-      border-radius: 8px;
-    }
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 12px;
+            font-weight: bold;
+        }
 
-    .empty-state p {
-      color: #64748b;
-    }
+        .total-price {
+            font-size: 16px;
+            color: #0f172a;
+        }
 
-    .btn-shop {
-      display: inline-block;
-      margin-top: 15px;
-      background: #0284c7;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-    }
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+            border-radius: 8px;
+        }
 
-    .btn-shop:hover {
-      background: #0369a1;
-    }
+        .empty-state p {
+            color: #64748b;
+        }
 
-    @media (max-width: 600px) {
-      .order-header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
+        .btn-shop {
+            display: inline-block;
+            margin-top: 15px;
+            background: #0284c7;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
 
-      .order-footer {
-        gap: 10px;
-      }
-    }
-  </style>
+        .btn-shop:hover {
+            background: #0369a1;
+        }
+
+        @media (max-width: 600px) {
+            .order-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .order-footer {
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body class="antialiased">
 
-  <header>
-    <h1>Toko Elektronik</h1>
+    <!-- HEADER -->
+    <header class="shadow-md">
+        <h1>Toko Elektronik</h1>
 
-    <div class="profile-bar">
-      <div class="profile-avatar" id="userInitial">G</div>
-      <span id="userName">Pengunjung</span>
-    </div>
-  </header>
+        <div class="profile-bar">
+            <div class="profile-avatar" id="userInitial">G</div>
+            <span id="userName">Pengunjung</span>
+        </div>
+    </header>
 
-  <div class="container">
+    <!-- CONTENT -->
+    <main class="container">
 
-    <h2 class="page-title">Riwayat Pesanan</h2>
+        <h2 class="page-title text-xl font-bold">
+            Riwayat Pesanan
+        </h2>
 
-    <div id="ordersContainer">
-      <div class="empty-state">
-        <p>Memuat data pesanan...</p>
-      </div>
-    </div>
+        <div id="ordersContainer">
+            <div class="empty-state shadow-sm">
+                <p>Memuat data pesanan...</p>
+            </div>
+        </div>
 
-  </div>
+    </main>
 
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- JAVASCRIPT PESANAN -->
-  <script src="js/order.js"></script>
+    <!-- JAVASCRIPT PESANAN -->
+    <script src="js/order.js"></script>
 
 </body>
 </html>

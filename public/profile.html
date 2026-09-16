@@ -1,120 +1,524 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profil Saya - BlueShop</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { background-color: #f4f6f9; color: #333; }
-    header { background-color: #2563eb; padding: 12px 5%; color: white; position: sticky; top: 0; z-index: 900; }
-    .nav-container { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
-    .logo { font-size: 22px; font-weight: bold; cursor: pointer; text-decoration: none; color: white; }
-    .nav-links { display: flex; gap: 12px; align-items: center; font-size: 14px; }
-    .btn-nav { background: rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; cursor: pointer; position: relative; font-size: 13px; }
-    .btn-nav:hover { background: rgba(255,255,255,0.3); }
-    .role-badge { background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 13px; }
-    .btn-logout { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px; }
-    
-    .container { max-width: 600px; margin: 40px auto; padding: 0 15px; }
-    .card { background: white; border-radius: 12px; padding: 25px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    .card h2 { color: #1e293b; margin-bottom: 20px; border-bottom: 2px solid #2563eb; padding-bottom: 8px; font-size: 20px; }
-    .profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-    .profile-avatar {
-      width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #60a5fa, #2563eb); color: white;
-      font-size: 28px; font-weight: bold; border: 3px solid #dbeafe;
-      object-fit: cover;
-    }
-    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-field { margin-bottom: 15px; font-size: 15px; }
-    .profile-field strong { color: #475569; display: inline-block; width: 80px; }
-    
-    .action-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
-    .btn { padding: 10px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; font-size: 14px; }
-    .btn-primary { background: #2563eb; color: white; }
-    .btn-success { background: #10b981; color: white; }
-    .btn-danger { background: #ef4444; color: white; }
-  </style>
-</head>
-<body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <header>
-    <div class="nav-container">
-      <a href="index.html" class="logo">🛍️ BlueShop</a>
-      <div class="nav-links">
-        <div class="role-badge" id="roleBadge">Loading...</div>
-        <a href="cart.html" class="btn-nav">🛒 Keranjang</a>
-        <a href="orders.html" class="btn-nav">📦 Pesanan</a>
-        <button class="btn-logout" onclick="logout()">Logout</button>
-      </div>
-    </div>
-  </header>
+    <title>Profil Saya - BlueShop</title>
 
-  <div class="container">
-    <div class="card">
-      <h2>👤 Profil Saya</h2>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-      <div class="profile-header">
-        <div id="userAvatar" class="profile-avatar">U</div>
-      </div>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-      <div id="profile-info">Memuat data pengguna...</div>
-
-      <div class="action-buttons">
-        <a href="register-toko.html" class="btn btn-success">🏪 Registrasi Toko Baru</a>
-        <button onclick="logout()" class="btn btn-danger">Keluar / Logout</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const userData = localStorage.getItem('user');
-      const info = document.getElementById('profile-info');
-      const roleBadge = document.getElementById('roleBadge');
-      const avatarEl = document.getElementById('userAvatar');
-
-      if (!userData) {
-        info.innerHTML = `<p>Kamu belum login. <a href="login.html" style="color:#2563eb; font-weight:bold;">Login di sini</a></p>`;
-        roleBadge.innerText = 'Guest';
-        roleBadge.style.background = '#64748b';
-        if (avatarEl) avatarEl.innerHTML = 'G';
-        return;
-      }
-
-      const user = JSON.parse(userData);
-      const name = user.name || user.nama || user.username || 'Pengguna';
-      const email = user.email || user.username || 'Tidak ada email';
-      const role = (user.role || 'user').toUpperCase();
-      const avatarUrl = user.avatar_url || user.photo_url || user.foto_url || user.profile_photo || user.avatar || '';
-
-      roleBadge.innerText = role === 'ADMIN' ? '🛡️ Admin' : `👤 ${name}`;
-      roleBadge.style.background = role === 'ADMIN' ? '#10b981' : '#0284c7';
-
-      if (avatarEl) {
-        if (avatarUrl) {
-          avatarEl.innerHTML = `<img src="${avatarUrl}" alt="Foto Profil ${name}">`;
-        } else {
-          avatarEl.innerText = name.charAt(0).toUpperCase() || 'U';
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
-      }
 
-      info.innerHTML = `
-        <div class="profile-field"><strong>Nama:</strong> ${name}</div>
-        <div class="profile-field"><strong>Email:</strong> ${email}</div>
-        <div class="profile-field"><strong>Role:</strong> ${role}</div>
-      `;
-    });
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+        }
 
-    function logout() {
-      localStorage.removeItem('user');
-      localStorage.removeItem('currentUser');
-      localStorage.removeItem('isLoggedIn');
-      window.location.href = 'login.html';
-    }
-  </script>
+        header {
+            background-color: #2563eb;
+            padding: 12px 5%;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            font-size: 13px;
+        }
+
+        .btn-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .role-badge {
+            background: #10b981;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h2 {
+            color: #1e293b;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 8px;
+            font-size: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #60a5fa, #2563eb);
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            border: 3px solid #dbeafe;
+            object-fit: cover;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-field {
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .profile-field strong {
+            color: #475569;
+            display: inline-block;
+            width: 80px;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        @media (max-width: 700px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                gap: 6px;
+            }
+
+            .btn-nav,
+            .btn-logout,
+            .role-badge {
+                font-size: 11px;
+                padding: 6px 8px;
+            }
+
+            .container {
+                margin: 20px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- HEADER -->
+    <header class="shadow-md">
+
+        <div class="nav-container">
+
+            <a
+                href="index.html"
+                class="logo transition duration-200 hover:opacity-80"
+            >
+                🛍️ BlueShop
+            </a>
+
+            <div class="nav-links">
+
+                <div
+                    class="role-badge"
+                    id="roleBadge"
+                >
+                    Loading...
+                </div>
+
+                <a
+                    href="cart.html"
+                    class="btn-nav transition duration-200 hover:shadow-md"
+                >
+                    🛒 Keranjang
+                </a>
+
+                <a
+                    href="orders.html"
+                    class="btn-nav transition duration-200 hover:shadow-md"
+                >
+                    📦 Pesanan
+                </a>
+
+                <button
+                    class="btn-logout transition duration-200 hover:opacity-90"
+                    onclick="logout()"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- PROFILE -->
+    <main class="container">
+
+        <div class="card transition duration-300 hover:shadow-lg">
+
+            <h2>
+                👤 Profil Saya
+            </h2>
+
+            <div class="profile-header">
+
+                <div
+                    id="userAvatar"
+                    class="profile-avatar shadow-md"
+                >
+                    U
+                </div>
+
+            </div>
+
+            <div id="profile-info">
+                Memuat data pengguna...
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+            <div class="action-buttons">
+
+                <a
+                    href="register-toko.html"
+                    class="btn btn-success transition duration-200 hover:shadow-md hover:opacity-90"
+                >
+                    🏪 Registrasi Toko Baru
+                </a>
+
+                <button
+                    onclick="logout()"
+                    class="btn btn-danger transition duration-200 hover:shadow-md hover:opacity-90"
+                >
+                    Keluar / Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                const userData =
+                    localStorage.getItem("user");
+
+                const info =
+                    document.getElementById(
+                        "profile-info"
+                    );
+
+                const roleBadge =
+                    document.getElementById(
+                        "roleBadge"
+                    );
+
+                const avatarEl =
+                    document.getElementById(
+                        "userAvatar"
+                    );
+
+
+                // ===== BELUM LOGIN =====
+
+                if (!userData) {
+
+                    info.innerHTML = `
+                        <p>
+                            Kamu belum login.
+                            <a
+                                href="login.html"
+                                style="
+                                    color:#2563eb;
+                                    font-weight:bold;
+                                "
+                            >
+                                Login di sini
+                            </a>
+                        </p>
+                    `;
+
+                    roleBadge.innerText =
+                        "Guest";
+
+                    roleBadge.style.background =
+                        "#64748b";
+
+                    if (avatarEl) {
+                        avatarEl.innerHTML = "G";
+                    }
+
+                    return;
+                }
+
+
+                // ===== DATA USER =====
+
+                let user;
+
+                try {
+
+                    user =
+                        JSON.parse(userData);
+
+                } catch (error) {
+
+                    console.error(
+                        "Data user tidak valid:",
+                        error
+                    );
+
+                    localStorage.removeItem("user");
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                const name =
+                    user.name ||
+                    user.nama ||
+                    user.username ||
+                    "Pengguna";
+
+                const email =
+                    user.email ||
+                    user.username ||
+                    "Tidak ada email";
+
+                const role =
+                    (
+                        user.role ||
+                        "user"
+                    ).toUpperCase();
+
+
+                const avatarUrl =
+                    user.avatar_url ||
+                    user.photo_url ||
+                    user.foto_url ||
+                    user.profile_photo ||
+                    user.avatar ||
+                    "";
+
+
+                // ===== ROLE BADGE =====
+
+                roleBadge.innerText =
+                    role === "ADMIN"
+                        ? "🛡️ Admin"
+                        : `👤 ${name}`;
+
+                roleBadge.style.background =
+                    role === "ADMIN"
+                        ? "#10b981"
+                        : "#0284c7";
+
+
+                // ===== AVATAR =====
+
+                if (avatarEl) {
+
+                    if (avatarUrl) {
+
+                        avatarEl.innerHTML = `
+                            <img
+                                src="${avatarUrl}"
+                                alt="Foto Profil ${name}"
+                                onerror="
+                                    this.parentElement.innerText =
+                                    '${name.charAt(0).toUpperCase()}'
+                                "
+                            >
+                        `;
+
+                    } else {
+
+                        avatarEl.innerText =
+                            name.charAt(0).toUpperCase() ||
+                            "U";
+                    }
+                }
+
+
+                // ===== PROFILE INFORMATION =====
+
+                info.innerHTML = `
+
+                    <div class="profile-field">
+                        <strong>Nama:</strong>
+                        ${name}
+                    </div>
+
+                    <div class="profile-field">
+                        <strong>Email:</strong>
+                        ${email}
+                    </div>
+
+                    <div class="profile-field">
+                        <strong>Role:</strong>
+                        ${role}
+                    </div>
+
+                `;
+            }
+        );
+
+
+        // ===== LOGOUT =====
+
+        function logout() {
+
+            localStorage.removeItem("user");
+
+            localStorage.removeItem(
+                "currentUser"
+            );
+
+            localStorage.removeItem(
+                "isLoggedIn"
+            );
+
+            window.location.href =
+                "login.html";
+        }
+    </script>
+
 </body>
+
 </html>
