@@ -2,10 +2,11 @@
 // KONFIGURASI SUPABASE
 // ==========================================
 
-const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
+const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
 
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxMjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
-
+// PENTING:
+// Gunakan Publishable/Anon Key yang SAMA dengan checkout.js
+const SUPABASE_KEY = "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
 // ==========================================
 // INISIALISASI SUPABASE
@@ -13,34 +14,29 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 let _supabase = null;
 
-if (typeof supabase !== 'undefined') {
+if (typeof supabase !== "undefined") {
     _supabase = supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
-} else {
-    console.error('Supabase JS belum dimuat.');
-}
 
+    console.log("✅ Supabase berhasil diinisialisasi");
+} else {
+    console.error("❌ Supabase JS belum dimuat.");
+}
 
 // ==========================================
 // SAAT HALAMAN SELESAI DIMUAT
 // ==========================================
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener("DOMContentLoaded", async function () {
 
-    // --------------------------------------
-    // 1. AMBIL USER DARI LOCALSTORAGE
-    // --------------------------------------
-
-    const userData = localStorage.getItem('user');
+    const userData = localStorage.getItem("user");
 
     let currentUser = null;
 
     if (userData) {
-
         try {
-
             currentUser = JSON.parse(userData);
 
             const name =
@@ -48,13 +44,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 currentUser.user_name ||
                 currentUser.username ||
                 currentUser.email ||
-                'Pengguna';
+                "Pengguna";
 
             const userNameEl =
-                document.getElementById('userName');
+                document.getElementById("userName");
 
             const userInitialEl =
-                document.getElementById('userInitial');
+                document.getElementById("userInitial");
 
             if (userNameEl) {
                 userNameEl.innerText = name;
@@ -66,25 +62,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
         } catch (error) {
-
             console.error(
-                'Gagal membaca profil user:',
+                "❌ Gagal membaca profil user:",
                 error
             );
-
         }
-
     }
 
-
-    // --------------------------------------
-    // 2. MUAT PESANAN
-    // --------------------------------------
-
     await loadOrders(currentUser);
-
 });
-
 
 // ==========================================
 // LOAD ORDERS
@@ -93,32 +79,42 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadOrders(user) {
 
     const container =
-        document.getElementById('ordersContainer');
+        document.getElementById("ordersContainer");
 
     if (!container) {
         console.error(
-            'ordersContainer tidak ditemukan.'
+            "❌ ordersContainer tidak ditemukan."
         );
         return;
     }
 
-
-    // --------------------------------------
+    // ======================================
     // CEK USER
-    // --------------------------------------
+    // ======================================
 
     const userId = user
         ? (user.id || user.user_id)
         : null;
 
+    console.log("👤 User saat ini:", user);
+    console.log("🆔 User ID:", userId);
 
-    console.log('User saat ini:', user);
-    console.log('User ID:', userId);
+    if (!userId) {
 
+        container.innerHTML = `
+            <div class="empty-state">
+                <p style="color:#ef4444;">
+                    User belum login.
+                </p>
+            </div>
+        `;
 
-    // --------------------------------------
+        return;
+    }
+
+    // ======================================
     // CEK SUPABASE
-    // --------------------------------------
+    // ======================================
 
     if (!_supabase) {
 
@@ -133,55 +129,38 @@ async function loadOrders(user) {
         return;
     }
 
-
-    // --------------------------------------
+    // ======================================
     // QUERY ORDERS
-    // --------------------------------------
+    // ======================================
 
     try {
 
-        let query = _supabase
-            .from('orders')
-            .select('*')
-            .order('created_at', {
-                ascending: false
-            });
-
-
-        // ----------------------------------
-        // FILTER BERDASARKAN USER
-        // ----------------------------------
-
-        if (userId) {
-
-            query = query.eq(
-                'user_id',
-                String(userId)
-            );
-
-        }
-
+        console.log("🔎 Mengambil orders untuk user:", userId);
 
         const {
             data: orders,
             error
-        } = await query;
+        } = await _supabase
+            .from("orders")
+            .select("*")
+            .eq("user_id", userId)
+            .order("created_at", {
+                ascending: false
+            });
 
-
-        // ----------------------------------
+        // ==================================
         // ERROR
-        // ----------------------------------
+        // ==================================
 
         if (error) {
 
             console.error(
-                'Supabase error:',
+                "❌ Supabase error:",
                 error
             );
 
             container.innerHTML = `
                 <div class="empty-state">
-
                     <p style="
                         color:#ef4444;
                         font-weight:bold;
@@ -196,17 +175,17 @@ async function loadOrders(user) {
                     ">
                         ${escapeHTML(error.message)}
                     </p>
-
                 </div>
             `;
 
             return;
         }
 
+        console.log("📦 Orders dari Supabase:", orders);
 
-        // ----------------------------------
+        // ==================================
         // TIDAK ADA PESANAN
-        // ----------------------------------
+        // ==================================
 
         if (!orders || orders.length === 0) {
 
@@ -233,24 +212,24 @@ async function loadOrders(user) {
             return;
         }
 
-
-        // ----------------------------------
+        // ==================================
         // RENDER SEMUA PESANAN
-        // ----------------------------------
+        // ==================================
 
         container.innerHTML = orders
-            .map(order => renderOrder(order))
-            .join('');
-
+            .map(function (order) {
+                return renderOrder(order);
+            })
+            .join("");
 
         console.log(
-            `Berhasil memuat ${orders.length} pesanan.`
+            `✅ Berhasil memuat ${orders.length} pesanan.`
         );
 
     } catch (error) {
 
         console.error(
-            'Terjadi kesalahan:',
+            "❌ Terjadi kesalahan:",
             error
         );
 
@@ -261,13 +240,18 @@ async function loadOrders(user) {
                     Terjadi kesalahan saat memuat pesanan.
                 </p>
 
+                <p style="
+                    margin-top:8px;
+                    font-size:13px;
+                    color:#64748b;
+                ">
+                    ${escapeHTML(error.message)}
+                </p>
+
             </div>
         `;
-
     }
-
 }
-
 
 // ==========================================
 // RENDER SATU PESANAN
@@ -275,15 +259,15 @@ async function loadOrders(user) {
 
 function renderOrder(order) {
 
-    // --------------------------------------
+    // ======================================
     // PARSE ITEMS
-    // --------------------------------------
+    // ======================================
 
     let items = [];
 
     try {
 
-        if (typeof order.items === 'string') {
+        if (typeof order.items === "string") {
 
             items = JSON.parse(order.items);
 
@@ -296,81 +280,73 @@ function renderOrder(order) {
     } catch (error) {
 
         console.warn(
-            'Gagal membaca items:',
+            "⚠️ Gagal membaca items:",
             error
         );
 
         items = [];
-
     }
 
-
-    // --------------------------------------
+    // ======================================
     // TANGGAL
-    // --------------------------------------
+    // ======================================
 
     const dateFormatted =
         order.created_at
             ? new Date(
                 order.created_at
-            ).toLocaleString('id-ID', {
-                day: '2-digit',
-                month: 'long',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
+            ).toLocaleString("id-ID", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
             })
-            : 'Baru saja';
+            : "Baru saja";
 
-
-    // --------------------------------------
+    // ======================================
     // STATUS
-    // --------------------------------------
+    // ======================================
 
     const statusText =
         order.status ||
-        'Menunggu Konfirmasi';
-
+        "Menunggu Konfirmasi";
 
     const statusLower =
         String(statusText).toLowerCase();
 
-
     const statusClass =
-        statusLower === 'selesai'
-            ? 'selesai'
-            : '';
+        statusLower === "selesai"
+            ? "selesai"
+            : "";
 
-
-    // --------------------------------------
+    // ======================================
     // ID PESANAN
-    // --------------------------------------
+    // ======================================
 
     const orderId =
         order.id ||
         order.order_id ||
-        'N/A';
+        "N/A";
 
-
-    // --------------------------------------
+    // ======================================
     // ITEMS HTML
-    // --------------------------------------
+    // ======================================
 
-    let itemsHtml = '';
-
+    let itemsHtml = "";
 
     if (items.length > 0) {
 
         itemsHtml = items
-            .map(item => {
+            .map(function (item) {
 
                 const itemName =
+                    item.name ||
                     item.title ||
                     item.nama ||
                     item.nama_produk ||
                     item.product_name ||
-                    'Produk';
-
+                    "Produk";
 
                 const qty =
                     Number(
@@ -378,7 +354,6 @@ function renderOrder(order) {
                         item.quantity ||
                         1
                     );
-
 
                 const price =
                     Number(
@@ -388,10 +363,8 @@ function renderOrder(order) {
                         0
                     );
 
-
                 const subtotal =
                     price * qty;
-
 
                 return `
                     <div class="item-row">
@@ -402,33 +375,28 @@ function renderOrder(order) {
                         </span>
 
                         <span>
-                            Rp ${subtotal.toLocaleString('id-ID')}
+                            Rp ${subtotal.toLocaleString("id-ID")}
                         </span>
 
                     </div>
                 `;
-
             })
-            .join('');
+            .join("");
 
     } else {
 
         itemsHtml = `
             <div class="item-row">
-
                 <span>
                     Detail produk tidak tersedia
                 </span>
-
             </div>
         `;
-
     }
 
-
-    // --------------------------------------
+    // ======================================
     // TOTAL HARGA
-    // --------------------------------------
+    // ======================================
 
     const totalHarga =
         Number(
@@ -438,10 +406,9 @@ function renderOrder(order) {
             0
         );
 
-
-    // --------------------------------------
+    // ======================================
     // RETURN CARD
-    // --------------------------------------
+    // ======================================
 
     return `
         <div class="order-card">
@@ -467,13 +434,9 @@ function renderOrder(order) {
 
             </div>
 
-
             <div class="item-list">
-
                 ${itemsHtml}
-
             </div>
-
 
             <div class="order-footer">
 
@@ -482,28 +445,25 @@ function renderOrder(order) {
                 </span>
 
                 <span class="total-price">
-                    Rp ${totalHarga.toLocaleString('id-ID')}
+                    Rp ${totalHarga.toLocaleString("id-ID")}
                 </span>
 
             </div>
 
         </div>
     `;
-
 }
 
-
 // ==========================================
-// KEAMANAN HTML
+// ESCAPE HTML
 // ==========================================
 
 function escapeHTML(value) {
 
     return String(value)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
