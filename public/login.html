@@ -1,542 +1,707 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login - BlueShop</title>
+```
+<title>Login - BlueShop</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Font -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+<!-- Google Font -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+>
 
-    <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
+<!-- Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+>
 
-    <!-- Supabase JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+    }
 
+    body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 16px;
+
+        background:
+            radial-gradient(
+                circle at 10% 10%,
+                rgba(79, 70, 229, 0.22),
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 90% 90%,
+                rgba(6, 182, 212, 0.20),
+                transparent 30%
+            ),
+            linear-gradient(
+                135deg,
+                #eef2ff 0%,
+                #f8fafc 50%,
+                #ecfeff 100%
+            );
+    }
+
+    /* =========================
+       CONTAINER
+    ========================= */
+
+    .container {
+        width: 100%;
+        max-width: 410px;
+    }
+
+    /* =========================
+       CARD
+    ========================= */
+
+    .card {
+        background: rgba(255, 255, 255, 0.97);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        border-radius: 22px;
+        padding: 30px;
+
+        box-shadow:
+            0 25px 60px rgba(15, 23, 42, 0.12),
+            0 8px 25px rgba(15, 23, 42, 0.06);
+
+        backdrop-filter: blur(10px);
+    }
+
+    /* =========================
+       LOGO
+    ========================= */
+
+    .logo {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .logo-icon {
+        width: 54px;
+        height: 54px;
+        margin: 0 auto 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 15px;
+
+        background: linear-gradient(
+            135deg,
+            #4f46e5,
+            #06b6d4
+        );
+
+        color: white;
+        font-size: 22px;
+
+        box-shadow:
+            0 8px 20px rgba(79, 70, 229, 0.25);
+    }
+
+    .logo h1 {
+        font-size: 27px;
+        font-weight: 700;
+        color: #4f46e5;
+        letter-spacing: -0.5px;
+    }
+
+    .logo p {
+        margin-top: 3px;
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    /* =========================
+       TAB
+    ========================= */
+
+    .tab-menu {
+        display: flex;
+        gap: 4px;
+
+        padding: 4px;
+        margin-bottom: 24px;
+
+        background: #eef2ff;
+        border-radius: 11px;
+    }
+
+    .tab-btn {
+        flex: 1;
+
+        border: none;
+        border-radius: 8px;
+
+        padding: 10px 8px;
+
+        background: transparent;
+        color: #64748b;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+        color: #4f46e5;
+    }
+
+    .tab-btn.active {
+        background: white;
+        color: #4f46e5;
+
+        box-shadow:
+            0 3px 10px rgba(15, 23, 42, 0.08);
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-container {
+        display: none;
+    }
+
+    .form-container.active {
+        display: block;
+    }
+
+    .form-title {
+        text-align: center;
+
+        color: #1e293b;
+        font-size: 20px;
+        font-weight: 700;
+
+        margin-bottom: 5px;
+    }
+
+    .form-subtitle {
+        text-align: center;
+
+        color: #64748b;
+        font-size: 12px;
+
+        margin-bottom: 21px;
+    }
+
+    /* =========================
+       INPUT
+    ========================= */
+
+    .input-group {
+        margin-bottom: 16px;
+    }
+
+    .input-group label {
+        display: block;
+
+        margin-bottom: 6px;
+
+        color: #334155;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+
+        left: 14px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #94a3b8;
+        font-size: 14px;
+
+        pointer-events: none;
+    }
+
+    input {
+        width: 100%;
+        height: 46px;
+
+        padding: 10px 42px;
+
+        border: 1px solid #dbe2ea;
+        border-radius: 10px;
+
+        outline: none;
+
+        background: #f8fafc;
+        color: #1e293b;
+
+        font-size: 13px;
+
+        transition: all 0.2s ease;
+    }
+
+    input:hover {
+        border-color: #c7d2fe;
+    }
+
+    input:focus {
+        border-color: #6366f1;
+        background: white;
+
+        box-shadow:
+            0 0 0 3px rgba(99, 102, 241, 0.10);
+    }
+
+    input::placeholder {
+        color: #94a3b8;
+    }
+
+    /* =========================
+       PASSWORD
+    ========================= */
+
+    .toggle-password {
+        position: absolute;
+
+        right: 14px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #94a3b8;
+        font-size: 14px;
+
+        cursor: pointer;
+
+        transition: color 0.2s ease;
+    }
+
+    .toggle-password:hover {
+        color: #4f46e5;
+    }
+
+    /* =========================
+       BUTTON
+    ========================= */
+
+    .submit-btn {
+        width: 100%;
+        height: 46px;
+
+        margin-top: 3px;
+
+        border: none;
+        border-radius: 10px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #4f46e5,
+                #06b6d4
+            );
+
+        color: white;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition: all 0.2s ease;
+
+        box-shadow:
+            0 7px 18px rgba(79, 70, 229, 0.18);
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-1px);
+
+        box-shadow:
+            0 10px 23px rgba(79, 70, 229, 0.25);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* =========================
+       ALERT
+    ========================= */
+
+    .alert {
+        display: none;
+
+        padding: 11px 13px;
+        margin-bottom: 17px;
+
+        border-radius: 9px;
+
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .alert.error {
+        display: block;
+
+        background: #fef2f2;
+        color: #b91c1c;
+
+        border: 1px solid #fecaca;
+    }
+
+    .alert.success {
+        display: block;
+
+        background: #f0fdf4;
+        color: #15803d;
+
+        border: 1px solid #bbf7d0;
+    }
+
+    /* =========================
+       BACK
+    ========================= */
+
+    .back {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+
+        margin-top: 20px;
+
+        color: #4f46e5;
+
+        font-size: 12px;
+        font-weight: 500;
+
+        text-decoration: none;
+
+        transition: color 0.2s ease;
+    }
+
+    .back:hover {
+        color: #3730a3;
+        text-decoration: underline;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 480px) {
         body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background:
-                radial-gradient(
-                    circle at top left,
-                    rgba(79, 70, 229, 0.45),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    circle at bottom right,
-                    rgba(6, 182, 212, 0.35),
-                    transparent 35%
-                ),
-                linear-gradient(
-                    135deg,
-                    #eef2ff,
-                    #ecfeff
-                );
-            padding: 30px 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 390px;
+            padding: 18px 14px;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.97);
-            padding: 28px 26px;
+            padding: 24px 20px;
             border-radius: 18px;
-            box-shadow:
-                0 20px 50px rgba(15, 23, 42, 0.12),
-                0 4px 15px rgba(15, 23, 42, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
-        /* LOGO */
         .logo {
-            text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 21px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
         }
 
         .logo h1 {
-            color: #4f46e5;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .logo p {
-            color: #64748b;
-            font-size: 12px;
-            margin-top: 2px;
-        }
-
-        /* TAB */
-        .tab-menu {
-            display: flex;
-            background: #eef2ff;
-            padding: 4px;
-            border-radius: 9px;
-            margin-bottom: 22px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 9px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #64748b;
-            font-size: 13px;
-            transition: 0.2s ease;
-        }
-
-        .tab-btn.active {
-            background: white;
-            color: #4f46e5;
-            box-shadow:
-                0 2px 7px rgba(0, 0, 0, 0.08);
-        }
-
-        /* FORM */
-        .form-container {
-            display: none;
-        }
-
-        .form-container.active {
-            display: block;
+            font-size: 25px;
         }
 
         .form-title {
-            text-align: center;
-            font-size: 20px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 4px;
+            font-size: 19px;
         }
+    }
+</style>
+```
 
-        .form-subtitle {
-            text-align: center;
-            color: #64748b;
-            font-size: 12px;
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 12px;
-            color: #334155;
-            font-weight: 600;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 13px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 14px;
-            z-index: 2;
-        }
-
-        input {
-            width: 100%;
-            height: 44px;
-            padding: 10px 40px;
-            border: 1px solid #cbd5e1;
-            border-radius: 9px;
-            outline: none;
-            background: #f8fafc;
-            font-size: 13px;
-            transition: 0.2s ease;
-        }
-
-        input:focus {
-            border-color: #4f46e5;
-            background: white;
-            box-shadow:
-                0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
-
-        input::placeholder {
-            color: #94a3b8;
-        }
-
-        /* PASSWORD TOGGLE */
-        .toggle-password {
-            position: absolute;
-            right: 13px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .toggle-password:hover {
-            color: #4f46e5;
-        }
-
-        /* BUTTON */
-        .submit-btn {
-            width: 100%;
-            height: 44px;
-            border: none;
-            padding: 10px;
-            border-radius: 9px;
-            background:
-                linear-gradient(
-                    135deg,
-                    #4f46e5,
-                    #06b6d4
-                );
-            color: white;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 4px;
-            transition: 0.2s ease;
-        }
-
-        .submit-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-            box-shadow:
-                0 5px 15px rgba(79, 70, 229, 0.2);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* ALERT */
-        .alert {
-            display: none;
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        .alert.error {
-            display: block;
-            background: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fca5a5;
-        }
-
-        .alert.success {
-            display: block;
-            background: #dcfce7;
-            color: #15803d;
-            border: 1px solid #86efac;
-        }
-
-        /* BACK */
-        .back {
-            display: block;
-            text-align: center;
-            margin-top: 17px;
-            color: #4f46e5;
-            font-size: 12px;
-            text-decoration: none;
-        }
-
-        .back:hover {
-            text-decoration: underline;
-        }
-
-        @media (min-width: 768px) {
-            body {
-                padding: 40px;
-            }
-
-            .container {
-                max-width: 370px;
-            }
-
-            .card {
-                padding: 30px 28px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 18px 14px;
-            }
-
-            .container {
-                max-width: 100%;
-            }
-
-            .card {
-                padding: 24px 20px;
-                border-radius: 16px;
-            }
-
-            .logo h1 {
-                font-size: 26px;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <div class="card">
+```
+<div class="card">
 
-        <!-- LOGO -->
-        <div class="logo">
-            <h1>BlueShop</h1>
-            <p>Toko Elektronik Online</p>
+    <!-- LOGO -->
+    <div class="logo">
+
+        <div class="logo-icon">
+            <i class="fa-solid fa-bag-shopping"></i>
         </div>
 
-        <!-- TAB -->
-        <div class="tab-menu">
+        <h1>BlueShop</h1>
+
+        <p>Toko Elektronik Online</p>
+
+    </div>
+
+    <!-- TAB -->
+    <div class="tab-menu">
+
+        <button
+            type="button"
+            class="tab-btn active"
+            onclick="switchTab('login')"
+        >
+            Masuk
+        </button>
+
+        <button
+            type="button"
+            class="tab-btn"
+            onclick="switchTab('register')"
+        >
+            Daftar
+        </button>
+
+    </div>
+
+    <!-- ALERT -->
+    <div id="alertBox" class="alert"></div>
+
+
+    <!-- =========================
+         LOGIN
+    ========================= -->
+
+    <div
+        id="loginFormContainer"
+        class="form-container active"
+    >
+
+        <div class="form-title">
+            Selamat Datang 👋
+        </div>
+
+        <div class="form-subtitle">
+            Silakan masuk ke akun BlueShop
+        </div>
+
+        <form id="loginForm">
+
+            <!-- EMAIL -->
+            <div class="input-group">
+
+                <label for="loginEmail">
+                    Email
+                </label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-solid fa-envelope input-icon"></i>
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="nama@email.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+            <div class="input-group">
+
+                <label for="loginPassword">
+                    Kata Sandi
+                </label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-solid fa-lock input-icon"></i>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Masukkan kata sandi"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <i
+                        class="fa-solid fa-eye toggle-password"
+                        onclick="togglePassword('loginPassword', this)"
+                    ></i>
+
+                </div>
+
+            </div>
+
+
             <button
-                type="button"
-                class="tab-btn active"
-                onclick="switchTab('login')"
+                type="submit"
+                id="btnLogin"
+                class="submit-btn"
             >
                 Masuk
             </button>
 
-            <button
-                type="button"
-                class="tab-btn"
-                onclick="switchTab('register')"
-            >
-                Daftar
-            </button>
-        </div>
-
-        <!-- ALERT -->
-        <div id="alertBox" class="alert"></div>
-
-        <!-- ================= LOGIN ================= -->
-
-        <div
-            id="loginFormContainer"
-            class="form-container active"
-        >
-
-            <div class="form-title">
-                Selamat Datang
-            </div>
-
-            <div class="form-subtitle">
-                Silakan masuk ke akun BlueShop
-            </div>
-
-            <form id="loginForm">
-
-                <!-- EMAIL -->
-                <div class="input-group">
-
-                    <label for="loginEmail">
-                        Email
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <i class="fa-solid fa-envelope input-icon"></i>
-
-                        <input
-                            type="email"
-                            id="loginEmail"
-                            placeholder="nama@email.com"
-                            autocomplete="email"
-                            required
-                        >
-
-                    </div>
-                </div>
-
-                <!-- PASSWORD -->
-                <div class="input-group">
-
-                    <label for="loginPassword">
-                        Kata Sandi
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <i class="fa-solid fa-lock input-icon"></i>
-
-                        <input
-                            type="password"
-                            id="loginPassword"
-                            placeholder="Kata sandi"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                        <i
-                            class="fa-solid fa-eye toggle-password"
-                            onclick="togglePassword('loginPassword', this)"
-                        ></i>
-
-                    </div>
-                </div>
-
-                <button
-                    type="submit"
-                    id="btnLogin"
-                    class="submit-btn"
-                >
-                    Masuk
-                </button>
-
-            </form>
-        </div>
-
-        <!-- ================= REGISTER ================= -->
-
-        <div
-            id="registerFormContainer"
-            class="form-container"
-        >
-
-            <div class="form-title">
-                Buat Akun
-            </div>
-
-            <div class="form-subtitle">
-                Daftar untuk menggunakan BlueShop
-            </div>
-
-            <form id="registerForm">
-
-                <!-- NAMA -->
-                <div class="input-group">
-
-                    <label for="regName">
-                        Nama Lengkap
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <i class="fa-solid fa-user input-icon"></i>
-
-                        <input
-                            type="text"
-                            id="regName"
-                            placeholder="Nama lengkap"
-                            autocomplete="name"
-                            required
-                        >
-
-                    </div>
-                </div>
-
-                <!-- EMAIL -->
-                <div class="input-group">
-
-                    <label for="regEmail">
-                        Email
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <i class="fa-solid fa-envelope input-icon"></i>
-
-                        <input
-                            type="email"
-                            id="regEmail"
-                            placeholder="nama@email.com"
-                            autocomplete="email"
-                            required
-                        >
-
-                    </div>
-                </div>
-
-                <!-- PASSWORD -->
-                <div class="input-group">
-
-                    <label for="regPassword">
-                        Kata Sandi
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <i class="fa-solid fa-lock input-icon"></i>
-
-                        <input
-                            type="password"
-                            id="regPassword"
-                            placeholder="Minimal 6 karakter"
-                            autocomplete="new-password"
-                            minlength="6"
-                            required
-                        >
-
-                        <i
-                            class="fa-solid fa-eye toggle-password"
-                            onclick="togglePassword('regPassword', this)"
-                        ></i>
-
-                    </div>
-                </div>
-
-                <button
-                    type="submit"
-                    id="btnRegister"
-                    class="submit-btn"
-                >
-                    Daftar Sekarang
-                </button>
-
-            </form>
-        </div>
-
-        <!-- BACK -->
-        <a
-            href="index.html"
-            class="back"
-        >
-            ← Kembali ke Portfolio
-        </a>
+        </form>
 
     </div>
-</div>
 
+
+    <!-- =========================
+         REGISTER
+    ========================= -->
+
+    <div
+        id="registerFormContainer"
+        class="form-container"
+    >
+
+        <div class="form-title">
+            Buat Akun
+        </div>
+
+        <div class="form-subtitle">
+            Daftar untuk mulai menggunakan BlueShop
+        </div>
+
+        <form id="registerForm">
+
+            <!-- NAMA -->
+            <div class="input-group">
+
+                <label for="regName">
+                    Nama Lengkap
+                </label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-solid fa-user input-icon"></i>
+
+                    <input
+                        type="text"
+                        id="regName"
+                        placeholder="Masukkan nama lengkap"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- EMAIL -->
+            <div class="input-group">
+
+                <label for="regEmail">
+                    Email
+                </label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-solid fa-envelope input-icon"></i>
+
+                    <input
+                        type="email"
+                        id="regEmail"
+                        placeholder="nama@email.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+            <div class="input-group">
+
+                <label for="regPassword">
+                    Kata Sandi
+                </label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-solid fa-lock input-icon"></i>
+
+                    <input
+                        type="password"
+                        id="regPassword"
+                        placeholder="Minimal 6 karakter"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                    <i
+                        class="fa-solid fa-eye toggle-password"
+                        onclick="togglePassword('regPassword', this)"
+                    ></i>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                id="btnRegister"
+                class="submit-btn"
+            >
+                Daftar Sekarang
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- BACK -->
+    <a href="index.html" class="back">
+        <i class="fa-solid fa-arrow-left"></i>
+        Kembali ke Portfolio
+    </a>
+
+</div>
+```
+
+</div>
 
 <script>
 
@@ -552,7 +717,7 @@ const SUPABASE_PUBLISHABLE_KEY =
 
 
 /* =====================================================
-   CEK SUPABASE JS
+   CEK SUPABASE
 ===================================================== */
 
 if (!window.supabase) {
@@ -567,7 +732,7 @@ if (!window.supabase) {
 
 
 /* =====================================================
-   BUAT SUPABASE CLIENT
+   CREATE SUPABASE CLIENT
 ===================================================== */
 
 const supabaseClient = window.supabase
@@ -587,7 +752,7 @@ if (!supabaseClient) {
 } else {
 
     console.log(
-        "Supabase JS berhasil dimuat."
+        "✅ Supabase berhasil terhubung."
     );
 
 }
@@ -619,17 +784,21 @@ function switchTab(tab) {
     if (tab === "login") {
 
         login.classList.add("active");
+
         register.classList.remove("active");
 
         buttons[0].classList.add("active");
+
         buttons[1].classList.remove("active");
 
     } else {
 
         register.classList.add("active");
+
         login.classList.remove("active");
 
         buttons[1].classList.add("active");
+
         buttons[0].classList.remove("active");
 
     }
@@ -645,15 +814,14 @@ function togglePassword(inputId, icon) {
     const input =
         document.getElementById(inputId);
 
-    if (!input) {
-        return;
-    }
+    if (!input) return;
 
     if (input.type === "password") {
 
         input.type = "text";
 
         icon.classList.remove("fa-eye");
+
         icon.classList.add("fa-eye-slash");
 
     } else {
@@ -661,6 +829,7 @@ function togglePassword(inputId, icon) {
         input.type = "password";
 
         icon.classList.remove("fa-eye-slash");
+
         icon.classList.add("fa-eye");
 
     }
@@ -695,29 +864,29 @@ function hideAlert() {
 
 
 /* =====================================================
-   SIMPAN DATA USER KE users_list
+   SYNC USER KE users_list
 ===================================================== */
 
 async function syncUserToTable(user, name = null) {
 
-    if (!user) {
-        return;
-    }
+    if (!user) return null;
 
     try {
 
         const email =
             user.email || "";
 
-        /*
-         * Cari user berdasarkan username/email
-         */
-        const { data: existingUser, error: findError } =
-            await supabaseClient
-                .from("users_list")
-                .select("id, name, username, role")
-                .eq("username", email)
-                .maybeSingle();
+
+        /* CARI USER */
+
+        const {
+            data: existingUser,
+            error: findError
+        } = await supabaseClient
+            .from("users_list")
+            .select("id, name, username, role")
+            .eq("username", email)
+            .maybeSingle();
 
 
         if (findError) {
@@ -727,17 +896,16 @@ async function syncUserToTable(user, name = null) {
                 findError
             );
 
-            return;
+            return null;
         }
 
 
-        /*
-         * Kalau sudah ada, jangan buat data baru
-         */
+        /* USER SUDAH ADA */
+
         if (existingUser) {
 
             console.log(
-                "User sudah ada di users_list:",
+                "User sudah ada:",
                 existingUser
             );
 
@@ -745,29 +913,35 @@ async function syncUserToTable(user, name = null) {
         }
 
 
-        /*
-         * Kalau belum ada, buat data baru
-         *
-         * password TIDAK disimpan.
-         */
-        const { data: newUser, error: insertError } =
-            await supabaseClient
-                .from("users_list")
-                .insert([
-                    {
-                        name: name || user.user_metadata?.name || "User",
-                        username: email,
-                        role: "user"
-                    }
-                ])
-                .select()
-                .single();
+        /* USER BELUM ADA */
+
+        const {
+            data: newUser,
+            error: insertError
+        } = await supabaseClient
+            .from("users_list")
+            .insert([
+                {
+                    name:
+                        name ||
+                        user.user_metadata?.name ||
+                        "User",
+
+                    username:
+                        email,
+
+                    role:
+                        "user"
+                }
+            ])
+            .select()
+            .single();
 
 
         if (insertError) {
 
             console.error(
-                "Gagal memasukkan user ke users_list:",
+                "Gagal memasukkan users_list:",
                 insertError
             );
 
@@ -808,6 +982,7 @@ document
 
             hideAlert();
 
+
             if (!supabaseClient) {
 
                 showAlert(
@@ -839,7 +1014,9 @@ document
 
 
             button.disabled = true;
-            button.textContent = "Memeriksa...";
+
+            button.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa...';
 
 
             try {
@@ -850,9 +1027,7 @@ document
                 );
 
 
-                /* =========================
-                   SUPABASE AUTH LOGIN
-                ========================= */
+                /* LOGIN SUPABASE AUTH */
 
                 const {
                     data,
@@ -861,6 +1036,7 @@ document
                     await supabaseClient.auth.signInWithPassword({
 
                         email: email,
+
                         password: password
 
                     });
@@ -869,14 +1045,16 @@ document
                 if (error) {
 
                     console.error(
-                        "Supabase Login Error:",
+                        "Login Error:",
                         error
                     );
 
 
                     const message =
-                        (error.message || "")
-                            .toLowerCase();
+                        (
+                            error.message ||
+                            ""
+                        ).toLowerCase();
 
 
                     if (
@@ -931,10 +1109,7 @@ document
                 }
 
 
-                if (
-                    !data ||
-                    !data.user
-                ) {
+                if (!data || !data.user) {
 
                     showAlert(
                         "Akun tidak ditemukan."
@@ -944,23 +1119,19 @@ document
                 }
 
 
-                /* =========================
-                   USER BERHASIL LOGIN
-                ========================= */
+                /* USER BERHASIL LOGIN */
 
                 const user =
                     data.user;
 
 
                 console.log(
-                    "Login berhasil:",
+                    "✅ Login berhasil:",
                     user.email
                 );
 
 
-                /* =========================
-                   SYNC KE users_list
-                ========================= */
+                /* SYNC users_list */
 
                 let profile = null;
 
@@ -978,21 +1149,18 @@ document
                         "Gagal sync users_list:",
                         profileError
                     );
-
-                    /*
-                     * Login tetap berhasil.
-                     * Data Auth sudah valid.
-                     */
                 }
 
 
-                /* =========================
-                   AMBIL ROLE
-                ========================= */
+                /* AMBIL ROLE */
 
                 let role = "user";
 
-                if (profile && profile.role) {
+
+                if (
+                    profile &&
+                    profile.role
+                ) {
 
                     role =
                         profile.role;
@@ -1005,7 +1173,10 @@ document
                         await supabaseClient
                             .from("users_list")
                             .select("role, name")
-                            .eq("username", user.email)
+                            .eq(
+                                "username",
+                                user.email
+                            )
                             .maybeSingle();
 
 
@@ -1020,25 +1191,28 @@ document
                 }
 
 
-                /* =========================
-                   SIMPAN LOCAL STORAGE
-                ========================= */
+                /* DATA USER */
 
                 const userData = {
 
-                    id: user.id,
+                    id:
+                        user.id,
 
-                    email: user.email,
+                    email:
+                        user.email,
 
                     name:
                         profile?.name ||
                         user.user_metadata?.name ||
                         "User",
 
-                    role: role
+                    role:
+                        role
 
                 };
 
+
+                /* LOCAL STORAGE */
 
                 localStorage.setItem(
                     "user",
@@ -1068,9 +1242,7 @@ document
                 );
 
 
-                /* =========================
-                   REDIRECT
-                ========================= */
+                /* REDIRECT */
 
                 setTimeout(function () {
 
@@ -1085,9 +1257,8 @@ document
                         "toko.html";
 
 
-                    /*
-                     * Cegah redirect ke website luar
-                     */
+                    /* CEGAH REDIRECT EKSTERNAL */
+
                     if (
                         redirectTo.startsWith("http://") ||
                         redirectTo.startsWith("https://") ||
@@ -1128,7 +1299,6 @@ document
                 button.textContent =
                     "Masuk";
             }
-
         }
     );
 
@@ -1146,6 +1316,7 @@ document
             event.preventDefault();
 
             hideAlert();
+
 
             if (!supabaseClient) {
 
@@ -1184,9 +1355,7 @@ document
                 );
 
 
-            /* =========================
-               VALIDASI
-            ========================= */
+            /* VALIDASI */
 
             if (!name) {
 
@@ -1220,8 +1389,8 @@ document
 
             button.disabled = true;
 
-            button.textContent =
-                "Mendaftarkan...";
+            button.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Mendaftarkan...';
 
 
             try {
@@ -1232,9 +1401,7 @@ document
                 );
 
 
-                /* =========================
-                   SUPABASE AUTH REGISTER
-                ========================= */
+                /* REGISTER AUTH */
 
                 const {
                     data,
@@ -1242,32 +1409,36 @@ document
                 } =
                     await supabaseClient.auth.signUp({
 
-                        email: email,
+                        email:
+                            email,
 
-                        password: password,
+                        password:
+                            password,
 
                         options: {
 
                             data: {
-                                name: name
+
+                                name:
+                                    name
                             }
-
                         }
-
                     });
 
 
                 if (error) {
 
                     console.error(
-                        "Supabase Register Error:",
+                        "Register Error:",
                         error
                     );
 
 
                     const message =
-                        (error.message || "")
-                            .toLowerCase();
+                        (
+                            error.message ||
+                            ""
+                        ).toLowerCase();
 
 
                     if (
@@ -1277,7 +1448,7 @@ document
                     ) {
 
                         showAlert(
-                            "Terlalu banyak percobaan pendaftaran. Tunggu beberapa saat sebelum mencoba lagi."
+                            "Terlalu banyak percobaan pendaftaran. Tunggu beberapa saat."
                         );
 
                     } else if (
@@ -1287,7 +1458,7 @@ document
                     ) {
 
                         showAlert(
-                            "Pendaftaran belum diizinkan. Aktifkan Allow new users to sign up di Supabase."
+                            "Pendaftaran belum diizinkan di Supabase."
                         );
 
                     } else if (
@@ -1325,10 +1496,7 @@ document
                 }
 
 
-                if (
-                    !data ||
-                    !data.user
-                ) {
+                if (!data || !data.user) {
 
                     showAlert(
                         "Pendaftaran gagal. Silakan coba lagi."
@@ -1338,19 +1506,13 @@ document
                 }
 
 
-                /* =========================
-                   REGISTER AUTH BERHASIL
-                ========================= */
-
                 console.log(
-                    "Register Auth berhasil:",
+                    "✅ Register Auth berhasil:",
                     data.user
                 );
 
 
-                /* =========================
-                   MASUKKAN KE users_list
-                ========================= */
+                /* SYNC users_list */
 
                 try {
 
@@ -1359,30 +1521,22 @@ document
                         name
                     );
 
-                    console.log(
-                        "Data berhasil masuk users_list."
-                    );
-
                 } catch (tableError) {
 
                     console.error(
-                        "Gagal memasukkan users_list:",
+                        "Gagal users_list:",
                         tableError
                     );
 
-
                     showAlert(
-                        "Akun berhasil dibuat, tetapi data users_list gagal disimpan: " +
-                        tableError.message
+                        "Akun berhasil dibuat, tetapi data users_list gagal disimpan."
                     );
 
                     return;
                 }
 
 
-                /* =========================
-                   HASIL REGISTER
-                ========================= */
+                /* HASIL REGISTER */
 
                 if (!data.session) {
 
@@ -1400,9 +1554,7 @@ document
                 }
 
 
-                /* =========================
-                   PINDAH KE LOGIN
-                ========================= */
+                /* PINDAH LOGIN */
 
                 setTimeout(function () {
 
@@ -1412,7 +1564,8 @@ document
                         .getElementById(
                             "loginEmail"
                         )
-                        .value = email;
+                        .value =
+                        email;
 
                 }, 1500);
 
@@ -1440,21 +1593,17 @@ document
                 button.textContent =
                     "Daftar Sekarang";
             }
-
         }
     );
 
 
 /* =====================================================
-   CEK SESSION SAAT HALAMAN DIBUKA
+   CEK SESSION
 ===================================================== */
 
 async function checkSession() {
 
-    if (!supabaseClient) {
-        return;
-    }
-
+    if (!supabaseClient) return;
 
     try {
 
@@ -1490,7 +1639,6 @@ async function checkSession() {
             );
         }
 
-
     } catch (error) {
 
         console.error(
@@ -1501,9 +1649,7 @@ async function checkSession() {
 }
 
 
-/* =====================================================
-   JALANKAN
-===================================================== */
+/* JALANKAN */
 
 checkSession();
 
