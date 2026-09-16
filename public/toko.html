@@ -239,7 +239,7 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .product-name {
@@ -258,7 +258,6 @@
             font-size: 18px;
             color: #dc2626;
             font-weight: bold;
-            margin-top: 5px;
         }
 
         .product-rating {
@@ -275,6 +274,7 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            margin-top: 5px;
         }
 
         .btn-buy,
@@ -434,7 +434,7 @@
         }
 
         textarea {
-            min-height: 110px;
+            min-height: 120px;
             resize: vertical;
         }
 
@@ -488,14 +488,7 @@
 
         /* ================= LOADING ================= */
 
-        .loading {
-            text-align: center;
-            padding: 50px;
-            color: #999;
-            font-size: 16px;
-            grid-column: 1 / -1;
-        }
-
+        .loading,
         .empty-product {
             text-align: center;
             padding: 50px;
@@ -647,9 +640,7 @@
             </button>
 
         </div>
-
     </div>
-
 
     <!-- ================= CONTENT ================= -->
 
@@ -675,6 +666,7 @@
                     placeholder="🔍 Cari produk..."
                 >
 
+                <!-- HANYA ADMIN -->
                 <button
                     id="btnAddProductNav"
                     onclick="openProductModal(false)"
@@ -686,9 +678,6 @@
 
         </div>
 
-
-        <!-- PRODUCT GRID -->
-
         <div id="productGrid">
 
             <div class="loading">
@@ -698,7 +687,6 @@
         </div>
 
     </div>
-
 
     <!-- ================= ADMIN MODAL ================= -->
 
@@ -725,7 +713,6 @@
                 id="productId"
             >
 
-
             <!-- NAMA -->
 
             <div class="form-group">
@@ -741,7 +728,6 @@
                 >
 
             </div>
-
 
             <!-- HARGA -->
 
@@ -760,7 +746,6 @@
 
             </div>
 
-
             <!-- STOK -->
 
             <div class="form-group">
@@ -778,7 +763,6 @@
                 >
 
             </div>
-
 
             <!-- RATING -->
 
@@ -800,7 +784,6 @@
 
             </div>
 
-
             <!-- GAMBAR -->
 
             <div class="form-group">
@@ -817,7 +800,6 @@
 
             </div>
 
-
             <!-- DESKRIPSI -->
 
             <div class="form-group">
@@ -832,7 +814,6 @@
                 ></textarea>
 
             </div>
-
 
             <!-- BUTTON -->
 
@@ -857,7 +838,6 @@
         </div>
 
     </div>
-
 
     <!-- ================= JAVASCRIPT ================= -->
 
@@ -892,75 +872,6 @@
 
 
         /* =====================================================
-           FALLBACK PRODUCTS
-        ===================================================== */
-
-        const fallbackProducts = [
-
-            {
-                id_produk: 1,
-                nama_produk: "Laptop Gaming Acer Nitro 5",
-                harga: 12999000,
-                stok: 10,
-                rating: 4.8,
-                deskripsi:
-                    "Laptop gaming dengan performa tinggi untuk gaming, editing, programming, dan kebutuhan produktivitas.",
-                gambar:
-                    "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80"
-            },
-
-            {
-                id_produk: 2,
-                nama_produk: "Smartphone Samsung A54",
-                harga: 4990000,
-                stok: 20,
-                rating: 4.7,
-                deskripsi:
-                    "Smartphone dengan layar berkualitas, kamera bagus, dan performa yang cocok untuk penggunaan sehari-hari.",
-                gambar:
-                    "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80"
-            },
-
-            {
-                id_produk: 3,
-                nama_produk: "Headset Wireless Sony WH-1000XM5",
-                harga: 5990000,
-                stok: 15,
-                rating: 4.9,
-                deskripsi:
-                    "Headset wireless premium dengan noise cancelling dan kualitas audio yang jernih.",
-                gambar:
-                    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80"
-            },
-
-            {
-                id_produk: 4,
-                nama_produk: "Keyboard Mechanical RGB",
-                harga: 1299000,
-                stok: 25,
-                rating: 4.6,
-                deskripsi:
-                    "Keyboard mechanical RGB dengan desain nyaman untuk gaming dan mengetik.",
-                gambar:
-                    "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&w=900&q=80"
-            },
-
-            {
-                id_produk: 5,
-                nama_produk: "Monitor 27 inch IPS",
-                harga: 2899000,
-                stok: 12,
-                rating: 4.7,
-                deskripsi:
-                    "Monitor IPS 27 inch dengan warna tajam dan cocok untuk kerja, desain, gaming, dan multimedia.",
-                gambar:
-                    "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=900&q=80"
-            }
-
-        ];
-
-
-        /* =====================================================
            USER DATA
         ===================================================== */
 
@@ -991,8 +902,8 @@
                 currentUser.name ||
                 "user"
             )
-            .toString()
-            .replace(/[^a-zA-Z0-9_-]/g, "_");
+                .toString()
+                .replace(/[^a-zA-Z0-9_-]/g, "_");
 
         }
 
@@ -1002,8 +913,6 @@
         ===================================================== */
 
         function loadUserData() {
-
-            /* ================= CART ================= */
 
             try {
 
@@ -1055,7 +964,6 @@
 
                         selected:
                             item.selected !== false
-
                     };
 
                 });
@@ -1071,8 +979,6 @@
 
             }
 
-
-            /* ================= ORDERS ================= */
 
             try {
 
@@ -1141,8 +1047,7 @@
 
             const userData = getUserData();
 
-
-            /* ================= GUEST ================= */
+            /* GUEST */
 
             if (!userData) {
 
@@ -1161,7 +1066,7 @@
             }
 
 
-            /* ================= USER ================= */
+            /* USER */
 
             try {
 
@@ -1214,7 +1119,6 @@
             loadUserData();
 
             return true;
-
         }
 
 
@@ -1248,26 +1152,42 @@
             }
 
 
-            /* ================= GUEST ================= */
+            const role =
+                String(
+                    currentUser.role || ""
+                ).toLowerCase();
 
-            if (currentUser.role === "guest") {
 
-                badge.innerText = "👤 Guest";
-                badge.style.background = "#0284c7";
+            /* GUEST */
 
-                loginButton.style.display = "inline-block";
-                logoutButton.style.display = "none";
+            if (role === "guest") {
 
-                guestInfo.style.display = "block";
-                addButton.style.display = "none";
+                badge.innerText =
+                    "👤 Guest";
 
-                title.innerText = "DAFTAR PRODUK";
+                badge.style.background =
+                    "#0284c7";
+
+                loginButton.style.display =
+                    "inline-block";
+
+                logoutButton.style.display =
+                    "none";
+
+                guestInfo.style.display =
+                    "block";
+
+                addButton.style.display =
+                    "none";
+
+                title.innerText =
+                    "DAFTAR PRODUK";
 
                 return;
             }
 
 
-            /* ================= USER / ADMIN ================= */
+            /* USER / ADMIN */
 
             const displayName =
                 currentUser.name ||
@@ -1280,9 +1200,11 @@
                 badge.innerText =
                     "🛡️ Admin: " + displayName;
 
-                badge.style.background = "#10b981";
+                badge.style.background =
+                    "#10b981";
 
-                addButton.style.display = "block";
+                addButton.style.display =
+                    "block";
 
                 title.innerText =
                     "DAFTAR PRODUK (ADMIN)";
@@ -1292,9 +1214,11 @@
                 badge.innerText =
                     "👤 User: " + displayName;
 
-                badge.style.background = "#0284c7";
+                badge.style.background =
+                    "#0284c7";
 
-                addButton.style.display = "none";
+                addButton.style.display =
+                    "none";
 
                 title.innerText =
                     "DAFTAR PRODUK";
@@ -1302,9 +1226,14 @@
             }
 
 
-            loginButton.style.display = "none";
-            logoutButton.style.display = "inline-block";
-            guestInfo.style.display = "none";
+            loginButton.style.display =
+                "none";
+
+            logoutButton.style.display =
+                "inline-block";
+
+            guestInfo.style.display =
+                "none";
 
         }
 
@@ -1326,7 +1255,6 @@
                 await fetchProducts();
 
                 updateBadges();
-
 
                 const searchInput =
                     document.getElementById(
@@ -1385,23 +1313,13 @@
                 }
 
 
-                if (!data || data.length === 0) {
-
-                    allProducts =
-                        fallbackProducts;
-
-                } else {
-
-                    allProducts =
-                        data;
-
-                }
+                allProducts =
+                    data || [];
 
 
                 renderProducts(
                     allProducts
                 );
-
 
             } catch (error) {
 
@@ -1410,12 +1328,13 @@
                     error
                 );
 
-                allProducts =
-                    fallbackProducts;
-
-                renderProducts(
-                    allProducts
-                );
+                grid.innerHTML = `
+                    <div class="empty-product">
+                        ❌ Gagal mengambil data produk.
+                        <br><br>
+                        ${escapeHTML(error.message)}
+                    </div>
+                `;
 
             }
 
@@ -1443,7 +1362,7 @@
 
                 grid.innerHTML = `
                     <div class="empty-product">
-                        📭 Produk tidak ditemukan.
+                        📭 Belum ada produk.
                     </div>
                 `;
 
@@ -1459,42 +1378,36 @@
 
                 const name =
                     p.nama_produk ||
-                    p.name ||
                     "Produk Tanpa Nama";
 
                 const price =
                     Number(
-                        p.harga ??
-                        p.price ??
-                        0
+                        p.harga ?? 0
                     );
 
                 const stock =
                     Number(
-                        p.stok ??
-                        p.stock ??
-                        0
+                        p.stok ?? 0
                     );
 
                 const rating =
                     Number(
-                        p.rating ??
-                        5
+                        p.rating ?? 5
                     );
 
                 const image =
                     p.gambar ||
-                    p.image ||
                     "https://placehold.co/600x400?text=No+Image";
 
 
                 let adminButtonsHTML = "";
 
 
+                /* HANYA ADMIN */
+
                 if (isAdmin) {
 
                     adminButtonsHTML = `
-
                         <div class="admin-actions">
 
                             <button
@@ -1512,7 +1425,6 @@
                             </button>
 
                         </div>
-
                     `;
 
                 }
@@ -1535,7 +1447,6 @@
                         onerror="this.src='https://placehold.co/600x400?text=No+Image'"
                     >
 
-
                     <div class="product-details">
 
                         <div
@@ -1545,21 +1456,17 @@
                             ${escapeHTML(name)}
                         </div>
 
-
                         <div class="product-rating">
                             ⭐ ${rating.toFixed(1)} / 5
                         </div>
-
 
                         <div class="product-price">
                             Rp ${price.toLocaleString("id-ID")}
                         </div>
 
-
                         <div class="product-stock">
                             Stok: ${stock}
                         </div>
-
 
                         <div class="product-buttons">
 
@@ -1586,11 +1493,9 @@
 
                         </div>
 
-
                         ${adminButtonsHTML}
 
                     </div>
-
                 `;
 
 
@@ -1618,9 +1523,7 @@
 
 
         function escapeAttribute(text) {
-
             return escapeHTML(text);
-
         }
 
 
@@ -1660,17 +1563,12 @@
 
                         const name =
                             String(
-                                p.nama_produk ||
-                                p.name ||
-                                ""
+                                p.nama_produk || ""
                             ).toLowerCase();
-
 
                         const description =
                             String(
-                                p.deskripsi ||
-                                p.description ||
-                                ""
+                                p.deskripsi || ""
                             ).toLowerCase();
 
 
@@ -1683,9 +1581,7 @@
                 );
 
 
-            renderProducts(
-                filtered
-            );
+            renderProducts(filtered);
 
         }
 
@@ -1724,7 +1620,6 @@
 
 
             return true;
-
         }
 
 
@@ -1778,32 +1673,19 @@
 
 
             const id =
-                product.id_produk ??
-                product.id;
+                product.id_produk;
 
             const name =
-                product.nama_produk ||
-                product.name ||
-                "Produk";
+                product.nama_produk;
 
             const price =
-                Number(
-                    product.harga ??
-                    product.price ??
-                    0
-                );
+                Number(product.harga || 0);
 
             const image =
-                product.gambar ||
-                product.image ||
-                "";
+                product.gambar || "";
 
             const stock =
-                Number(
-                    product.stok ??
-                    product.stock ??
-                    0
-                );
+                Number(product.stok || 0);
 
 
             if (stock <= 0) {
@@ -1856,10 +1738,15 @@
                 cart.push({
 
                     id: id,
+
                     name: name,
+
                     price: price,
+
                     image: image,
+
                     qty: 1,
+
                     selected: true
 
                 });
@@ -1909,32 +1796,19 @@
 
 
             const id =
-                product.id_produk ??
-                product.id;
+                product.id_produk;
 
             const name =
-                product.nama_produk ||
-                product.name ||
-                "Produk";
+                product.nama_produk;
 
             const price =
-                Number(
-                    product.harga ??
-                    product.price ??
-                    0
-                );
+                Number(product.harga || 0);
 
             const image =
-                product.gambar ||
-                product.image ||
-                "";
+                product.gambar || "";
 
             const stock =
-                Number(
-                    product.stok ??
-                    product.stock ??
-                    0
-                );
+                Number(product.stok || 0);
 
 
             if (stock <= 0) {
@@ -1948,14 +1822,16 @@
 
 
             cart =
-                cart.map(function(item) {
+                cart.map(
+                    function(item) {
 
-                    return {
-                        ...item,
-                        selected: false
-                    };
+                        return {
+                            ...item,
+                            selected: false
+                        };
 
-                });
+                    }
+                );
 
 
             const existingItem =
@@ -1972,6 +1848,7 @@
             if (existingItem) {
 
                 existingItem.qty = 1;
+
                 existingItem.selected = true;
 
             } else {
@@ -1979,10 +1856,15 @@
                 cart.push({
 
                     id: id,
+
                     name: name,
+
                     price: price,
+
                     image: image,
+
                     qty: 1,
+
                     selected: true
 
                 });
@@ -2246,7 +2128,7 @@
                 ).value.trim();
 
 
-            /* ================= VALIDASI ================= */
+            /* VALIDASI */
 
             if (!nama_produk) {
 
@@ -2298,8 +2180,6 @@
             }
 
 
-            /* ================= DATA ================= */
-
             const productData = {
 
                 nama_produk: nama_produk,
@@ -2322,7 +2202,7 @@
                 let result;
 
 
-                /* ================= EDIT ================= */
+                /* EDIT */
 
                 if (id) {
 
@@ -2337,8 +2217,7 @@
 
                 }
 
-
-                /* ================= TAMBAH ================= */
+                /* TAMBAH */
 
                 else {
 
@@ -2353,9 +2232,7 @@
 
 
                 if (result.error) {
-
                     throw result.error;
-
                 }
 
 
@@ -2416,55 +2293,43 @@
             document.getElementById(
                 "productId"
             ).value =
-                product.id_produk ??
-                product.id;
+                product.id_produk;
 
 
             document.getElementById(
                 "productName"
             ).value =
-                product.nama_produk ||
-                product.name ||
-                "";
+                product.nama_produk || "";
 
 
             document.getElementById(
                 "productPrice"
             ).value =
-                product.harga ??
-                product.price ??
-                0;
+                product.harga || 0;
 
 
             document.getElementById(
                 "productStock"
             ).value =
-                product.stok ??
-                product.stock ??
-                0;
+                product.stok || 0;
 
 
             document.getElementById(
                 "productRating"
             ).value =
-                product.rating ??
-                5;
+                product.rating ?? 5;
 
 
             document.getElementById(
                 "productImage"
             ).value =
-                product.gambar ||
-                product.image ||
-                "";
+                product.gambar || "";
 
 
             document.getElementById(
                 "productDescription"
             ).value =
-                product.deskripsi ||
-                product.description ||
-                "";
+                product.deskripsi || "";
 
 
             openProductModal(true);
@@ -2512,9 +2377,7 @@
 
 
                 if (result.error) {
-
                     throw result.error;
-
                 }
 
 
