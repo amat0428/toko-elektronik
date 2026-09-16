@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Produk - BlueShop</title>
+
+```
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f8fafc;
+        color: #1f2937;
+    }
+
+    .navbar {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .back {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .back:hover {
+        text-decoration: underline;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .product-detail {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+        border-radius: 12px;
+        background: #f3f4f6;
+    }
+
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .product-name {
+        font-size: 30px;
+        font-weight: bold;
+        color: #111827;
+    }
+
+    .rating {
+        color: #f59e0b;
+        font-size: 16px;
+    }
+
+    .price {
+        font-size: 28px;
+        color: #dc2626;
+        font-weight: bold;
+    }
+
+    .stock {
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .description-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .description {
+        line-height: 1.7;
+        color: #4b5563;
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 10px;
+        white-space: pre-line;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    button {
+        flex: 1;
+        padding: 13px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .buy {
+        background: #667eea;
+        color: white;
+    }
+
+    .buy:hover:not(:disabled) {
+        background: #5568d3;
+    }
+
+    .cart {
+        background: white;
+        color: #111827;
+        border: 2px solid #e5e7eb;
+    }
+
+    .cart:hover:not(:disabled) {
+        background: #f3f4f6;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 50px;
+        background: white;
+        border-radius: 12px;
+    }
+
+    .error {
+        text-align: center;
+        padding: 50px;
+        background: white;
+        border-radius: 12px;
+        color: #dc2626;
+    }
+
+    .error a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+        .navbar {
+            padding: 15px 20px;
+        }
+
+        .product-detail {
+            grid-template-columns: 1fr;
+            padding: 20px;
+            gap: 25px;
+        }
+
+        .product-image {
+            height: 300px;
+        }
+
+        .product-name {
+            font-size: 24px;
+        }
+
+        .price {
+            font-size: 24px;
+        }
+
+        .buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<div class="navbar">
+    <div class="logo">
+        🛍️ BlueShop
+    </div>
+
+    <a href="toko.html" class="back">
+        ← Kembali ke Toko
+    </a>
+</div>
+
+<div class="container">
+    <div id="content">
+        <div class="loading">
+            ⏳ Memuat detail produk...
+        </div>
+    </div>
+</div>
+
+<script>
+    // ================================
+    // SUPABASE
+    // ================================
+
+    const SUPABASE_URL =
+        "https://fbnknnrltrsvydyxgujr.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+
+    const _supabase = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+    // ================================
+    // AMBIL ID PRODUK DARI URL
+    // ================================
+
+    const params = new URLSearchParams(
+        window.location.search
+    );
+
+    const productId = params.get("id");
+
+
+    let product = null;
+    let cart = [];
+
+
+    // ================================
+    // ESCAPE HTML
+    // ================================
+
+    function escapeHTML(text) {
+        return String(text ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    // ================================
+    // CEK LOGIN
+    // ================================
+
+    function getUserData() {
+        return (
+            localStorage.getItem("user") ||
+            localStorage.getItem("currentUser") ||
+            localStorage.getItem("user_session")
+        );
+    }
+
+
+    // ================================
+    // LOAD CART
+    // ================================
+
+    function loadCart() {
+        try {
+            cart = JSON.parse(
+                localStorage.getItem("blueshop_cart") || "[]"
+            );
+
+            if (!Array.isArray(cart)) {
+                cart = [];
+            }
+
+        } catch (error) {
+            console.error(error);
+            cart = [];
+        }
+    }
+
+
+    // ================================
+    // LOAD PRODUCT
+    // ================================
+
+    async function loadProduct() {
+
+        const content =
+            document.getElementById("content");
+
+
+        // Tidak ada ID
+        if (!productId) {
+
+            content.innerHTML = `
+                <div class="error">
+                    ❌ ID produk tidak ditemukan.
+                    <br><br>
+                    <a href="toko.html">
+                        ← Kembali ke toko
+                    </a>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        try {
+
+            const {
+                data,
+                error
+            } = await _supabase
+                .from("produk")
+                .select("*")
+                .eq("id_produk", productId)
+                .single();
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            if (!data) {
+                throw new Error("Produk tidak ditemukan.");
+            }
+
+
+            product = data;
+
+
+            // ================================
+            // DATA PRODUK
+            // ================================
+
+            const image =
+                product.gambar ||
+                "https://placehold.co/600x400?text=No+Image";
+
+
+            const rating =
+                Number(product.rating ?? 5);
+
+
+            const price =
+                Number(product.harga ?? 0);
+
+
+            const stock =
+                Number(product.stok ?? 0);
+
+
+            const description =
+                product.deskripsi ||
+                "Belum ada deskripsi produk.";
+
+
+            const productName =
+                product.nama_produk ||
+                "Produk Tanpa Nama";
+
+
+            // ================================
+            // TAMPILKAN
+            // ================================
+
+            content.innerHTML = `
+
+                <div class="product-detail">
+
+                    <div>
+
+                        <img
+                            src="${escapeHTML(image)}"
+                            class="product-image"
+                            alt="${escapeHTML(productName)}"
+                            onerror="this.src='https://placehold.co/600x400?text=No+Image'"
+                        >
+
+                    </div>
+
+
+                    <div class="product-info">
+
+                        <div class="product-name">
+                            ${escapeHTML(productName)}
+                        </div>
+
+
+                        <div class="rating">
+                            ⭐ ${rating.toFixed(1)} / 5
+                        </div>
+
+
+                        <div class="price">
+                            Rp ${price.toLocaleString("id-ID")}
+                        </div>
+
+
+                        <div class="stock">
+                            📦 Stok tersedia: ${stock}
+                        </div>
+
+
+                        <div class="description-title">
+                            Deskripsi Produk
+                        </div>
+
+
+                        <div class="description">
+                            ${escapeHTML(description)}
+                        </div>
+
+
+                        <div class="buttons">
+
+                            <button
+                                class="cart"
+                                onclick="addToCart()"
+                                ${stock <= 0 ? "disabled" : ""}
+                            >
+                                🛒 Tambah ke Keranjang
+                            </button>
+
+
+                            <button
+                                class="buy"
+                                onclick="buyNow()"
+                                ${stock <= 0 ? "disabled" : ""}
+                            >
+                                Beli Sekarang
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        } catch (error) {
+
+            console.error(
+                "ERROR LOAD PRODUCT:",
+                error
+            );
+
+            content.innerHTML = `
+
+                <div class="error">
+
+                    ❌ Produk tidak ditemukan.
+
+                    <br><br>
+
+                    <small>
+                        ${escapeHTML(error.message)}
+                    </small>
+
+                    <br><br>
+
+                    <a href="toko.html">
+                        ← Kembali ke toko
+                    </a>
+
+                </div>
+
+            `;
+        }
+    }
+
+
+    // ================================
+    // TAMBAH KE KERANJANG
+    // ================================
+
+    function addToCart() {
+
+        if (!getUserData()) {
+
+            alert(
+                "Silakan login terlebih dahulu."
+            );
+
+            window.location.href =
+                "login.html?redirect=" +
+                encodeURIComponent(
+                    "detail-produk.html?id=" +
+                    productId
+                );
+
+            return;
+        }
+
+
+        if (!product) {
+            return;
+        }
+
+
+        const stock =
+            Number(product.stok || 0);
+
+
+        if (stock <= 0) {
+
+            alert(
+                "Stok produk habis."
+            );
+
+            return;
+        }
+
+
+        loadCart();
+
+
+        const existing =
+            cart.find(
+                item =>
+                    String(item.id) ===
+                    String(product.id_produk)
+            );
+
+
+        if (existing) {
+
+            if (
+                Number(existing.qty || 0) >=
+                stock
+            ) {
+
+                alert(
+                    "Jumlah produk sudah mencapai batas stok."
+                );
+
+                return;
+            }
+
+
+            existing.qty =
+                Number(existing.qty || 0) + 1;
+
+            existing.selected = true;
+
+        } else {
+
+            cart.push({
+
+                id: product.id_produk,
+
+                name: product.nama_produk,
+
+                price: Number(
+                    product.harga || 0
+                ),
+
+                image: product.gambar || "",
+
+                qty: 1,
+
+                selected: true
+
+            });
+
+        }
+
+
+        localStorage.setItem(
+            "blueshop_cart",
+            JSON.stringify(cart)
+        );
+
+
+        alert(
+            "Produk berhasil ditambahkan ke keranjang!"
+        );
+    }
+
+
+    // ================================
+    // BELI SEKARANG
+    // ================================
+
+    function buyNow() {
+
+        if (!getUserData()) {
+
+            alert(
+                "Silakan login terlebih dahulu."
+            );
+
+            window.location.href =
+                "login.html?redirect=" +
+                encodeURIComponent(
+                    "detail-produk.html?id=" +
+                    productId
+                );
+
+            return;
+        }
+
+
+        if (!product) {
+            return;
+        }
+
+
+        const stock =
+            Number(product.stok || 0);
+
+
+        if (stock <= 0) {
+
+            alert(
+                "Stok produk habis."
+            );
+
+            return;
+        }
+
+
+        loadCart();
+
+
+        // Semua produk tidak dipilih
+        cart = cart.map(item => ({
+            ...item,
+            selected: false
+        }));
+
+
+        const existing =
+            cart.find(
+                item =>
+                    String(item.id) ===
+                    String(product.id_produk)
+            );
+
+
+        if (existing) {
+
+            existing.qty = 1;
+            existing.selected = true;
+
+        } else {
+
+            cart.push({
+
+                id: product.id_produk,
+
+                name: product.nama_produk,
+
+                price: Number(
+                    product.harga || 0
+                ),
+
+                image: product.gambar || "",
+
+                qty: 1,
+
+                selected: true
+
+            });
+
+        }
+
+
+        localStorage.setItem(
+            "blueshop_cart",
+            JSON.stringify(cart)
+        );
+
+
+        window.location.href =
+            "cart.html";
+    }
+
+
+    // ================================
+    // JALANKAN
+    // ================================
+
+    loadProduct();
+
+</script>
+```
+
+</body>
+</html>
