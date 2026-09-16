@@ -60,6 +60,40 @@
             margin-bottom: 25px;
         }
 
+        #checkoutItems {
+            margin-bottom: 5px;
+        }
+
+        .checkout-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .checkout-item-info {
+            flex: 1;
+        }
+
+        .checkout-item-name {
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 6px;
+        }
+
+        .checkout-item-detail {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .checkout-item-subtotal {
+            font-weight: 700;
+            white-space: nowrap;
+            color: #111;
+        }
+
         .summary-row {
             display: flex;
             justify-content: space-between;
@@ -67,6 +101,7 @@
             font-size: 18px;
             font-weight: bold;
             padding-top: 15px;
+            margin-top: 10px;
             border-top: 1px solid #ddd;
         }
 
@@ -125,7 +160,15 @@
             cursor: not-allowed;
         }
 
-        /* MODAL */
+        .empty-checkout {
+            text-align: center;
+            color: #777;
+            padding: 20px 0;
+        }
+
+        /* =========================
+           MODAL NOTA
+        ========================= */
 
         #notaModal {
             display: none;
@@ -203,6 +246,34 @@
             color: white;
         }
 
+        @media (max-width: 600px) {
+
+            .container {
+                margin: 15px auto;
+                padding: 0 12px;
+            }
+
+            .checkout-box {
+                padding: 18px;
+            }
+
+            .checkout-item {
+                align-items: flex-start;
+            }
+
+            .checkout-item-subtotal {
+                font-size: 14px;
+            }
+
+            .summary-row {
+                font-size: 16px;
+            }
+
+            .nota-buttons {
+                flex-direction: column;
+            }
+        }
+
         @media print {
 
             body * {
@@ -234,7 +305,6 @@
 
 <body>
 
-
     <!-- HEADER -->
 
     <header>
@@ -251,13 +321,15 @@
             <h2>Form Checkout</h2>
 
 
-            <!-- RINGKASAN -->
+            <!-- RINGKASAN PESANAN -->
 
             <div class="summary-box">
 
-                <!-- ITEM PRODUK AKAN MUNCUL DI SINI -->
-
-                <div id="checkoutItems"></div>
+                <div id="checkoutItems">
+                    <div class="empty-checkout">
+                        Memuat pesanan...
+                    </div>
+                </div>
 
 
                 <!-- TOTAL -->
@@ -280,7 +352,7 @@
             </div>
 
 
-            <!-- FORM -->
+            <!-- FORM CHECKOUT -->
 
             <form id="checkoutForm">
 
@@ -346,9 +418,9 @@
     </div>
 
 
-    <!-- ================================ -->
-    <!-- MODAL NOTA -->
-    <!-- ================================ -->
+    <!-- =========================
+         MODAL NOTA
+    ========================== -->
 
     <div id="notaModal">
 
@@ -367,49 +439,35 @@
             </div>
 
 
-            <!-- INFORMASI ORDER -->
-
             <div class="nota-info">
 
                 <p>
                     <strong>Tanggal:</strong>
-                    <span id="notaTanggal">
-                        -
-                    </span>
+                    <span id="notaTanggal">-</span>
                 </p>
 
                 <p>
                     <strong>ID Pesanan:</strong>
-                    <span id="notaOrderId">
-                        -
-                    </span>
+                    <span id="notaOrderId">-</span>
                 </p>
 
                 <p>
                     <strong>Nama:</strong>
-                    <span id="notaNama">
-                        -
-                    </span>
+                    <span id="notaNama">-</span>
                 </p>
 
                 <p>
                     <strong>No. HP:</strong>
-                    <span id="notaHp">
-                        -
-                    </span>
+                    <span id="notaHp">-</span>
                 </p>
 
                 <p>
                     <strong>Alamat:</strong>
-                    <span id="notaAlamat">
-                        -
-                    </span>
+                    <span id="notaAlamat">-</span>
                 </p>
 
             </div>
 
-
-            <!-- ITEM -->
 
             <div class="nota-items">
 
@@ -421,8 +479,6 @@
 
             </div>
 
-
-            <!-- TOTAL -->
 
             <div class="nota-total">
 
@@ -436,8 +492,6 @@
 
             </div>
 
-
-            <!-- BUTTON -->
 
             <div class="nota-buttons">
 
@@ -464,16 +518,12 @@
     </div>
 
 
-    <!-- ================================= -->
     <!-- SUPABASE -->
-    <!-- ================================= -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-    <!-- ================================= -->
     <!-- CHECKOUT JS -->
-    <!-- ================================= -->
 
     <script src="js/checkout.js"></script>
 
