@@ -1,152 +1,235 @@
-const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxNjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
-const _supabase = typeof supabase !== 'undefined' ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+<!DOCTYPE html>
+<html lang="id">
 
-// Keranjang harus bersih saat pertama kali dibuka, kecuali ada data yang sudah tersimpan
-let cartData = JSON.parse(localStorage.getItem('cart')) || [];
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-function saveCart() {
-  localStorage.setItem('cart', JSON.stringify(cartData));
-}
+    <title>Keranjang Belanja - BlueShop</title>
 
-function formatRupiah(number) {
-  return 'Rp ' + Number(number || 0).toLocaleString('id-ID');
-}
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-function renderCart() {
-  const cartList = document.getElementById('cartItemsList');
-  const cartContent = document.getElementById('cartContent');
-  const emptyCart = document.getElementById('emptyCart');
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
 
-  if (!cartList) return;
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  if (!cartData || cartData.length === 0) {
-    if (cartContent) cartContent.classList.add('hidden');
-    if (emptyCart) emptyCart.classList.remove('hidden');
-    updateSummary();
-    return;
-  }
+</head>
 
-  if (cartContent) cartContent.classList.remove('hidden');
-  if (emptyCart) emptyCart.classList.add('hidden');
 
-  cartList.innerHTML = cartData.map(item => `
-    <div class="bg-white p-3.5 rounded-lg shadow-sm flex items-center gap-3 border border-gray-100 mb-3">
-      <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleSelect(${item.id})" class="w-4 h-4 accent-blue-600 rounded cursor-pointer shrink-0">
-      
-      <img src="${item.image || 'https://via.placeholder.com/80'}" alt="${item.title}" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded border border-gray-100 shrink-0">
-      
-      <div class="flex-1 min-w-0">
-        <p class="text-xs md:text-sm font-medium text-gray-800 line-clamp-2 leading-snug">${item.title}</p>
-        <p class="text-blue-600 font-bold text-xs md:text-sm mt-1">${formatRupiah(item.price)}</p>
-      </div>
+<body class="bg-gray-100 text-gray-800 pb-28 md:pb-12">
 
-      <div class="flex flex-col items-end gap-2 shrink-0">
-        <button onclick="removeItem(${item.id})" class="text-gray-400 hover:text-red-500 text-xs transition">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-        <div class="flex items-center border border-gray-200 rounded overflow-hidden text-xs">
-          <button onclick="updateQty(${item.id}, -1)" class="px-2 py-1 bg-gray-50 hover:bg-gray-200 font-bold text-gray-600">-</button>
-          <span class="px-2.5 py-1 font-semibold text-gray-700">${item.qty}</span>
-          <button onclick="updateQty(${item.id}, 1)" class="px-2 py-1 bg-gray-50 hover:bg-gray-200 font-bold text-gray-600">+</button>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="bg-blue-600 text-white sticky top-0 z-40 shadow-md">
+
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+
+            <div class="flex items-center gap-3">
+
+                <!-- Kembali ke toko -->
+                <a
+                    href="toko.html"
+                    class="hover:text-gray-200 transition"
+                    title="Kembali ke toko"
+                >
+                    <i class="fa-solid fa-arrow-left text-lg"></i>
+                </a>
+
+                <h1 class="font-bold text-lg">
+                    Keranjang Saya
+                </h1>
+
+            </div>
+
+
+            <span class="text-xs bg-blue-700 px-3 py-1 rounded-full font-medium">
+
+                <span id="totalItemCount">
+                    0
+                </span>
+
+                Produk
+
+            </span>
+
         </div>
-      </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="max-w-4xl mx-auto px-4 pt-4">
+
+
+        <!-- =================================================
+             KERANJANG KOSONG
+        ================================================== -->
+
+        <div
+            id="emptyCart"
+            class="hidden bg-white rounded-xl p-8 text-center shadow-sm my-6 border border-gray-100"
+        >
+
+            <i class="fa-solid fa-cart-shopping text-5xl text-blue-200 mb-3"></i>
+
+            <p class="text-gray-500 font-medium text-sm">
+                Keranjang belanjaan kamu masih kosong
+            </p>
+
+            <a
+                href="toko.html"
+                class="inline-block mt-4 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg shadow-md transition"
+            >
+                Mulai Belanja
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             ISI KERANJANG
+        ================================================== -->
+
+        <div id="cartContent">
+
+
+            <!-- SELECT ALL -->
+
+            <div
+                class="bg-white p-3.5 rounded-xl shadow-sm flex items-center justify-between border border-gray-100 mb-3"
+            >
+
+                <label
+                    for="selectAll"
+                    class="flex items-center gap-2 text-xs font-bold text-gray-700 cursor-pointer select-none"
+                >
+
+                    <input
+                        type="checkbox"
+                        id="selectAll"
+                        class="w-4 h-4 accent-blue-600 rounded cursor-pointer"
+                    >
+
+                    Pilih Semua Produk
+
+                </label>
+
+
+                <button
+                    id="deleteSelected"
+                    class="text-xs text-red-500 hover:text-red-700 font-semibold flex items-center gap-1 transition"
+                >
+
+                    <i class="fa-solid fa-trash-can"></i>
+
+                    Hapus Terpilih
+
+                </button>
+
+            </div>
+
+
+            <!-- LIST PRODUK -->
+
+            <div
+                id="cartItemsList"
+                class="space-y-3"
+            ></div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         BOTTOM CHECKOUT
+    ====================================================== -->
+
+    <div
+        class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]"
+    >
+
+        <div
+            class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between"
+        >
+
+
+            <!-- TOTAL -->
+
+            <div class="flex items-center gap-3">
+
+                <div class="text-left">
+
+                    <p class="text-[11px] text-gray-500">
+
+                        Total (
+                        <span id="selectedCount">
+                            0
+                        </span>
+                        produk):
+
+                    </p>
+
+
+                    <p
+                        id="totalPrice"
+                        class="text-base md:text-lg font-extrabold text-blue-600"
+                    >
+                        Rp 0
+                    </p>
+
+
+                    <!-- Untuk kompatibilitas cart.js -->
+
+                    <span
+                        id="subtotalPrice"
+                        class="hidden"
+                    ></span>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHECKOUT -->
+
+            <button
+                id="btnCheckout"
+                class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs md:text-sm px-6 py-3 rounded-xl shadow-md transition flex items-center gap-2"
+            >
+
+                <span>
+                    Checkout
+                </span>
+
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+
+            </button>
+
+        </div>
+
     </div>
-  `).join('');
 
-  updateSummary();
-}
 
-function updateQty(id, change) {
-  const item = cartData.find(i => i.id === id);
-  if (item) {
-    item.qty += change;
-    if (item.qty <= 0) {
-      cartData = cartData.filter(i => i.id !== id);
-    }
-  }
-  saveCart();
-  renderCart();
-}
+    <!-- =====================================================
+         CART JAVASCRIPT
+    ====================================================== -->
 
-function removeItem(id) {
-  cartData = cartData.filter(i => i.id !== id);
-  saveCart();
-  renderCart();
-}
+    <script src="js/cart.js"></script>
 
-function toggleSelect(id) {
-  const item = cartData.find(i => i.id === id);
-  if (item) item.selected = !item.selected;
-  saveCart();
-  updateSummary(); // Cukup update total tanpa re-render seluruh HTML
-}
 
-function updateSummary() {
-  const selectedItems = cartData.filter(i => i.selected);
-  const total = selectedItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-  const count = selectedItems.reduce((sum, item) => sum + item.qty, 0);
+</body>
 
-  const totalItemCount = document.getElementById('totalItemCount');
-  const selectedCount = document.getElementById('selectedCount');
-  const subtotalPrice = document.getElementById('subtotalPrice');
-  const totalPrice = document.getElementById('totalPrice');
-
-  if (totalItemCount) totalItemCount.innerText = cartData.length;
-  if (selectedCount) selectedCount.innerText = count;
-  if (subtotalPrice) subtotalPrice.innerText = formatRupiah(total);
-  if (totalPrice) totalPrice.innerText = formatRupiah(total);
-
-  const selectAllBtn = document.getElementById('selectAll');
-  if (selectAllBtn) {
-    selectAllBtn.checked = cartData.length > 0 && cartData.every(i => i.selected);
-  }
-}
-
-// 2. Fungsi Checkout ke Halaman Pesanan
-async function proceedToCheckout() {
-  const selectedItems = cartData.filter(i => i.selected);
-  if (selectedItems.length === 0) {
-    alert("Pilih minimal satu produk untuk di-checkout!");
-    return;
-  }
-
-  const currentUser = JSON.parse(localStorage.getItem('user'));
-  if (!currentUser) {
-    alert("Silakan login terlebih dahulu untuk checkout!");
-    window.location.href = "login.html?redirect=checkout.html";
-    return;
-  }
-
-  // Simpan barang yang di-select ke checkout storage
-  localStorage.setItem('checkoutItems', JSON.stringify(selectedItems));
-  window.location.href = 'checkout.html';
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  renderCart();
-
-  const selectAllBtn = document.getElementById('selectAll');
-  if (selectAllBtn) {
-    selectAllBtn.addEventListener('change', (e) => {
-      const isChecked = e.target.checked;
-      cartData.forEach(item => item.selected = isChecked);
-      saveCart();
-      renderCart();
-    });
-  }
-
-  const deleteSelectedBtn = document.getElementById('deleteSelected');
-  if (deleteSelectedBtn) {
-    deleteSelectedBtn.addEventListener('click', () => {
-      cartData = cartData.filter(item => !item.selected);
-      saveCart();
-      renderCart();
-    });
-  }
-
-  const checkoutBtn = document.getElementById('btnCheckout');
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', proceedToCheckout);
-  }
-});
+</html>
