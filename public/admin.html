@@ -6,17 +6,17 @@
 
     <title>Admin Dashboard - BlueShop</title>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
     <!-- Font Awesome -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
-
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         * {
@@ -25,177 +25,160 @@
 
         body {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f5f7fb;
-            color: #1f2937;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
         }
 
-        .sidebar {
-            width: 250px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            background: linear-gradient(180deg, #2563eb, #1d4ed8);
-            color: white;
-            z-index: 50;
-        }
-
-        .main {
-            margin-left: 250px;
-            min-height: 100vh;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            padding: 13px 18px;
-            margin: 5px 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .menu-item:hover,
-        .menu-item.active {
-            background: rgba(255,255,255,.18);
-        }
-
-        .card {
+        .header {
             background: white;
+            padding: 20px 30px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #222;
+        }
+
+        .header small {
+            color: #777;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a,
+        .logout-btn {
+            text-decoration: none;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-dashboard {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .btn-store {
+            background: #198754;
+            color: white;
+        }
+
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+        }
+
+        .container-main {
+            padding: 30px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.06);
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        }
+
+        .welcome h2 {
+            margin-bottom: 8px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
         }
 
         .stat-card {
-            transition: .2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .table-wrap {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
-
-        th {
-            background: #f8fafc;
-            color: #475569;
-            font-size: 13px;
-            text-align: left;
-            padding: 14px;
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 13px 14px;
-            border-top: 1px solid #eef2f7;
-            font-size: 14px;
-            vertical-align: middle;
-        }
-
-        tr:hover td {
-            background: #fafcff;
-        }
-
-        .modal-bg {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,.55);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 20px;
-        }
-
-        .modal-bg.show {
-            display: flex;
-        }
-
-        .modal {
             background: white;
-            width: 100%;
-            max-width: 650px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border-radius: 18px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            text-align: center;
         }
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 5px 9px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 600;
+        .stat-icon {
+            font-size: 35px;
+            margin-bottom: 15px;
         }
 
-        .search-input {
-            width: 100%;
-            border: 1px solid #dbe3ee;
-            padding: 11px 14px;
+        .stat-card h3 {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+            color: #0d6efd;
+        }
+
+        .quick-menu {
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        }
+
+        .quick-menu h3 {
+            margin-bottom: 20px;
+        }
+
+        .quick-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .quick-buttons a {
+            text-decoration: none;
+            padding: 13px 20px;
             border-radius: 10px;
-            outline: none;
-        }
-
-        .search-input:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37,99,235,.1);
-        }
-
-        .product-img {
-            width: 52px;
-            height: 52px;
-            object-fit: cover;
-            border-radius: 9px;
-            background: #f1f5f9;
-        }
-
-        .notification {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            z-index: 200;
-            padding: 14px 18px;
-            border-radius: 12px;
+            background: #0d6efd;
             color: white;
-            display: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,.2);
+            font-weight: bold;
         }
 
-        .notification.show {
-            display: block;
+        .status {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #d1e7dd;
+            color: #0f5132;
         }
 
-        .mobile-header {
-            display: none;
+        .loading {
+            opacity: .6;
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: .25s;
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .sidebar.open {
-                transform: translateX(0);
+            .stats-container {
+                grid-template-columns: 1fr;
             }
 
-            .main {
-                margin-left: 0;
-            }
-
-            .mobile-header {
-                display: flex;
+            .container-main {
+                padding: 15px;
             }
         }
     </style>
@@ -203,3462 +186,606 @@
 
 <body>
 
-<!-- =========================================
-     SIDEBAR
-========================================= -->
-
-<aside id="sidebar" class="sidebar">
-
-    <div class="p-6">
-        <div class="flex items-center gap-3">
-
-            <div class="bg-white text-blue-600 w-11 h-11 rounded-xl flex items-center justify-center">
-                <i class="fa-solid fa-bag-shopping text-xl"></i>
-            </div>
-
-            <div>
-                <h1 class="font-bold text-xl">BlueShop</h1>
-                <p class="text-blue-100 text-xs">
-                    Admin Dashboard
-                </p>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="px-2">
-
-        <div
-            class="menu-item active"
-            data-section="dashboard"
-            onclick="showSection('dashboard')"
-        >
-            <i class="fa-solid fa-chart-pie w-5"></i>
-            <span>Dashboard</span>
-        </div>
-
-        <div
-            class="menu-item"
-            data-section="orders"
-            onclick="showSection('orders')"
-        >
-            <i class="fa-solid fa-box w-5"></i>
-            <span>Pesanan</span>
-        </div>
-
-        <div
-            class="menu-item"
-            data-section="cartActivity"
-            onclick="showSection('cartActivity')"
-        >
-            <i class="fa-solid fa-cart-shopping w-5"></i>
-            <span>Aktivitas Keranjang</span>
-        </div>
-
-        <div
-            class="menu-item"
-            data-section="products"
-            onclick="showSection('products')"
-        >
-            <i class="fa-solid fa-shirt w-5"></i>
-            <span>Produk</span>
-        </div>
-
-    </div>
-
-    <div class="absolute bottom-5 left-0 right-0 px-4">
-
-        <div class="bg-white/10 rounded-xl p-3 mb-3">
-
-            <div class="text-xs text-blue-100">
-                Login sebagai
-            </div>
-
-            <div id="adminName" class="font-semibold truncate">
-                Admin
-            </div>
-
-        </div>
-
-        <button
-            onclick="goToStore()"
-            class="w-full py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-sm mb-2"
-        >
-            <i class="fa-solid fa-store mr-2"></i>
-            Ke Toko
-        </button>
-
-        <button
-            onclick="logout()"
-            class="w-full py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-sm"
-        >
-            <i class="fa-solid fa-right-from-bracket mr-2"></i>
-            Logout
-        </button>
-
-    </div>
-
-</aside>
-
-
-<!-- =========================================
-     MAIN
-========================================= -->
-
-<main class="main">
-
-    <!-- MOBILE HEADER -->
-
-    <div class="mobile-header bg-white p-4 shadow-sm items-center justify-between">
-
-        <button onclick="toggleSidebar()" class="text-xl">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-
-        <div class="font-bold text-blue-600">
-            BlueShop Admin
-        </div>
-
-        <button onclick="loadAllData()" class="text-blue-600">
-            <i class="fa-solid fa-rotate"></i>
-        </button>
-
-    </div>
-
-
-    <!-- TOP HEADER -->
-
-    <header class="bg-white border-b p-5 flex items-center justify-between">
+    <!-- HEADER -->
+    <div class="header">
 
         <div>
+            <h1>
+                <i class="fa-solid fa-gauge-high"></i>
+                Dashboard Admin
+            </h1>
 
-            <h2 id="pageTitle" class="text-2xl font-bold">
+            <small>
+                BlueShop - Panel Administrasi
+            </small>
+        </div>
+
+        <div class="nav-links">
+
+            <a
+                href="admin.html"
+                class="btn-dashboard"
+            >
+                <i class="fa-solid fa-house"></i>
                 Dashboard
+            </a>
+
+            <a
+                href="toko.html"
+                class="btn-store"
+            >
+                <i class="fa-solid fa-store"></i>
+                Ke Toko
+            </a>
+
+            <button
+                onclick="logout()"
+                class="logout-btn btn-logout"
+            >
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTENT -->
+    <div class="container-main">
+
+        <!-- WELCOME -->
+        <div class="welcome">
+
+            <h2>
+                Halo, <span id="adminName">Admin</span> 👋
             </h2>
 
-            <p class="text-sm text-gray-500">
-                Kelola dan pantau aktivitas BlueShop
+            <p class="mb-0">
+                Selamat datang di Dashboard Admin BlueShop.
             </p>
 
         </div>
 
-        <button
-            onclick="loadAllData()"
-            class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"
-        >
-            <i class="fa-solid fa-rotate mr-2"></i>
-            Refresh
-        </button>
 
-    </header>
+        <!-- STATISTICS -->
+        <div class="stats-container">
 
+            <!-- PESANAN -->
+            <div class="stat-card">
 
-    <!-- =====================================
-         DASHBOARD
-    ====================================== -->
-
-    <section id="section-dashboard" class="p-5">
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
-
-            <div class="card stat-card p-5">
-
-                <div class="flex justify-between items-start">
-
-                    <div>
-
-                        <p class="text-gray-500 text-sm">
-                            Total Produk
-                        </p>
-
-                        <h3 id="statProducts" class="text-3xl font-bold mt-2">
-                            0
-                        </h3>
-
-                    </div>
-
-                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
-                        <i class="fa-solid fa-shirt text-xl"></i>
-                    </div>
-
+                <div class="stat-icon">
+                    📦
                 </div>
 
-            </div>
-
-
-            <div class="card stat-card p-5">
-
-                <div class="flex justify-between items-start">
-
-                    <div>
-
-                        <p class="text-gray-500 text-sm">
-                            Total Pesanan
-                        </p>
-
-                        <h3 id="statOrders" class="text-3xl font-bold mt-2">
-                            0
-                        </h3>
-
-                    </div>
-
-                    <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center">
-                        <i class="fa-solid fa-box text-xl"></i>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="card stat-card p-5">
-
-                <div class="flex justify-between items-start">
-
-                    <div>
-
-                        <p class="text-gray-500 text-sm">
-                            Aktivitas Keranjang
-                        </p>
-
-                        <h3 id="statCart" class="text-3xl font-bold mt-2">
-                            0
-                        </h3>
-
-                    </div>
-
-                    <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
-                        <i class="fa-solid fa-cart-shopping text-xl"></i>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="card stat-card p-5">
-
-                <div class="flex justify-between items-start">
-
-                    <div>
-
-                        <p class="text-gray-500 text-sm">
-                            Nilai Pesanan
-                        </p>
-
-                        <h3 id="statRevenue" class="text-xl font-bold mt-3">
-                            Rp 0
-                        </h3>
-
-                    </div>
-
-                    <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center">
-                        <i class="fa-solid fa-money-bill-wave text-xl"></i>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- DASHBOARD TABLES -->
-
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
-
-            <!-- PESANAN TERBARU -->
-
-            <div class="card">
-
-                <div class="p-5 border-b flex justify-between items-center">
-
-                    <div>
-
-                        <h3 class="font-bold text-lg">
-                            Pesanan Terbaru
-                        </h3>
-
-                        <p class="text-sm text-gray-500">
-                            Pesanan yang baru masuk
-                        </p>
-
-                    </div>
-
-                    <button
-                        onclick="showSection('orders')"
-                        class="text-blue-600 text-sm font-semibold"
-                    >
-                        Lihat semua
-                    </button>
-
-                </div>
-
-                <div class="table-wrap">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>Pembeli</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="recentOrdersBody">
-
-                            <tr>
-
-                                <td
-                                    colspan="3"
-                                    class="text-center text-gray-400"
-                                >
-                                    Memuat data...
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-
-            <!-- AKTIVITAS KERANJANG -->
-
-            <div class="card">
-
-                <div class="p-5 border-b flex justify-between items-center">
-
-                    <div>
-
-                        <h3 class="font-bold text-lg">
-                            Aktivitas Keranjang
-                        </h3>
-
-                        <p class="text-sm text-gray-500">
-                            Aktivitas terbaru pengguna
-                        </p>
-
-                    </div>
-
-                    <button
-                        onclick="showSection('cartActivity')"
-                        class="text-blue-600 text-sm font-semibold"
-                    >
-                        Lihat semua
-                    </button>
-
-                </div>
-
-                <div class="table-wrap">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>User</th>
-                                <th>Produk</th>
-                                <th>Jumlah</th>
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="recentCartBody">
-
-                            <tr>
-
-                                <td
-                                    colspan="3"
-                                    class="text-center text-gray-400"
-                                >
-                                    Memuat data...
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================
-         ORDERS
-    ====================================== -->
-
-    <section id="section-orders" class="p-5 hidden">
-
-        <div class="card">
-
-            <div class="p-5 border-b">
-
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-
-                    <div>
-
-                        <h3 class="text-xl font-bold">
-                            📦 Daftar Pesanan
-                        </h3>
-
-                        <p class="text-sm text-gray-500">
-                            Lihat siapa yang melakukan pemesanan
-                        </p>
-
-                    </div>
-
-                    <input
-                        id="orderSearch"
-                        type="text"
-                        class="search-input md:w-72"
-                        placeholder="Cari nama, HP, atau pesanan..."
-                        oninput="filterOrders()"
-                    >
-
-                </div>
-
-            </div>
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>No</th>
-                            <th>Pembeli</th>
-                            <th>Kontak</th>
-                            <th>Alamat</th>
-                            <th>Produk</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Tanggal</th>
-                            <th>Aksi</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="ordersBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================
-         CART ACTIVITY
-    ====================================== -->
-
-    <section id="section-cartActivity" class="p-5 hidden">
-
-        <div class="card">
-
-            <div class="p-5 border-b">
-
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-
-                    <div>
-
-                        <h3 class="text-xl font-bold">
-                            🛒 Aktivitas Keranjang
-                        </h3>
-
-                        <p class="text-sm text-gray-500">
-                            Melihat siapa yang memasukkan produk ke keranjang
-                        </p>
-
-                    </div>
-
-                    <input
-                        id="cartSearch"
-                        type="text"
-                        class="search-input md:w-72"
-                        placeholder="Cari user atau produk..."
-                        oninput="filterCartActivity()"
-                    >
-
-                </div>
-
-            </div>
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>No</th>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>Produk</th>
-                            <th>Harga</th>
-                            <th>Jumlah</th>
-                            <th>Waktu</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="cartActivityBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================
-         PRODUCTS
-    ====================================== -->
-
-    <section id="section-products" class="p-5 hidden">
-
-        <div class="card">
-
-            <div class="p-5 border-b">
-
-                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-
-                    <div>
-
-                        <h3 class="text-xl font-bold">
-                            👕 Produk BlueShop
-                        </h3>
-
-                        <p class="text-sm text-gray-500">
-                            Tambah, edit, hapus, dan atur kategori produk
-                        </p>
-
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-2">
-
-                        <input
-                            id="productSearch"
-                            type="text"
-                            class="search-input sm:w-64"
-                            placeholder="Cari produk..."
-                            oninput="filterProducts()"
-                        >
-
-                        <button
-                            onclick="openProductModal()"
-                            class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg whitespace-nowrap"
-                        >
-                            <i class="fa-solid fa-plus mr-2"></i>
-                            Tambah Produk
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>No</th>
-                            <th>Produk</th>
-                            <th>Kategori</th>
-                            <th>Harga</th>
-                            <th>Stok</th>
-                            <th>Rating</th>
-                            <th>Aksi</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="productsBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
-
-<!-- =========================================
-     PRODUCT MODAL
-========================================= -->
-
-<div id="productModal" class="modal-bg">
-
-    <div class="modal">
-
-        <div class="p-5 border-b flex justify-between items-center">
-
-            <div>
-
-                <h3 id="productModalTitle" class="text-xl font-bold">
-                    Tambah Produk
+                <h3>
+                    Total Pesanan
                 </h3>
 
-                <p class="text-sm text-gray-500">
-                    Masukkan informasi produk
+                <p id="totalOrders">
+                    0
                 </p>
 
             </div>
 
-            <button
-                onclick="closeProductModal()"
-                class="text-gray-400 hover:text-gray-700 text-xl"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
 
-        </div>
+            <!-- PRODUK -->
+            <div class="stat-card">
 
-        <form
-            id="productForm"
-            onsubmit="saveProduct(event)"
-            class="p-5"
-        >
-
-            <input
-                type="hidden"
-                id="productId"
-            >
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                <div class="md:col-span-2">
-
-                    <label class="block text-sm font-semibold mb-1">
-                        Nama Produk
-                    </label>
-
-                    <input
-                        id="productName"
-                        type="text"
-                        required
-                        class="search-input"
-                        placeholder="Contoh: Kaos Oversize"
-                    >
-
+                <div class="stat-icon">
+                    🛍️
                 </div>
 
-                <div>
-
-                    <label class="block text-sm font-semibold mb-1">
-                        Kategori
-                    </label>
-
-                    <select
-                        id="productCategory"
-                        class="search-input"
-                    >
-
-                        <option value="Baju Wanita">Baju Wanita</option>
-                        <option value="Baju Pria">Baju Pria</option>
-                        <option value="Celana">Celana</option>
-                        <option value="Rok">Rok</option>
-                        <option value="Dress">Dress</option>
-                        <option value="Jaket">Jaket</option>
-                        <option value="Sepatu">Sepatu</option>
-                        <option value="Tas">Tas</option>
-                        <option value="Aksesoris">Aksesoris</option>
-                        <option value="Lainnya">Lainnya</option>
-
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <label class="block text-sm font-semibold mb-1">
-                        Harga
-                    </label>
-
-                    <input
-                        id="productPrice"
-                        type="number"
-                        min="0"
-                        required
-                        class="search-input"
-                        placeholder="150000"
-                    >
-
-                </div>
-
-                <div>
-
-                    <label class="block text-sm font-semibold mb-1">
-                        Stok
-                    </label>
-
-                    <input
-                        id="productStock"
-                        type="number"
-                        min="0"
-                        value="100"
-                        required
-                        class="search-input"
-                    >
-
-                </div>
-
-                <div>
-
-                    <label class="block text-sm font-semibold mb-1">
-                        Rating
-                    </label>
-
-                    <input
-                        id="productRating"
-                        type="number"
-                        min="0"
-                        max="5"
-                        step="0.1"
-                        value="5"
-                        class="search-input"
-                    >
-
-                </div>
-
-                <div class="md:col-span-2">
-
-                    <label class="block text-sm font-semibold mb-1">
-                        URL Gambar
-                    </label>
-
-                    <input
-                        id="productImage"
-                        type="url"
-                        class="search-input"
-                        placeholder="https://..."
-                    >
-
-                </div>
-
-                <div class="md:col-span-2">
-
-                    <label class="block text-sm font-semibold mb-1">
-                        Deskripsi
-                    </label>
-
-                    <textarea
-                        id="productDescription"
-                        rows="4"
-                        class="search-input"
-                        placeholder="Deskripsi produk..."
-                    ></textarea>
-
-                </div>
-
-            </div>
-
-            <div class="flex justify-end gap-3 mt-6">
-
-                <button
-                    type="button"
-                    onclick="closeProductModal()"
-                    class="px-5 py-2.5 border rounded-lg"
-                >
-                    Batal
-                </button>
-
-                <button
-                    type="submit"
-                    id="saveProductButton"
-                    class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-                >
-                    <i class="fa-solid fa-floppy-disk mr-2"></i>
-                    Simpan Produk
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================
-     ORDER DETAIL MODAL
-========================================= -->
-
-<div id="orderModal" class="modal-bg">
-
-    <div class="modal">
-
-        <div class="p-5 border-b flex justify-between items-center">
-
-            <div>
-
-                <h3 class="text-xl font-bold">
-                    Detail Pesanan
+                <h3>
+                    Total Produk
                 </h3>
 
-                <p class="text-sm text-gray-500">
-                    Informasi lengkap pesanan
+                <p id="totalProducts">
+                    0
                 </p>
 
             </div>
 
-            <button
-                onclick="closeOrderModal()"
-                class="text-gray-400 hover:text-gray-700 text-xl"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+
+            <!-- STATUS -->
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🛡️
+                </div>
+
+                <h3>
+                    Status Akun
+                </h3>
+
+                <p
+                    id="adminStatus"
+                    style="font-size: 24px; color: green;"
+                >
+                    Admin Active
+                </p>
+
+            </div>
 
         </div>
 
-        <div id="orderDetailContent" class="p-5"></div>
+
+        <!-- QUICK MENU -->
+        <div class="quick-menu">
+
+            <h3>
+                <i class="fa-solid fa-bolt"></i>
+                Menu Admin
+            </h3>
+
+            <div class="quick-buttons">
+
+                <a href="admin.html">
+                    <i class="fa-solid fa-gauge"></i>
+                    Dashboard
+                </a>
+
+                <a href="orders.html">
+                    <i class="fa-solid fa-box"></i>
+                    Kelola Pesanan
+                </a>
+
+                <a href="products.html">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Kelola Produk
+                </a>
+
+                <a href="toko.html">
+                    <i class="fa-solid fa-store"></i>
+                    Lihat Toko
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATUS -->
+        <div
+            id="systemStatus"
+            class="status"
+        >
+            <i class="fa-solid fa-circle-check"></i>
+            Sistem sedang memuat data...
+        </div>
 
     </div>
 
-</div>
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 
 
-<!-- NOTIFICATION -->
+    <script>
 
-<div id="notification" class="notification"></div>
+        /* =====================================================
+           SUPABASE CONFIG
+        ===================================================== */
 
+        const SUPABASE_URL =
+            "https://fbnknnrltrsvydyxgujr.supabase.co";
 
-<script>
+        const SUPABASE_KEY =
+            "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
-/* =====================================================
-   SUPABASE
-===================================================== */
-
-const SUPABASE_URL =
-    "https://fbnknnrltrsvydyxgujr.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
-
-let db = null;
+        let supabaseClient = null;
 
 
-/* =====================================================
-   STATE
-===================================================== */
+        /* =====================================================
+           INIT SUPABASE
+        ===================================================== */
 
-let allProducts = [];
-let allOrders = [];
-let allCartActivities = [];
+        function initializeSupabase() {
 
-let currentUser = null;
-let currentSection = "dashboard";
+            if (!window.supabase) {
 
-
-/* =====================================================
-   INIT
-===================================================== */
-
-document.addEventListener("DOMContentLoaded", async () => {
-
-    console.log("=================================");
-    console.log("BlueShop Admin");
-    console.log("Memulai halaman admin...");
-    console.log("=================================");
-
-    /* 1. Cek login ADMIN dahulu */
-    const adminAllowed = checkAdmin();
-
-    if (!adminAllowed) {
-        return;
-    }
-
-    /* 2. Baru koneksi Supabase */
-    const supabaseReady = initializeSupabase();
-
-    if (!supabaseReady) {
-        return;
-    }
-
-    /* 3. Load semua data */
-    await loadAllData();
-
-});
-
-
-/* =====================================================
-   INITIALIZE SUPABASE
-===================================================== */
-
-function initializeSupabase() {
-
-    if (!window.supabase) {
-
-        console.error(
-            "Supabase CDN tidak ditemukan."
-        );
-
-        showNotification(
-            "Supabase belum berhasil dimuat.",
-            "error"
-        );
-
-        return false;
-    }
-
-    try {
-
-        db = window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
-
-        console.log(
-            "✅ Supabase berhasil terhubung."
-        );
-
-        return true;
-
-    } catch (error) {
-
-        console.error(
-            "Supabase init error:",
-            error
-        );
-
-        showNotification(
-            "Gagal menghubungkan Supabase.",
-            "error"
-        );
-
-        return false;
-    }
-}
-
-
-/* =====================================================
-   CHECK ADMIN
-===================================================== */
-
-function checkAdmin() {
-
-    let currentUserData = null;
-
-    /*
-       Kita cek beberapa nama localStorage
-       agar cocok dengan login.html yang berbeda.
-    */
-
-    const storageKeys = [
-        "user",
-        "currentUser",
-        "user_session"
-    ];
-
-
-    for (const key of storageKeys) {
-
-        const stored =
-            localStorage.getItem(key);
-
-        if (!stored) {
-            continue;
-        }
-
-
-        try {
-
-            const parsed =
-                JSON.parse(stored);
-
-            if (
-                parsed &&
-                typeof parsed === "object"
-            ) {
-
-                currentUserData = parsed;
-
-                console.log(
-                    "Data login ditemukan dari:",
-                    key,
-                    parsed
+                console.error(
+                    "Supabase JS gagal dimuat."
                 );
 
-                break;
+                alert(
+                    "Supabase gagal dimuat. Periksa koneksi internet."
+                );
+
+                return false;
             }
 
-        } catch (error) {
-
-            /*
-               Kalau localStorage hanya berisi
-               username biasa.
-            */
-
-            currentUserData = {
-                username: stored
-            };
+            supabaseClient =
+                window.supabase.createClient(
+                    SUPABASE_URL,
+                    SUPABASE_KEY
+                );
 
             console.log(
-                "Username ditemukan dari:",
-                key
+                "✅ Supabase admin berhasil terhubung."
             );
 
-            break;
+            return true;
         }
 
-    }
 
+        /* =====================================================
+           CEK LOGIN + ROLE ADMIN
+        ===================================================== */
 
-    /* Tidak ada user */
+        async function checkAdmin() {
 
-    if (!currentUserData) {
+            try {
 
-        console.warn(
-            "Tidak ada data login."
-        );
+                const {
+                    data: {
+                        user
+                    },
+                    error
+                } =
+                    await supabaseClient.auth.getUser();
 
-        alert(
-            "Silakan login sebagai admin terlebih dahulu."
-        );
 
-        window.location.href =
-            "login.html?redirect=admin.html";
+                /* BELUM LOGIN */
 
-        return false;
-    }
+                if (
+                    error ||
+                    !user
+                ) {
 
-
-    currentUser =
-        currentUserData;
-
-
-    console.log(
-        "USER LOGIN:",
-        currentUser
-    );
-
-
-    /* =================================================
-       AMBIL ROLE
-    ================================================= */
-
-    const role =
-        String(
-            currentUser.role ||
-            currentUser.user_role ||
-            currentUser.level ||
-            currentUser.type ||
-            ""
-        )
-        .toLowerCase()
-        .trim();
-
-
-    /* =================================================
-       AMBIL USERNAME
-    ================================================= */
-
-    const username =
-        String(
-            currentUser.username ||
-            currentUser.user_name ||
-            currentUser.name ||
-            currentUser.nama ||
-            ""
-        )
-        .toLowerCase()
-        .trim();
-
-
-    /* =================================================
-       AMBIL EMAIL
-    ================================================= */
-
-    const email =
-        String(
-            currentUser.email ||
-            ""
-        )
-        .toLowerCase()
-        .trim();
-
-
-    console.log(
-        "ROLE:",
-        role
-    );
-
-    console.log(
-        "USERNAME:",
-        username
-    );
-
-    console.log(
-        "EMAIL:",
-        email
-    );
-
-
-    /* =================================================
-       CEK ADMIN
-    ================================================= */
-
-    const isAdmin =
-        role === "admin" ||
-        username === "admin" ||
-        email === "admin@blueshop.com";
-
-
-    console.log(
-        "IS ADMIN:",
-        isAdmin
-    );
-
-
-    /* =================================================
-       BUKAN ADMIN
-    ================================================= */
-
-    if (!isAdmin) {
-
-        alert(
-            "Akses ditolak.\n\n" +
-            "Halaman ini hanya dapat diakses oleh Admin."
-        );
-
-        window.location.href =
-            "toko.html";
-
-        return false;
-    }
-
-
-    /* =================================================
-       TAMPILKAN NAMA ADMIN
-    ================================================= */
-
-    const adminName =
-        document.getElementById(
-            "adminName"
-        );
-
-
-    if (adminName) {
-
-        adminName.textContent =
-            currentUser.name ||
-            currentUser.nama ||
-            currentUser.username ||
-            currentUser.user_name ||
-            "Admin";
-    }
-
-
-    console.log(
-        "================================="
-    );
-
-    console.log(
-        "✅ ADMIN BERHASIL LOGIN"
-    );
-
-    console.log(
-        "✅ Membuka admin.html"
-    );
-
-    console.log(
-        "================================="
-    );
-
-
-    return true;
-}
-
-
-/* =====================================================
-   LOAD ALL DATA
-===================================================== */
-
-async function loadAllData() {
-
-    if (!db) {
-
-        console.error(
-            "Database belum siap."
-        );
-
-        return;
-    }
-
-
-    try {
-
-        await Promise.all([
-            loadProducts(),
-            loadOrders(),
-            loadCartActivities()
-        ]);
-
-
-        updateStatistics();
-
-        renderRecentOrders();
-
-        renderRecentCartActivity();
-
-        renderProducts();
-
-        renderOrders();
-
-        renderCartActivities();
-
-
-        console.log(
-            "✅ Semua data admin berhasil dimuat."
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Load all data error:",
-            error
-        );
-
-        showNotification(
-            "Gagal memuat data dashboard.",
-            "error"
-        );
-    }
-}
-
-
-/* =====================================================
-   LOAD PRODUCTS
-===================================================== */
-
-async function loadProducts() {
-
-    const {
-        data,
-        error
-    } = await db
-        .from("produk")
-        .select("*")
-        .order(
-            "id_produk",
-            {
-                ascending: false
-            }
-        );
-
-
-    if (error) {
-
-        console.error(
-            "Produk:",
-            error
-        );
-
-        showNotification(
-            "Gagal mengambil data produk: " +
-            error.message,
-            "error"
-        );
-
-        allProducts = [];
-
-        return;
-    }
-
-
-    allProducts =
-        data || [];
-}
-
-
-/* =====================================================
-   LOAD ORDERS
-===================================================== */
-
-async function loadOrders() {
-
-    const {
-        data,
-        error
-    } = await db
-        .from("orders")
-        .select("*")
-        .order(
-            "created_at",
-            {
-                ascending: false
-            }
-        );
-
-
-    if (error) {
-
-        console.error(
-            "Orders:",
-            error
-        );
-
-        showNotification(
-            "Gagal mengambil pesanan: " +
-            error.message,
-            "error"
-        );
-
-        allOrders = [];
-
-        return;
-    }
-
-
-    allOrders =
-        data || [];
-}
-
-
-/* =====================================================
-   LOAD CART ACTIVITY
-===================================================== */
-
-async function loadCartActivities() {
-
-    const {
-        data,
-        error
-    } = await db
-        .from("cart_activity")
-        .select("*")
-        .order(
-            "created_at",
-            {
-                ascending: false
-            }
-        );
-
-
-    if (error) {
-
-        console.error(
-            "Cart activity:",
-            error
-        );
-
-        showNotification(
-            "Gagal mengambil aktivitas keranjang: " +
-            error.message,
-            "error"
-        );
-
-        allCartActivities = [];
-
-        return;
-    }
-
-
-    allCartActivities =
-        data || [];
-}
-
-
-/* =====================================================
-   STATISTICS
-===================================================== */
-
-function updateStatistics() {
-
-    document.getElementById(
-        "statProducts"
-    ).textContent =
-        allProducts.length;
-
-
-    document.getElementById(
-        "statOrders"
-    ).textContent =
-        allOrders.length;
-
-
-    document.getElementById(
-        "statCart"
-    ).textContent =
-        allCartActivities.length;
-
-
-    let revenue = 0;
-
-
-    allOrders.forEach(order => {
-
-        revenue += Number(
-            order.total_harga ||
-            order.total ||
-            order.total_price ||
-            0
-        );
-
-    });
-
-
-    document.getElementById(
-        "statRevenue"
-    ).textContent =
-        formatRupiah(revenue);
-}
-
-
-/* =====================================================
-   PRODUCTS
-===================================================== */
-
-function renderProducts(
-    list = allProducts
-) {
-
-    const body =
-        document.getElementById(
-            "productsBody"
-        );
-
-
-    if (!list.length) {
-
-        body.innerHTML = `
-            <tr>
-                <td
-                    colspan="7"
-                    class="text-center py-10 text-gray-400"
-                >
-                    Belum ada produk.
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-
-    body.innerHTML =
-        list.map(
-            (product, index) => {
-
-                const id =
-                    product.id_produk;
-
-
-                const image =
-                    product.gambar ||
-                    "https://via.placeholder.com/100?text=Produk";
-
-
-                return `
-                    <tr>
-
-                        <td>
-                            ${index + 1}
-                        </td>
-
-                        <td>
-
-                            <div class="flex items-center gap-3">
-
-                                <img
-                                    src="${escapeAttribute(image)}"
-                                    class="product-img"
-                                    onerror="this.src='https://via.placeholder.com/100?text=Produk'"
-                                >
-
-                                <div>
-
-                                    <div class="font-semibold">
-                                        ${escapeHTML(
-                                            product.nama_produk ||
-                                            "-"
-                                        )}
-                                    </div>
-
-                                    <div class="text-xs text-gray-400">
-                                        ID:
-                                        ${escapeHTML(
-                                            String(
-                                                id ?? "-"
-                                            )
-                                        )}
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-blue-100 text-blue-700">
-                                ${escapeHTML(
-                                    product.kategori ||
-                                    "Lainnya"
-                                )}
-                            </span>
-
-                        </td>
-
-                        <td class="font-semibold">
-                            ${formatRupiah(
-                                product.harga
-                            )}
-                        </td>
-
-                        <td>
-                            ${Number(
-                                product.stok || 0
-                            )}
-                        </td>
-
-                        <td>
-                            ⭐
-                            ${Number(
-                                product.rating || 0
-                            ).toFixed(1)}
-                        </td>
-
-                        <td>
-
-                            <div class="flex gap-2">
-
-                                <button
-                                    onclick="editProduct('${escapeAttribute(String(id))}')"
-                                    class="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100"
-                                    title="Edit"
-                                >
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-
-                                <button
-                                    onclick="deleteProduct('${escapeAttribute(String(id))}')"
-                                    class="w-9 h-9 rounded-lg bg-red-50 text-red-600 hover:bg-red-100"
-                                    title="Hapus"
-                                >
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-                `;
-
-            }
-        ).join("");
-}
-
-
-/* =====================================================
-   FILTER PRODUCTS
-===================================================== */
-
-function filterProducts() {
-
-    const keyword =
-        document.getElementById(
-            "productSearch"
-        )
-        .value
-        .toLowerCase()
-        .trim();
-
-
-    if (!keyword) {
-
-        renderProducts(
-            allProducts
-        );
-
-        return;
-    }
-
-
-    const filtered =
-        allProducts.filter(
-            product => {
-
-                return (
-
-                    String(
-                        product.nama_produk ||
-                        ""
-                    )
-                    .toLowerCase()
-                    .includes(keyword)
-
-                    ||
-
-                    String(
-                        product.kategori ||
-                        ""
-                    )
-                    .toLowerCase()
-                    .includes(keyword)
-
-                );
-
-            }
-        );
-
-
-    renderProducts(filtered);
-}
-
-
-/* =====================================================
-   PRODUCT MODAL
-===================================================== */
-
-function openProductModal(
-    product = null
-) {
-
-    document
-        .getElementById(
-            "productModal"
-        )
-        .classList.add("show");
-
-
-    if (product) {
-
-        document.getElementById(
-            "productModalTitle"
-        ).textContent =
-            "Edit Produk";
-
-
-        document.getElementById(
-            "productId"
-        ).value =
-            product.id_produk ?? "";
-
-
-        document.getElementById(
-            "productName"
-        ).value =
-            product.nama_produk ?? "";
-
-
-        document.getElementById(
-            "productCategory"
-        ).value =
-            product.kategori ||
-            "Lainnya";
-
-
-        document.getElementById(
-            "productPrice"
-        ).value =
-            product.harga ?? 0;
-
-
-        document.getElementById(
-            "productStock"
-        ).value =
-            product.stok ?? 0;
-
-
-        document.getElementById(
-            "productRating"
-        ).value =
-            product.rating ?? 5;
-
-
-        document.getElementById(
-            "productImage"
-        ).value =
-            product.gambar ?? "";
-
-
-        document.getElementById(
-            "productDescription"
-        ).value =
-            product.deskripsi ?? "";
-
-
-    } else {
-
-        document.getElementById(
-            "productModalTitle"
-        ).textContent =
-            "Tambah Produk";
-
-
-        document
-            .getElementById(
-                "productForm"
-            )
-            .reset();
-
-
-        document.getElementById(
-            "productId"
-        ).value = "";
-
-
-        document.getElementById(
-            "productStock"
-        ).value = 100;
-
-
-        document.getElementById(
-            "productRating"
-        ).value = 5;
-
-    }
-
-}
-
-
-/* =====================================================
-   CLOSE PRODUCT MODAL
-===================================================== */
-
-function closeProductModal() {
-
-    document
-        .getElementById(
-            "productModal"
-        )
-        .classList.remove("show");
-
-}
-
-
-/* =====================================================
-   SAVE PRODUCT
-===================================================== */
-
-async function saveProduct(event) {
-
-    event.preventDefault();
-
-
-    if (!db) {
-
-        showNotification(
-            "Database belum siap.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    const id =
-        document
-            .getElementById(
-                "productId"
-            )
-            .value
-            .trim();
-
-
-    const productData = {
-
-        nama_produk:
-            document
-                .getElementById(
-                    "productName"
-                )
-                .value
-                .trim(),
-
-        kategori:
-            document.getElementById(
-                "productCategory"
-            ).value,
-
-        harga:
-            Number(
-                document.getElementById(
-                    "productPrice"
-                ).value
-            ),
-
-        stok:
-            Number(
-                document.getElementById(
-                    "productStock"
-                ).value
-            ),
-
-        rating:
-            Number(
-                document.getElementById(
-                    "productRating"
-                ).value
-            ),
-
-        gambar:
-            document.getElementById(
-                "productImage"
-            ).value
-            .trim(),
-
-        deskripsi:
-            document.getElementById(
-                "productDescription"
-            ).value
-            .trim()
-
-    };
-
-
-    const button =
-        document.getElementById(
-            "saveProductButton"
-        );
-
-
-    button.disabled = true;
-
-    button.innerHTML =
-        `<i class="fa-solid fa-spinner fa-spin mr-2"></i>Menyimpan...`;
-
-
-    try {
-
-        let result;
-
-
-        if (id) {
-
-            result =
-                await db
-                    .from("produk")
-                    .update(productData)
-                    .eq(
-                        "id_produk",
-                        id
+                    console.log(
+                        "❌ Belum login."
                     );
 
-        } else {
-
-            result =
-                await db
-                    .from("produk")
-                    .insert([
-                        productData
-                    ]);
-
-        }
-
-
-        if (result.error) {
-            throw result.error;
-        }
-
-
-        showNotification(
-            id
-                ? "Produk berhasil diperbarui."
-                : "Produk berhasil ditambahkan.",
-            "success"
-        );
-
-
-        closeProductModal();
-
-
-        await loadAllData();
-
-
-    } catch (error) {
-
-        console.error(
-            "Save product:",
-            error
-        );
-
-        showNotification(
-            "Gagal menyimpan produk: " +
-            error.message,
-            "error"
-        );
-
-
-    } finally {
-
-        button.disabled = false;
-
-        button.innerHTML =
-            `<i class="fa-solid fa-floppy-disk mr-2"></i>Simpan Produk`;
-
-    }
-
-}
-
-
-/* =====================================================
-   EDIT PRODUCT
-===================================================== */
-
-function editProduct(id) {
-
-    const product =
-        allProducts.find(
-            p =>
-                String(
-                    p.id_produk
-                ) === String(id)
-        );
-
-
-    if (!product) {
-
-        showNotification(
-            "Produk tidak ditemukan.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    openProductModal(
-        product
-    );
-}
-
-
-/* =====================================================
-   DELETE PRODUCT
-===================================================== */
-
-async function deleteProduct(id) {
-
-    const product =
-        allProducts.find(
-            p =>
-                String(
-                    p.id_produk
-                ) === String(id)
-        );
-
-
-    if (!product) return;
-
-
-    const confirmDelete =
-        confirm(
-            `Hapus produk "${product.nama_produk}"?`
-        );
-
-
-    if (!confirmDelete) return;
-
-
-    const {
-        error
-    } = await db
-        .from("produk")
-        .delete()
-        .eq(
-            "id_produk",
-            id
-        );
-
-
-    if (error) {
-
-        console.error(
-            error
-        );
-
-        showNotification(
-            "Gagal menghapus produk: " +
-            error.message,
-            "error"
-        );
-
-        return;
-    }
-
-
-    showNotification(
-        "Produk berhasil dihapus.",
-        "success"
-    );
-
-
-    await loadAllData();
-}
-
-
-/* =====================================================
-   ORDERS
-===================================================== */
-
-function renderOrders(
-    list = allOrders
-) {
-
-    const body =
-        document.getElementById(
-            "ordersBody"
-        );
-
-
-    if (!list.length) {
-
-        body.innerHTML = `
-            <tr>
-                <td
-                    colspan="9"
-                    class="text-center py-10 text-gray-400"
-                >
-                    Belum ada pesanan.
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-
-    body.innerHTML =
-        list.map(
-            (order, index) => {
-
-                const name =
-                    order.user_name ||
-                    order.nama ||
-                    order.name ||
-                    "User";
-
-
-                const phone =
-                    order.nomor_hp ||
-                    order.phone ||
-                    order.no_hp ||
-                    "-";
-
-
-                const address =
-                    order.alamat ||
-                    order.address ||
-                    "-";
-
-
-                const total =
-                    order.total_harga ||
-                    order.total ||
-                    0;
-
-
-                const status =
-                    order.status ||
-                    "Menunggu Konfirmasi";
-
-
-                return `
-                    <tr>
-
-                        <td>
-                            ${index + 1}
-                        </td>
-
-                        <td>
-
-                            <div class="font-semibold">
-                                ${escapeHTML(
-                                    String(name)
-                                )}
-                            </div>
-
-                            <div class="text-xs text-gray-400">
-                                ${escapeHTML(
-                                    String(
-                                        order.user_id ||
-                                        "-"
-                                    )
-                                )}
-                            </div>
-
-                        </td>
-
-                        <td>
-                            ${escapeHTML(
-                                String(phone)
-                            )}
-                        </td>
-
-                        <td class="max-w-xs">
-
-                            <div
-                                class="truncate"
-                                title="${escapeAttribute(
-                                    String(address)
-                                )}"
-                            >
-                                ${escapeHTML(
-                                    String(address)
-                                )}
-                            </div>
-
-                        </td>
-
-                        <td>
-                            ${getOrderItemsSummary(
-                                order
-                            )}
-                        </td>
-
-                        <td class="font-semibold">
-                            ${formatRupiah(
-                                total
-                            )}
-                        </td>
-
-                        <td>
-                            ${statusBadge(
-                                status
-                            )}
-                        </td>
-
-                        <td>
-                            ${formatDate(
-                                order.created_at
-                            )}
-                        </td>
-
-                        <td>
-
-                            <button
-                                onclick="showOrderDetail('${escapeAttribute(String(order.id ?? index))}')"
-                                class="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100"
-                                title="Detail"
-                            >
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-
-                        </td>
-
-                    </tr>
-                `;
-
-            }
-        ).join("");
-}
-
-
-/* =====================================================
-   FILTER ORDERS
-===================================================== */
-
-function filterOrders() {
-
-    const keyword =
-        document.getElementById(
-            "orderSearch"
-        )
-        .value
-        .toLowerCase()
-        .trim();
-
-
-    if (!keyword) {
-
-        renderOrders(
-            allOrders
-        );
-
-        return;
-    }
-
-
-    const filtered =
-        allOrders.filter(
-            order => {
-
-                const text = [
-
-                    order.user_name,
-                    order.nama,
-                    order.name,
-                    order.nomor_hp,
-                    order.phone,
-                    order.alamat,
-                    order.address,
-                    order.status
-
-                ]
-                .join(" ")
-                .toLowerCase();
-
-
-                return text.includes(
-                    keyword
-                );
-
-            }
-        );
-
-
-    renderOrders(
-        filtered
-    );
-}
-
-
-/* =====================================================
-   RECENT ORDERS
-===================================================== */
-
-function renderRecentOrders() {
-
-    const body =
-        document.getElementById(
-            "recentOrdersBody"
-        );
-
-
-    const list =
-        allOrders.slice(
-            0,
-            5
-        );
-
-
-    if (!list.length) {
-
-        body.innerHTML = `
-            <tr>
-                <td
-                    colspan="3"
-                    class="text-center py-8 text-gray-400"
-                >
-                    Belum ada pesanan.
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-
-    body.innerHTML =
-        list.map(
-            order => {
-
-                const name =
-                    order.user_name ||
-                    order.nama ||
-                    order.name ||
-                    "User";
-
-
-                const total =
-                    order.total_harga ||
-                    order.total ||
-                    0;
-
-
-                const status =
-                    order.status ||
-                    "Menunggu Konfirmasi";
-
-
-                return `
-                    <tr>
-
-                        <td>
-
-                            <div class="font-semibold">
-                                ${escapeHTML(
-                                    String(name)
-                                )}
-                            </div>
-
-                            <div class="text-xs text-gray-400">
-                                ${formatDate(
-                                    order.created_at
-                                )}
-                            </div>
-
-                        </td>
-
-                        <td class="font-semibold">
-                            ${formatRupiah(
-                                total
-                            )}
-                        </td>
-
-                        <td>
-                            ${statusBadge(
-                                status
-                            )}
-                        </td>
-
-                    </tr>
-                `;
-
-            }
-        ).join("");
-}
-
-
-/* =====================================================
-   ORDER DETAIL
-===================================================== */
-
-function showOrderDetail(id) {
-
-    const index =
-        allOrders.findIndex(
-            (order, i) =>
-                String(
-                    order.id ?? i
-                ) === String(id)
-        );
-
-
-    if (index === -1) {
-        return;
-    }
-
-
-    const order =
-        allOrders[index];
-
-
-    const name =
-        order.user_name ||
-        order.nama ||
-        order.name ||
-        "User";
-
-
-    const phone =
-        order.nomor_hp ||
-        order.phone ||
-        order.no_hp ||
-        "-";
-
-
-    const address =
-        order.alamat ||
-        order.address ||
-        "-";
-
-
-    const status =
-        order.status ||
-        "Menunggu Konfirmasi";
-
-
-    document.getElementById(
-        "orderDetailContent"
-    ).innerHTML = `
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-            <div class="bg-gray-50 rounded-xl p-4">
-
-                <div class="text-xs text-gray-500">
-                    Nama Pembeli
-                </div>
-
-                <div class="font-bold mt-1">
-                    ${escapeHTML(
-                        String(name)
-                    )}
-                </div>
-
-            </div>
-
-
-            <div class="bg-gray-50 rounded-xl p-4">
-
-                <div class="text-xs text-gray-500">
-                    Nomor HP / WhatsApp
-                </div>
-
-                <div class="font-bold mt-1">
-                    ${escapeHTML(
-                        String(phone)
-                    )}
-                </div>
-
-            </div>
-
-
-            <div class="bg-gray-50 rounded-xl p-4 md:col-span-2">
-
-                <div class="text-xs text-gray-500">
-                    Alamat Pengiriman
-                </div>
-
-                <div class="font-semibold mt-1">
-                    ${escapeHTML(
-                        String(address)
-                    )}
-                </div>
-
-            </div>
-
-
-            <div class="bg-gray-50 rounded-xl p-4">
-
-                <div class="text-xs text-gray-500">
-                    Total Pesanan
-                </div>
-
-                <div class="font-bold text-lg mt-1">
-                    ${formatRupiah(
-                        order.total_harga ||
-                        order.total ||
-                        0
-                    )}
-                </div>
-
-            </div>
-
-
-            <div class="bg-gray-50 rounded-xl p-4">
-
-                <div class="text-xs text-gray-500">
-                    Status
-                </div>
-
-                <div class="mt-2">
-                    ${statusBadge(
-                        status
-                    )}
-                </div>
-
-            </div>
-
-
-            <div class="bg-gray-50 rounded-xl p-4 md:col-span-2">
-
-                <div class="text-xs text-gray-500 mb-2">
-                    Produk yang Dipesan
-                </div>
-
-                ${renderOrderItems(
-                    order.items
-                )}
-
-            </div>
-
-
-            <div class="text-xs text-gray-400 md:col-span-2">
-
-                Pesanan dibuat:
-                ${formatDate(
-                    order.created_at
-                )}
-
-            </div>
-
-        </div>
-    `;
-
-
-    document
-        .getElementById(
-            "orderModal"
-        )
-        .classList.add("show");
-}
-
-
-/* =====================================================
-   CLOSE ORDER MODAL
-===================================================== */
-
-function closeOrderModal() {
-
-    document
-        .getElementById(
-            "orderModal"
-        )
-        .classList.remove("show");
-}
-
-
-/* =====================================================
-   CART ACTIVITY
-===================================================== */
-
-function renderCartActivities(
-    list = allCartActivities
-) {
-
-    const body =
-        document.getElementById(
-            "cartActivityBody"
-        );
-
-
-    if (!list.length) {
-
-        body.innerHTML = `
-            <tr>
-                <td
-                    colspan="7"
-                    class="text-center py-10 text-gray-400"
-                >
-                    Belum ada aktivitas keranjang.
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-
-    body.innerHTML =
-        list.map(
-            (activity, index) => {
-
-                const userName =
-                    activity.user_name ||
-                    "User";
+                    window.location.href =
+                        "login.html";
+
+                    return false;
+                }
 
 
                 const email =
-                    activity.user_email ||
-                    "-";
+                    String(
+                        user.email || ""
+                    )
+                    .trim()
+                    .toLowerCase();
 
 
-                const product =
-                    activity.product_name ||
-                    "-";
-
-
-                return `
-                    <tr>
-
-                        <td>
-                            ${index + 1}
-                        </td>
-
-                        <td>
-
-                            <div class="font-semibold">
-                                ${escapeHTML(
-                                    String(userName)
-                                )}
-                            </div>
-
-                            <div class="text-xs text-gray-400">
-                                ${escapeHTML(
-                                    String(
-                                        activity.user_id ||
-                                        "-"
-                                    )
-                                )}
-                            </div>
-
-                        </td>
-
-                        <td>
-                            ${escapeHTML(
-                                String(email)
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHTML(
-                                String(product)
-                            )}
-                        </td>
-
-                        <td>
-                            ${formatRupiah(
-                                activity.product_price
-                            )}
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-orange-100 text-orange-700">
-                                ${Number(
-                                    activity.quantity ||
-                                    1
-                                )}
-                            </span>
-
-                        </td>
-
-                        <td>
-                            ${formatDate(
-                                activity.created_at
-                            )}
-                        </td>
-
-                    </tr>
-                `;
-
-            }
-        ).join("");
-}
-
-
-/* =====================================================
-   FILTER CART ACTIVITY
-===================================================== */
-
-function filterCartActivity() {
-
-    const keyword =
-        document.getElementById(
-            "cartSearch"
-        )
-        .value
-        .toLowerCase()
-        .trim();
-
-
-    if (!keyword) {
-
-        renderCartActivities(
-            allCartActivities
-        );
-
-        return;
-    }
-
-
-    const filtered =
-        allCartActivities.filter(
-            activity => {
-
-                const text = [
-
-                    activity.user_name,
-                    activity.user_email,
-                    activity.product_name,
-                    activity.product_id
-
-                ]
-                .join(" ")
-                .toLowerCase();
-
-
-                return text.includes(
-                    keyword
+                console.log(
+                    "🔎 Email login:",
+                    email
                 );
 
-            }
-        );
+
+                /* AMBIL ROLE DARI DATABASE */
+
+                const {
+                    data: profile,
+                    error: profileError
+                } =
+                    await supabaseClient
+                        .from("users_list")
+                        .select(
+                            "id, name, username, role"
+                        )
+                        .eq(
+                            "username",
+                            email
+                        )
+                        .maybeSingle();
 
 
-    renderCartActivities(
-        filtered
-    );
-}
+                if (profileError) {
+
+                    console.error(
+                        "❌ Gagal mengambil profile:",
+                        profileError
+                    );
+
+                    alert(
+                        "Gagal membaca data role admin."
+                    );
+
+                    window.location.href =
+                        "toko.html";
+
+                    return false;
+                }
 
 
-/* =====================================================
-   RECENT CART ACTIVITY
-===================================================== */
+                if (!profile) {
 
-function renderRecentCartActivity() {
+                    console.log(
+                        "❌ Profile tidak ditemukan."
+                    );
 
-    const body =
-        document.getElementById(
-            "recentCartBody"
-        );
+                    alert(
+                        "Data pengguna tidak ditemukan."
+                    );
 
+                    window.location.href =
+                        "toko.html";
 
-    const list =
-        allCartActivities.slice(
-            0,
-            5
-        );
+                    return false;
+                }
 
 
-    if (!list.length) {
-
-        body.innerHTML = `
-            <tr>
-                <td
-                    colspan="3"
-                    class="text-center py-8 text-gray-400"
-                >
-                    Belum ada aktivitas.
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
+                console.log(
+                    "👤 PROFILE:",
+                    profile
+                );
 
 
-    body.innerHTML =
-        list.map(
-            activity => {
-
-                return `
-                    <tr>
-
-                        <td>
-
-                            <div class="font-semibold">
-                                ${escapeHTML(
-                                    String(
-                                        activity.user_name ||
-                                        "User"
-                                    )
-                                )}
-                            </div>
-
-                            <div class="text-xs text-gray-400">
-                                ${formatDate(
-                                    activity.created_at
-                                )}
-                            </div>
-
-                        </td>
-
-                        <td>
-                            ${escapeHTML(
-                                String(
-                                    activity.product_name ||
-                                    "-"
-                                )
-                            )}
-                        </td>
-
-                        <td>
-                            ×${Number(
-                                activity.quantity ||
-                                1
-                            )}
-                        </td>
-
-                    </tr>
-                `;
-
-            }
-        ).join("");
-}
+                const role =
+                    String(
+                        profile.role || ""
+                    )
+                    .trim()
+                    .toLowerCase();
 
 
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-function showSection(
-    section
-) {
-
-    currentSection =
-        section;
+                console.log(
+                    "🛡️ ROLE:",
+                    role
+                );
 
 
-    const sections = [
-        "dashboard",
-        "orders",
-        "cartActivity",
-        "products"
-    ];
+                /* BUKAN ADMIN */
+
+                if (role !== "admin") {
+
+                    alert(
+                        "Akses ditolak. Halaman ini hanya untuk Admin."
+                    );
+
+                    window.location.href =
+                        "toko.html";
+
+                    return false;
+                }
 
 
-    sections.forEach(
-        name => {
+                /* ADMIN BERHASIL */
 
-            const element =
                 document.getElementById(
-                    "section-" +
-                    name
+                    "adminName"
+                ).textContent =
+                    profile.name ||
+                    profile.username ||
+                    "Admin";
+
+
+                document.getElementById(
+                    "adminStatus"
+                ).textContent =
+                    "Admin Active";
+
+
+                console.log(
+                    "✅ ADMIN TERDETEKSI."
                 );
 
 
-            if (element) {
+                return true;
 
-                element.classList.toggle(
-                    "hidden",
-                    name !== section
+            } catch (error) {
+
+                console.error(
+                    "❌ Error checkAdmin:",
+                    error
+                );
+
+                window.location.href =
+                    "login.html";
+
+                return false;
+            }
+        }
+
+
+        /* =====================================================
+           LOAD STATISTIK
+        ===================================================== */
+
+        async function loadStats() {
+
+            try {
+
+                console.log(
+                    "📊 Mengambil statistik..."
+                );
+
+
+                /* TOTAL PESANAN */
+
+                const {
+                    count: ordersCount,
+                    error: ordersError
+                } =
+                    await supabaseClient
+                        .from("orders")
+                        .select(
+                            "*",
+                            {
+                                count: "exact",
+                                head: true
+                            }
+                        );
+
+
+                if (ordersError) {
+
+                    console.error(
+                        "❌ Error orders:",
+                        ordersError
+                    );
+
+                } else {
+
+                    document.getElementById(
+                        "totalOrders"
+                    ).textContent =
+                        ordersCount || 0;
+
+                }
+
+
+                /* TOTAL PRODUK */
+
+                const {
+                    count: productsCount,
+                    error: productsError
+                } =
+                    await supabaseClient
+                        .from("products")
+                        .select(
+                            "*",
+                            {
+                                count: "exact",
+                                head: true
+                            }
+                        );
+
+
+                if (productsError) {
+
+                    console.error(
+                        "❌ Error products:",
+                        productsError
+                    );
+
+                } else {
+
+                    document.getElementById(
+                        "totalProducts"
+                    ).textContent =
+                        productsCount || 0;
+
+                }
+
+
+                /* STATUS */
+
+                document.getElementById(
+                    "systemStatus"
+                ).innerHTML =
+                    `
+                    <i class="fa-solid fa-circle-check"></i>
+                    Dashboard berhasil terhubung ke Supabase.
+                    `;
+
+
+                console.log(
+                    "✅ Statistik berhasil dimuat."
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "❌ Gagal load statistik:",
+                    error
+                );
+
+                document.getElementById(
+                    "systemStatus"
+                ).innerHTML =
+                    `
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Gagal mengambil data dari Supabase.
+                    `;
+
+            }
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        async function logout() {
+
+            try {
+
+                await supabaseClient.auth.signOut();
+
+            } catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
                 );
 
             }
 
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            localStorage.removeItem(
+                "currentUser"
+            );
+
+            localStorage.removeItem(
+                "isLoggedIn"
+            );
+
+            localStorage.removeItem(
+                "user_session"
+            );
+
+
+            window.location.href =
+                "login.html";
         }
-    );
 
 
-    document
-        .querySelectorAll(
-            ".menu-item"
-        )
-        .forEach(
-            item => {
+        /* =====================================================
+           START
+        ===================================================== */
 
-                item.classList.toggle(
-                    "active",
-                    item.dataset.section === section
+        document.addEventListener(
+            "DOMContentLoaded",
+            async function() {
+
+                console.log(
+                    "🚀 Admin Dashboard starting..."
                 );
 
+
+                const ready =
+                    initializeSupabase();
+
+                if (!ready) {
+                    return;
+                }
+
+
+                /* CEK ADMIN DULU */
+
+                const allowed =
+                    await checkAdmin();
+
+                if (!allowed) {
+                    return;
+                }
+
+
+                /* BARU LOAD DATA */
+
+                await loadStats();
+
             }
         );
 
+    </script>
 
-    const titles = {
 
-        dashboard:
-            "Dashboard",
-
-        orders:
-            "Pesanan",
-
-        cartActivity:
-            "Aktivitas Keranjang",
-
-        products:
-            "Produk"
-
-    };
-
-
-    document.getElementById(
-        "pageTitle"
-    ).textContent =
-        titles[section] ||
-        "Dashboard";
-
-
-    if (
-        window.innerWidth <= 768
-    ) {
-
-        document
-            .getElementById(
-                "sidebar"
-            )
-            .classList.remove(
-                "open"
-            );
-
-    }
-
-}
-
-
-/* =====================================================
-   SIDEBAR
-===================================================== */
-
-function toggleSidebar() {
-
-    document
-        .getElementById(
-            "sidebar"
-        )
-        .classList.toggle(
-            "open"
-        );
-}
-
-
-/* =====================================================
-   GO TO STORE
-===================================================== */
-
-function goToStore() {
-
-    window.location.href =
-        "toko.html";
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-async function logout() {
-
-    try {
-
-        if (db) {
-
-            await db.auth.signOut();
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Logout Supabase:",
-            error
-        );
-
-    }
-
-
-    localStorage.removeItem(
-        "user"
-    );
-
-    localStorage.removeItem(
-        "currentUser"
-    );
-
-    localStorage.removeItem(
-        "user_session"
-    );
-
-
-    window.location.href =
-        "login.html";
-}
-
-
-/* =====================================================
-   FORMAT RUPIAH
-===================================================== */
-
-function formatRupiah(
-    value
-) {
-
-    const number =
-        Number(value || 0);
-
-
-    return new Intl.NumberFormat(
-        "id-ID",
-        {
-            style: "currency",
-            currency: "IDR",
-            maximumFractionDigits: 0
-        }
-    ).format(number);
-}
-
-
-/* =====================================================
-   FORMAT DATE
-===================================================== */
-
-function formatDate(
-    value
-) {
-
-    if (!value) {
-        return "-";
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if (
-        isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return String(value);
-
-    }
-
-
-    return date.toLocaleString(
-        "id-ID",
-        {
-            dateStyle: "medium",
-            timeStyle: "short"
-        }
-    );
-}
-
-
-/* =====================================================
-   STATUS BADGE
-===================================================== */
-
-function statusBadge(
-    status
-) {
-
-    const text =
-        String(
-            status ||
-            "Menunggu Konfirmasi"
-        );
-
-
-    const lower =
-        text.toLowerCase();
-
-
-    let cls =
-        "bg-yellow-100 text-yellow-700";
-
-
-    if (
-        lower.includes(
-            "selesai"
-        ) ||
-        lower.includes(
-            "diterima"
-        )
-    ) {
-
-        cls =
-            "bg-green-100 text-green-700";
-
-    } else if (
-        lower.includes(
-            "batal"
-        ) ||
-        lower.includes(
-            "ditolak"
-        )
-    ) {
-
-        cls =
-            "bg-red-100 text-red-700";
-
-    } else if (
-        lower.includes(
-            "kirim"
-        ) ||
-        lower.includes(
-            "proses"
-        )
-    ) {
-
-        cls =
-            "bg-blue-100 text-blue-700";
-
-    }
-
-
-    return `
-        <span class="badge ${cls}">
-            ${escapeHTML(text)}
-        </span>
-    `;
-}
-
-
-/* =====================================================
-   ORDER ITEMS SUMMARY
-===================================================== */
-
-function getOrderItemsSummary(
-    order
-) {
-
-    const items =
-        parseItems(
-            order.items
-        );
-
-
-    if (!items.length) {
-
-        return "-";
-
-    }
-
-
-    return items
-        .slice(0, 2)
-        .map(
-            item => {
-
-                const name =
-                    item.name ||
-                    item.nama_produk ||
-                    item.product_name ||
-                    "Produk";
-
-
-                const qty =
-                    item.qty ||
-                    item.quantity ||
-                    1;
-
-
-                return `
-                    <div class="text-xs">
-
-                        ${escapeHTML(
-                            String(name)
-                        )}
-
-                        ×${Number(qty)}
-
-                    </div>
-                `;
-
-            }
-        )
-        .join("") +
-
-        (
-            items.length > 2
-                ? `
-                    <div class="text-xs text-gray-400">
-                        +${items.length - 2}
-                        produk lainnya
-                    </div>
-                  `
-                : ""
-        );
-}
-
-
-/* =====================================================
-   RENDER ORDER ITEMS
-===================================================== */
-
-function renderOrderItems(
-    itemsData
-) {
-
-    const items =
-        parseItems(
-            itemsData
-        );
-
-
-    if (!items.length) {
-
-        return `
-            <div class="text-gray-400 text-sm">
-                Tidak ada detail produk.
-            </div>
-        `;
-    }
-
-
-    return `
-        <div class="space-y-2">
-
-            ${
-                items.map(
-                    item => {
-
-                        const name =
-                            item.name ||
-                            item.nama_produk ||
-                            item.product_name ||
-                            "Produk";
-
-
-                        const qty =
-                            item.qty ||
-                            item.quantity ||
-                            1;
-
-
-                        const price =
-                            item.price ||
-                            item.harga ||
-                            item.product_price ||
-                            0;
-
-
-                        return `
-                            <div
-                                class="flex justify-between items-center bg-white border rounded-lg p-3"
-                            >
-
-                                <div>
-
-                                    <div class="font-semibold">
-                                        ${escapeHTML(
-                                            String(name)
-                                        )}
-                                    </div>
-
-                                    <div class="text-xs text-gray-500">
-
-                                        ${formatRupiah(
-                                            price
-                                        )}
-
-                                        × ${Number(qty)}
-
-                                    </div>
-
-                                </div>
-
-                                <div class="font-bold">
-
-                                    ${formatRupiah(
-                                        Number(price) *
-                                        Number(qty)
-                                    )}
-
-                                </div>
-
-                            </div>
-                        `;
-
-                    }
-                ).join("")
-            }
-
-        </div>
-    `;
-}
-
-
-/* =====================================================
-   PARSE ITEMS
-===================================================== */
-
-function parseItems(
-    items
-) {
-
-    if (!items) {
-        return [];
-    }
-
-
-    if (Array.isArray(items)) {
-        return items;
-    }
-
-
-    if (
-        typeof items === "object"
-    ) {
-
-        return Array.isArray(
-            items.items
-        )
-            ? items.items
-            : [items];
-
-    }
-
-
-    if (
-        typeof items === "string"
-    ) {
-
-        try {
-
-            const parsed =
-                JSON.parse(items);
-
-
-            if (
-                Array.isArray(parsed)
-            ) {
-
-                return parsed;
-
-            }
-
-
-            if (
-                parsed &&
-                Array.isArray(
-                    parsed.items
-                )
-            ) {
-
-                return parsed.items;
-
-            }
-
-
-            if (
-                parsed &&
-                typeof parsed === "object"
-            ) {
-
-                return [parsed];
-
-            }
-
-        } catch {
-
-            return [];
-
-        }
-
-    }
-
-
-    return [];
-}
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(
-    value
-) {
-
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-}
-
-
-/* =====================================================
-   ESCAPE ATTRIBUTE
-===================================================== */
-
-function escapeAttribute(
-    value
-) {
-
-    return escapeHTML(
-        value
-    );
-}
-
-
-/* =====================================================
-   NOTIFICATION
-===================================================== */
-
-function showNotification(
-    message,
-    type = "success"
-) {
-
-    const notification =
-        document.getElementById(
-            "notification"
-        );
-
-
-    if (!notification) {
-        return;
-    }
-
-
-    notification.textContent =
-        message;
-
-
-    notification.style.background =
-        type === "error"
-            ? "#dc2626"
-            : "#16a34a";
-
-
-    notification.classList.add(
-        "show"
-    );
-
-
-    setTimeout(
-        () => {
-
-            notification.classList.remove(
-                "show"
-            );
-
-        },
-        3500
-    );
-}
-
-
-/* =====================================================
-   MODAL BACKDROP
-===================================================== */
-
-window.addEventListener(
-    "click",
-    event => {
-
-        const productModal =
-            document.getElementById(
-                "productModal"
-            );
-
-
-        const orderModal =
-            document.getElementById(
-                "orderModal"
-            );
-
-
-        if (
-            event.target ===
-            productModal
-        ) {
-
-            closeProductModal();
-
-        }
-
-
-        if (
-            event.target ===
-            orderModal
-        ) {
-
-            closeOrderModal();
-
-        }
-
-    }
-);
-
-</script>
+    <!-- Bootstrap JS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
 
 </body>
 </html>
