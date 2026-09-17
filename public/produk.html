@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Produk - Admin BlueShop</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .header {
+            background: white;
+            padding: 18px 30px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 27px;
+            font-weight: 700;
+        }
+
+        .header small {
+            color: #777;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a,
+        .logout-btn {
+            text-decoration: none;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .btn-dashboard {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .btn-orders {
+            background: #6f42c1;
+            color: white;
+        }
+
+        .btn-products {
+            background: #198754;
+            color: white;
+        }
+
+        .btn-store {
+            background: #fd7e14;
+            color: white;
+        }
+
+        .btn-refresh {
+            background: #20c997;
+            color: white;
+        }
+
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+        }
+
+        .nav-links a:hover,
+        .logout-btn:hover {
+            opacity: .9;
+            color: white;
+        }
+
+        .container-main {
+            padding: 30px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        .page-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            margin-bottom: 25px;
+        }
+
+        .page-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .page-title h2 {
+            margin: 0;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            background: #eee;
+        }
+
+        .product-content {
+            padding: 16px;
+        }
+
+        .product-name {
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            color: #0d6efd;
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 14px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .product-actions button {
+            flex: 1;
+            border: none;
+            padding: 9px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background: #ffc107;
+            color: #222;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #777;
+        }
+
+        .empty i {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .status-system {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-system.error {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+        }
+
+        @media (max-width: 1100px) {
+
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .container-main {
+                padding: 15px;
+            }
+
+            .nav-links {
+                width: 100%;
+            }
+
+            .nav-links a,
+            .logout-btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+
+    <div>
+
+        <h1>
+            <i class="fa-solid fa-cart-shopping"></i>
+            Produk
+        </h1>
+
+        <small>
+            Kelola produk BlueShop
+        </small>
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="admin.html" class="btn-dashboard">
+            <i class="fa-solid fa-gauge-high"></i>
+            Dashboard
+        </a>
+
+        <a href="pesanan.html" class="btn-orders">
+            <i class="fa-solid fa-box"></i>
+            Pesanan
+        </a>
+
+        <a href="produk.html" class="btn-products">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Produk
+        </a>
+
+        <a href="toko.html" class="btn-store">
+            <i class="fa-solid fa-store"></i>
+            Ke Toko
+        </a>
+
+        <button
+            onclick="loadProducts()"
+            class="logout-btn btn-refresh"
+        >
+            <i class="fa-solid fa-rotate"></i>
+            Refresh
+        </button>
+
+        <button
+            onclick="logout()"
+            class="logout-btn btn-logout"
+        >
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- CONTENT -->
+<div class="container-main">
+
+    <div class="page-card">
+
+        <div class="page-title">
+
+            <div>
+
+                <h2>
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    Kelola Produk
+                </h2>
+
+                <p class="text-muted mb-0">
+                    Tambahkan dan kelola produk yang tampil di toko.
+                </p>
+
+            </div>
+
+
+            <button
+                onclick="openProductModal()"
+                class="btn btn-success"
+            >
+                <i class="fa-solid fa-plus"></i>
+                Tambah Produk
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div id="productsContainer">
+
+        <div class="page-card">
+
+            <div class="empty">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <p>
+                    Memuat produk...
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="systemStatus"
+        class="status-system"
+    >
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Menghubungkan ke Supabase...
+    </div>
+
+</div>
+
+
+<!-- PRODUCT MODAL -->
+<div
+    class="modal fade"
+    id="productModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5
+                    class="modal-title"
+                    id="productModalTitle"
+                >
+                    Tambah Produk
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <input
+                    type="hidden"
+                    id="productId"
+                >
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Nama Produk
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productName"
+                        class="form-control"
+                        placeholder="Contoh: Kaos Oversize"
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Harga
+                    </label>
+
+                    <input
+                        type="number"
+                        id="productPrice"
+                        class="form-control"
+                        placeholder="Contoh: 150000"
+                        min="0"
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        URL Gambar
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productImage"
+                        class="form-control"
+                        placeholder="https://..."
+                    >
+
+                    <small class="text-muted">
+                        Masukkan URL gambar produk.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Batal
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="saveProduct()"
+                >
+
+                    <i class="fa-solid fa-save"></i>
+                    Simpan Produk
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+
+<!-- BOOTSTRAP -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+const SUPABASE_URL =
+    "https://fbnknnrltrsvydyxgujr.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+
+let supabaseClient = null;
+
+let currentProducts = [];
+
+let productModal = null;
+
+
+/* ================================
+   INIT SUPABASE
+================================ */
+
+function initializeSupabase() {
+
+    if (!window.supabase) {
+
+        showSystemStatus(
+            "Supabase gagal dimuat.",
+            true
+        );
+
+        return false;
+    }
+
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    return true;
+}
+
+
+/* ================================
+   SYSTEM STATUS
+================================ */
+
+function showSystemStatus(message, error = false) {
+
+    const el =
+        document.getElementById("systemStatus");
+
+
+    el.className =
+        error
+            ? "status-system error"
+            : "status-system";
+
+
+    el.innerHTML =
+        error
+            ? `<i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(message)}`
+            : `<i class="fa-solid fa-circle-check"></i> ${escapeHtml(message)}`;
+}
+
+
+/* ================================
+   CHECK ADMIN
+================================ */
+
+async function checkAdmin() {
+
+    try {
+
+        const {
+            data: { user },
+            error
+        } =
+            await supabaseClient.auth.getUser();
+
+
+        if (error || !user) {
+
+            window.location.href = "login.html";
+
+            return false;
+        }
+
+
+        const email =
+            String(user.email || "")
+                .trim()
+                .toLowerCase();
+
+
+        const {
+            data: profile,
+            error: profileError
+        } =
+            await supabaseClient
+                .from("users_list")
+                .select("id, name, username, role")
+                .eq("username", email)
+                .maybeSingle();
+
+
+        if (profileError) {
+
+            showSystemStatus(
+                "Gagal membaca data admin: " +
+                profileError.message,
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!profile) {
+
+            alert(
+                "Data pengguna tidak ditemukan."
+            );
+
+            window.location.href =
+                "toko.html";
+
+            return false;
+        }
+
+
+        const role =
+            String(profile.role || "")
+                .trim()
+                .toLowerCase();
+
+
+        if (role !== "admin") {
+
+            alert(
+                "Akses ditolak. Halaman ini hanya untuk Admin."
+            );
+
+            window.location.href =
+                "toko.html";
+
+            return false;
+        }
+
+
+        return true;
+
+    } catch (error) {
+
+        console.error(error);
+
+        window.location.href =
+            "login.html";
+
+        return false;
+    }
+}
+
+
+/* ================================
+   LOAD PRODUCTS
+================================ */
+
+async function loadProducts() {
+
+    const container =
+        document.getElementById(
+            "productsContainer"
+        );
+
+
+    container.innerHTML = `
+        <div class="page-card">
+            <div class="empty">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <p>
+                    Memuat produk...
+                </p>
+
+            </div>
+        </div>
+    `;
+
+
+    try {
+
+        /*
+         * PENTING:
+         * Menggunakan tabel "produk"
+         * agar sama dengan toko.html
+         */
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("produk")
+                .select("*");
+
+
+        if (error) {
+
+            console.error(
+                "Products error:",
+                error
+            );
+
+
+            container.innerHTML = `
+                <div class="alert alert-danger">
+                    <strong>
+                        Gagal mengambil produk.
+                    </strong>
+
+                    <br>
+
+                    ${escapeHtml(error.message)}
+                </div>
+            `;
+
+
+            showSystemStatus(
+                "Gagal mengambil produk.",
+                true
+            );
+
+            return;
+        }
+
+
+        currentProducts =
+            data || [];
+
+
+        renderProducts();
+
+
+        showSystemStatus(
+            currentProducts.length +
+            " produk berhasil dimuat."
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        container.innerHTML = `
+            <div class="alert alert-danger">
+                Terjadi kesalahan saat mengambil produk.
+            </div>
+        `;
+
+
+        showSystemStatus(
+            "Terjadi kesalahan.",
+            true
+        );
+    }
+}
+
+
+/* ================================
+   RENDER PRODUCTS
+================================ */
+
+function renderProducts() {
+
+    const container =
+        document.getElementById(
+            "productsContainer"
+        );
+
+
+    if (!currentProducts.length) {
+
+        container.innerHTML = `
+            <div class="page-card">
+
+                <div class="empty">
+
+                    <i class="fa-solid fa-box-open"></i>
+
+                    <h4>
+                        Belum ada produk
+                    </h4>
+
+                    <p>
+                        Klik tombol "Tambah Produk"
+                        untuk menambahkan produk.
+                    </p>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = `
+        <div class="product-grid">
+
+            ${currentProducts
+                .map(
+                    product =>
+                        createProductHTML(product)
+                )
+                .join("")}
+
+        </div>
+    `;
+}
+
+
+/* ================================
+   PRODUCT HTML
+================================ */
+
+function createProductHTML(product) {
+
+    const id =
+        product.id_produk ||
+        product.id ||
+        product.product_id;
+
+
+    const name =
+        product.nama_produk ||
+        product.nama ||
+        product.name ||
+        "Produk";
+
+
+    const price =
+        Number(
+            product.harga ||
+            product.price ||
+            0
+        );
+
+
+    const image =
+        product.gambar ||
+        product.image ||
+        product.image_url ||
+        "https://via.placeholder.com/500x350?text=BlueShop";
+
+
+    return `
+        <div class="product-card">
+
+            <img
+                src="${escapeHtml(String(image))}"
+                class="product-image"
+                alt="${escapeHtml(String(name))}"
+                onerror="this.src='https://via.placeholder.com/500x350?text=BlueShop'"
+            >
+
+
+            <div class="product-content">
+
+                <div class="product-name">
+                    ${escapeHtml(String(name))}
+                </div>
+
+
+                <div class="product-price">
+                    ${formatRupiah(price)}
+                </div>
+
+
+                <div class="product-actions">
+
+                    <button
+                        class="edit-btn"
+                        onclick="editProduct('${escapeJs(String(id))}')"
+                    >
+                        <i class="fa-solid fa-pen"></i>
+                        Edit
+                    </button>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteProduct('${escapeJs(String(id))}')"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                        Hapus
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* ================================
+   OPEN MODAL
+================================ */
+
+function openProductModal(product = null) {
+
+    if (!productModal) {
+
+        productModal =
+            new bootstrap.Modal(
+                document.getElementById(
+                    "productModal"
+                )
+            );
+    }
+
+
+    document.getElementById(
+        "productId"
+    ).value =
+        product
+            ? (
+                product.id_produk ||
+                product.id ||
+                product.product_id ||
+                ""
+            )
+            : "";
+
+
+    document.getElementById(
+        "productName"
+    ).value =
+        product
+            ? (
+                product.nama_produk ||
+                product.nama ||
+                product.name ||
+                ""
+            )
+            : "";
+
+
+    document.getElementById(
+        "productPrice"
+    ).value =
+        product
+            ? (
+                product.harga ||
+                product.price ||
+                ""
+            )
+            : "";
+
+
+    document.getElementById(
+        "productImage"
+    ).value =
+        product
+            ? (
+                product.gambar ||
+                product.image ||
+                product.image_url ||
+                ""
+            )
+            : "";
+
+
+    document.getElementById(
+        "productModalTitle"
+    ).textContent =
+        product
+            ? "Edit Produk"
+            : "Tambah Produk";
+
+
+    productModal.show();
+}
+
+
+/* ================================
+   EDIT PRODUCT
+================================ */
+
+function editProduct(id) {
+
+    const product =
+        currentProducts.find(
+            p =>
+                String(
+                    p.id_produk ||
+                    p.id ||
+                    p.product_id
+                ) ===
+                String(id)
+        );
+
+
+    if (!product) {
+
+        alert(
+            "Produk tidak ditemukan."
+        );
+
+        return;
+    }
+
+
+    openProductModal(product);
+}
+
+
+/* ================================
+   SAVE PRODUCT
+================================ */
+
+async function saveProduct() {
+
+    const id =
+        document.getElementById(
+            "productId"
+        ).value.trim();
+
+
+    const name =
+        document.getElementById(
+            "productName"
+        ).value.trim();
+
+
+    const price =
+        Number(
+            document.getElementById(
+                "productPrice"
+            ).value
+        );
+
+
+    const image =
+        document.getElementById(
+            "productImage"
+        ).value.trim();
+
+
+    if (!name) {
+
+        alert(
+            "Nama produk wajib diisi."
+        );
+
+        return;
+    }
+
+
+    if (price < 0 || isNaN(price)) {
+
+        alert(
+            "Harga produk tidak valid."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        let result;
+
+
+        /* EDIT */
+
+        if (id) {
+
+            result =
+                await supabaseClient
+                    .from("produk")
+                    .update({
+                        nama_produk: name,
+                        harga: price,
+                        gambar: image
+                    })
+                    .eq(
+                        "id_produk",
+                        id
+                    );
+
+        }
+
+
+        /* TAMBAH */
+
+        else {
+
+            result =
+                await supabaseClient
+                    .from("produk")
+                    .insert([
+                        {
+                            nama_produk: name,
+                            harga: price,
+                            gambar: image
+                        }
+                    ]);
+        }
+
+
+        if (result.error) {
+
+            console.error(
+                result.error
+            );
+
+
+            alert(
+                "Gagal menyimpan produk:\n" +
+                result.error.message
+            );
+
+            return;
+        }
+
+
+        alert(
+            id
+                ? "Produk berhasil diperbarui."
+                : "Produk berhasil ditambahkan."
+        );
+
+
+        if (productModal) {
+
+            productModal.hide();
+        }
+
+
+        await loadProducts();
+
+
+        showSystemStatus(
+            "Data produk berhasil diperbarui."
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        alert(
+            "Terjadi kesalahan saat menyimpan produk."
+        );
+    }
+}
+
+
+/* ================================
+   DELETE PRODUCT
+================================ */
+
+async function deleteProduct(id) {
+
+    if (!id) {
+
+        alert(
+            "ID produk tidak ditemukan."
+        );
+
+        return;
+    }
+
+
+    const product =
+        currentProducts.find(
+            p =>
+                String(
+                    p.id_produk ||
+                    p.id ||
+                    p.product_id
+                ) ===
+                String(id)
+        );
+
+
+    const name =
+        product
+            ? (
+                product.nama_produk ||
+                product.nama ||
+                product.name ||
+                "Produk"
+            )
+            : "Produk";
+
+
+    const confirmed =
+        confirm(
+            "Yakin ingin menghapus produk \"" +
+            name +
+            "\"?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("produk")
+                .delete()
+                .eq(
+                    "id_produk",
+                    id
+                );
+
+
+        if (error) {
+
+            console.error(error);
+
+
+            alert(
+                "Gagal menghapus produk:\n" +
+                error.message
+            );
+
+            return;
+        }
+
+
+        alert(
+            "Produk berhasil dihapus."
+        );
+
+
+        await loadProducts();
+
+
+        showSystemStatus(
+            "Produk berhasil dihapus."
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        alert(
+            "Terjadi kesalahan saat menghapus produk."
+        );
+    }
+}
+
+
+/* ================================
+   FORMAT RUPIAH
+================================ */
+
+function formatRupiah(number) {
+
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }
+    ).format(
+        Number(number) || 0
+    );
+}
+
+
+/* ================================
+   ESCAPE HTML
+================================ */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* ================================
+   ESCAPE JS
+================================ */
+
+function escapeJs(value) {
+
+    return String(value)
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, "\\n")
+        .replace(/\r/g, "\\r");
+}
+
+
+/* ================================
+   LOGOUT
+================================ */
+
+async function logout() {
+
+    try {
+
+        if (supabaseClient) {
+
+            await supabaseClient.auth.signOut();
+        }
+
+    } catch (error) {
+
+        console.error(error);
+    }
+
+
+    localStorage.removeItem("user");
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user_session");
+
+
+    window.location.href =
+        "login.html";
+}
+
+
+/* ================================
+   START
+================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        const ready =
+            initializeSupabase();
+
+        if (!ready) {
+            return;
+        }
+
+
+        const allowed =
+            await checkAdmin();
+
+        if (!allowed) {
+            return;
+        }
+
+
+        await loadProducts();
+    }
+);
+
+</script>
+
+</body>
+</html>
