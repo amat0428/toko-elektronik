@@ -19,10 +19,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        /* =====================================================
-           RESET
-        ===================================================== */
-
         * {
             margin: 0;
             padding: 0;
@@ -43,7 +39,6 @@
 
             background: #f5f9ff;
             color: #172033;
-
             min-height: 100vh;
         }
 
@@ -57,7 +52,6 @@
             outline: none;
         }
 
-
         /* =====================================================
            NAVBAR
         ===================================================== */
@@ -68,7 +62,6 @@
             z-index: 900;
 
             min-height: 72px;
-
             padding: 12px 30px;
 
             display: flex;
@@ -78,7 +71,6 @@
             gap: 20px;
 
             background: rgba(255, 255, 255, .96);
-
             border-bottom: 1px solid #e5eef8;
 
             box-shadow:
@@ -102,11 +94,9 @@
 
             font-size: 22px;
             font-weight: 850;
-
             color: #0d3b66;
 
             white-space: nowrap;
-
             letter-spacing: -.4px;
         }
 
@@ -115,7 +105,6 @@
             align-items: center;
 
             color: #66809a;
-
             text-decoration: none;
 
             font-size: 13px;
@@ -132,9 +121,7 @@
         .navbar-right {
             display: flex;
             align-items: center;
-
             gap: 7px;
-
             flex-wrap: wrap;
         }
 
@@ -150,7 +137,6 @@
             font-weight: 700;
 
             color: #1769aa !important;
-
             background: #edf6ff !important;
 
             border: 1px solid #d5eafa;
@@ -166,13 +152,10 @@
             gap: 6px;
 
             min-height: 36px;
-
             padding: 8px 13px;
 
             background: #f4f8fc;
-
             border: 1px solid #dfebf5;
-
             border-radius: 9px;
 
             color: #31516c;
@@ -181,7 +164,6 @@
             font-weight: 700;
 
             cursor: pointer;
-
             text-decoration: none;
 
             transition: .2s;
@@ -189,23 +171,17 @@
 
         .nav-page-btn:hover {
             background: #eaf5ff;
-
             color: #1769aa;
-
             border-color: #c7e3f8;
 
             transform: translateY(-1px);
         }
 
-        /* ADMIN DASHBOARD */
-
         #adminDashboardButton {
             display: none;
 
             background: #edf8f4;
-
             color: #087f5b;
-
             border-color: #ccefe1;
         }
 
@@ -223,7 +199,6 @@
             border-radius: 10px;
 
             background: #1769aa;
-
             color: white;
 
             font-size: 10px;
@@ -238,15 +213,12 @@
             justify-content: center;
 
             min-height: 36px;
-
             padding: 8px 16px;
 
             background: #1769aa;
-
             color: white;
 
             border: none;
-
             border-radius: 9px;
 
             font-size: 12px;
@@ -262,7 +234,6 @@
 
         .btn-login:hover {
             background: #0f568f;
-
             transform: translateY(-1px);
 
             box-shadow:
@@ -271,15 +242,12 @@
 
         .btn-logout {
             min-height: 36px;
-
             padding: 8px 15px;
 
             background: #fff1f2;
-
             color: #dc2626;
 
             border: 1px solid #fecdd3;
-
             border-radius: 9px;
 
             cursor: pointer;
@@ -292,10 +260,8 @@
 
         .btn-logout:hover {
             background: #ffe4e6;
-
             transform: translateY(-1px);
         }
-
 
         /* =====================================================
            CONTAINER
@@ -310,13 +276,8 @@
             padding: 28px 22px 50px;
         }
 
-        .section-header {
-            margin-bottom: 25px;
-        }
-
-
         /* =====================================================
-           HERO FASHION
+           HERO
         ===================================================== */
 
         .shop-hero {
@@ -325,7 +286,6 @@
             min-height: 235px;
 
             padding: 38px 42px;
-
             margin-bottom: 20px;
 
             display: flex;
@@ -360,8 +320,7 @@
 
             border-radius: 50%;
 
-            background:
-                rgba(255,255,255,.055);
+            background: rgba(255,255,255,.055);
 
             right: 70px;
             top: -220px;
@@ -377,8 +336,7 @@
 
             border-radius: 50%;
 
-            background:
-                rgba(255,255,255,.045);
+            background: rgba(255,255,255,.045);
 
             right: -90px;
             bottom: -170px;
@@ -386,7 +344,6 @@
 
         .shop-hero-content {
             position: relative;
-
             z-index: 2;
 
             max-width: 760px;
@@ -401,7 +358,6 @@
             color: #b9ddfa;
 
             font-size: 11px;
-
             font-weight: 850;
 
             letter-spacing: 2.2px;
@@ -413,11 +369,9 @@
             color: white;
 
             font-size: 35px;
-
             line-height: 1.15;
 
             font-weight: 850;
-
             letter-spacing: -.8px;
         }
 
@@ -427,17 +381,14 @@
             color: #dceeff;
 
             font-size: 14px;
-
             line-height: 1.7;
         }
 
         .shop-features {
             display: flex;
-
             flex-wrap: wrap;
 
             gap: 9px;
-
             margin-top: 20px;
         }
 
@@ -449,18 +400,15 @@
 
             padding: 7px 12px;
 
-            background:
-                rgba(255,255,255,.10);
+            background: rgba(255,255,255,.10);
 
-            border:
-                1px solid rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.12);
 
             border-radius: 30px;
 
             color: white;
 
             font-size: 11px;
-
             font-weight: 700;
         }
 
@@ -470,7 +418,6 @@
 
         .shop-hero-icon {
             position: relative;
-
             z-index: 2;
 
             margin-right: 35px;
@@ -482,7 +429,6 @@
                     0 15px 20px rgba(0,0,0,.15)
                 );
         }
-
 
         /* =====================================================
            ADMIN MODE
@@ -497,13 +443,11 @@
             gap: 15px;
 
             padding: 15px 18px;
-
             margin-bottom: 18px;
 
             background: #edf8f4;
 
             border: 1px solid #ccefe1;
-
             border-left: 4px solid #0f9f72;
 
             border-radius: 13px;
@@ -513,9 +457,7 @@
 
         .admin-mode-banner div {
             display: flex;
-
             flex-direction: column;
-
             gap: 2px;
         }
 
@@ -525,7 +467,6 @@
 
         .admin-mode-banner span {
             color: #628376;
-
             font-size: 12px;
         }
 
@@ -533,86 +474,15 @@
             color: #07825d;
 
             font-size: 12px;
-
             font-weight: 800;
 
             text-decoration: none;
-
             white-space: nowrap;
         }
 
         .admin-mode-banner a:hover {
             text-decoration: underline;
         }
-
-
-        /* =====================================================
-           GUEST INFO
-        ===================================================== */
-
-        .guest-info {
-            position: relative;
-
-            overflow: hidden;
-
-            padding: 23px 25px;
-
-            margin-bottom: 20px;
-
-            background:
-                linear-gradient(
-                    120deg,
-                    #edf7ff,
-                    #f7fbff
-                );
-
-            border: 1px solid #d5eafa;
-
-            border-radius: 16px;
-
-            color: #285675;
-
-            font-size: 13px;
-
-            line-height: 1.7;
-
-            box-shadow:
-                0 7px 20px rgba(23,105,170,.05);
-        }
-
-        .guest-info::before {
-            content:
-                "WELCOME TO BLUESHOP";
-
-            display: block;
-
-            margin-bottom: 4px;
-
-            color: #3d8bc5;
-
-            font-size: 10px;
-
-            font-weight: 850;
-
-            letter-spacing: 2px;
-        }
-
-        .guest-info::after {
-            content: "✦";
-
-            position: absolute;
-
-            right: 35px;
-            top: 50%;
-
-            transform:
-                translateY(-50%);
-
-            color: #c6e6fa;
-
-            font-size: 70px;
-        }
-
 
         /* =====================================================
            SEARCH
@@ -622,13 +492,11 @@
             display: flex;
 
             gap: 10px;
-
             margin-bottom: 18px;
         }
 
         .search-wrapper {
             position: relative;
-
             flex: 1;
         }
 
@@ -638,11 +506,9 @@
             left: 16px;
             top: 50%;
 
-            transform:
-                translateY(-50%);
+            transform: translateY(-50%);
 
             color: #91a7ba;
-
             font-size: 14px;
 
             pointer-events: none;
@@ -650,19 +516,16 @@
 
         #searchInput {
             width: 100%;
-
             height: 48px;
 
             padding:
                 0 16px 0 45px;
 
-            border:
-                1px solid #dce7f0;
+            border: 1px solid #dce7f0;
 
             border-radius: 12px;
 
             background: white;
-
             color: #172033;
 
             font-size: 13px;
@@ -699,17 +562,14 @@
             gap: 7px;
 
             background: #0f9f72;
-
             color: white;
 
             border: none;
-
             border-radius: 12px;
 
             cursor: pointer;
 
             font-size: 13px;
-
             font-weight: 800;
 
             white-space: nowrap;
@@ -719,10 +579,8 @@
 
         #btnAddProductNav:hover {
             background: #087f5b;
-
             transform: translateY(-1px);
         }
-
 
         /* =====================================================
            PROMO
@@ -734,7 +592,6 @@
             overflow: hidden;
 
             margin-bottom: 25px;
-
             padding: 12px 0;
 
             background:
@@ -769,7 +626,6 @@
 
         .promo-track span {
             display: inline-flex;
-
             align-items: center;
 
             margin-right: 42px;
@@ -777,7 +633,6 @@
             color: #eef8ff;
 
             font-size: 13px;
-
             font-weight: 700;
 
             white-space: nowrap;
@@ -787,7 +642,6 @@
             padding: 5px 12px;
 
             background: white;
-
             color: #0d5f98;
 
             border-radius: 30px;
@@ -796,7 +650,6 @@
         }
 
         @keyframes promoBerjalan {
-
             from {
                 transform: translateX(0);
             }
@@ -804,13 +657,11 @@
             to {
                 transform: translateX(-50%);
             }
-
         }
 
         .promo-banner:hover .promo-track {
             animation-play-state: paused;
         }
-
 
         /* =====================================================
            PRODUCT GRID
@@ -837,9 +688,7 @@
 
             background: white;
 
-            border:
-                1px solid #e3edf5;
-
+            border: 1px solid #e3edf5;
             border-radius: 17px;
 
             box-shadow:
@@ -860,14 +709,12 @@
                 0 16px 35px rgba(15,76,129,.12);
         }
 
-
         /* =====================================================
            PRODUCT IMAGE
         ===================================================== */
 
         .product-image-wrapper {
             position: relative;
-
             overflow: hidden;
 
             background: #edf4fa;
@@ -877,7 +724,6 @@
             display: block;
 
             width: 100%;
-
             height: 245px;
 
             object-fit: cover;
@@ -910,7 +756,6 @@
             border-radius: 20px;
 
             font-size: 10px;
-
             font-weight: 800;
 
             backdrop-filter: blur(5px);
@@ -921,18 +766,15 @@
                 rgba(220,38,38,.92);
         }
 
-
         /* =====================================================
            PRODUCT DETAILS
         ===================================================== */
 
         .product-details {
             display: flex;
-
             flex-direction: column;
 
             gap: 8px;
-
             padding: 16px;
         }
 
@@ -942,9 +784,7 @@
             color: #172b3e;
 
             font-size: 15px;
-
             font-weight: 750;
-
             line-height: 1.4;
 
             cursor: pointer;
@@ -960,7 +800,6 @@
             color: #f59e0b;
 
             font-size: 12px;
-
             font-weight: 700;
         }
 
@@ -976,7 +815,6 @@
             color: #1769aa;
 
             font-size: 20px;
-
             font-weight: 850;
 
             letter-spacing: -.3px;
@@ -984,10 +822,8 @@
 
         .product-stock {
             color: #71889b;
-
             font-size: 11px;
         }
-
 
         /* =====================================================
            PRODUCT BUTTONS
@@ -1009,7 +845,6 @@
             flex: 1;
 
             min-width: 70px;
-
             min-height: 38px;
 
             padding: 8px;
@@ -1019,7 +854,6 @@
             cursor: pointer;
 
             font-size: 11px;
-
             font-weight: 800;
 
             transition: .2s;
@@ -1027,22 +861,18 @@
 
         .btn-detail {
             background: #f1f7fc;
-
             color: #31516c;
 
-            border:
-                1px solid #dce9f3;
+            border: 1px solid #dce9f3;
         }
 
         .btn-detail:hover {
             background: #e6f2fb;
-
             color: #1769aa;
         }
 
         .btn-buy {
             background: #1769aa;
-
             color: white;
 
             border: 1px solid #1769aa;
@@ -1053,7 +883,6 @@
 
         .btn-buy:hover {
             background: #0f568f;
-
             border-color: #0f568f;
         }
 
@@ -1061,27 +890,21 @@
             flex: 0 0 45px;
 
             background: white;
-
             color: #1769aa;
 
-            border:
-                1px solid #cfe2ef;
+            border: 1px solid #cfe2ef;
         }
 
         .btn-add-cart:hover {
             background: #edf7ff;
-
             border-color: #9bc9e8;
         }
 
         .btn-disabled {
             opacity: .45;
-
             cursor: not-allowed !important;
-
             transform: none !important;
         }
-
 
         /* =====================================================
            RATING
@@ -1093,22 +916,17 @@
             min-height: 37px;
 
             margin-top: 3px;
-
             padding: 8px;
 
             background: #fff8e8;
-
             color: #c27800;
 
-            border:
-                1px solid #f7dfaa;
-
+            border: 1px solid #f7dfaa;
             border-radius: 9px;
 
             cursor: pointer;
 
             font-size: 11px;
-
             font-weight: 800;
 
             transition: .2s;
@@ -1116,7 +934,6 @@
 
         .btn-rate:hover {
             background: #fff2cc;
-
             border-color: #f2ce7b;
 
             transform: translateY(-1px);
@@ -1126,7 +943,6 @@
             padding: 5px;
 
             background: none;
-
             border: none;
 
             color: #cbd5e1;
@@ -1141,7 +957,6 @@
         .rating-star:hover,
         .rating-star.active {
             color: #f59e0b;
-
             transform: scale(1.1);
         }
 
@@ -1162,10 +977,8 @@
             color: #708496;
 
             font-size: 12px;
-
             text-align: center;
         }
-
 
         /* =====================================================
            ADMIN ACTION
@@ -1177,11 +990,9 @@
             gap: 7px;
 
             padding-top: 11px;
-
             margin-top: 2px;
 
-            border-top:
-                1px solid #edf1f4;
+            border-top: 1px solid #edf1f4;
         }
 
         .btn-edit,
@@ -1192,14 +1003,11 @@
 
             padding: 7px;
 
-            border: none;
-
             border-radius: 8px;
 
             cursor: pointer;
 
             font-size: 11px;
-
             font-weight: 800;
 
             transition: .2s;
@@ -1207,11 +1015,9 @@
 
         .btn-edit {
             background: #edf6ff;
-
             color: #1769aa;
 
-            border:
-                1px solid #d2e9f9;
+            border: 1px solid #d2e9f9;
         }
 
         .btn-edit:hover {
@@ -1220,17 +1026,14 @@
 
         .btn-delete {
             background: #fff1f2;
-
             color: #dc2626;
 
-            border:
-                1px solid #fecdd3;
+            border: 1px solid #fecdd3;
         }
 
         .btn-delete:hover {
             background: #ffe4e6;
         }
-
 
         /* =====================================================
            MODAL
@@ -1240,7 +1043,6 @@
             display: none;
 
             position: fixed;
-
             inset: 0;
 
             z-index: 1000;
@@ -1260,7 +1062,6 @@
 
         .modal-content {
             width: 100%;
-
             max-width: 600px;
 
             max-height: 90vh;
@@ -1271,9 +1072,7 @@
 
             background: white;
 
-            border:
-                1px solid #e0ebf4;
-
+            border: 1px solid #e0ebf4;
             border-radius: 20px;
 
             box-shadow:
@@ -1284,7 +1083,6 @@
         }
 
         @keyframes modalIn {
-
             from {
                 opacity: 0;
                 transform: translateY(12px) scale(.98);
@@ -1294,7 +1092,6 @@
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
-
         }
 
         .modal-header {
@@ -1303,7 +1100,6 @@
             color: #143d60;
 
             font-size: 20px;
-
             font-weight: 850;
         }
 
@@ -1320,17 +1116,14 @@
             margin-left: 10px;
 
             background: #f3f7fa;
-
             color: #718496;
 
             border: none;
-
             border-radius: 50%;
 
             cursor: pointer;
 
             font-size: 23px;
-
             line-height: 1;
 
             transition: .2s;
@@ -1338,10 +1131,8 @@
 
         .close-btn:hover {
             background: #e9f1f6;
-
             color: #173c5c;
         }
-
 
         /* =====================================================
            FORM
@@ -1359,7 +1150,6 @@
             color: #304d65;
 
             font-size: 12px;
-
             font-weight: 800;
         }
 
@@ -1371,12 +1161,9 @@
             padding: 11px 12px;
 
             background: white;
-
             color: #172033;
 
-            border:
-                1px solid #dce7ef;
-
+            border: 1px solid #dce7ef;
             border-radius: 9px;
 
             font-size: 13px;
@@ -1397,10 +1184,8 @@
 
         textarea {
             min-height: 120px;
-
             resize: vertical;
         }
-
 
         /* =====================================================
            BUTTON GENERAL
@@ -1412,13 +1197,11 @@
             padding: 10px 18px;
 
             border: none;
-
             border-radius: 9px;
 
             cursor: pointer;
 
             font-size: 13px;
-
             font-weight: 800;
 
             transition: .2s;
@@ -1428,7 +1211,6 @@
             width: 100%;
 
             background: #1769aa;
-
             color: white;
 
             box-shadow:
@@ -1441,11 +1223,9 @@
 
         .btn-secondary {
             background: white;
-
             color: #4e6578;
 
-            border:
-                1px solid #dce6ed;
+            border: 1px solid #dce6ed;
         }
 
         .btn-secondary:hover {
@@ -1456,7 +1236,6 @@
             display: flex;
 
             gap: 10px;
-
             margin-top: 20px;
         }
 
@@ -1464,9 +1243,8 @@
             flex: 1;
         }
 
-
         /* =====================================================
-           LOADING / EMPTY
+           LOADING / EMPTY / ERROR
         ===================================================== */
 
         .loading,
@@ -1487,9 +1265,7 @@
         .empty-product {
             background: white;
 
-            border:
-                1px dashed #d6e4ed;
-
+            border: 1px dashed #d6e4ed;
             border-radius: 16px;
         }
 
@@ -1499,12 +1275,9 @@
             padding: 45px 20px;
 
             background: #fff7f7;
-
             color: #991b1b;
 
-            border:
-                1px solid #fecaca;
-
+            border: 1px solid #fecaca;
             border-radius: 15px;
 
             text-align: center;
@@ -1520,20 +1293,16 @@
             padding: 10px 18px;
 
             background: #1769aa;
-
             color: white;
 
             border: none;
-
             border-radius: 8px;
 
             cursor: pointer;
 
             font-size: 12px;
-
             font-weight: 800;
         }
-
 
         /* =====================================================
            TOAST
@@ -1548,7 +1317,6 @@
             z-index: 2000;
 
             display: flex;
-
             flex-direction: column;
 
             gap: 9px;
@@ -1560,7 +1328,6 @@
             padding: 13px 17px;
 
             background: #173b59;
-
             color: white;
 
             border-radius: 10px;
@@ -1583,26 +1350,19 @@
         }
 
         @keyframes toastIn {
-
             from {
                 opacity: 0;
-
-                transform:
-                    translateY(12px);
+                transform: translateY(12px);
             }
 
             to {
                 opacity: 1;
-
-                transform:
-                    translateY(0);
+                transform: translateY(0);
             }
-
         }
 
-
         /* =====================================================
-           RESPONSIVE TABLET
+           RESPONSIVE
         ===================================================== */
 
         @media (max-width: 900px) {
@@ -1617,7 +1377,6 @@
 
             .shop-hero-icon {
                 margin-right: 10px;
-
                 font-size: 70px;
             }
 
@@ -1628,21 +1387,13 @@
                         minmax(210px, 1fr)
                     );
             }
-
         }
-
-
-        /* =====================================================
-           RESPONSIVE MOBILE
-        ===================================================== */
 
         @media (max-width: 768px) {
 
             .navbar {
                 align-items: flex-start;
-
                 flex-direction: column;
-
                 gap: 11px;
             }
 
@@ -1655,7 +1406,6 @@
 
             .navbar-right {
                 width: 100%;
-
                 justify-content: flex-start;
             }
 
@@ -1666,7 +1416,6 @@
 
             .shop-hero {
                 min-height: 200px;
-
                 padding: 28px 25px;
             }
 
@@ -1714,16 +1463,9 @@
 
             .admin-mode-banner {
                 align-items: flex-start;
-
                 flex-direction: column;
             }
-
         }
-
-
-        /* =====================================================
-           SMALL PHONE
-        ===================================================== */
 
         @media (max-width: 520px) {
 
@@ -1733,9 +1475,7 @@
 
             .navbar-left {
                 flex-direction: column;
-
                 align-items: flex-start;
-
                 gap: 6px;
             }
 
@@ -1748,15 +1488,12 @@
             .btn-login,
             .btn-logout {
                 min-height: 32px;
-
                 padding: 6px 8px;
-
                 font-size: 10px;
             }
 
             .shop-hero {
                 min-height: 220px;
-
                 padding: 25px 21px;
             }
 
@@ -1774,22 +1511,11 @@
 
             .shop-features span {
                 padding: 6px 8px;
-
                 font-size: 9px;
             }
 
             .shop-hero-icon {
                 display: none;
-            }
-
-            .guest-info {
-                padding: 18px;
-            }
-
-            .guest-info::after {
-                right: 15px;
-
-                font-size: 50px;
             }
 
             #productGrid {
@@ -1808,13 +1534,11 @@
 
             .product-details {
                 padding: 10px;
-
                 gap: 6px;
             }
 
             .product-name {
                 min-height: 38px;
-
                 font-size: 13px;
             }
 
@@ -1830,15 +1554,12 @@
             .btn-add-cart,
             .btn-detail {
                 min-height: 34px;
-
                 padding: 7px;
-
                 font-size: 10px;
             }
 
             .btn-rate {
                 min-height: 33px;
-
                 font-size: 9px;
             }
 
@@ -1853,7 +1574,6 @@
 
             .promo-track span {
                 font-size: 11px;
-
                 margin-right: 25px;
             }
 
@@ -1863,7 +1583,6 @@
 
             .modal-content {
                 padding: 20px;
-
                 border-radius: 16px;
             }
 
@@ -1874,16 +1593,13 @@
             #toastContainer {
                 left: 12px;
                 right: 12px;
-
                 bottom: 12px;
             }
 
             .toast {
                 min-width: 0;
-
                 width: 100%;
             }
-
         }
     </style>
 </head>
@@ -1911,7 +1627,6 @@
 
         </div>
 
-
         <div class="navbar-right">
 
             <span
@@ -1921,7 +1636,6 @@
                 👤 Guest
             </span>
 
-
             <a
                 href="admin.html"
                 class="nav-page-btn"
@@ -1929,7 +1643,6 @@
             >
                 🛡️ Dashboard Admin
             </a>
-
 
             <button
                 class="nav-page-btn"
@@ -1945,7 +1658,6 @@
                 </span>
             </button>
 
-
             <button
                 class="nav-page-btn"
                 onclick="openOrdersPage()"
@@ -1960,7 +1672,6 @@
                 </span>
             </button>
 
-
             <a
                 href="login.html?redirect=toko.html"
                 class="btn-login"
@@ -1968,7 +1679,6 @@
             >
                 Login
             </a>
-
 
             <button
                 class="btn-logout"
@@ -1980,7 +1690,6 @@
             </button>
 
         </div>
-
     </div>
 
 
@@ -1992,10 +1701,7 @@
 
         <div class="section-header">
 
-
-            <!-- =================================================
-                 HERO
-            ================================================== -->
+            <!-- HERO -->
 
             <div class="shop-hero">
 
@@ -2015,7 +1721,6 @@
                         Pilih outfit favoritmu dan belanja
                         dengan nyaman di BlueShop.
                     </p>
-
 
                     <div class="shop-features">
 
@@ -2038,7 +1743,6 @@
 
                 </div>
 
-
                 <div class="shop-hero-icon">
                     🛍️
                 </div>
@@ -2046,9 +1750,7 @@
             </div>
 
 
-            <!-- =================================================
-                 ADMIN MODE
-            ================================================== -->
+            <!-- ADMIN MODE -->
 
             <div
                 class="admin-mode-banner"
@@ -2076,23 +1778,7 @@
             </div>
 
 
-            <!-- =================================================
-                 GUEST
-            ================================================== -->
-
-            <div
-                class="guest-info"
-                id="guestInfo"
-            >
-                ✨ Temukan outfit favoritmu di BlueShop Fashion.
-                Login untuk menikmati keranjang belanja dan
-                melakukan pembelian dengan lebih mudah.
-            </div>
-
-
-            <!-- =================================================
-                 SEARCH
-            ================================================== -->
+            <!-- SEARCH -->
 
             <div class="search-box">
 
@@ -2110,7 +1796,6 @@
 
                 </div>
 
-
                 <button
                     id="btnAddProductNav"
                     onclick="openProductModal(false)"
@@ -2122,9 +1807,7 @@
             </div>
 
 
-            <!-- =================================================
-                 PROMO
-            ================================================== -->
+            <!-- PROMO -->
 
             <div class="promo-banner">
 
@@ -2165,7 +1848,6 @@
                     <span>
                         🛍️ Belanja Fashion Sekarang
                     </span>
-
 
                     <span class="promo-highlight">
                         🔥 FLASH SALE
@@ -2255,7 +1937,6 @@
                 id="productId"
             >
 
-
             <div class="form-group">
 
                 <label for="productName">
@@ -2269,7 +1950,6 @@
                 >
 
             </div>
-
 
             <div class="form-group">
 
@@ -2286,7 +1966,6 @@
 
             </div>
 
-
             <div class="form-group">
 
                 <label for="productStock">
@@ -2302,7 +1981,6 @@
                 >
 
             </div>
-
 
             <div class="form-group">
 
@@ -2322,7 +2000,6 @@
 
             </div>
 
-
             <div class="form-group">
 
                 <label for="productImage">
@@ -2337,7 +2014,6 @@
 
             </div>
 
-
             <div class="form-group">
 
                 <label for="productDescription">
@@ -2350,7 +2026,6 @@
                 ></textarea>
 
             </div>
-
 
             <div class="modal-buttons">
 
@@ -2413,7 +2088,6 @@
                 Nama Produk
             </div>
 
-
             <div class="rating-stars-container">
 
                 <button
@@ -2458,14 +2132,12 @@
 
             </div>
 
-
             <div
                 id="ratingValue"
                 class="rating-info"
             >
                 Pilih rating 1–5
             </div>
-
 
             <div class="modal-buttons">
 
@@ -2626,9 +2298,7 @@ function showToast(
     }
 
     const toast =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     toast.className =
         "toast " + type;
@@ -2636,9 +2306,7 @@ function showToast(
     toast.innerText =
         message;
 
-    container.appendChild(
-        toast
-    );
+    container.appendChild(toast);
 
     setTimeout(
         function() {
@@ -2701,58 +2369,54 @@ function loadUserData() {
             ) || "[]";
 
         cart =
-            JSON.parse(
-                rawCart
-            );
+            JSON.parse(rawCart);
 
         if (!Array.isArray(cart)) {
             cart = [];
         }
 
         cart =
-            cart.map(
-                function(item) {
+            cart.map(function(item) {
 
-                    return {
+                return {
 
-                        id:
-                            item.id ??
-                            item.id_produk,
+                    id:
+                        item.id ??
+                        item.id_produk,
 
-                        name:
-                            item.name ||
-                            item.nama ||
-                            item.nama_produk ||
-                            item.title ||
-                            "Produk",
+                    name:
+                        item.name ||
+                        item.nama ||
+                        item.nama_produk ||
+                        item.title ||
+                        "Produk",
 
-                        price:
+                    price:
+                        Number(
+                            item.price ??
+                            item.harga ??
+                            0
+                        ),
+
+                    image:
+                        item.image ||
+                        item.gambar ||
+                        "",
+
+                    qty:
+                        Math.max(
+                            1,
                             Number(
-                                item.price ??
-                                item.harga ??
-                                0
-                            ),
+                                item.qty ??
+                                item.quantity ??
+                                1
+                            )
+                        ),
 
-                        image:
-                            item.image ||
-                            item.gambar ||
-                            "",
-
-                        qty:
-                            Math.max(
-                                1,
-                                Number(
-                                    item.qty ??
-                                    item.quantity ??
-                                    1
-                                )
-                            ),
-
-                        selected:
-                            item.selected !== false
-                    };
-                }
-            );
+                    selected:
+                        item.selected !== false
+                };
+            });
 
     } catch (error) {
 
@@ -2791,6 +2455,8 @@ function loadUserData() {
 
         orders = [];
     }
+
+    updateBadges();
 }
 
 
@@ -2838,18 +2504,15 @@ function checkUserRole() {
         currentUser = {
 
             name: "Guest",
-
             username: "guest",
-
             role: "guest"
 
         };
 
         isAdmin = false;
 
-        updateNavbar();
-
         loadUserData();
+        updateNavbar();
 
         return false;
     }
@@ -2857,9 +2520,7 @@ function checkUserRole() {
     try {
 
         currentUser =
-            JSON.parse(
-                userData
-            );
+            JSON.parse(userData);
 
     } catch (error) {
 
@@ -2869,30 +2530,21 @@ function checkUserRole() {
         );
 
         localStorage.removeItem("user");
-
-        localStorage.removeItem(
-            "currentUser"
-        );
-
-        localStorage.removeItem(
-            "user_session"
-        );
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("user_session");
 
         currentUser = {
 
             name: "Guest",
-
             username: "guest",
-
             role: "guest"
 
         };
 
         isAdmin = false;
 
-        updateNavbar();
-
         loadUserData();
+        updateNavbar();
 
         return false;
     }
@@ -2905,18 +2557,15 @@ function checkUserRole() {
         currentUser = {
 
             name: "Guest",
-
             username: "guest",
-
             role: "guest"
 
         };
 
         isAdmin = false;
 
-        updateNavbar();
-
         loadUserData();
+        updateNavbar();
 
         return false;
     }
@@ -2924,20 +2573,23 @@ function checkUserRole() {
     const role =
         String(
             currentUser.role || ""
-        ).toLowerCase().trim();
+        )
+        .toLowerCase()
+        .trim();
 
     const username =
         String(
             currentUser.username || ""
-        ).toLowerCase().trim();
+        )
+        .toLowerCase()
+        .trim();
 
     isAdmin =
         role === "admin" ||
         username === "admin";
 
-    updateNavbar();
-
     loadUserData();
+    updateNavbar();
 
     return true;
 }
@@ -2964,11 +2616,6 @@ function updateNavbar() {
             "logoutButton"
         );
 
-    const guestInfo =
-        document.getElementById(
-            "guestInfo"
-        );
-
     const addButton =
         document.getElementById(
             "btnAddProductNav"
@@ -2988,12 +2635,10 @@ function updateNavbar() {
         !badge ||
         !loginButton ||
         !logoutButton ||
-        !guestInfo ||
         !addButton
     ) {
         return;
     }
-
 
     if (adminDashboardButton) {
 
@@ -3001,13 +2646,11 @@ function updateNavbar() {
             "none";
     }
 
-
     if (adminModeBanner) {
 
         adminModeBanner.style.display =
             "none";
     }
-
 
     /* ================= GUEST ================= */
 
@@ -3015,17 +2658,12 @@ function updateNavbar() {
         !currentUser ||
         String(
             currentUser.role || ""
-        ).toLowerCase() === "guest"
+        )
+        .toLowerCase() === "guest"
     ) {
 
         badge.innerText =
             "👤 Guest";
-
-        badge.style.background =
-            "#edf6ff";
-
-        badge.style.color =
-            "#1769aa";
 
         loginButton.style.display =
             "inline-flex";
@@ -3033,17 +2671,8 @@ function updateNavbar() {
         logoutButton.style.display =
             "none";
 
-        guestInfo.style.display =
-            "block";
-
         addButton.style.display =
             "none";
-
-        if (adminDashboardButton) {
-
-            adminDashboardButton.style.display =
-                "none";
-        }
 
         return;
     }
@@ -3104,23 +2733,13 @@ function updateNavbar() {
 
         addButton.style.display =
             "none";
-
-        if (adminDashboardButton) {
-
-            adminDashboardButton.style.display =
-                "none";
-        }
     }
-
 
     loginButton.style.display =
         "none";
 
     logoutButton.style.display =
         "inline-flex";
-
-    guestInfo.style.display =
-        "none";
 }
 
 
@@ -3166,7 +2785,6 @@ document.addEventListener(
                 filterProducts
             );
         }
-
     }
 );
 
@@ -3251,11 +2869,10 @@ async function fetchProducts() {
 
     try {
 
-        console.log(
-            "🔄 Mengambil produk dari Supabase..."
-        );
-
-        const result =
+        const {
+            data,
+            error
+        } =
             await _supabase
                 .from("produk")
                 .select("*")
@@ -3266,18 +2883,11 @@ async function fetchProducts() {
                     }
                 );
 
-        const data =
-            result.data;
-
-        const error =
-            result.error;
-
         if (error) {
 
             const errorMessage =
                 String(
-                    error.message ||
-                    ""
+                    error.message || ""
                 ).toLowerCase();
 
             if (
@@ -3351,18 +2961,15 @@ async function fetchProductRatings() {
 
     try {
 
-        const result =
+        const {
+            data,
+            error
+        } =
             await _supabase
                 .from("product_ratings")
                 .select(
                     "product_id,user_id,rating"
                 );
-
-        const data =
-            result.data;
-
-        const error =
-            result.error;
 
         if (error) {
 
@@ -3411,9 +3018,7 @@ async function fetchProductRatings() {
                     ] = {
 
                         total: 0,
-
                         count: 0,
-
                         mine: null
 
                     };
@@ -3542,9 +3147,7 @@ function renderProducts(products) {
                 ] || {
 
                     total: 0,
-
                     count: 0,
-
                     mine: null
 
                 };
@@ -3557,14 +3160,12 @@ function renderProducts(products) {
 
             const ratingHTML =
                 ratingData.count > 0
-
                     ? `
                         ⭐ ${averageRating.toFixed(1)} / 5
                         <span class="rating-count">
                             (${ratingData.count})
                         </span>
                     `
-
                     : `
                         ⭐ ${averageRating.toFixed(1)} / 5
                     `;
@@ -3678,7 +3279,11 @@ function renderProducts(products) {
 
 
                         <button
-                            class="btn-buy ${stock <= 0 ? "btn-disabled" : ""}"
+                            class="btn-buy ${
+                                stock <= 0
+                                    ? "btn-disabled"
+                                    : ""
+                            }"
                             onclick='buyNow(${safeId})'
                             ${stock <= 0 ? "disabled" : ""}
                         >
@@ -3687,7 +3292,11 @@ function renderProducts(products) {
 
 
                         <button
-                            class="btn-add-cart ${stock <= 0 ? "btn-disabled" : ""}"
+                            class="btn-add-cart ${
+                                stock <= 0
+                                    ? "btn-disabled"
+                                    : ""
+                            }"
                             onclick='addToCart(${safeId})'
                             ${stock <= 0 ? "disabled" : ""}
                             title="Tambah ke keranjang"
@@ -3712,10 +3321,7 @@ function renderProducts(products) {
 
             `;
 
-            grid.appendChild(
-                card
-            );
-
+            grid.appendChild(card);
         }
     );
 }
@@ -3796,9 +3402,7 @@ function filterProducts() {
             }
         );
 
-    renderProducts(
-        filtered
-    );
+    renderProducts(filtered);
 }
 
 
@@ -3908,9 +3512,7 @@ async function openRatingModal(productId) {
     }
 
     const product =
-        getProductById(
-            productId
-        );
+        getProductById(productId);
 
     if (!product) {
 
@@ -3938,18 +3540,19 @@ async function openRatingModal(productId) {
         const {
             data,
             error
-        } = await _supabase
-            .from("product_ratings")
-            .select("rating")
-            .eq(
-                "product_id",
-                ratingProductId
-            )
-            .eq(
-                "user_id",
-                user.id
-            )
-            .maybeSingle();
+        } =
+            await _supabase
+                .from("product_ratings")
+                .select("rating")
+                .eq(
+                    "product_id",
+                    ratingProductId
+                )
+                .eq(
+                    "user_id",
+                    user.id
+                )
+                .maybeSingle();
 
         if (error) {
 
@@ -4121,27 +3724,28 @@ async function saveRating() {
 
         const {
             error
-        } = await _supabase
-            .from("product_ratings")
-            .upsert(
-                {
-                    product_id:
-                        ratingProductId,
+        } =
+            await _supabase
+                .from("product_ratings")
+                .upsert(
+                    {
+                        product_id:
+                            ratingProductId,
 
-                    user_id:
-                        user.id,
+                        user_id:
+                            user.id,
 
-                    rating:
-                        selectedRating,
+                        rating:
+                            selectedRating,
 
-                    updated_at:
-                        new Date().toISOString()
-                },
-                {
-                    onConflict:
-                        "product_id,user_id"
-                }
-            );
+                        updated_at:
+                            new Date().toISOString()
+                    },
+                    {
+                        onConflict:
+                            "product_id,user_id"
+                    }
+                );
 
         if (error) {
             throw error;
@@ -4217,9 +3821,7 @@ function addToCart(productId) {
     }
 
     const product =
-        getProductById(
-            productId
-        );
+        getProductById(productId);
 
     if (!product) {
 
@@ -4268,6 +3870,7 @@ function addToCart(productId) {
                     item.id
                 ) ===
                 String(id);
+
             }
         );
 
@@ -4301,15 +3904,10 @@ function addToCart(productId) {
         cart.push({
 
             id: id,
-
             name: name,
-
             price: price,
-
             image: image,
-
             qty: 1,
-
             selected: true
 
         });
@@ -4340,9 +3938,7 @@ function buyNow(productId) {
     }
 
     const product =
-        getProductById(
-            productId
-        );
+        getProductById(productId);
 
     if (!product) {
 
@@ -4391,6 +3987,7 @@ function buyNow(productId) {
                     ...item,
                     selected: false
                 };
+
             }
         );
 
@@ -4402,6 +3999,7 @@ function buyNow(productId) {
                     item.id
                 ) ===
                 String(id);
+
             }
         );
 
@@ -4417,15 +4015,10 @@ function buyNow(productId) {
         cart.push({
 
             id: id,
-
             name: name,
-
             price: price,
-
             image: image,
-
             qty: 1,
-
             selected: true
 
         });
@@ -4728,15 +4321,10 @@ async function saveProduct() {
     const productData = {
 
         nama_produk,
-
         harga,
-
         stok,
-
         rating,
-
         gambar,
-
         deskripsi
 
     };
@@ -4896,13 +4484,14 @@ async function deleteProduct(id) {
 
         const {
             error
-        } = await _supabase
-            .from("produk")
-            .delete()
-            .eq(
-                "id_produk",
-                id
-            );
+        } =
+            await _supabase
+                .from("produk")
+                .delete()
+                .eq(
+                    "id_produk",
+                    id
+                );
 
         if (error) {
             throw error;
@@ -4950,17 +4539,9 @@ async function logout() {
         );
     }
 
-    localStorage.removeItem(
-        "user"
-    );
-
-    localStorage.removeItem(
-        "currentUser"
-    );
-
-    localStorage.removeItem(
-        "user_session"
-    );
+    localStorage.removeItem("user");
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("user_session");
 
     window.location.href =
         "toko.html";
@@ -5000,7 +4581,6 @@ window.addEventListener(
 
             closeRatingModal();
         }
-
     }
 );
 
@@ -5019,10 +4599,8 @@ window.addEventListener(
         ) {
 
             closeProductModal();
-
             closeRatingModal();
         }
-
     }
 );
 
