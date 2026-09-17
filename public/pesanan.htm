@@ -30,6 +30,7 @@
             color: #222;
         }
 
+        /* HEADER */
         .header {
             background: white;
             padding: 18px 30px;
@@ -104,10 +105,11 @@
 
         .nav-links a:hover,
         .logout-btn:hover {
-            opacity: .9;
+            opacity: 0.9;
             color: white;
         }
 
+        /* MAIN */
         .container-main {
             padding: 30px;
             max-width: 1500px;
@@ -118,7 +120,7 @@
             background: white;
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
             margin-bottom: 25px;
         }
 
@@ -134,12 +136,14 @@
             margin: 0;
         }
 
+        /* ORDER CARD */
         .order-card {
             border: 1px solid #ddd;
             border-radius: 14px;
             margin-bottom: 18px;
             overflow: hidden;
             background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         .order-header {
@@ -214,6 +218,7 @@
             max-width: 280px;
         }
 
+        /* STATUS BADGE */
         .status-badge {
             padding: 7px 12px;
             border-radius: 20px;
@@ -247,6 +252,7 @@
             color: #842029;
         }
 
+        /* EMPTY */
         .empty {
             text-align: center;
             padding: 60px 20px;
@@ -258,6 +264,7 @@
             margin-bottom: 15px;
         }
 
+        /* SYSTEM STATUS */
         .status-system {
             margin-top: 25px;
             padding: 15px;
@@ -271,6 +278,7 @@
             color: #842029;
         }
 
+        /* RESPONSIVE */
         @media (max-width: 768px) {
 
             .header {
@@ -315,10 +323,14 @@
 
 <body>
 
-<!-- HEADER -->
+<!-- ================================
+     HEADER
+================================= -->
+
 <div class="header">
 
     <div>
+
         <h1>
             <i class="fa-solid fa-box"></i>
             Pesanan
@@ -327,7 +339,9 @@
         <small>
             Kelola pesanan pelanggan BlueShop
         </small>
+
     </div>
+
 
     <div class="nav-links">
 
@@ -351,28 +365,42 @@
             Ke Toko
         </a>
 
-        <button onclick="loadOrders()" class="logout-btn btn-refresh">
+        <button
+            onclick="loadOrders()"
+            class="logout-btn btn-refresh"
+        >
             <i class="fa-solid fa-rotate"></i>
             Refresh
         </button>
 
-        <button onclick="logout()" class="logout-btn btn-logout">
+        <button
+            onclick="logout()"
+            class="logout-btn btn-logout"
+        >
             <i class="fa-solid fa-right-from-bracket"></i>
             Logout
         </button>
 
     </div>
+
 </div>
 
 
-<!-- CONTENT -->
+<!-- ================================
+     CONTENT
+================================= -->
+
 <div class="container-main">
+
+
+    <!-- TITLE -->
 
     <div class="page-card">
 
         <div class="page-title">
 
             <div>
+
                 <h2>
                     <i class="fa-solid fa-box-open"></i>
                     Daftar Pesanan
@@ -381,7 +409,9 @@
                 <p class="text-muted mb-0">
                     Semua pesanan pelanggan akan tampil di halaman ini.
                 </p>
+
             </div>
+
 
             <button
                 onclick="loadOrders()"
@@ -396,34 +426,46 @@
     </div>
 
 
+    <!-- ORDERS -->
+
     <div id="ordersContainer">
 
-        <div class="empty">
+        <div class="page-card">
 
-            <i class="fa-solid fa-spinner fa-spin"></i>
+            <div class="empty">
 
-            <p>
-                Memuat pesanan...
-            </p>
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <p>
+                    Memuat pesanan...
+                </p>
+
+            </div>
 
         </div>
 
     </div>
 
 
-    <div id="systemStatus" class="status-system">
+    <!-- SYSTEM STATUS -->
 
+    <div
+        id="systemStatus"
+        class="status-system"
+    >
         <i class="fa-solid fa-spinner fa-spin"></i>
-
         Menghubungkan ke Supabase...
-
     </div>
 
 </div>
 
 
-<!-- SUPABASE -->
+<!-- ================================
+     SUPABASE
+================================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+
 
 <script>
 
@@ -433,13 +475,13 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
-let supabaseClient = null;
 
+let supabaseClient = null;
 let currentOrders = [];
 
 
 /* ================================
-   INIT
+   INITIALIZE SUPABASE
 ================================ */
 
 function initializeSupabase() {
@@ -447,12 +489,13 @@ function initializeSupabase() {
     if (!window.supabase) {
 
         showSystemStatus(
-            "Supabase gagal dimuat.",
+            "Supabase gagal dimuat. Periksa koneksi internet.",
             true
         );
 
         return false;
     }
+
 
     supabaseClient =
         window.supabase.createClient(
@@ -460,23 +503,33 @@ function initializeSupabase() {
             SUPABASE_KEY
         );
 
+
     return true;
 }
 
 
 /* ================================
-   STATUS
+   SYSTEM STATUS
 ================================ */
 
 function showSystemStatus(message, error = false) {
 
     const el =
-        document.getElementById("systemStatus");
+        document.getElementById(
+            "systemStatus"
+        );
+
+
+    if (!el) {
+        return;
+    }
+
 
     el.className =
         error
             ? "status-system error"
             : "status-system";
+
 
     el.innerHTML =
         error
@@ -494,25 +547,34 @@ async function checkAdmin() {
     try {
 
         const {
-            data: { user },
+            data: {
+                user
+            },
             error
         } =
             await supabaseClient.auth.getUser();
 
 
+        /* BELUM LOGIN */
+
         if (error || !user) {
 
-            window.location.href = "login.html";
+            window.location.href =
+                "login.html";
 
             return false;
         }
 
 
         const email =
-            String(user.email || "")
+            String(
+                user.email || ""
+            )
                 .trim()
                 .toLowerCase();
 
+
+        /* AMBIL PROFILE */
 
         const {
             data: profile,
@@ -520,12 +582,23 @@ async function checkAdmin() {
         } =
             await supabaseClient
                 .from("users_list")
-                .select("id, name, username, role")
-                .eq("username", email)
+                .select(
+                    "id, name, username, role"
+                )
+                .eq(
+                    "username",
+                    email
+                )
                 .maybeSingle();
 
 
         if (profileError) {
+
+            console.error(
+                "Profile error:",
+                profileError
+            );
+
 
             showSystemStatus(
                 "Gagal membaca data admin: " +
@@ -537,18 +610,27 @@ async function checkAdmin() {
         }
 
 
+        /* PROFILE TIDAK ADA */
+
         if (!profile) {
 
-            alert("Data pengguna tidak ditemukan.");
+            alert(
+                "Data pengguna tidak ditemukan."
+            );
 
-            window.location.href = "toko.html";
+            window.location.href =
+                "toko.html";
 
             return false;
         }
 
 
+        /* CEK ROLE */
+
         const role =
-            String(profile.role || "")
+            String(
+                profile.role || ""
+            )
                 .trim()
                 .toLowerCase();
 
@@ -559,7 +641,8 @@ async function checkAdmin() {
                 "Akses ditolak. Halaman ini hanya untuk Admin."
             );
 
-            window.location.href = "toko.html";
+            window.location.href =
+                "toko.html";
 
             return false;
         }
@@ -569,9 +652,15 @@ async function checkAdmin() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Check admin error:",
+            error
+        );
 
-        window.location.href = "login.html";
+
+        window.location.href =
+            "login.html";
+
 
         return false;
     }
@@ -585,13 +674,24 @@ async function checkAdmin() {
 async function loadOrders() {
 
     const container =
-        document.getElementById("ordersContainer");
+        document.getElementById(
+            "ordersContainer"
+        );
 
 
     container.innerHTML = `
-        <div class="empty">
-            <i class="fa-solid fa-spinner fa-spin"></i>
-            <p>Memuat pesanan...</p>
+        <div class="page-card">
+
+            <div class="empty">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <p>
+                    Memuat pesanan...
+                </p>
+
+            </div>
+
         </div>
     `;
 
@@ -615,18 +715,30 @@ async function loadOrders() {
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                "Orders error:",
+                error
+            );
+
 
             container.innerHTML = `
                 <div class="alert alert-danger">
-                    <strong>Gagal mengambil pesanan.</strong>
-                    <br>
+
+                    <strong>
+                        Gagal mengambil pesanan.
+                    </strong>
+
+                    <br><br>
+
                     ${escapeHtml(error.message)}
+
                 </div>
             `;
 
+
             showSystemStatus(
-                "Gagal mengambil pesanan.",
+                "Gagal mengambil pesanan: " +
+                error.message,
                 true
             );
 
@@ -634,7 +746,9 @@ async function loadOrders() {
         }
 
 
-        currentOrders = data || [];
+        currentOrders =
+            data || [];
+
 
         renderOrders();
 
@@ -646,16 +760,27 @@ async function loadOrders() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Load orders error:",
+            error
+        );
+
 
         container.innerHTML = `
             <div class="alert alert-danger">
+
                 Terjadi kesalahan saat mengambil pesanan.
+
+                <br><br>
+
+                ${escapeHtml(error.message)}
+
             </div>
         `;
 
+
         showSystemStatus(
-            "Terjadi kesalahan.",
+            "Terjadi kesalahan saat mengambil pesanan.",
             true
         );
     }
@@ -669,13 +794,16 @@ async function loadOrders() {
 function renderOrders() {
 
     const container =
-        document.getElementById("ordersContainer");
+        document.getElementById(
+            "ordersContainer"
+        );
 
 
     if (!currentOrders.length) {
 
         container.innerHTML = `
             <div class="page-card">
+
                 <div class="empty">
 
                     <i class="fa-solid fa-box-open"></i>
@@ -689,6 +817,7 @@ function renderOrders() {
                     </p>
 
                 </div>
+
             </div>
         `;
 
@@ -698,7 +827,10 @@ function renderOrders() {
 
     container.innerHTML =
         currentOrders
-            .map(order => createOrderHTML(order))
+            .map(
+                order =>
+                    createOrderHTML(order)
+            )
             .join("");
 }
 
@@ -710,64 +842,70 @@ function renderOrders() {
 function createOrderHTML(order) {
 
     const orderId =
-        order.id ||
-        order.order_id ||
-        order.id_order ||
+        order.id ??
+        order.order_id ??
+        order.id_order ??
         "-";
 
 
     const customerName =
-        order.user_name ||
-        order.nama ||
-        order.nama_lengkap ||
+        order.user_name ??
+        order.nama ??
+        order.nama_lengkap ??
         "Nama tidak tersedia";
 
 
     const phone =
-        order.nomor_hp ||
-        order.no_hp ||
-        order.phone ||
-        order.whatsapp ||
+        order.nomor_hp ??
+        order.no_hp ??
+        order.phone ??
+        order.whatsapp ??
         "-";
 
 
     const address =
-        order.alamat ||
-        order.address ||
+        order.alamat ??
+        order.address ??
         "-";
 
 
     const total =
         Number(
-            order.total_harga ||
-            order.total ||
+            order.total_harga ??
+            order.total ??
             0
         );
 
 
     const status =
-        order.status ||
+        order.status ??
         "Menunggu Konfirmasi";
 
 
     const created =
         formatDate(
-            order.created_at ||
-            order.tanggal ||
+            order.created_at ??
+            order.tanggal ??
             order.createdAt
         );
 
 
     const items =
-        parseItems(order.items);
+        parseItems(
+            order.items
+        );
 
 
     const statusClass =
-        getStatusClass(status);
+        getStatusClass(
+            status
+        );
 
 
     return `
         <div class="order-card">
+
+            <!-- ORDER HEADER -->
 
             <div class="order-header">
 
@@ -789,7 +927,7 @@ function createOrderHTML(order) {
                 <div>
 
                     <span class="status-badge ${statusClass}">
-                        ${escapeHtml(status)}
+                        ${escapeHtml(String(status))}
                     </span>
 
                 </div>
@@ -797,9 +935,15 @@ function createOrderHTML(order) {
             </div>
 
 
+            <!-- ORDER BODY -->
+
             <div class="order-body">
 
+
+                <!-- CUSTOMER -->
+
                 <div class="customer-info">
+
 
                     <div class="info-box">
 
@@ -808,7 +952,7 @@ function createOrderHTML(order) {
                             Nama Pemesan
                         </strong>
 
-                        ${escapeHtml(customerName)}
+                        ${escapeHtml(String(customerName))}
 
                     </div>
 
@@ -839,8 +983,11 @@ function createOrderHTML(order) {
 
                     </div>
 
+
                 </div>
 
+
+                <!-- ITEMS -->
 
                 <div class="order-items">
 
@@ -849,12 +996,17 @@ function createOrderHTML(order) {
                         Barang yang Dipesan
                     </strong>
 
-                    <div style="margin-top:10px;">
+
+                    <div style="margin-top: 10px;">
+
                         ${renderItems(items)}
+
                     </div>
 
                 </div>
 
+
+                <!-- TOTAL -->
 
                 <div class="order-total">
 
@@ -864,12 +1016,16 @@ function createOrderHTML(order) {
                 </div>
 
 
+                <!-- STATUS -->
+
                 <div class="status-area">
 
                     <label>
+
                         <strong>
                             Status Pesanan:
                         </strong>
+
                     </label>
 
 
@@ -910,6 +1066,7 @@ function createOrderHTML(order) {
 
                 </div>
 
+
             </div>
 
         </div>
@@ -928,17 +1085,29 @@ function parseItems(items) {
     }
 
 
+    /* ARRAY */
+
     if (Array.isArray(items)) {
+
         return items;
     }
 
 
-    if (typeof items === "object") {
+    /* OBJECT */
+
+    if (
+        typeof items === "object"
+    ) {
+
         return [items];
     }
 
 
-    if (typeof items === "string") {
+    /* STRING */
+
+    if (
+        typeof items === "string"
+    ) {
 
         try {
 
@@ -947,6 +1116,7 @@ function parseItems(items) {
 
 
             if (Array.isArray(parsed)) {
+
                 return parsed;
             }
 
@@ -955,6 +1125,7 @@ function parseItems(items) {
                 parsed &&
                 typeof parsed === "object"
             ) {
+
                 return [parsed];
             }
 
@@ -994,27 +1165,27 @@ function renderItems(items) {
         .map(item => {
 
             const name =
-                item.nama_produk ||
-                item.nama ||
-                item.name ||
-                item.product_name ||
-                item.title ||
+                item.nama_produk ??
+                item.nama ??
+                item.name ??
+                item.product_name ??
+                item.title ??
                 "Produk";
 
 
             const quantity =
                 Number(
-                    item.jumlah ||
-                    item.qty ||
-                    item.quantity ||
+                    item.jumlah ??
+                    item.qty ??
+                    item.quantity ??
                     1
                 );
 
 
             const price =
                 Number(
-                    item.harga ||
-                    item.price ||
+                    item.harga ??
+                    item.price ??
                     0
                 );
 
@@ -1031,8 +1202,11 @@ function renderItems(items) {
                         <br>
 
                         <small class="text-muted">
-                            ${quantity} ×
+
+                            ${quantity}
+                            ×
                             ${formatRupiah(price)}
+
                         </small>
 
                     </div>
@@ -1060,17 +1234,22 @@ function renderItems(items) {
    STATUS OPTION
 ================================ */
 
-function statusOption(value, current) {
+function statusOption(
+    value,
+    current
+) {
+
+    const selected =
+        String(value).toLowerCase() ===
+        String(current).toLowerCase()
+            ? "selected"
+            : "";
+
 
     return `
         <option
             value="${escapeHtml(value)}"
-            ${
-                value.toLowerCase() ===
-                String(current).toLowerCase()
-                    ? "selected"
-                    : ""
-            }
+            ${selected}
         >
             ${escapeHtml(value)}
         </option>
@@ -1079,7 +1258,7 @@ function statusOption(value, current) {
 
 
 /* ================================
-   CHANGE STATUS
+   CHANGE ORDER STATUS
 ================================ */
 
 async function changeOrderStatus(
@@ -1087,7 +1266,10 @@ async function changeOrderStatus(
     newStatus
 ) {
 
-    if (!orderId || orderId === "-") {
+    if (
+        !orderId ||
+        orderId === "-"
+    ) {
 
         alert(
             "ID pesanan tidak ditemukan."
@@ -1099,9 +1281,7 @@ async function changeOrderStatus(
 
     const confirmed =
         confirm(
-            "Ubah status pesanan menjadi \"" +
-            newStatus +
-            "\"?"
+            `Ubah status pesanan menjadi "${newStatus}"?`
         );
 
 
@@ -1131,12 +1311,17 @@ async function changeOrderStatus(
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                "Update status error:",
+                error
+            );
+
 
             alert(
-                "Gagal mengubah status:\n" +
+                "Gagal mengubah status:\n\n" +
                 error.message
             );
+
 
             await loadOrders();
 
@@ -1159,10 +1344,15 @@ async function changeOrderStatus(
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Change status error:",
+            error
+        );
+
 
         alert(
-            "Terjadi kesalahan saat mengubah status."
+            "Terjadi kesalahan saat mengubah status:\n\n" +
+            error.message
         );
     }
 }
@@ -1179,25 +1369,45 @@ function getStatusClass(status) {
             .toLowerCase();
 
 
-    if (value.includes("menunggu")) {
+    if (
+        value.includes("menunggu")
+    ) {
+
         return "status-menunggu";
     }
 
-    if (value.includes("proses")) {
+
+    if (
+        value.includes("proses")
+    ) {
+
         return "status-diproses";
     }
 
-    if (value.includes("kirim")) {
+
+    if (
+        value.includes("kirim")
+    ) {
+
         return "status-dikirim";
     }
 
-    if (value.includes("selesai")) {
+
+    if (
+        value.includes("selesai")
+    ) {
+
         return "status-selesai";
     }
 
-    if (value.includes("batal")) {
+
+    if (
+        value.includes("batal")
+    ) {
+
         return "status-dibatalkan";
     }
+
 
     return "status-menunggu";
 }
@@ -1229,6 +1439,7 @@ function formatRupiah(number) {
 function formatDate(value) {
 
     if (!value) {
+
         return "Tanggal tidak tersedia";
     }
 
@@ -1237,7 +1448,12 @@ function formatDate(value) {
         new Date(value);
 
 
-    if (isNaN(date.getTime())) {
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
         return String(value);
     }
 
@@ -1259,11 +1475,26 @@ function formatDate(value) {
 function escapeHtml(value) {
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 
@@ -1274,11 +1505,26 @@ function escapeHtml(value) {
 function escapeJs(value) {
 
     return String(value)
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'")
-        .replace(/"/g, '\\"')
-        .replace(/\n/g, "\\n")
-        .replace(/\r/g, "\\r");
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /'/g,
+            "\\'"
+        )
+        .replace(
+            /"/g,
+            '\\"'
+        )
+        .replace(
+            /\n/g,
+            "\\n"
+        )
+        .replace(
+            /\r/g,
+            "\\r"
+        );
 }
 
 
@@ -1297,7 +1543,10 @@ async function logout() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Logout error:",
+            error
+        );
     }
 
 
@@ -1307,7 +1556,8 @@ async function logout() {
     localStorage.removeItem("user_session");
 
 
-    window.location.href = "login.html";
+    window.location.href =
+        "login.html";
 }
 
 
@@ -1322,6 +1572,7 @@ document.addEventListener(
         const ready =
             initializeSupabase();
 
+
         if (!ready) {
             return;
         }
@@ -1330,12 +1581,14 @@ document.addEventListener(
         const allowed =
             await checkAdmin();
 
+
         if (!allowed) {
             return;
         }
 
 
         await loadOrders();
+
     }
 );
 
