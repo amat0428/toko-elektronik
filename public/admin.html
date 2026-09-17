@@ -30,6 +30,10 @@
             color: #222;
         }
 
+        /* =========================
+           HEADER
+        ========================= */
+
         .header {
             background: white;
             padding: 18px 30px;
@@ -77,11 +81,6 @@
             color: white;
         }
 
-        .btn-orders {
-            background: #6f42c1;
-            color: white;
-        }
-
         .btn-products {
             background: #198754;
             color: white;
@@ -108,11 +107,19 @@
             color: white;
         }
 
+        /* =========================
+           CONTAINER
+        ========================= */
+
         .container-main {
             padding: 30px;
             max-width: 1500px;
             margin: auto;
         }
+
+        /* =========================
+           WELCOME
+        ========================= */
 
         .welcome {
             background: white;
@@ -125,6 +132,10 @@
         .welcome h2 {
             margin-bottom: 8px;
         }
+
+        /* =========================
+           STATISTICS
+        ========================= */
 
         .stats-container {
             display: grid;
@@ -163,7 +174,11 @@
             color: #198754 !important;
         }
 
-        .quick-menu {
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section-box {
             margin-top: 30px;
             background: white;
             padding: 25px;
@@ -171,64 +186,212 @@
             box-shadow: 0 2px 10px rgba(0,0,0,.06);
         }
 
-        .quick-menu h3 {
-            margin-bottom: 20px;
-        }
-
-        .quick-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        .quick-button {
-            text-decoration: none;
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
+        .section-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
             gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .section-header h3 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        /* =========================
+           ORDER CARD
+        ========================= */
+
+        .order-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 18px;
+            background: #fff;
             transition: .2s;
         }
 
-        .quick-button:hover {
-            color: white;
-            transform: translateY(-3px);
+        .order-card:hover {
+            box-shadow: 0 5px 18px rgba(0,0,0,.08);
+            transform: translateY(-1px);
         }
 
-        .quick-button i {
-            font-size: 30px;
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
         }
 
-        .quick-button strong {
-            display: block;
-            font-size: 18px;
+        .order-id {
+            font-size: 17px;
+            font-weight: bold;
+            color: #0d6efd;
         }
 
-        .quick-button small {
-            opacity: .9;
+        .order-date {
+            font-size: 13px;
+            color: #777;
+            margin-top: 4px;
         }
 
-        .menu-orders {
-            background: #0d6efd;
+        .order-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .menu-products {
-            background: #198754;
+        .info-title {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
-        .menu-store {
-            background: #fd7e14;
+        .customer-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
         }
 
-        .info-box {
-            margin-top: 30px;
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        .customer-info p {
+            margin: 5px 0;
         }
+
+        .items-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e2e2;
+        }
+
+        .item-row:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 600;
+        }
+
+        .item-detail {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .order-bottom {
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .total-label {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .total-price {
+            color: #dc3545;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .status-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-select {
+            min-width: 190px;
+            border-radius: 8px;
+            font-weight: bold;
+            padding: 9px 12px;
+        }
+
+        /* =========================
+           STATUS COLORS
+        ========================= */
+
+        .badge-status {
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-menunggu {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-diproses {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-dikirim {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+        .status-selesai {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-dibatalkan {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: #777;
+        }
+
+        .empty-orders i {
+            font-size: 55px;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading-box {
+            text-align: center;
+            padding: 50px;
+            color: #777;
+        }
+
+        /* =========================
+           STATUS SYSTEM
+        ========================= */
 
         .status-system {
             margin-top: 25px;
@@ -243,13 +406,18 @@
             color: #842029;
         }
 
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
         @media (max-width: 1000px) {
-            .quick-buttons {
+            .order-body {
                 grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
+
             .header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -273,13 +441,31 @@
                 flex: 1;
                 justify-content: center;
             }
+
+            .order-bottom {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .status-wrapper {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .status-select {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
+<!-- =========================
+     HEADER
+========================= -->
+
 <div class="header">
 
     <div>
@@ -300,11 +486,6 @@
             Dashboard
         </a>
 
-        <a href="pesanan.html" class="btn-orders">
-            <i class="fa-solid fa-box"></i>
-            Pesanan
-        </a>
-
         <a href="produk.html" class="btn-products">
             <i class="fa-solid fa-cart-shopping"></i>
             Produk
@@ -315,7 +496,7 @@
             Ke Toko
         </a>
 
-        <button onclick="loadStats()" class="logout-btn btn-refresh">
+        <button onclick="loadAllData()" class="logout-btn btn-refresh">
             <i class="fa-solid fa-rotate"></i>
             Refresh
         </button>
@@ -326,13 +507,18 @@
         </button>
 
     </div>
+
 </div>
 
 
-<!-- CONTENT -->
+<!-- =========================
+     CONTENT
+========================= -->
+
 <div class="container-main">
 
     <!-- WELCOME -->
+
     <div class="welcome">
 
         <h2>
@@ -341,13 +527,16 @@
 
         <p class="mb-0">
             Selamat datang di Dashboard Admin BlueShop.
-            Kelola pesanan dan produk toko dari menu di bawah.
+            Kelola pesanan dan produk toko dari halaman ini.
         </p>
 
     </div>
 
 
-    <!-- STATISTICS -->
+    <!-- =========================
+         STATISTICS
+    ========================= -->
+
     <div class="stats-container">
 
         <div class="stat-card">
@@ -403,392 +592,1270 @@
     </div>
 
 
-    <!-- MENU ADMIN -->
-    <div class="quick-menu">
+    <!-- =========================
+         DAFTAR PESANAN
+    ========================= -->
 
-        <h3>
-            <i class="fa-solid fa-bolt"></i>
-            Menu Admin
-        </h3>
+    <div class="section-box">
 
-        <div class="quick-buttons">
+        <div class="section-header">
 
-            <a href="pesanan.html" class="quick-button menu-orders">
+            <div>
+                <h3>
+                    <i class="fa-solid fa-box-open"></i>
+                    Daftar Pesanan
+                </h3>
 
-                <i class="fa-solid fa-box"></i>
+                <small class="text-muted">
+                    Kelola dan ubah status pesanan pelanggan
+                </small>
+            </div>
 
-                <div>
-                    <strong>Kelola Pesanan</strong>
-                    <small>
-                        Lihat dan ubah status pesanan pelanggan
-                    </small>
-                </div>
+            <button
+                class="btn btn-primary"
+                onclick="loadOrders()"
+            >
+                <i class="fa-solid fa-arrows-rotate"></i>
+                Muat Pesanan
+            </button>
 
-            </a>
-
-
-            <a href="produk.html" class="quick-button menu-products">
-
-                <i class="fa-solid fa-cart-shopping"></i>
-
-                <div>
-                    <strong>Kelola Produk</strong>
-                    <small>
-                        Tambah, edit, dan hapus produk
-                    </small>
-                </div>
-
-            </a>
+        </div>
 
 
-            <a href="toko.html" class="quick-button menu-store">
+        <div id="ordersContainer">
 
-                <i class="fa-solid fa-store"></i>
+            <div class="loading-box">
+
+                <div class="spinner-border text-primary mb-3"></div>
 
                 <div>
-                    <strong>Lihat Toko</strong>
-                    <small>
-                        Buka halaman toko BlueShop
-                    </small>
+                    Memuat pesanan...
                 </div>
 
-            </a>
+            </div>
 
         </div>
 
     </div>
 
 
-    <!-- INFO -->
-    <div class="info-box">
+    <!-- =========================
+         INFO
+    ========================= -->
+
+    <div class="section-box">
 
         <h4>
             <i class="fa-solid fa-circle-info"></i>
-            Struktur Admin BlueShop
+            Informasi Admin
         </h4>
 
         <hr>
 
         <p class="mb-2">
-            <strong>Dashboard</strong> → Statistik dan menu utama admin.
+            <strong>Dashboard</strong>
+            → Melihat statistik toko dan pesanan.
         </p>
 
         <p class="mb-2">
-            <strong>Pesanan</strong> → Melihat pesanan pelanggan dan mengubah status.
+            <strong>Pesanan</strong>
+            → Melihat pesanan pelanggan dan mengubah statusnya.
         </p>
 
         <p class="mb-2">
-            <strong>Produk</strong> → Menambah, mengedit, dan menghapus produk.
+            <strong>Produk</strong>
+            → Tambah, edit, dan hapus produk.
         </p>
 
         <p class="mb-0">
-            <strong>Toko</strong> → Melihat tampilan toko sebagai pengguna.
+            <strong>Toko</strong>
+            → Melihat halaman toko BlueShop.
         </p>
 
     </div>
 
 
-    <!-- STATUS -->
+    <!-- =========================
+         SYSTEM STATUS
+    ========================= -->
+
     <div id="systemStatus" class="status-system">
+
         <i class="fa-solid fa-spinner fa-spin"></i>
-        Memuat sistem...
+
+        Menghubungkan ke Supabase...
+
     </div>
 
 </div>
 
 
-<!-- SUPABASE -->
+<!-- =========================
+     SUPABASE
+========================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+
 
 <script>
 
-const SUPABASE_URL =
-    "https://fbnknnrltrsvydyxgujr.supabase.co";
+    /* =========================================
+       SUPABASE CONFIG
+    ========================================= */
 
-const SUPABASE_KEY =
-    "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+    const SUPABASE_URL =
+        "https://fbnknnrltrsvydyxgujr.supabase.co";
 
-let supabaseClient = null;
+    const SUPABASE_KEY =
+        "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+
+    let supabaseClient = null;
 
 
-/* ================================
-   INITIALIZE SUPABASE
-================================ */
+    /* =========================================
+       STATUS SYSTEM
+    ========================================= */
 
-function initializeSupabase() {
+    function showSystemStatus(message, error = false) {
 
-    if (!window.supabase) {
+        const el = document.getElementById("systemStatus");
 
-        showSystemStatus(
-            "Supabase gagal dimuat.",
-            true
-        );
+        if (!el) return;
 
-        return false;
+        el.className =
+            error
+                ? "status-system error"
+                : "status-system";
+
+        el.innerHTML =
+            error
+                ? `<i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(message)}`
+                : `<i class="fa-solid fa-circle-check"></i> ${escapeHtml(message)}`;
     }
 
-    supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
 
-    return true;
-}
+    /* =========================================
+       ESCAPE HTML
+    ========================================= */
 
+    function escapeHtml(value) {
 
-/* ================================
-   SYSTEM STATUS
-================================ */
-
-function showSystemStatus(message, error = false) {
-
-    const el =
-        document.getElementById("systemStatus");
-
-    el.className =
-        error
-            ? "status-system error"
-            : "status-system";
-
-    el.innerHTML =
-        error
-            ? `<i class="fa-solid fa-triangle-exclamation"></i> ${message}`
-            : `<i class="fa-solid fa-circle-check"></i> ${message}`;
-}
-
-
-/* ================================
-   CHECK ADMIN
-================================ */
-
-async function checkAdmin() {
-
-    try {
-
-        const {
-            data: { user },
-            error
-        } =
-            await supabaseClient.auth.getUser();
-
-        if (error || !user) {
-
-            window.location.href = "login.html";
-
-            return false;
+        if (value === null || value === undefined) {
+            return "";
         }
 
-
-        const email =
-            String(user.email || "")
-                .trim()
-                .toLowerCase();
-
-
-        const {
-            data: profile,
-            error: profileError
-        } =
-            await supabaseClient
-                .from("users_list")
-                .select("id, name, username, role")
-                .eq("username", email)
-                .maybeSingle();
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 
 
-        if (profileError) {
+    /* =========================================
+       FORMAT RUPIAH
+    ========================================= */
 
-            console.error(profileError);
+    function formatRupiah(value) {
+
+        const number = Number(value) || 0;
+
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }).format(number);
+    }
+
+
+    /* =========================================
+       FORMAT TANGGAL
+    ========================================= */
+
+    function formatDate(value) {
+
+        if (!value) {
+            return "-";
+        }
+
+        const date = new Date(value);
+
+        if (isNaN(date.getTime())) {
+            return String(value);
+        }
+
+        return date.toLocaleString("id-ID", {
+            dateStyle: "medium",
+            timeStyle: "short"
+        });
+    }
+
+
+    /* =========================================
+       INITIALIZE SUPABASE
+    ========================================= */
+
+    function initializeSupabase() {
+
+        if (!window.supabase) {
 
             showSystemStatus(
-                "Gagal membaca data pengguna: " +
-                profileError.message,
+                "Supabase gagal dimuat. Periksa koneksi internet atau CDN.",
                 true
             );
 
             return false;
         }
 
+        supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
 
-        if (!profile) {
+        return true;
+    }
 
-            alert("Data pengguna tidak ditemukan.");
 
-            window.location.href = "toko.html";
+    /* =========================================
+       CHECK ADMIN
+    ========================================= */
+
+    async function checkAdmin() {
+
+        try {
+
+            const {
+                data: { user },
+                error
+            } =
+                await supabaseClient.auth.getUser();
+
+
+            if (error || !user) {
+
+                window.location.href = "login.html";
+
+                return false;
+            }
+
+
+            const email =
+                String(user.email || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            const {
+                data: profile,
+                error: profileError
+            } =
+                await supabaseClient
+                    .from("users_list")
+                    .select("id, name, username, role")
+                    .eq("username", email)
+                    .maybeSingle();
+
+
+            if (profileError) {
+
+                console.error(profileError);
+
+                showSystemStatus(
+                    "Gagal membaca data admin: " +
+                    profileError.message,
+                    true
+                );
+
+                return false;
+            }
+
+
+            if (!profile) {
+
+                alert(
+                    "Data pengguna tidak ditemukan di users_list."
+                );
+
+                window.location.href = "toko.html";
+
+                return false;
+            }
+
+
+            const role =
+                String(profile.role || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            if (role !== "admin") {
+
+                alert(
+                    "Akses ditolak. Halaman ini hanya untuk Admin."
+                );
+
+                window.location.href = "toko.html";
+
+                return false;
+            }
+
+
+            document.getElementById("adminName").textContent =
+                profile.name ||
+                profile.username ||
+                "Admin";
+
+
+            document.getElementById("adminStatus").textContent =
+                "Admin Active";
+
+
+            return true;
+
+        } catch (error) {
+
+            console.error(error);
+
+            window.location.href = "login.html";
 
             return false;
         }
+    }
 
 
-        const role =
-            String(profile.role || "")
+    /* =========================================
+       LOAD STATISTICS
+    ========================================= */
+
+    async function loadStats() {
+
+        try {
+
+            const ordersResult =
+                await supabaseClient
+                    .from("orders")
+                    .select("id");
+
+
+            const productsResult =
+                await supabaseClient
+                    .from("produk")
+                    .select("id_produk");
+
+
+            if (ordersResult.error) {
+
+                console.error(
+                    "Error orders:",
+                    ordersResult.error
+                );
+
+                document.getElementById("totalOrders").textContent =
+                    "!";
+            } else {
+
+                document.getElementById("totalOrders").textContent =
+                    ordersResult.data
+                        ? ordersResult.data.length
+                        : 0;
+            }
+
+
+            if (productsResult.error) {
+
+                console.error(
+                    "Error produk:",
+                    productsResult.error
+                );
+
+                document.getElementById("totalProducts").textContent =
+                    "!";
+            } else {
+
+                document.getElementById("totalProducts").textContent =
+                    productsResult.data
+                        ? productsResult.data.length
+                        : 0;
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            showSystemStatus(
+                "Gagal mengambil statistik: " +
+                error.message,
+                true
+            );
+        }
+    }
+
+
+    /* =========================================
+       GET ORDER ID
+    ========================================= */
+
+    function getOrderId(order) {
+
+        if (order.id !== undefined && order.id !== null) {
+            return {
+                field: "id",
+                value: order.id
+            };
+        }
+
+        if (
+            order.order_id !== undefined &&
+            order.order_id !== null
+        ) {
+            return {
+                field: "order_id",
+                value: order.order_id
+            };
+        }
+
+        if (
+            order.id_order !== undefined &&
+            order.id_order !== null
+        ) {
+            return {
+                field: "id_order",
+                value: order.id_order
+            };
+        }
+
+        return {
+            field: null,
+            value: null
+        };
+    }
+
+
+    /* =========================================
+       GET STATUS CLASS
+    ========================================= */
+
+    function getStatusClass(status) {
+
+        const clean =
+            String(status || "")
                 .trim()
                 .toLowerCase();
 
+        if (clean === "menunggu konfirmasi") {
+            return "status-menunggu";
+        }
 
-        if (role !== "admin") {
+        if (clean === "diproses") {
+            return "status-diproses";
+        }
+
+        if (clean === "dikirim") {
+            return "status-dikirim";
+        }
+
+        if (clean === "selesai") {
+            return "status-selesai";
+        }
+
+        if (clean === "dibatalkan") {
+            return "status-dibatalkan";
+        }
+
+        return "status-menunggu";
+    }
+
+
+    /* =========================================
+       GET ITEMS
+    ========================================= */
+
+    function getItems(order) {
+
+        let items = order.items;
+
+        if (!items) {
+            return [];
+        }
+
+
+        if (typeof items === "string") {
+
+            try {
+                items = JSON.parse(items);
+            } catch (error) {
+
+                return [
+                    {
+                        nama_produk: items,
+                        jumlah: 1,
+                        harga: 0
+                    }
+                ];
+            }
+        }
+
+
+        if (Array.isArray(items)) {
+            return items;
+        }
+
+
+        if (
+            typeof items === "object" &&
+            Array.isArray(items.items)
+        ) {
+            return items.items;
+        }
+
+
+        if (typeof items === "object") {
+
+            return [items];
+        }
+
+
+        return [];
+    }
+
+
+    /* =========================================
+       LOAD ORDERS
+    ========================================= */
+
+    async function loadOrders() {
+
+        const container =
+            document.getElementById("ordersContainer");
+
+
+        container.innerHTML = `
+
+            <div class="loading-box">
+
+                <div class="spinner-border text-primary mb-3"></div>
+
+                <div>
+                    Mengambil data pesanan dari Supabase...
+                </div>
+
+            </div>
+
+        `;
+
+
+        try {
+
+            /*
+             * Tidak menggunakan .order("created_at")
+             * supaya lebih aman kalau nama kolom tanggal
+             * di database berbeda.
+             */
+
+            const {
+                data: orders,
+                error
+            } =
+                await supabaseClient
+                    .from("orders")
+                    .select("*");
+
+
+            if (error) {
+
+                console.error("Supabase Orders Error:", error);
+
+                container.innerHTML = `
+
+                    <div class="alert alert-danger">
+
+                        <strong>
+                            Gagal mengambil pesanan.
+                        </strong>
+
+                        <br>
+
+                        ${escapeHtml(error.message)}
+
+                        <hr>
+
+                        <small>
+                            Jika muncul pesan RLS / permission denied,
+                            berarti policy Supabase untuk tabel orders
+                            perlu diperiksa.
+                        </small>
+
+                    </div>
+
+                `;
+
+                showSystemStatus(
+                    "Gagal mengambil data orders: " +
+                    error.message,
+                    true
+                );
+
+                return;
+            }
+
+
+            /*
+             * Urutkan terbaru berdasarkan created_at
+             * kalau kolom tersedia.
+             */
+
+            orders.sort(function(a, b) {
+
+                const dateA =
+                    new Date(
+                        a.created_at ||
+                        a.tanggal ||
+                        a.createdAt ||
+                        0
+                    ).getTime();
+
+                const dateB =
+                    new Date(
+                        b.created_at ||
+                        b.tanggal ||
+                        b.createdAt ||
+                        0
+                    ).getTime();
+
+                return dateB - dateA;
+            });
+
+
+            if (!orders || orders.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty-orders">
+
+                        <i class="fa-solid fa-box-open"></i>
+
+                        <h4>
+                            Belum ada pesanan
+                        </h4>
+
+                        <p>
+                            Pesanan pelanggan yang masuk
+                            akan muncul di sini.
+                        </p>
+
+                    </div>
+
+                `;
+
+                showSystemStatus(
+                    "Terhubung ke Supabase. Belum ada pesanan."
+                );
+
+                return;
+            }
+
+
+            let html = "";
+
+
+            orders.forEach(function(order) {
+
+                html += createOrderCard(order);
+
+            });
+
+
+            container.innerHTML = html;
+
+
+            showSystemStatus(
+                "Berhasil memuat " +
+                orders.length +
+                " pesanan dari Supabase."
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            container.innerHTML = `
+
+                <div class="alert alert-danger">
+
+                    Gagal memuat pesanan:
+
+                    <br>
+
+                    ${escapeHtml(error.message)}
+
+                </div>
+
+            `;
+
+            showSystemStatus(
+                "Terjadi kesalahan saat memuat pesanan.",
+                true
+            );
+        }
+    }
+
+
+    /* =========================================
+       CREATE ORDER CARD
+    ========================================= */
+
+    function createOrderCard(order) {
+
+        const orderIdentity =
+            getOrderId(order);
+
+
+        const orderId =
+            orderIdentity.value !== null
+                ? orderIdentity.value
+                : "Tanpa ID";
+
+
+        const customerName =
+            order.user_name ||
+            order.nama ||
+            order.nama_lengkap ||
+            "Pelanggan";
+
+
+        const phone =
+            order.nomor_hp ||
+            order.no_hp ||
+            order.phone ||
+            order.whatsapp ||
+            "-";
+
+
+        const address =
+            order.alamat ||
+            order.address ||
+            "-";
+
+
+        const total =
+            order.total_harga ??
+            order.total ??
+            0;
+
+
+        const status =
+            order.status ||
+            "Menunggu Konfirmasi";
+
+
+        const date =
+            order.created_at ||
+            order.tanggal ||
+            order.createdAt ||
+            null;
+
+
+        const items =
+            getItems(order);
+
+
+        let itemsHtml = "";
+
+
+        if (items.length === 0) {
+
+            itemsHtml = `
+
+                <div class="text-muted">
+                    Tidak ada detail produk.
+                </div>
+
+            `;
+
+        } else {
+
+            items.forEach(function(item) {
+
+                const name =
+                    item.nama_produk ||
+                    item.nama ||
+                    item.name ||
+                    item.product_name ||
+                    item.title ||
+                    "Produk";
+
+
+                const qty =
+                    Number(
+                        item.jumlah ??
+                        item.qty ??
+                        item.quantity ??
+                        1
+                    );
+
+
+                const price =
+                    Number(
+                        item.harga ??
+                        item.price ??
+                        0
+                    );
+
+
+                itemsHtml += `
+
+                    <div class="item-row">
+
+                        <div>
+
+                            <div class="item-name">
+                                ${escapeHtml(name)}
+                            </div>
+
+                            <div class="item-detail">
+                                ${qty} x ${formatRupiah(price)}
+                            </div>
+
+                        </div>
+
+                        <strong>
+                            ${formatRupiah(price * qty)}
+                        </strong>
+
+                    </div>
+
+                `;
+            });
+        }
+
+
+        const safeOrderId =
+            String(orderId)
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'");
+
+
+        const safeIdField =
+            String(orderIdentity.field || "id")
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'");
+
+
+        return `
+
+            <div class="order-card">
+
+                <!-- ORDER HEADER -->
+
+                <div class="order-top">
+
+                    <div>
+
+                        <div class="order-id">
+
+                            <i class="fa-solid fa-receipt"></i>
+
+                            Pesanan #${escapeHtml(orderId)}
+
+                        </div>
+
+                        <div class="order-date">
+
+                            <i class="fa-regular fa-clock"></i>
+
+                            ${escapeHtml(formatDate(date))}
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <span
+                            class="badge-status ${getStatusClass(status)}"
+                        >
+
+                            ${escapeHtml(status)}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ORDER BODY -->
+
+                <div class="order-body">
+
+                    <!-- CUSTOMER -->
+
+                    <div>
+
+                        <div class="info-title">
+                            <i class="fa-solid fa-user"></i>
+                            Data Pelanggan
+                        </div>
+
+                        <div class="customer-info">
+
+                            <p>
+                                <strong>
+                                    ${escapeHtml(customerName)}
+                                </strong>
+                            </p>
+
+                            <p>
+                                <i class="fa-solid fa-phone"></i>
+                                ${escapeHtml(phone)}
+                            </p>
+
+                            <p>
+                                <i class="fa-solid fa-location-dot"></i>
+                                ${escapeHtml(address)}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ITEMS -->
+
+                    <div>
+
+                        <div class="info-title">
+
+                            <i class="fa-solid fa-cart-shopping"></i>
+
+                            Produk
+
+                        </div>
+
+                        <div class="items-box">
+
+                            ${itemsHtml}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ORDER BOTTOM -->
+
+                <div class="order-bottom">
+
+                    <div>
+
+                        <div class="total-label">
+                            Total Pembayaran
+                        </div>
+
+                        <div class="total-price">
+                            ${formatRupiah(total)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-wrapper">
+
+                        <strong>
+                            Ubah Status:
+                        </strong>
+
+                        <select
+                            class="form-select status-select"
+                            onchange="changeOrderStatus(
+                                '${safeOrderId}',
+                                '${safeIdField}',
+                                this.value,
+                                this
+                            )"
+                        >
+
+                            <option
+                                value="Menunggu Konfirmasi"
+                                ${status === "Menunggu Konfirmasi" ? "selected" : ""}
+                            >
+                                Menunggu Konfirmasi
+                            </option>
+
+                            <option
+                                value="Diproses"
+                                ${status === "Diproses" ? "selected" : ""}
+                            >
+                                Diproses
+                            </option>
+
+                            <option
+                                value="Dikirim"
+                                ${status === "Dikirim" ? "selected" : ""}
+                            >
+                                Dikirim
+                            </option>
+
+                            <option
+                                value="Selesai"
+                                ${status === "Selesai" ? "selected" : ""}
+                            >
+                                Selesai
+                            </option>
+
+                            <option
+                                value="Dibatalkan"
+                                ${status === "Dibatalkan" ? "selected" : ""}
+                            >
+                                Dibatalkan
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+    }
+
+
+    /* =========================================
+       CHANGE ORDER STATUS
+    ========================================= */
+
+    async function changeOrderStatus(
+        orderId,
+        idField,
+        newStatus,
+        selectElement
+    ) {
+
+        if (!supabaseClient) {
 
             alert(
-                "Akses ditolak. Halaman ini hanya untuk Admin."
+                "Supabase belum terhubung."
             );
 
-            window.location.href = "toko.html";
-
-            return false;
-        }
-
-
-        document.getElementById("adminName").textContent =
-            profile.name ||
-            profile.username ||
-            "Admin";
-
-
-        document.getElementById("adminStatus").textContent =
-            "Admin Active";
-
-
-        return true;
-
-    } catch (error) {
-
-        console.error(error);
-
-        window.location.href = "login.html";
-
-        return false;
-    }
-}
-
-
-/* ================================
-   LOAD STATISTICS
-================================ */
-
-async function loadStats() {
-
-    showSystemStatus(
-        "Sedang mengambil statistik..."
-    );
-
-
-    try {
-
-        const ordersResult =
-            await supabaseClient
-                .from("orders")
-                .select("id");
-
-
-        if (ordersResult.error) {
-
-            console.error(
-                "Orders:",
-                ordersResult.error
-            );
-        }
-
-
-        const productsResult =
-            await supabaseClient
-                .from("produk")
-                .select("id_produk");
-
-
-        if (productsResult.error) {
-
-            console.error(
-                "Products:",
-                productsResult.error
-            );
-        }
-
-
-        document.getElementById("totalOrders").textContent =
-            ordersResult.data
-                ? ordersResult.data.length
-                : 0;
-
-
-        document.getElementById("totalProducts").textContent =
-            productsResult.data
-                ? productsResult.data.length
-                : 0;
-
-
-        showSystemStatus(
-            "Dashboard berhasil terhubung ke Supabase."
-        );
-
-    } catch (error) {
-
-        console.error(error);
-
-        showSystemStatus(
-            "Gagal mengambil data statistik.",
-            true
-        );
-    }
-}
-
-
-/* ================================
-   LOGOUT
-================================ */
-
-async function logout() {
-
-    try {
-
-        if (supabaseClient) {
-
-            await supabaseClient.auth.signOut();
-        }
-
-    } catch (error) {
-
-        console.error(error);
-    }
-
-
-    localStorage.removeItem("user");
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("user_session");
-
-
-    window.location.href = "login.html";
-}
-
-
-/* ================================
-   START
-================================ */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    async function() {
-
-        const ready =
-            initializeSupabase();
-
-        if (!ready) {
             return;
         }
 
 
-        const allowed =
-            await checkAdmin();
+        const oldValue =
+            selectElement.dataset.oldValue ||
+            "";
 
-        if (!allowed) {
+
+        /*
+         * Konfirmasi perubahan
+         */
+
+        const confirmChange =
+            confirm(
+                "Ubah status pesanan #" +
+                orderId +
+                " menjadi \"" +
+                newStatus +
+                "\"?"
+            );
+
+
+        if (!confirmChange) {
+
+            await loadOrders();
+
             return;
         }
 
+
+        selectElement.disabled = true;
+
+
+        showSystemStatus(
+            "Mengubah status pesanan #" +
+            orderId +
+            " menjadi " +
+            newStatus +
+            "..."
+        );
+
+
+        try {
+
+            /*
+             * Update langsung ke Supabase
+             */
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("orders")
+                    .update({
+                        status: newStatus
+                    })
+                    .eq(idField, orderId)
+                    .select();
+
+
+            if (error) {
+
+                console.error(
+                    "Update status error:",
+                    error
+                );
+
+
+                alert(
+                    "Gagal mengubah status:\n\n" +
+                    error.message
+                );
+
+
+                await loadOrders();
+
+                return;
+            }
+
+
+            if (!data || data.length === 0) {
+
+                alert(
+                    "Status tidak berubah.\n\n" +
+                    "Supabase tidak mengembalikan data yang diupdate. " +
+                    "Kemungkinan Row Level Security (RLS) belum mengizinkan update."
+                );
+
+
+                await loadOrders();
+
+                return;
+            }
+
+
+            showSystemStatus(
+                "Status pesanan #" +
+                orderId +
+                " berhasil diubah menjadi \"" +
+                newStatus +
+                "\"."
+            );
+
+
+            /*
+             * Reload agar tampilan benar-benar mengambil
+             * data terbaru dari Supabase.
+             */
+
+            await loadOrders();
+
+            await loadStats();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Terjadi kesalahan:\n\n" +
+                error.message
+            );
+
+            await loadOrders();
+
+        } finally {
+
+            selectElement.disabled = false;
+        }
+    }
+
+
+    /* =========================================
+       LOAD ALL DATA
+    ========================================= */
+
+    async function loadAllData() {
+
+        showSystemStatus(
+            "Memuat ulang dashboard..."
+        );
 
         await loadStats();
+
+        await loadOrders();
+
     }
-);
+
+
+    /* =========================================
+       LOGOUT
+    ========================================= */
+
+    async function logout() {
+
+        try {
+
+            if (supabaseClient) {
+
+                await supabaseClient.auth.signOut();
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+
+        localStorage.removeItem("user");
+        localStorage.removeItem("currentUser");
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("user_session");
+
+
+        window.location.href = "login.html";
+    }
+
+
+    /* =========================================
+       START
+    ========================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        async function() {
+
+            const ready =
+                initializeSupabase();
+
+
+            if (!ready) {
+                return;
+            }
+
+
+            const allowed =
+                await checkAdmin();
+
+
+            if (!allowed) {
+                return;
+            }
+
+
+            await loadStats();
+
+            await loadOrders();
+
+        }
+    );
 
 </script>
 
