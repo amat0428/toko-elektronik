@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -319,6 +320,7 @@
 
         .customer-info p {
             margin: 6px 0;
+            word-break: break-word;
         }
 
         .customer-info i {
@@ -408,6 +410,7 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
+            display: inline-block;
         }
 
         .status-menunggu {
@@ -516,6 +519,10 @@
                 padding: 15px;
             }
 
+            .header h1 {
+                font-size: 22px;
+            }
+
             .container-main {
                 padding: 15px;
             }
@@ -548,6 +555,10 @@
             .status-select {
                 width: 100%;
             }
+
+            .item-row {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -567,7 +578,7 @@
         </h1>
 
         <small>
-            BlueShop - Panel Administrasi
+            BlueShop Fashion - Panel Administrasi
         </small>
     </div>
 
@@ -642,6 +653,8 @@
 
     <div class="stats-container">
 
+        <!-- TOTAL ORDERS -->
+
         <div class="stat-card">
 
             <div class="stat-icon">
@@ -659,6 +672,8 @@
         </div>
 
 
+        <!-- TOTAL PRODUCTS -->
+
         <div class="stat-card">
 
             <div class="stat-icon">
@@ -675,6 +690,8 @@
 
         </div>
 
+
+        <!-- ADMIN STATUS -->
 
         <div class="stat-card">
 
@@ -760,35 +777,50 @@
         <div class="info-list">
 
             <p class="mb-0">
+
                 <strong>
                     <i class="fa-solid fa-house text-primary"></i>
                     Dashboard
                 </strong>
+
                 → Melihat statistik toko dan pesanan.
+
             </p>
 
+
             <p class="mb-0">
+
                 <strong>
                     <i class="fa-solid fa-box text-primary"></i>
                     Pesanan
                 </strong>
+
                 → Melihat pesanan pelanggan dan mengubah statusnya.
+
             </p>
 
+
             <p class="mb-0">
+
                 <strong>
                     <i class="fa-solid fa-cart-shopping text-success"></i>
                     Produk
                 </strong>
+
                 → Tambah, edit, dan hapus produk.
+
             </p>
 
+
             <p class="mb-0">
+
                 <strong>
                     <i class="fa-solid fa-store text-warning"></i>
                     Toko
                 </strong>
+
                 → Melihat halaman toko BlueShop.
+
             </p>
 
         </div>
@@ -804,8 +836,11 @@
         id="systemStatus"
         class="status-system"
     >
+
         <i class="fa-solid fa-spinner fa-spin"></i>
+
         Menghubungkan ke Supabase...
+
     </div>
 
 </div>
@@ -851,8 +886,14 @@
 
         el.innerHTML =
             error
-                ? `<i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(message)}`
-                : `<i class="fa-solid fa-circle-check"></i> ${escapeHtml(message)}`;
+                ? `
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    ${escapeHtml(message)}
+                  `
+                : `
+                    <i class="fa-solid fa-circle-check"></i>
+                    ${escapeHtml(message)}
+                  `;
     }
 
 
@@ -887,11 +928,14 @@
         const number =
             Number(value) || 0;
 
-        return new Intl.NumberFormat("id-ID", {
-            style: "currency",
-            currency: "IDR",
-            maximumFractionDigits: 0
-        }).format(number);
+        return new Intl.NumberFormat(
+            "id-ID",
+            {
+                style: "currency",
+                currency: "IDR",
+                maximumFractionDigits: 0
+            }
+        ).format(number);
     }
 
 
@@ -912,10 +956,13 @@
             return String(value);
         }
 
-        return date.toLocaleString("id-ID", {
-            dateStyle: "medium",
-            timeStyle: "short"
-        });
+        return date.toLocaleString(
+            "id-ID",
+            {
+                dateStyle: "medium",
+                timeStyle: "short"
+            }
+        );
     }
 
 
@@ -1080,6 +1127,8 @@
                     .select("*");
 
 
+            /* TOTAL ORDERS */
+
             if (ordersResult.error) {
 
                 console.error(
@@ -1102,6 +1151,8 @@
             }
 
 
+            /* TOTAL PRODUCTS */
+
             if (productsResult.error) {
 
                 console.error(
@@ -1122,6 +1173,7 @@
                         ? productsResult.data.length
                         : 0;
             }
+
 
         } catch (error) {
 
@@ -1146,31 +1198,37 @@
             order.id !== undefined &&
             order.id !== null
         ) {
+
             return {
                 field: "id",
                 value: order.id
             };
         }
 
+
         if (
             order.order_id !== undefined &&
             order.order_id !== null
         ) {
+
             return {
                 field: "order_id",
                 value: order.order_id
             };
         }
 
+
         if (
             order.id_order !== undefined &&
             order.id_order !== null
         ) {
+
             return {
                 field: "id_order",
                 value: order.id_order
             };
         }
+
 
         return {
             field: null,
@@ -1286,10 +1344,13 @@
 
         container.innerHTML = `
             <div class="loading-box">
+
                 <div class="spinner-border text-primary mb-3"></div>
+
                 <div>
                     Mengambil data pesanan dari Supabase...
                 </div>
+
             </div>
         `;
 
@@ -1315,10 +1376,13 @@
 
                 container.innerHTML = `
                     <div class="alert alert-danger">
+
                         <strong>
                             Gagal mengambil pesanan.
                         </strong>
+
                         <br><br>
+
                         ${escapeHtml(error.message)}
 
                         <hr>
@@ -1327,6 +1391,7 @@
                             Jika muncul RLS atau permission denied,
                             policy Supabase untuk tabel orders perlu diperiksa.
                         </small>
+
                     </div>
                 `;
 
@@ -1341,9 +1406,15 @@
             }
 
 
-            /* Urutkan terbaru */
+            const safeOrders =
+                Array.isArray(orders)
+                    ? orders
+                    : [];
 
-            orders.sort(function(a, b) {
+
+            /* URUTKAN TERBARU */
+
+            safeOrders.sort(function(a, b) {
 
                 const dateA =
                     new Date(
@@ -1367,13 +1438,14 @@
             });
 
 
-            if (
-                !orders ||
-                orders.length === 0
-            ) {
+            /* BELUM ADA PESANAN */
+
+            if (safeOrders.length === 0) {
 
                 container.innerHTML = `
+
                     <div class="empty-orders">
+
                         <i class="fa-solid fa-box-open"></i>
 
                         <h4>
@@ -1384,7 +1456,9 @@
                             Pesanan pelanggan yang masuk
                             akan muncul di sini.
                         </p>
+
                     </div>
+
                 `;
 
 
@@ -1399,7 +1473,7 @@
             let html = "";
 
 
-            orders.forEach(function(order) {
+            safeOrders.forEach(function(order) {
 
                 html +=
                     createOrderCard(order);
@@ -1413,7 +1487,7 @@
 
             showSystemStatus(
                 "Berhasil memuat " +
-                orders.length +
+                safeOrders.length +
                 " pesanan dari Supabase."
             );
 
@@ -1424,11 +1498,17 @@
 
 
             container.innerHTML = `
+
                 <div class="alert alert-danger">
+
                     Gagal memuat pesanan:
+
                     <br>
+
                     ${escapeHtml(error.message)}
+
                 </div>
+
             `;
 
 
@@ -1505,9 +1585,11 @@
         if (items.length === 0) {
 
             itemsHtml = `
+
                 <div class="text-muted">
                     Tidak ada detail produk.
                 </div>
+
             `;
 
         } else {
@@ -1541,6 +1623,7 @@
 
 
                 itemsHtml += `
+
                     <div class="item-row">
 
                         <div>
@@ -1560,10 +1643,13 @@
                         </strong>
 
                     </div>
+
                 `;
             });
         }
 
+
+        /* AMANKAN VALUE UNTUK INLINE JS */
 
         const safeOrderId =
             String(orderId)
@@ -1580,6 +1666,7 @@
 
 
         return `
+
             <div class="order-card">
 
                 <!-- HEADER -->
@@ -1589,17 +1676,22 @@
                     <div>
 
                         <div class="order-id">
+
                             <i class="fa-solid fa-receipt"></i>
 
                             Pesanan #${escapeHtml(orderId)}
+
                         </div>
 
+
                         <div class="order-date">
+
                             <i class="fa-regular fa-clock"></i>
 
                             ${escapeHtml(
                                 formatDate(date)
                             )}
+
                         </div>
 
                     </div>
@@ -1627,26 +1719,40 @@
                     <div>
 
                         <div class="info-title">
+
                             <i class="fa-solid fa-user"></i>
+
                             Data Pelanggan
+
                         </div>
+
 
                         <div class="customer-info">
 
                             <p>
+
                                 <strong>
                                     ${escapeHtml(customerName)}
                                 </strong>
+
                             </p>
 
+
                             <p>
+
                                 <i class="fa-solid fa-phone"></i>
+
                                 ${escapeHtml(phone)}
+
                             </p>
 
+
                             <p>
+
                                 <i class="fa-solid fa-location-dot"></i>
+
                                 ${escapeHtml(address)}
+
                             </p>
 
                         </div>
@@ -1659,12 +1765,18 @@
                     <div>
 
                         <div class="info-title">
+
                             <i class="fa-solid fa-cart-shopping"></i>
+
                             Produk
+
                         </div>
 
+
                         <div class="items-box">
+
                             ${itemsHtml}
+
                         </div>
 
                     </div>
@@ -1695,6 +1807,7 @@
                             Ubah Status:
                         </strong>
 
+
                         <select
                             class="form-select status-select"
                             onchange="changeOrderStatus(
@@ -1707,35 +1820,59 @@
 
                             <option
                                 value="Menunggu Konfirmasi"
-                                ${status === "Menunggu Konfirmasi" ? "selected" : ""}
+                                ${
+                                    status === "Menunggu Konfirmasi"
+                                        ? "selected"
+                                        : ""
+                                }
                             >
                                 Menunggu Konfirmasi
                             </option>
 
+
                             <option
                                 value="Diproses"
-                                ${status === "Diproses" ? "selected" : ""}
+                                ${
+                                    status === "Diproses"
+                                        ? "selected"
+                                        : ""
+                                }
                             >
                                 Diproses
                             </option>
 
+
                             <option
                                 value="Dikirim"
-                                ${status === "Dikirim" ? "selected" : ""}
+                                ${
+                                    status === "Dikirim"
+                                        ? "selected"
+                                        : ""
+                                }
                             >
                                 Dikirim
                             </option>
 
+
                             <option
                                 value="Selesai"
-                                ${status === "Selesai" ? "selected" : ""}
+                                ${
+                                    status === "Selesai"
+                                        ? "selected"
+                                        : ""
+                                }
                             >
                                 Selesai
                             </option>
 
+
                             <option
                                 value="Dibatalkan"
-                                ${status === "Dibatalkan" ? "selected" : ""}
+                                ${
+                                    status === "Dibatalkan"
+                                        ? "selected"
+                                        : ""
+                                }
                             >
                                 Dibatalkan
                             </option>
@@ -1747,6 +1884,7 @@
                 </div>
 
             </div>
+
         `;
     }
 
@@ -1902,6 +2040,7 @@
             "Memuat ulang dashboard..."
         );
 
+
         await loadStats();
 
         await loadOrders();
@@ -1967,6 +2106,7 @@
             await loadStats();
 
             await loadOrders();
+
         }
     );
 
@@ -1974,3 +2114,4 @@
 
 </body>
 </html>
+```
