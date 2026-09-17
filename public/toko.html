@@ -1,2178 +1,2155 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BlueShop Fashion - Toko Online</title>
+```
+<title>BlueShop Fashion - Toko Online</title>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
+<!-- Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+>
 
-    <!-- Supabase JS V2 -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase JS V2 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family:
+            "Segoe UI",
+            Tahoma,
+            Geneva,
+            Verdana,
+            sans-serif;
+
+        background: #f5f9ff;
+        color: #172033;
+        min-height: 100vh;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+        font-family: inherit;
+    }
+
+    button {
+        outline: none;
+    }
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+
+    .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 900;
+
+        min-height: 72px;
+        padding: 12px 30px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+
+        background: rgba(255,255,255,.96);
+        border-bottom: 1px solid #e5eef8;
+
+        box-shadow:
+            0 5px 20px rgba(15,76,129,.07);
+
+        backdrop-filter: blur(15px);
+
+        flex-wrap: wrap;
+    }
+
+    .navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .navbar-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        font-size: 22px;
+        font-weight: 850;
+        color: #0d3b66;
+
+        white-space: nowrap;
+        letter-spacing: -.4px;
+    }
+
+    .back-home {
+        display: inline-flex;
+        align-items: center;
+
+        color: #66809a;
+        text-decoration: none;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        transition: .2s;
+    }
+
+    .back-home:hover {
+        color: #1769aa;
+        transform: translateX(-2px);
+    }
+
+    .navbar-right {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 8px 13px;
+
+        border-radius: 30px;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        color: #1769aa;
+        background: #edf6ff;
+
+        border: 1px solid #d5eafa;
+
+        white-space: nowrap;
+    }
+
+    .nav-page-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 6px;
+
+        min-height: 36px;
+        padding: 8px 13px;
+
+        background: #f4f8fc;
+        border: 1px solid #dfebf5;
+        border-radius: 9px;
+
+        color: #31516c;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        cursor: pointer;
+        text-decoration: none;
+
+        transition: .2s;
+    }
+
+    .nav-page-btn:hover {
+        background: #eaf5ff;
+        color: #1769aa;
+        border-color: #c7e3f8;
+
+        transform: translateY(-1px);
+    }
+
+    #adminDashboardButton {
+        display: none;
+        background: #edf8f4;
+        color: #087f5b;
+        border-color: #ccefe1;
+    }
+
+    #adminDashboardButton:hover {
+        background: #dff5ec;
+        color: #056b4d;
+    }
+
+    .cart-count,
+    .order-count {
+        min-width: 20px;
+        padding: 2px 6px;
+
+        border-radius: 10px;
+
+        background: #1769aa;
+        color: white;
+
+        font-size: 10px;
+        font-weight: 800;
+
+        text-align: center;
+    }
+
+    .btn-login {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        min-height: 36px;
+        padding: 8px 16px;
+
+        background: #1769aa;
+        color: white;
+
+        border: none;
+        border-radius: 9px;
+
+        font-size: 12px;
+        font-weight: 800;
+
+        text-decoration: none;
+
+        transition: .2s;
+
+        box-shadow:
+            0 5px 12px rgba(23,105,170,.18);
+    }
+
+    .btn-login:hover {
+        background: #0f568f;
+        transform: translateY(-1px);
+    }
+
+    .btn-logout {
+        min-height: 36px;
+        padding: 8px 15px;
+
+        background: #fff1f2;
+        color: #dc2626;
+
+        border: 1px solid #fecdd3;
+        border-radius: 9px;
+
+        cursor: pointer;
+
+        font-size: 12px;
+        font-weight: 800;
+
+        transition: .2s;
+    }
+
+    .btn-logout:hover {
+        background: #ffe4e6;
+    }
+
+    /* =====================================================
+       CONTAINER
+    ===================================================== */
+
+    .container {
+        width: 100%;
+        max-width: 1280px;
+
+        margin: 0 auto;
+
+        padding: 28px 22px 50px;
+    }
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .shop-hero {
+        position: relative;
+
+        min-height: 235px;
+
+        padding: 38px 42px;
+        margin-bottom: 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        overflow: hidden;
+
+        border-radius: 24px;
+
+        background:
+            linear-gradient(
+                120deg,
+                #062b52 0%,
+                #0c4f83 45%,
+                #1976b9 100%
+            );
+
+        color: white;
+
+        box-shadow:
+            0 18px 40px rgba(6,43,82,.17);
+    }
+
+    .shop-hero::before {
+        content: "";
+
+        position: absolute;
+
+        width: 360px;
+        height: 360px;
+
+        border-radius: 50%;
+
+        background: rgba(255,255,255,.055);
+
+        right: 70px;
+        top: -220px;
+    }
+
+    .shop-hero::after {
+        content: "";
+
+        position: absolute;
+
+        width: 260px;
+        height: 260px;
+
+        border-radius: 50%;
+
+        background: rgba(255,255,255,.045);
+
+        right: -90px;
+        bottom: -170px;
+    }
+
+    .shop-hero-content {
+        position: relative;
+        z-index: 2;
+
+        max-width: 760px;
+    }
+
+    .shop-label {
+        display: inline-flex;
+        align-items: center;
+
+        margin-bottom: 10px;
+
+        color: #b9ddfa;
+
+        font-size: 11px;
+        font-weight: 850;
+
+        letter-spacing: 2.2px;
+    }
+
+    #sectionTitle {
+        margin: 0 0 9px;
+
+        color: white;
+
+        font-size: 35px;
+        line-height: 1.15;
+
+        font-weight: 850;
+        letter-spacing: -.8px;
+    }
+
+    .shop-hero p {
+        max-width: 620px;
+
+        color: #dceeff;
+
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .shop-features {
+        display: flex;
+        flex-wrap: wrap;
+
+        gap: 9px;
+        margin-top: 20px;
+    }
+
+    .shop-features span {
+        display: inline-flex;
+        align-items: center;
+
+        gap: 7px;
+
+        padding: 7px 12px;
+
+        background: rgba(255,255,255,.10);
+
+        border: 1px solid rgba(255,255,255,.12);
+
+        border-radius: 30px;
+
+        color: white;
+
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .shop-features i {
+        color: #a9dcff;
+    }
+
+    .shop-hero-icon {
+        position: relative;
+        z-index: 2;
+
+        margin-right: 35px;
+
+        font-size: 88px;
+
+        filter:
+            drop-shadow(
+                0 15px 20px rgba(0,0,0,.15)
+            );
+    }
+
+    /* =====================================================
+       ADMIN MODE
+    ===================================================== */
+
+    .admin-mode-banner {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 15px;
+
+        padding: 15px 18px;
+        margin-bottom: 18px;
+
+        background: #edf8f4;
+
+        border: 1px solid #ccefe1;
+        border-left: 4px solid #0f9f72;
+
+        border-radius: 13px;
+
+        color: #135e49;
+    }
+
+    .admin-mode-banner div {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .admin-mode-banner strong {
+        font-size: 13px;
+    }
+
+    .admin-mode-banner span {
+        color: #628376;
+        font-size: 12px;
+    }
+
+    .admin-mode-banner a {
+        color: #07825d;
+
+        font-size: 12px;
+        font-weight: 800;
+
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    .search-box {
+        display: flex;
+
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .search-wrapper {
+        position: relative;
+        flex: 1;
+    }
+
+    .search-icon {
+        position: absolute;
+
+        left: 16px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #91a7ba;
+        font-size: 14px;
+
+        pointer-events: none;
+    }
+
+    #searchInput {
+        width: 100%;
+        height: 48px;
+
+        padding:
+            0 16px 0 45px;
+
+        border: 1px solid #dce7f0;
+
+        border-radius: 12px;
+
+        background: white;
+        color: #172033;
+
+        font-size: 13px;
+
+        box-shadow:
+            0 4px 14px rgba(15,76,129,.035);
+
+        transition: .2s;
+    }
+
+    #searchInput:focus {
+        outline: none;
+
+        border-color: #65a9d8;
+
+        box-shadow:
+            0 0 0 4px rgba(23,105,170,.08);
+    }
+
+    #btnAddProductNav {
+        display: none;
+
+        height: 48px;
+
+        padding: 0 20px;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 7px;
+
+        background: #0f9f72;
+        color: white;
+
+        border: none;
+        border-radius: 12px;
+
+        cursor: pointer;
+
+        font-size: 13px;
+        font-weight: 800;
+
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       CATEGORY FILTER
+    ===================================================== */
+
+    .category-section {
+        margin-bottom: 20px;
+    }
+
+    .category-title {
+        margin-bottom: 10px;
+
+        color: #29455d;
+
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .category-filter {
+        display: flex;
+        gap: 9px;
+        flex-wrap: wrap;
+    }
+
+    .category-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        min-height: 38px;
+
+        padding: 8px 15px;
+
+        background: white;
+
+        color: #31516c;
+
+        border: 1px solid #dce8f1;
+        border-radius: 999px;
+
+        cursor: pointer;
+
+        font-size: 12px;
+        font-weight: 750;
+
+        transition: .2s;
+    }
+
+    .category-btn:hover {
+        background: #edf7ff;
+        color: #1769aa;
+        border-color: #b9d9ef;
+        transform: translateY(-1px);
+    }
+
+    .category-btn.active {
+        background: #1769aa;
+        color: white;
+        border-color: #1769aa;
+
+        box-shadow:
+            0 5px 13px rgba(23,105,170,.16);
+    }
+
+    /* =====================================================
+       PROMO
+    ===================================================== */
+
+    .promo-banner {
+        width: 100%;
+
+        overflow: hidden;
+
+        margin-bottom: 25px;
+        padding: 12px 0;
+
+        background:
+            linear-gradient(
+                90deg,
+                #08345e,
+                #0d5f98,
+                #1976b9,
+                #0d5f98,
+                #08345e
+            );
+
+        border-radius: 13px;
+
+        color: white;
+
+        box-shadow:
+            0 8px 20px rgba(13,95,152,.16);
+    }
+
+    .promo-track {
+        display: flex;
+
+        width: max-content;
+
+        animation:
+            promoBerjalan
+            30s
+            linear
+            infinite;
+    }
+
+    .promo-track span {
+        display: inline-flex;
+        align-items: center;
+
+        margin-right: 42px;
+
+        color: #eef8ff;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    .promo-track .promo-highlight {
+        padding: 5px 12px;
+
+        background: white;
+        color: #0d5f98;
+
+        border-radius: 30px;
+
+        font-weight: 850;
+    }
+
+    @keyframes promoBerjalan {
+        from {
+            transform: translateX(0);
         }
 
-        html {
-            scroll-behavior: smooth;
+        to {
+            transform: translateX(-50%);
         }
+    }
 
-        body {
-            font-family:
-                "Segoe UI",
-                Tahoma,
-                Geneva,
-                Verdana,
-                sans-serif;
+    .promo-banner:hover .promo-track {
+        animation-play-state: paused;
+    }
 
-            background: #f5f9ff;
-            color: #172033;
-            min-height: 100vh;
-        }
+    /* =====================================================
+       PRODUCT GRID
+    ===================================================== */
 
-        button,
-        input,
-        textarea {
-            font-family: inherit;
-        }
+    #productGrid {
+        display: grid;
 
-        button {
-            outline: none;
-        }
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(235px, 1fr)
+            );
 
-        /* =====================================================
-           NAVBAR
-        ===================================================== */
+        gap: 19px;
+
+        margin-top: 18px;
+    }
+
+    .product-card {
+        position: relative;
+
+        overflow: hidden;
+
+        background: white;
+
+        border: 1px solid #e3edf5;
+        border-radius: 17px;
+
+        box-shadow:
+            0 5px 18px rgba(15,76,129,.055);
+
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+
+        box-shadow:
+            0 16px 35px rgba(15,76,129,.12);
+    }
+
+    /* =====================================================
+       PRODUCT IMAGE
+    ===================================================== */
+
+    .product-image-wrapper {
+        position: relative;
+        overflow: hidden;
+
+        background: #edf4fa;
+    }
+
+    .product-img {
+        display: block;
+
+        width: 100%;
+        height: 245px;
+
+        object-fit: cover;
+
+        background: #edf4fa;
+
+        cursor: pointer;
+
+        transition:
+            transform .45s ease;
+    }
+
+    .product-card:hover .product-img {
+        transform: scale(1.045);
+    }
+
+    .stock-badge {
+        position: absolute;
+
+        top: 12px;
+        right: 12px;
+
+        padding: 6px 10px;
+
+        background:
+            rgba(7,46,78,.88);
+
+        color: white;
+
+        border-radius: 20px;
+
+        font-size: 10px;
+        font-weight: 800;
+
+        backdrop-filter: blur(5px);
+    }
+
+    .stock-habis {
+        background:
+            rgba(220,38,38,.92);
+    }
+
+    .category-badge {
+        position: absolute;
+
+        top: 12px;
+        left: 12px;
+
+        padding: 6px 10px;
+
+        background: rgba(255,255,255,.94);
+        color: #1769aa;
+
+        border: 1px solid rgba(255,255,255,.7);
+        border-radius: 20px;
+
+        font-size: 10px;
+        font-weight: 800;
+
+        box-shadow:
+            0 4px 10px rgba(0,0,0,.08);
+    }
+
+    /* =====================================================
+       PRODUCT DETAILS
+    ===================================================== */
+
+    .product-details {
+        display: flex;
+        flex-direction: column;
+
+        gap: 8px;
+        padding: 16px;
+    }
+
+    .product-name {
+        min-height: 42px;
+
+        color: #172b3e;
+
+        font-size: 15px;
+        font-weight: 750;
+        line-height: 1.4;
+
+        cursor: pointer;
+    }
+
+    .product-name:hover {
+        color: #1769aa;
+    }
+
+    .product-rating {
+        color: #f59e0b;
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .product-rating .rating-count {
+        color: #8498a9;
+
+        margin-left: 3px;
+
+        font-weight: 500;
+    }
+
+    .product-price {
+        color: #1769aa;
+
+        font-size: 20px;
+        font-weight: 850;
+
+        letter-spacing: -.3px;
+    }
+
+    .product-stock {
+        color: #71889b;
+        font-size: 11px;
+    }
+
+    /* =====================================================
+       PRODUCT BUTTONS
+    ===================================================== */
+
+    .product-buttons {
+        display: flex;
+
+        gap: 7px;
+
+        flex-wrap: wrap;
+
+        margin-top: 5px;
+    }
+
+    .btn-buy,
+    .btn-add-cart,
+    .btn-detail {
+        flex: 1;
+
+        min-width: 70px;
+        min-height: 38px;
+
+        padding: 8px;
+
+        border-radius: 9px;
+
+        cursor: pointer;
+
+        font-size: 11px;
+        font-weight: 800;
+
+        transition: .2s;
+    }
+
+    .btn-detail {
+        background: #f1f7fc;
+        color: #31516c;
+
+        border: 1px solid #dce9f3;
+    }
+
+    .btn-detail:hover {
+        background: #e6f2fb;
+        color: #1769aa;
+    }
+
+    .btn-buy {
+        background: #1769aa;
+        color: white;
+
+        border: 1px solid #1769aa;
+    }
+
+    .btn-buy:hover {
+        background: #0f568f;
+    }
+
+    .btn-add-cart {
+        flex: 0 0 45px;
+
+        background: white;
+        color: #1769aa;
+
+        border: 1px solid #cfe2ef;
+    }
+
+    .btn-add-cart:hover {
+        background: #edf7ff;
+        border-color: #9bc9e8;
+    }
+
+    .btn-disabled {
+        opacity: .45;
+        cursor: not-allowed !important;
+        transform: none !important;
+    }
+
+    /* =====================================================
+       RATING
+    ===================================================== */
+
+    .btn-rate {
+        width: 100%;
+
+        min-height: 37px;
+
+        margin-top: 3px;
+        padding: 8px;
+
+        background: #fff8e8;
+        color: #c27800;
+
+        border: 1px solid #f7dfaa;
+        border-radius: 9px;
+
+        cursor: pointer;
+
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .rating-star {
+        padding: 5px;
+
+        background: none;
+        border: none;
+
+        color: #cbd5e1;
+
+        font-size: 38px;
+
+        cursor: pointer;
+    }
+
+    .rating-star.active {
+        color: #f59e0b;
+    }
+
+    .rating-stars-container {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 4px;
+
+        margin: 18px 0;
+    }
+
+    .rating-info {
+        margin-bottom: 15px;
+
+        color: #708496;
+
+        font-size: 12px;
+        text-align: center;
+    }
+
+    /* =====================================================
+       ADMIN ACTION
+    ===================================================== */
+
+    .admin-actions {
+        display: flex;
+
+        gap: 7px;
+
+        padding-top: 11px;
+        margin-top: 2px;
+
+        border-top: 1px solid #edf1f4;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        flex: 1;
+
+        min-height: 35px;
+
+        padding: 7px;
+
+        border-radius: 8px;
+
+        cursor: pointer;
+
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .btn-edit {
+        background: #edf6ff;
+        color: #1769aa;
+
+        border: 1px solid #d2e9f9;
+    }
+
+    .btn-delete {
+        background: #fff1f2;
+        color: #dc2626;
+
+        border: 1px solid #fecdd3;
+    }
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    .modal {
+        display: none;
+
+        position: fixed;
+        inset: 0;
+
+        z-index: 1000;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+
+        background:
+            rgba(4,25,45,.62);
+
+        backdrop-filter: blur(7px);
+
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: 600px;
+
+        max-height: 90vh;
+
+        overflow-y: auto;
+
+        padding: 28px;
+
+        background: white;
+
+        border: 1px solid #e0ebf4;
+        border-radius: 20px;
+
+        box-shadow:
+            0 25px 70px rgba(0,0,0,.22);
+    }
+
+    .modal-header {
+        margin-bottom: 20px;
+
+        color: #143d60;
+
+        font-size: 20px;
+        font-weight: 850;
+    }
+
+    .close-btn {
+        float: right;
+
+        width: 34px;
+        height: 34px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-left: 10px;
+
+        background: #f3f7fa;
+        color: #718496;
+
+        border: none;
+        border-radius: 50%;
+
+        cursor: pointer;
+
+        font-size: 23px;
+    }
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+
+        margin-bottom: 6px;
+
+        color: #304d65;
+
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+        width: 100%;
+
+        padding: 11px 12px;
+
+        background: white;
+        color: #172033;
+
+        border: 1px solid #dce7ef;
+        border-radius: 9px;
+
+        font-size: 13px;
+    }
+
+    select {
+        cursor: pointer;
+    }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .btn {
+        min-height: 42px;
+
+        padding: 10px 18px;
+
+        border: none;
+        border-radius: 9px;
+
+        cursor: pointer;
+
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .btn-primary {
+        width: 100%;
+
+        background: #1769aa;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: white;
+        color: #4e6578;
+
+        border: 1px solid #dce6ed;
+    }
+
+    .modal-buttons {
+        display: flex;
+
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .modal-buttons button {
+        flex: 1;
+    }
+
+    /* =====================================================
+       LOADING / EMPTY / ERROR
+    ===================================================== */
+
+    .loading,
+    .empty-product {
+        grid-column: 1 / -1;
+
+        padding: 75px 20px;
+
+        color: #8296a7;
+
+        text-align: center;
+    }
+
+    .empty-product {
+        background: white;
+
+        border: 1px dashed #d6e4ed;
+        border-radius: 16px;
+    }
+
+    .error-box {
+        grid-column: 1 / -1;
+
+        padding: 45px 20px;
+
+        background: #fff7f7;
+        color: #991b1b;
+
+        border: 1px solid #fecaca;
+        border-radius: 15px;
+
+        text-align: center;
+    }
+
+    .retry-btn {
+        padding: 10px 18px;
+
+        background: #1769aa;
+        color: white;
+
+        border: none;
+        border-radius: 8px;
+
+        cursor: pointer;
+
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    #toastContainer {
+        position: fixed;
+
+        right: 20px;
+        bottom: 20px;
+
+        z-index: 2000;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 9px;
+    }
+
+    .toast {
+        min-width: 250px;
+
+        padding: 13px 17px;
+
+        background: #173b59;
+        color: white;
+
+        border-radius: 10px;
+
+        box-shadow:
+            0 10px 30px rgba(0,0,0,.18);
+
+        font-size: 12px;
+    }
+
+    .toast.success {
+        background: #087f5b;
+    }
+
+    .toast.error {
+        background: #dc2626;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 900px) {
 
         .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 900;
-
-            min-height: 72px;
-            padding: 12px 30px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 20px;
-
-            background: rgba(255, 255, 255, .96);
-            border-bottom: 1px solid #e5eef8;
-
-            box-shadow:
-                0 5px 20px rgba(15, 76, 129, .07);
-
-            backdrop-filter: blur(15px);
-
-            flex-wrap: wrap;
+            padding: 12px 18px;
         }
-
-        .navbar-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .navbar-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            font-size: 22px;
-            font-weight: 850;
-            color: #0d3b66;
-
-            white-space: nowrap;
-            letter-spacing: -.4px;
-        }
-
-        .back-home {
-            display: inline-flex;
-            align-items: center;
-
-            color: #66809a;
-            text-decoration: none;
-
-            font-size: 13px;
-            font-weight: 600;
-
-            transition: .2s;
-        }
-
-        .back-home:hover {
-            color: #1769aa;
-            transform: translateX(-2px);
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-
-            padding: 8px 13px;
-
-            border-radius: 30px;
-
-            font-size: 12px;
-            font-weight: 700;
-
-            color: #1769aa !important;
-            background: #edf6ff !important;
-
-            border: 1px solid #d5eafa;
-
-            white-space: nowrap;
-        }
-
-        .nav-page-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            gap: 6px;
-
-            min-height: 36px;
-            padding: 8px 13px;
-
-            background: #f4f8fc;
-            border: 1px solid #dfebf5;
-            border-radius: 9px;
-
-            color: #31516c;
-
-            font-size: 12px;
-            font-weight: 700;
-
-            cursor: pointer;
-            text-decoration: none;
-
-            transition: .2s;
-        }
-
-        .nav-page-btn:hover {
-            background: #eaf5ff;
-            color: #1769aa;
-            border-color: #c7e3f8;
-
-            transform: translateY(-1px);
-        }
-
-        #adminDashboardButton {
-            display: none;
-
-            background: #edf8f4;
-            color: #087f5b;
-            border-color: #ccefe1;
-        }
-
-        #adminDashboardButton:hover {
-            background: #dff5ec;
-            color: #056b4d;
-        }
-
-        .cart-count,
-        .order-count {
-            min-width: 20px;
-
-            padding: 2px 6px;
-
-            border-radius: 10px;
-
-            background: #1769aa;
-            color: white;
-
-            font-size: 10px;
-            font-weight: 800;
-
-            text-align: center;
-        }
-
-        .btn-login {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            min-height: 36px;
-            padding: 8px 16px;
-
-            background: #1769aa;
-            color: white;
-
-            border: none;
-            border-radius: 9px;
-
-            font-size: 12px;
-            font-weight: 800;
-
-            text-decoration: none;
-
-            transition: .2s;
-
-            box-shadow:
-                0 5px 12px rgba(23, 105, 170, .18);
-        }
-
-        .btn-login:hover {
-            background: #0f568f;
-            transform: translateY(-1px);
-
-            box-shadow:
-                0 7px 16px rgba(23, 105, 170, .25);
-        }
-
-        .btn-logout {
-            min-height: 36px;
-            padding: 8px 15px;
-
-            background: #fff1f2;
-            color: #dc2626;
-
-            border: 1px solid #fecdd3;
-            border-radius: 9px;
-
-            cursor: pointer;
-
-            font-size: 12px;
-            font-weight: 800;
-
-            transition: .2s;
-        }
-
-        .btn-logout:hover {
-            background: #ffe4e6;
-            transform: translateY(-1px);
-        }
-
-        /* =====================================================
-           CONTAINER
-        ===================================================== */
-
-        .container {
-            width: 100%;
-            max-width: 1280px;
-
-            margin: 0 auto;
-
-            padding: 28px 22px 50px;
-        }
-
-        /* =====================================================
-           HERO
-        ===================================================== */
 
         .shop-hero {
-            position: relative;
-
-            min-height: 235px;
-
-            padding: 38px 42px;
-            margin-bottom: 20px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            overflow: hidden;
-
-            border-radius: 24px;
-
-            background:
-                linear-gradient(
-                    120deg,
-                    #062b52 0%,
-                    #0c4f83 45%,
-                    #1976b9 100%
-                );
-
-            color: white;
-
-            box-shadow:
-                0 18px 40px rgba(6, 43, 82, .17);
-        }
-
-        .shop-hero::before {
-            content: "";
-
-            position: absolute;
-
-            width: 360px;
-            height: 360px;
-
-            border-radius: 50%;
-
-            background: rgba(255,255,255,.055);
-
-            right: 70px;
-            top: -220px;
-        }
-
-        .shop-hero::after {
-            content: "";
-
-            position: absolute;
-
-            width: 260px;
-            height: 260px;
-
-            border-radius: 50%;
-
-            background: rgba(255,255,255,.045);
-
-            right: -90px;
-            bottom: -170px;
-        }
-
-        .shop-hero-content {
-            position: relative;
-            z-index: 2;
-
-            max-width: 760px;
-        }
-
-        .shop-label {
-            display: inline-flex;
-            align-items: center;
-
-            margin-bottom: 10px;
-
-            color: #b9ddfa;
-
-            font-size: 11px;
-            font-weight: 850;
-
-            letter-spacing: 2.2px;
-        }
-
-        #sectionTitle {
-            margin: 0 0 9px;
-
-            color: white;
-
-            font-size: 35px;
-            line-height: 1.15;
-
-            font-weight: 850;
-            letter-spacing: -.8px;
-        }
-
-        .shop-hero p {
-            max-width: 620px;
-
-            color: #dceeff;
-
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .shop-features {
-            display: flex;
-            flex-wrap: wrap;
-
-            gap: 9px;
-            margin-top: 20px;
-        }
-
-        .shop-features span {
-            display: inline-flex;
-            align-items: center;
-
-            gap: 7px;
-
-            padding: 7px 12px;
-
-            background: rgba(255,255,255,.10);
-
-            border: 1px solid rgba(255,255,255,.12);
-
-            border-radius: 30px;
-
-            color: white;
-
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .shop-features i {
-            color: #a9dcff;
+            padding: 32px;
         }
 
         .shop-hero-icon {
-            position: relative;
-            z-index: 2;
-
-            margin-right: 35px;
-
-            font-size: 88px;
-
-            filter:
-                drop-shadow(
-                    0 15px 20px rgba(0,0,0,.15)
-                );
+            margin-right: 10px;
+            font-size: 70px;
         }
-
-        /* =====================================================
-           ADMIN MODE
-        ===================================================== */
-
-        .admin-mode-banner {
-            display: flex;
-
-            justify-content: space-between;
-            align-items: center;
-
-            gap: 15px;
-
-            padding: 15px 18px;
-            margin-bottom: 18px;
-
-            background: #edf8f4;
-
-            border: 1px solid #ccefe1;
-            border-left: 4px solid #0f9f72;
-
-            border-radius: 13px;
-
-            color: #135e49;
-        }
-
-        .admin-mode-banner div {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .admin-mode-banner strong {
-            font-size: 13px;
-        }
-
-        .admin-mode-banner span {
-            color: #628376;
-            font-size: 12px;
-        }
-
-        .admin-mode-banner a {
-            color: #07825d;
-
-            font-size: 12px;
-            font-weight: 800;
-
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .admin-mode-banner a:hover {
-            text-decoration: underline;
-        }
-
-        /* =====================================================
-           SEARCH
-        ===================================================== */
-
-        .search-box {
-            display: flex;
-
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .search-wrapper {
-            position: relative;
-            flex: 1;
-        }
-
-        .search-icon {
-            position: absolute;
-
-            left: 16px;
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            color: #91a7ba;
-            font-size: 14px;
-
-            pointer-events: none;
-        }
-
-        #searchInput {
-            width: 100%;
-            height: 48px;
-
-            padding:
-                0 16px 0 45px;
-
-            border: 1px solid #dce7f0;
-
-            border-radius: 12px;
-
-            background: white;
-            color: #172033;
-
-            font-size: 13px;
-
-            box-shadow:
-                0 4px 14px rgba(15,76,129,.035);
-
-            transition: .2s;
-        }
-
-        #searchInput::placeholder {
-            color: #9aabb9;
-        }
-
-        #searchInput:focus {
-            outline: none;
-
-            border-color: #65a9d8;
-
-            box-shadow:
-                0 0 0 4px rgba(23,105,170,.08);
-        }
-
-        #btnAddProductNav {
-            display: none;
-
-            height: 48px;
-
-            padding: 0 20px;
-
-            align-items: center;
-            justify-content: center;
-
-            gap: 7px;
-
-            background: #0f9f72;
-            color: white;
-
-            border: none;
-            border-radius: 12px;
-
-            cursor: pointer;
-
-            font-size: 13px;
-            font-weight: 800;
-
-            white-space: nowrap;
-
-            transition: .2s;
-        }
-
-        #btnAddProductNav:hover {
-            background: #087f5b;
-            transform: translateY(-1px);
-        }
-
-        /* =====================================================
-           PROMO
-        ===================================================== */
-
-        .promo-banner {
-            width: 100%;
-
-            overflow: hidden;
-
-            margin-bottom: 25px;
-            padding: 12px 0;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #08345e,
-                    #0d5f98,
-                    #1976b9,
-                    #0d5f98,
-                    #08345e
-                );
-
-            border-radius: 13px;
-
-            color: white;
-
-            box-shadow:
-                0 8px 20px rgba(13,95,152,.16);
-        }
-
-        .promo-track {
-            display: flex;
-
-            width: max-content;
-
-            animation:
-                promoBerjalan
-                30s
-                linear
-                infinite;
-        }
-
-        .promo-track span {
-            display: inline-flex;
-            align-items: center;
-
-            margin-right: 42px;
-
-            color: #eef8ff;
-
-            font-size: 13px;
-            font-weight: 700;
-
-            white-space: nowrap;
-        }
-
-        .promo-track .promo-highlight {
-            padding: 5px 12px;
-
-            background: white;
-            color: #0d5f98;
-
-            border-radius: 30px;
-
-            font-weight: 850;
-        }
-
-        @keyframes promoBerjalan {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(-50%);
-            }
-        }
-
-        .promo-banner:hover .promo-track {
-            animation-play-state: paused;
-        }
-
-        /* =====================================================
-           PRODUCT GRID
-        ===================================================== */
 
         #productGrid {
-            display: grid;
-
             grid-template-columns:
                 repeat(
                     auto-fill,
-                    minmax(235px, 1fr)
+                    minmax(210px,1fr)
+                );
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        .navbar {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .navbar-left {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .navbar-right {
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        .container {
+            padding:
+                20px 14px 40px;
+        }
+
+        .shop-hero {
+            min-height: 200px;
+            padding: 28px 25px;
+        }
+
+        #sectionTitle {
+            font-size: 28px;
+        }
+
+        .search-box {
+            flex-direction: column;
+        }
+
+        #btnAddProductNav {
+            width: 100%;
+        }
+
+        #productGrid {
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0,1fr)
                 );
 
-            gap: 19px;
-
-            margin-top: 18px;
-        }
-
-        .product-card {
-            position: relative;
-
-            overflow: hidden;
-
-            background: white;
-
-            border: 1px solid #e3edf5;
-            border-radius: 17px;
-
-            box-shadow:
-                0 5px 18px rgba(15,76,129,.055);
-
-            transition:
-                transform .25s ease,
-                box-shadow .25s ease,
-                border-color .25s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-
-            border-color: #cfe3f2;
-
-            box-shadow:
-                0 16px 35px rgba(15,76,129,.12);
-        }
-
-        /* =====================================================
-           PRODUCT IMAGE
-        ===================================================== */
-
-        .product-image-wrapper {
-            position: relative;
-            overflow: hidden;
-
-            background: #edf4fa;
+            gap: 12px;
         }
 
         .product-img {
-            display: block;
-
-            width: 100%;
-            height: 245px;
-
-            object-fit: cover;
-
-            background: #edf4fa;
-
-            cursor: pointer;
-
-            transition:
-                transform .45s ease;
+            height: 205px;
         }
 
-        .product-card:hover .product-img {
-            transform: scale(1.045);
+        .product-buttons {
+            flex-direction: column;
         }
 
-        .stock-badge {
-            position: absolute;
+        .btn-add-cart {
+            flex: 1;
+        }
 
-            top: 12px;
-            right: 12px;
+        .admin-mode-banner {
+            align-items: flex-start;
+            flex-direction: column;
+        }
 
-            padding: 6px 10px;
-
-            background:
-                rgba(7,46,78,.88);
-
-            color: white;
-
-            border-radius: 20px;
-
+        .category-btn {
             font-size: 10px;
-            font-weight: 800;
+            padding: 7px 11px;
+        }
+    }
 
-            backdrop-filter: blur(5px);
+    @media (max-width: 520px) {
+
+        .navbar-title {
+            font-size: 19px;
         }
 
-        .stock-habis {
-            background:
-                rgba(220,38,38,.92);
+        .navbar-left {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
         }
 
-        /* =====================================================
-           PRODUCT DETAILS
-        ===================================================== */
+        .nav-page-btn,
+        .badge,
+        .btn-login,
+        .btn-logout {
+            min-height: 32px;
+            padding: 6px 8px;
+            font-size: 10px;
+        }
+
+        .shop-hero {
+            min-height: 220px;
+            padding: 25px 21px;
+        }
+
+        #sectionTitle {
+            font-size: 24px;
+        }
+
+        .shop-hero p {
+            font-size: 12px;
+        }
+
+        .shop-hero-icon {
+            display: none;
+        }
+
+        #productGrid {
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0,1fr)
+                );
+
+            gap: 9px;
+        }
+
+        .product-img {
+            height: 160px;
+        }
 
         .product-details {
-            display: flex;
-            flex-direction: column;
-
-            gap: 8px;
-            padding: 16px;
+            padding: 10px;
+            gap: 6px;
         }
 
         .product-name {
-            min-height: 42px;
-
-            color: #172b3e;
-
-            font-size: 15px;
-            font-weight: 750;
-            line-height: 1.4;
-
-            cursor: pointer;
-
-            transition: .2s;
-        }
-
-        .product-name:hover {
-            color: #1769aa;
-        }
-
-        .product-rating {
-            color: #f59e0b;
-
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .product-rating .rating-count {
-            color: #8498a9;
-
-            margin-left: 3px;
-
-            font-weight: 500;
+            min-height: 38px;
+            font-size: 13px;
         }
 
         .product-price {
-            color: #1769aa;
-
-            font-size: 20px;
-            font-weight: 850;
-
-            letter-spacing: -.3px;
-        }
-
-        .product-stock {
-            color: #71889b;
-            font-size: 11px;
-        }
-
-        /* =====================================================
-           PRODUCT BUTTONS
-        ===================================================== */
-
-        .product-buttons {
-            display: flex;
-
-            gap: 7px;
-
-            flex-wrap: wrap;
-
-            margin-top: 5px;
+            font-size: 16px;
         }
 
         .btn-buy,
         .btn-add-cart,
         .btn-detail {
-            flex: 1;
-
-            min-width: 70px;
-            min-height: 38px;
-
-            padding: 8px;
-
-            border-radius: 9px;
-
-            cursor: pointer;
-
-            font-size: 11px;
-            font-weight: 800;
-
-            transition: .2s;
-        }
-
-        .btn-detail {
-            background: #f1f7fc;
-            color: #31516c;
-
-            border: 1px solid #dce9f3;
-        }
-
-        .btn-detail:hover {
-            background: #e6f2fb;
-            color: #1769aa;
-        }
-
-        .btn-buy {
-            background: #1769aa;
-            color: white;
-
-            border: 1px solid #1769aa;
-
-            box-shadow:
-                0 4px 10px rgba(23,105,170,.13);
-        }
-
-        .btn-buy:hover {
-            background: #0f568f;
-            border-color: #0f568f;
-        }
-
-        .btn-add-cart {
-            flex: 0 0 45px;
-
-            background: white;
-            color: #1769aa;
-
-            border: 1px solid #cfe2ef;
-        }
-
-        .btn-add-cart:hover {
-            background: #edf7ff;
-            border-color: #9bc9e8;
-        }
-
-        .btn-disabled {
-            opacity: .45;
-            cursor: not-allowed !important;
-            transform: none !important;
-        }
-
-        /* =====================================================
-           RATING
-        ===================================================== */
-
-        .btn-rate {
-            width: 100%;
-
-            min-height: 37px;
-
-            margin-top: 3px;
-            padding: 8px;
-
-            background: #fff8e8;
-            color: #c27800;
-
-            border: 1px solid #f7dfaa;
-            border-radius: 9px;
-
-            cursor: pointer;
-
-            font-size: 11px;
-            font-weight: 800;
-
-            transition: .2s;
-        }
-
-        .btn-rate:hover {
-            background: #fff2cc;
-            border-color: #f2ce7b;
-
-            transform: translateY(-1px);
-        }
-
-        .rating-star {
-            padding: 5px;
-
-            background: none;
-            border: none;
-
-            color: #cbd5e1;
-
-            font-size: 38px;
-
-            cursor: pointer;
-
-            transition: .2s;
-        }
-
-        .rating-star:hover,
-        .rating-star.active {
-            color: #f59e0b;
-            transform: scale(1.1);
-        }
-
-        .rating-stars-container {
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            gap: 4px;
-
-            margin: 18px 0;
-        }
-
-        .rating-info {
-            margin-bottom: 15px;
-
-            color: #708496;
-
-            font-size: 12px;
-            text-align: center;
-        }
-
-        /* =====================================================
-           ADMIN ACTION
-        ===================================================== */
-
-        .admin-actions {
-            display: flex;
-
-            gap: 7px;
-
-            padding-top: 11px;
-            margin-top: 2px;
-
-            border-top: 1px solid #edf1f4;
-        }
-
-        .btn-edit,
-        .btn-delete {
-            flex: 1;
-
-            min-height: 35px;
-
+            min-height: 34px;
             padding: 7px;
-
-            border-radius: 8px;
-
-            cursor: pointer;
-
-            font-size: 11px;
-            font-weight: 800;
-
-            transition: .2s;
+            font-size: 10px;
         }
 
-        .btn-edit {
-            background: #edf6ff;
-            color: #1769aa;
-
-            border: 1px solid #d2e9f9;
+        .category-filter {
+            gap: 5px;
         }
 
-        .btn-edit:hover {
-            background: #dcefff;
+        .category-btn {
+            min-height: 32px;
+            padding: 5px 9px;
+            font-size: 9px;
         }
 
-        .btn-delete {
-            background: #fff1f2;
-            color: #dc2626;
-
-            border: 1px solid #fecdd3;
+        .stock-badge,
+        .category-badge {
+            top: 7px;
+            padding: 5px 7px;
+            font-size: 8px;
         }
 
-        .btn-delete:hover {
-            background: #ffe4e6;
+        .stock-badge {
+            right: 7px;
         }
 
-        /* =====================================================
-           MODAL
-        ===================================================== */
-
-        .modal {
-            display: none;
-
-            position: fixed;
-            inset: 0;
-
-            z-index: 1000;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 20px;
-
-            background:
-                rgba(4, 25, 45, .62);
-
-            backdrop-filter: blur(7px);
-
-            overflow-y: auto;
+        .category-badge {
+            left: 7px;
         }
-
-        .modal-content {
-            width: 100%;
-            max-width: 600px;
-
-            max-height: 90vh;
-
-            overflow-y: auto;
-
-            padding: 28px;
-
-            background: white;
-
-            border: 1px solid #e0ebf4;
-            border-radius: 20px;
-
-            box-shadow:
-                0 25px 70px rgba(0,0,0,.22);
-
-            animation:
-                modalIn .22s ease;
-        }
-
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px) scale(.98);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-
-            color: #143d60;
-
-            font-size: 20px;
-            font-weight: 850;
-        }
-
-        .close-btn {
-            float: right;
-
-            width: 34px;
-            height: 34px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            margin-left: 10px;
-
-            background: #f3f7fa;
-            color: #718496;
-
-            border: none;
-            border-radius: 50%;
-
-            cursor: pointer;
-
-            font-size: 23px;
-            line-height: 1;
-
-            transition: .2s;
-        }
-
-        .close-btn:hover {
-            background: #e9f1f6;
-            color: #173c5c;
-        }
-
-        /* =====================================================
-           FORM
-        ===================================================== */
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-
-            margin-bottom: 6px;
-
-            color: #304d65;
-
-            font-size: 12px;
-            font-weight: 800;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        textarea {
-            width: 100%;
-
-            padding: 11px 12px;
-
-            background: white;
-            color: #172033;
-
-            border: 1px solid #dce7ef;
-            border-radius: 9px;
-
-            font-size: 13px;
-
-            transition: .2s;
-        }
-
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        textarea:focus {
-            outline: none;
-
-            border-color: #65a9d8;
-
-            box-shadow:
-                0 0 0 3px rgba(23,105,170,.08);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* =====================================================
-           BUTTON GENERAL
-        ===================================================== */
-
-        .btn {
-            min-height: 42px;
-
-            padding: 10px 18px;
-
-            border: none;
-            border-radius: 9px;
-
-            cursor: pointer;
-
-            font-size: 13px;
-            font-weight: 800;
-
-            transition: .2s;
-        }
-
-        .btn-primary {
-            width: 100%;
-
-            background: #1769aa;
-            color: white;
-
-            box-shadow:
-                0 5px 13px rgba(23,105,170,.15);
-        }
-
-        .btn-primary:hover {
-            background: #0f568f;
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #4e6578;
-
-            border: 1px solid #dce6ed;
-        }
-
-        .btn-secondary:hover {
-            background: #f5f8fa;
-        }
-
-        .modal-buttons {
-            display: flex;
-
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .modal-buttons button {
-            flex: 1;
-        }
-
-        /* =====================================================
-           LOADING / EMPTY / ERROR
-        ===================================================== */
-
-        .loading,
-        .empty-product {
-            grid-column: 1 / -1;
-
-            padding: 75px 20px;
-
-            color: #8296a7;
-
-            text-align: center;
-        }
-
-        .loading {
-            font-size: 14px;
-        }
-
-        .empty-product {
-            background: white;
-
-            border: 1px dashed #d6e4ed;
-            border-radius: 16px;
-        }
-
-        .error-box {
-            grid-column: 1 / -1;
-
-            padding: 45px 20px;
-
-            background: #fff7f7;
-            color: #991b1b;
-
-            border: 1px solid #fecaca;
-            border-radius: 15px;
-
-            text-align: center;
-        }
-
-        .error-box strong {
-            display: block;
-
-            margin: 12px 0;
-        }
-
-        .retry-btn {
-            padding: 10px 18px;
-
-            background: #1769aa;
-            color: white;
-
-            border: none;
-            border-radius: 8px;
-
-            cursor: pointer;
-
-            font-size: 12px;
-            font-weight: 800;
-        }
-
-        /* =====================================================
-           TOAST
-        ===================================================== */
 
         #toastContainer {
-            position: fixed;
-
-            right: 20px;
-            bottom: 20px;
-
-            z-index: 2000;
-
-            display: flex;
-            flex-direction: column;
-
-            gap: 9px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
         }
 
         .toast {
-            min-width: 250px;
-
-            padding: 13px 17px;
-
-            background: #173b59;
-            color: white;
-
-            border-radius: 10px;
-
-            box-shadow:
-                0 10px 30px rgba(0,0,0,.18);
-
-            font-size: 12px;
-
-            animation:
-                toastIn .25s ease;
+            min-width: 0;
+            width: 100%;
         }
+    }
+</style>
+```
 
-        .toast.success {
-            background: #087f5b;
-        }
-
-        .toast.error {
-            background: #dc2626;
-        }
-
-        @keyframes toastIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
-
-        @media (max-width: 900px) {
-
-            .navbar {
-                padding: 12px 18px;
-            }
-
-            .shop-hero {
-                padding: 32px;
-            }
-
-            .shop-hero-icon {
-                margin-right: 10px;
-                font-size: 70px;
-            }
-
-            #productGrid {
-                grid-template-columns:
-                    repeat(
-                        auto-fill,
-                        minmax(210px, 1fr)
-                    );
-            }
-        }
-
-        @media (max-width: 768px) {
-
-            .navbar {
-                align-items: flex-start;
-                flex-direction: column;
-                gap: 11px;
-            }
-
-            .navbar-left {
-                width: 100%;
-
-                justify-content:
-                    space-between;
-            }
-
-            .navbar-right {
-                width: 100%;
-                justify-content: flex-start;
-            }
-
-            .container {
-                padding:
-                    20px 14px 40px;
-            }
-
-            .shop-hero {
-                min-height: 200px;
-                padding: 28px 25px;
-            }
-
-            #sectionTitle {
-                font-size: 28px;
-            }
-
-            .shop-hero-icon {
-                font-size: 60px;
-            }
-
-            .search-box {
-                flex-direction: column;
-            }
-
-            #btnAddProductNav {
-                width: 100%;
-            }
-
-            #productGrid {
-                grid-template-columns:
-                    repeat(
-                        2,
-                        minmax(0, 1fr)
-                    );
-
-                gap: 12px;
-            }
-
-            .product-img {
-                height: 205px;
-            }
-
-            .product-details {
-                padding: 12px;
-            }
-
-            .product-buttons {
-                flex-direction: column;
-            }
-
-            .btn-add-cart {
-                flex: 1;
-            }
-
-            .admin-mode-banner {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 520px) {
-
-            .navbar-title {
-                font-size: 19px;
-            }
-
-            .navbar-left {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 6px;
-            }
-
-            .navbar-right {
-                gap: 5px;
-            }
-
-            .nav-page-btn,
-            .badge,
-            .btn-login,
-            .btn-logout {
-                min-height: 32px;
-                padding: 6px 8px;
-                font-size: 10px;
-            }
-
-            .shop-hero {
-                min-height: 220px;
-                padding: 25px 21px;
-            }
-
-            #sectionTitle {
-                font-size: 24px;
-            }
-
-            .shop-hero p {
-                font-size: 12px;
-            }
-
-            .shop-features {
-                gap: 5px;
-            }
-
-            .shop-features span {
-                padding: 6px 8px;
-                font-size: 9px;
-            }
-
-            .shop-hero-icon {
-                display: none;
-            }
-
-            #productGrid {
-                grid-template-columns:
-                    repeat(
-                        2,
-                        minmax(0, 1fr)
-                    );
-
-                gap: 9px;
-            }
-
-            .product-img {
-                height: 160px;
-            }
-
-            .product-details {
-                padding: 10px;
-                gap: 6px;
-            }
-
-            .product-name {
-                min-height: 38px;
-                font-size: 13px;
-            }
-
-            .product-price {
-                font-size: 16px;
-            }
-
-            .product-stock {
-                font-size: 9px;
-            }
-
-            .btn-buy,
-            .btn-add-cart,
-            .btn-detail {
-                min-height: 34px;
-                padding: 7px;
-                font-size: 10px;
-            }
-
-            .btn-rate {
-                min-height: 33px;
-                font-size: 9px;
-            }
-
-            .stock-badge {
-                top: 7px;
-                right: 7px;
-
-                padding: 5px 7px;
-
-                font-size: 8px;
-            }
-
-            .promo-track span {
-                font-size: 11px;
-                margin-right: 25px;
-            }
-
-            .modal {
-                padding: 10px;
-            }
-
-            .modal-content {
-                padding: 20px;
-                border-radius: 16px;
-            }
-
-            .rating-star {
-                font-size: 30px;
-            }
-
-            #toastContainer {
-                left: 12px;
-                right: 12px;
-                bottom: 12px;
-            }
-
-            .toast {
-                min-width: 0;
-                width: 100%;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-    <!-- =====================================================
-         NAVBAR
-    ===================================================== -->
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-    <div class="navbar">
+<div class="navbar">
 
-        <div class="navbar-left">
+```
+<div class="navbar-left">
 
-            <div class="navbar-title">
-                🛍️ BlueShop Fashion
-            </div>
+    <div class="navbar-title">
+        🛍️ BlueShop Fashion
+    </div>
 
-            <a
-                href="index.html"
-                class="back-home"
-            >
-                ← Portfolio
-            </a>
+    <a href="index.html" class="back-home">
+        ← Portfolio
+    </a>
 
+</div>
+
+<div class="navbar-right">
+
+    <span class="badge" id="roleBadge">
+        👤 Guest
+    </span>
+
+    <a
+        href="admin.html"
+        class="nav-page-btn"
+        id="adminDashboardButton"
+    >
+        🛡️ Dashboard Admin
+    </a>
+
+    <button
+        class="nav-page-btn"
+        onclick="openCartPage()"
+    >
+        🛒 Keranjang
+        <span class="cart-count" id="cartBadge">0</span>
+    </button>
+
+    <button
+        class="nav-page-btn"
+        onclick="openOrdersPage()"
+    >
+        📦 Pesanan
+        <span class="order-count" id="orderBadge">0</span>
+    </button>
+
+    <a
+        href="login.html?redirect=toko.html"
+        class="btn-login"
+        id="loginButton"
+    >
+        Login
+    </a>
+
+    <button
+        class="btn-logout"
+        id="logoutButton"
+        onclick="logout()"
+        style="display:none;"
+    >
+        Logout
+    </button>
+
+</div>
+```
+
+</div>
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<div class="container">
+
+```
+<!-- HERO -->
+
+<div class="shop-hero">
+
+    <div class="shop-hero-content">
+
+        <div class="shop-label">
+            BLUE SHOP • FASHION STORE
         </div>
 
-        <div class="navbar-right">
+        <h1 id="sectionTitle">
+            Temukan Gaya Favoritmu ✨
+        </h1>
 
-            <span
-                class="badge"
-                id="roleBadge"
-            >
-                👤 Guest
+        <p>
+            Koleksi fashion pilihan untuk
+            melengkapi penampilanmu setiap hari.
+            Pilih outfit favoritmu dan belanja
+            dengan nyaman di BlueShop.
+        </p>
+
+        <div class="shop-features">
+
+            <span>
+                <i class="fa-solid fa-shirt"></i>
+                Fashion Terbaru
             </span>
 
-            <a
-                href="admin.html"
-                class="nav-page-btn"
-                id="adminDashboardButton"
-            >
-                🛡️ Dashboard Admin
-            </a>
-
-            <button
-                class="nav-page-btn"
-                onclick="openCartPage()"
-            >
-                🛒 Keranjang
-
-                <span
-                    class="cart-count"
-                    id="cartBadge"
-                >
-                    0
-                </span>
-            </button>
-
-            <button
-                class="nav-page-btn"
-                onclick="openOrdersPage()"
-            >
-                📦 Pesanan
-
-                <span
-                    class="order-count"
-                    id="orderBadge"
-                >
-                    0
-                </span>
-            </button>
-
-            <a
-                href="login.html?redirect=toko.html"
-                class="btn-login"
-                id="loginButton"
-            >
-                Login
-            </a>
-
-            <button
-                class="btn-logout"
-                id="logoutButton"
-                onclick="logout()"
-                style="display:none;"
-            >
-                Logout
-            </button>
-
-        </div>
-    </div>
-
-
-    <!-- =====================================================
-         CONTENT
-    ===================================================== -->
-
-    <div class="container">
-
-        <div class="section-header">
-
-            <!-- HERO -->
-
-            <div class="shop-hero">
-
-                <div class="shop-hero-content">
-
-                    <div class="shop-label">
-                        BLUE SHOP • FASHION STORE
-                    </div>
-
-                    <h1 id="sectionTitle">
-                        Temukan Gaya Favoritmu ✨
-                    </h1>
-
-                    <p>
-                        Koleksi fashion pilihan untuk
-                        melengkapi penampilanmu setiap hari.
-                        Pilih outfit favoritmu dan belanja
-                        dengan nyaman di BlueShop.
-                    </p>
-
-                    <div class="shop-features">
-
-                        <span>
-                            <i class="fa-solid fa-shirt"></i>
-                            Fashion Terbaru
-                        </span>
-
-                        <span>
-                            <i class="fa-solid fa-tag"></i>
-                            Harga Terjangkau
-                        </span>
-
-                        <span>
-                            <i class="fa-solid fa-truck"></i>
-                            Pengiriman Cepat
-                        </span>
-
-                    </div>
-
-                </div>
-
-                <div class="shop-hero-icon">
-                    🛍️
-                </div>
-
-            </div>
-
-
-            <!-- ADMIN MODE -->
-
-            <div
-                class="admin-mode-banner"
-                id="adminModeBanner"
-                style="display:none;"
-            >
-
-                <div>
-
-                    <strong>
-                        🛡️ Mode Administrator
-                    </strong>
-
-                    <span>
-                        Kelola produk, stok, harga,
-                        dan katalog BlueShop.
-                    </span>
-
-                </div>
-
-                <a href="admin.html">
-                    Buka Dashboard →
-                </a>
-
-            </div>
-
-
-            <!-- SEARCH -->
-
-            <div class="search-box">
-
-                <div class="search-wrapper">
-
-                    <i
-                        class="fa-solid fa-magnifying-glass search-icon"
-                    ></i>
-
-                    <input
-                        type="text"
-                        id="searchInput"
-                        placeholder="Cari baju, celana, jaket, fashion..."
-                    >
-
-                </div>
-
-                <button
-                    id="btnAddProductNav"
-                    onclick="openProductModal(false)"
-                >
-                    <i class="fa-solid fa-plus"></i>
-                    Tambah Produk
-                </button>
-
-            </div>
-
-
-            <!-- PROMO -->
-
-            <div class="promo-banner">
-
-                <div class="promo-track">
-
-                    <span class="promo-highlight">
-                        🔥 FLASH SALE
-                    </span>
-
-                    <span>
-                        👕 Diskon hingga 50%
-                    </span>
-
-                    <span>
-                        👗 Koleksi Fashion Terbaru
-                    </span>
-
-                    <span>
-                        👚 Baju Wanita Kekinian
-                    </span>
-
-                    <span>
-                        👔 Baju Pria Stylish
-                    </span>
-
-                    <span>
-                        🧥 Outfit Nyaman & Trendy
-                    </span>
-
-                    <span>
-                        ✨ Model Terbaru Setiap Hari
-                    </span>
-
-                    <span>
-                        🚚 Gratis Ongkir
-                    </span>
-
-                    <span>
-                        🛍️ Belanja Fashion Sekarang
-                    </span>
-
-                    <span class="promo-highlight">
-                        🔥 FLASH SALE
-                    </span>
-
-                    <span>
-                        👕 Diskon hingga 50%
-                    </span>
-
-                    <span>
-                        👗 Koleksi Fashion Terbaru
-                    </span>
-
-                    <span>
-                        👚 Baju Wanita Kekinian
-                    </span>
-
-                    <span>
-                        👔 Baju Pria Stylish
-                    </span>
-
-                    <span>
-                        🧥 Outfit Nyaman & Trendy
-                    </span>
-
-                    <span>
-                        ✨ Model Terbaru Setiap Hari
-                    </span>
-
-                    <span>
-                        🚚 Gratis Ongkir
-                    </span>
-
-                    <span>
-                        🛍️ Belanja Fashion Sekarang
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =====================================================
-             PRODUCT GRID
-        ===================================================== -->
-
-        <div id="productGrid">
-
-            <div class="loading">
-                ⏳ Memuat produk...
-            </div>
+            <span>
+                <i class="fa-solid fa-tag"></i>
+                Harga Terjangkau
+            </span>
+
+            <span>
+                <i class="fa-solid fa-truck"></i>
+                Pengiriman Cepat
+            </span>
 
         </div>
 
     </div>
 
+    <div class="shop-hero-icon">
+        🛍️
+    </div>
 
-    <!-- =====================================================
-         ADMIN PRODUCT MODAL
-    ===================================================== -->
+</div>
 
-    <div
-        id="productModal"
-        class="modal"
-    >
 
-        <div class="modal-content">
+<!-- ADMIN MODE -->
 
-            <button
-                class="close-btn"
-                onclick="closeProductModal()"
-            >
-                &times;
-            </button>
+<div
+    class="admin-mode-banner"
+    id="adminModeBanner"
+    style="display:none;"
+>
 
-            <div
-                class="modal-header"
-                id="productModalTitle"
-            >
-                Tambah Produk Baru
-            </div>
+    <div>
 
-            <input
-                type="hidden"
-                id="productId"
-            >
+        <strong>
+            🛡️ Mode Administrator
+        </strong>
 
-            <div class="form-group">
-
-                <label for="productName">
-                    Nama Produk
-                </label>
-
-                <input
-                    type="text"
-                    id="productName"
-                    placeholder="Contoh: Kaos Oversize Premium"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="productPrice">
-                    Harga (Rp)
-                </label>
-
-                <input
-                    type="number"
-                    id="productPrice"
-                    placeholder="Contoh: 99000"
-                    min="0"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="productStock">
-                    Stok
-                </label>
-
-                <input
-                    type="number"
-                    id="productStock"
-                    placeholder="Masukkan stok"
-                    min="0"
-                    value="100"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="productRating">
-                    Rating Awal
-                </label>
-
-                <input
-                    type="number"
-                    id="productRating"
-                    placeholder="Contoh: 4.8"
-                    min="0"
-                    max="5"
-                    step="0.1"
-                    value="5"
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="productImage">
-                    URL Gambar
-                </label>
-
-                <input
-                    type="text"
-                    id="productImage"
-                    placeholder="https://..."
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="productDescription">
-                    Deskripsi Produk
-                </label>
-
-                <textarea
-                    id="productDescription"
-                    placeholder="Masukkan deskripsi produk..."
-                ></textarea>
-
-            </div>
-
-            <div class="modal-buttons">
-
-                <button
-                    class="btn btn-secondary"
-                    onclick="closeProductModal()"
-                >
-                    Batal
-                </button>
-
-                <button
-                    class="btn btn-primary"
-                    onclick="saveProduct()"
-                >
-                    💾 Simpan
-                </button>
-
-            </div>
-
-        </div>
+        <span>
+            Kelola produk, kategori, stok,
+            harga, dan katalog BlueShop.
+        </span>
 
     </div>
 
+    <a href="admin.html">
+        Buka Dashboard →
+    </a>
 
-    <!-- =====================================================
-         RATING MODAL
-    ===================================================== -->
+</div>
 
-    <div
-        id="ratingModal"
-        class="modal"
-    >
 
-        <div
-            class="modal-content"
-            style="max-width:450px;"
+<!-- SEARCH -->
+
+<div class="search-box">
+
+    <div class="search-wrapper">
+
+        <i
+            class="fa-solid fa-magnifying-glass search-icon"
+        ></i>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari baju, celana, jaket, sepatu..."
         >
 
-            <button
-                class="close-btn"
-                onclick="closeRatingModal()"
-            >
-                &times;
-            </button>
+    </div>
 
-            <div class="modal-header">
-                ⭐ Beri Rating Produk
-            </div>
+    <button
+        id="btnAddProductNav"
+        onclick="openProductModal(false)"
+    >
+        <i class="fa-solid fa-plus"></i>
+        Tambah Produk
+    </button>
 
-            <div
-                id="ratingProductName"
-                style="
-                    text-align:center;
-                    font-size:18px;
-                    font-weight:700;
-                    margin-bottom:10px;
-                    color:#173d5c;
-                "
-            >
-                Nama Produk
-            </div>
+</div>
 
-            <div class="rating-stars-container">
 
-                <button
-                    class="rating-star"
-                    data-rating="1"
-                    onclick="selectRating(1)"
-                >
-                    ★
-                </button>
+<!-- CATEGORY -->
 
-                <button
-                    class="rating-star"
-                    data-rating="2"
-                    onclick="selectRating(2)"
-                >
-                    ★
-                </button>
+<div class="category-section">
 
-                <button
-                    class="rating-star"
-                    data-rating="3"
-                    onclick="selectRating(3)"
-                >
-                    ★
-                </button>
+    <div class="category-title">
+        🏷️ Pilih Kategori Fashion
+    </div>
 
-                <button
-                    class="rating-star"
-                    data-rating="4"
-                    onclick="selectRating(4)"
-                >
-                    ★
-                </button>
+    <div class="category-filter">
 
-                <button
-                    class="rating-star"
-                    data-rating="5"
-                    onclick="selectRating(5)"
-                >
-                    ★
-                </button>
+        <button
+            class="category-btn active"
+            data-category="Semua"
+            onclick="filterCategory('Semua', this)"
+        >
+            🛍️ Semua
+        </button>
 
-            </div>
+        <button
+            class="category-btn"
+            data-category="Atasan"
+            onclick="filterCategory('Atasan', this)"
+        >
+            👕 Atasan
+        </button>
 
-            <div
-                id="ratingValue"
-                class="rating-info"
-            >
-                Pilih rating 1–5
-            </div>
+        <button
+            class="category-btn"
+            data-category="Bawahan"
+            onclick="filterCategory('Bawahan', this)"
+        >
+            👖 Bawahan
+        </button>
 
-            <div class="modal-buttons">
+        <button
+            class="category-btn"
+            data-category="Dress"
+            onclick="filterCategory('Dress', this)"
+        >
+            👗 Dress
+        </button>
 
-                <button
-                    class="btn btn-secondary"
-                    onclick="closeRatingModal()"
-                >
-                    Batal
-                </button>
+        <button
+            class="category-btn"
+            data-category="Outerwear"
+            onclick="filterCategory('Outerwear', this)"
+        >
+            🧥 Outerwear
+        </button>
 
-                <button
-                    class="btn btn-primary"
-                    onclick="saveRating()"
-                >
-                    ⭐ Simpan Rating
-                </button>
+        <button
+            class="category-btn"
+            data-category="Sepatu"
+            onclick="filterCategory('Sepatu', this)"
+        >
+            👟 Sepatu
+        </button>
 
-            </div>
+        <button
+            class="category-btn"
+            data-category="Aksesoris"
+            onclick="filterCategory('Aksesoris', this)"
+        >
+            👜 Aksesoris
+        </button>
 
-        </div>
+    </div>
+
+</div>
+
+
+<!-- PROMO -->
+
+<div class="promo-banner">
+
+    <div class="promo-track">
+
+        <span class="promo-highlight">
+            🔥 FLASH SALE
+        </span>
+
+        <span>👕 Diskon hingga 50%</span>
+        <span>👗 Koleksi Fashion Terbaru</span>
+        <span>👚 Baju Wanita Kekinian</span>
+        <span>👔 Baju Pria Stylish</span>
+        <span>🧥 Outfit Nyaman & Trendy</span>
+        <span>✨ Model Terbaru Setiap Hari</span>
+        <span>🚚 Gratis Ongkir</span>
+        <span>🛍️ Belanja Fashion Sekarang</span>
+
+        <span class="promo-highlight">
+            🔥 FLASH SALE
+        </span>
+
+        <span>👕 Diskon hingga 50%</span>
+        <span>👗 Koleksi Fashion Terbaru</span>
+        <span>👚 Baju Wanita Kekinian</span>
+        <span>👔 Baju Pria Stylish</span>
+        <span>🧥 Outfit Nyaman & Trendy</span>
+        <span>✨ Model Terbaru Setiap Hari</span>
+        <span>🚚 Gratis Ongkir</span>
+        <span>🛍️ Belanja Fashion Sekarang</span>
+
+    </div>
+
+</div>
+
+
+<!-- PRODUCT GRID -->
+
+<div id="productGrid">
+
+    <div class="loading">
+        ⏳ Memuat produk...
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- =====================================================
+     PRODUCT MODAL
+===================================================== -->
+
+<div id="productModal" class="modal">
+
+```
+<div class="modal-content">
+
+    <button
+        class="close-btn"
+        onclick="closeProductModal()"
+    >
+        &times;
+    </button>
+
+    <div
+        class="modal-header"
+        id="productModalTitle"
+    >
+        Tambah Produk Baru
+    </div>
+
+    <input
+        type="hidden"
+        id="productId"
+    >
+
+
+    <div class="form-group">
+
+        <label for="productName">
+            Nama Produk
+        </label>
+
+        <input
+            type="text"
+            id="productName"
+            placeholder="Contoh: Kaos Oversize Premium"
+        >
 
     </div>
 
 
-    <!-- =====================================================
-         TOAST
-    ===================================================== -->
+    <!-- KATEGORI -->
 
-    <div id="toastContainer"></div>
+    <div class="form-group">
 
+        <label for="productCategory">
+            Kategori Produk
+        </label>
+
+        <select id="productCategory">
+
+            <option value="Atasan">
+                👕 Atasan
+            </option>
+
+            <option value="Bawahan">
+                👖 Bawahan
+            </option>
+
+            <option value="Dress">
+                👗 Dress
+            </option>
+
+            <option value="Outerwear">
+                🧥 Outerwear
+            </option>
+
+            <option value="Sepatu">
+                👟 Sepatu
+            </option>
+
+            <option value="Aksesoris">
+                👜 Aksesoris
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label for="productPrice">
+            Harga (Rp)
+        </label>
+
+        <input
+            type="number"
+            id="productPrice"
+            placeholder="Contoh: 99000"
+            min="0"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label for="productStock">
+            Stok
+        </label>
+
+        <input
+            type="number"
+            id="productStock"
+            placeholder="Masukkan stok"
+            min="0"
+            value="100"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label for="productRating">
+            Rating Awal
+        </label>
+
+        <input
+            type="number"
+            id="productRating"
+            placeholder="Contoh: 4.8"
+            min="0"
+            max="5"
+            step="0.1"
+            value="5"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label for="productImage">
+            URL Gambar
+        </label>
+
+        <input
+            type="text"
+            id="productImage"
+            placeholder="https://..."
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label for="productDescription">
+            Deskripsi Produk
+        </label>
+
+        <textarea
+            id="productDescription"
+            placeholder="Masukkan deskripsi produk..."
+        ></textarea>
+
+    </div>
+
+
+    <div class="modal-buttons">
+
+        <button
+            class="btn btn-secondary"
+            onclick="closeProductModal()"
+        >
+            Batal
+        </button>
+
+        <button
+            class="btn btn-primary"
+            onclick="saveProduct()"
+        >
+            💾 Simpan
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- =====================================================
+     RATING MODAL
+===================================================== -->
+
+<div id="ratingModal" class="modal">
+
+```
+<div
+    class="modal-content"
+    style="max-width:450px;"
+>
+
+    <button
+        class="close-btn"
+        onclick="closeRatingModal()"
+    >
+        &times;
+    </button>
+
+    <div class="modal-header">
+        ⭐ Beri Rating Produk
+    </div>
+
+    <div
+        id="ratingProductName"
+        style="
+            text-align:center;
+            font-size:18px;
+            font-weight:700;
+            margin-bottom:10px;
+            color:#173d5c;
+        "
+    >
+        Nama Produk
+    </div>
+
+    <div class="rating-stars-container">
+
+        <button
+            class="rating-star"
+            data-rating="1"
+            onclick="selectRating(1)"
+        >
+            ★
+        </button>
+
+        <button
+            class="rating-star"
+            data-rating="2"
+            onclick="selectRating(2)"
+        >
+            ★
+        </button>
+
+        <button
+            class="rating-star"
+            data-rating="3"
+            onclick="selectRating(3)"
+        >
+            ★
+        </button>
+
+        <button
+            class="rating-star"
+            data-rating="4"
+            onclick="selectRating(4)"
+        >
+            ★
+        </button>
+
+        <button
+            class="rating-star"
+            data-rating="5"
+            onclick="selectRating(5)"
+        >
+            ★
+        </button>
+
+    </div>
+
+    <div
+        id="ratingValue"
+        class="rating-info"
+    >
+        Pilih rating 1–5
+    </div>
+
+    <div class="modal-buttons">
+
+        <button
+            class="btn btn-secondary"
+            onclick="closeRatingModal()"
+        >
+            Batal
+        </button>
+
+        <button
+            class="btn btn-primary"
+            onclick="saveRating()"
+        >
+            ⭐ Simpan Rating
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- TOAST -->
+
+<div id="toastContainer"></div>
 
 <script>
 
 /* =========================================================
-   SUPABASE CONFIG
+   SUPABASE
 ========================================================= */
 
 const SUPABASE_URL =
@@ -2181,33 +2158,36 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
-
-/* =========================================================
-   SUPABASE CLIENT
-========================================================= */
-
 let _supabase = null;
 
-function initializeSupabase() {
 
-    console.log("🔄 Memulai Supabase...");
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+let allProducts = [];
+let currentUser = null;
+let isAdmin = false;
+let cart = [];
+let orders = [];
+
+let selectedRating = 0;
+let ratingProductId = null;
+let productRatings = {};
+
+let selectedCategory = "Semua";
+
+
+/* =========================================================
+   INITIALIZE SUPABASE
+========================================================= */
+
+function initializeSupabase() {
 
     if (!window.supabase) {
 
         console.error(
-            "❌ window.supabase tidak ditemukan."
-        );
-
-        return false;
-    }
-
-    if (
-        typeof window.supabase.createClient !==
-        "function"
-    ) {
-
-        console.error(
-            "❌ createClient tidak tersedia."
+            "❌ Supabase CDN tidak ditemukan."
         );
 
         return false;
@@ -2220,10 +2200,6 @@ function initializeSupabase() {
                 SUPABASE_URL,
                 SUPABASE_KEY
             );
-
-        console.log(
-            "✅ Supabase client berhasil dibuat."
-        );
 
         return true;
 
@@ -2239,43 +2215,9 @@ function initializeSupabase() {
 }
 
 
-/* =========================================================
-   GLOBAL DATA
-========================================================= */
-
-let allProducts = [];
-
-let currentUser = null;
-
-let isAdmin = false;
-
-let cart = [];
-
-let orders = [];
-
-let selectedRating = 0;
-
-let ratingProductId = null;
-
-let productRatings = {};
-
-
-/* =========================================================
-   SUPABASE READY
-========================================================= */
-
 function isSupabaseReady() {
 
-    if (!_supabase) {
-
-        console.error(
-            "❌ Supabase client belum siap."
-        );
-
-        return false;
-    }
-
-    return true;
+    return !!_supabase;
 }
 
 
@@ -2293,9 +2235,7 @@ function showToast(
             "toastContainer"
         );
 
-    if (!container) {
-        return;
-    }
+    if (!container) return;
 
     const toast =
         document.createElement("div");
@@ -2309,9 +2249,7 @@ function showToast(
     container.appendChild(toast);
 
     setTimeout(
-        function() {
-            toast.remove();
-        },
+        () => toast.remove(),
         3000
     );
 }
@@ -2331,10 +2269,6 @@ function getUserData() {
 }
 
 
-/* =========================================================
-   USER KEY
-========================================================= */
-
 function getUserKey() {
 
     if (!currentUser) {
@@ -2347,11 +2281,11 @@ function getUserKey() {
         currentUser.name ||
         "user"
     )
-        .toString()
-        .replace(
-            /[^a-zA-Z0-9_-]/g,
-            "_"
-        );
+    .toString()
+    .replace(
+        /[^a-zA-Z0-9_-]/g,
+        "_"
+    );
 }
 
 
@@ -2363,67 +2297,18 @@ function loadUserData() {
 
     try {
 
-        const rawCart =
-            localStorage.getItem(
-                "blueshop_cart"
-            ) || "[]";
-
         cart =
-            JSON.parse(rawCart);
+            JSON.parse(
+                localStorage.getItem(
+                    "blueshop_cart"
+                ) || "[]"
+            );
 
         if (!Array.isArray(cart)) {
             cart = [];
         }
 
-        cart =
-            cart.map(function(item) {
-
-                return {
-
-                    id:
-                        item.id ??
-                        item.id_produk,
-
-                    name:
-                        item.name ||
-                        item.nama ||
-                        item.nama_produk ||
-                        item.title ||
-                        "Produk",
-
-                    price:
-                        Number(
-                            item.price ??
-                            item.harga ??
-                            0
-                        ),
-
-                    image:
-                        item.image ||
-                        item.gambar ||
-                        "",
-
-                    qty:
-                        Math.max(
-                            1,
-                            Number(
-                                item.qty ??
-                                item.quantity ??
-                                1
-                            )
-                        ),
-
-                    selected:
-                        item.selected !== false
-                };
-            });
-
-    } catch (error) {
-
-        console.error(
-            "❌ Gagal membaca cart:",
-            error
-        );
+    } catch {
 
         cart = [];
     }
@@ -2431,14 +2316,11 @@ function loadUserData() {
 
     try {
 
-        const key =
-            getUserKey();
-
         orders =
             JSON.parse(
                 localStorage.getItem(
                     "blueshop_orders_" +
-                    key
+                    getUserKey()
                 ) || "[]"
             );
 
@@ -2446,12 +2328,7 @@ function loadUserData() {
             orders = [];
         }
 
-    } catch (error) {
-
-        console.error(
-            "❌ Gagal membaca orders:",
-            error
-        );
+    } catch {
 
         orders = [];
     }
@@ -2466,27 +2343,12 @@ function loadUserData() {
 
 function saveCart() {
 
-    try {
+    localStorage.setItem(
+        "blueshop_cart",
+        JSON.stringify(cart)
+    );
 
-        localStorage.setItem(
-            "blueshop_cart",
-            JSON.stringify(cart)
-        );
-
-        updateBadges();
-
-    } catch (error) {
-
-        console.error(
-            "❌ SAVE CART ERROR:",
-            error
-        );
-
-        showToast(
-            "Gagal menyimpan keranjang.",
-            "error"
-        );
-    }
+    updateBadges();
 }
 
 
@@ -2502,11 +2364,9 @@ function checkUserRole() {
     if (!userData) {
 
         currentUser = {
-
             name: "Guest",
             username: "guest",
             role: "guest"
-
         };
 
         isAdmin = false;
@@ -2516,29 +2376,19 @@ function checkUserRole() {
 
         return false;
     }
+
 
     try {
 
         currentUser =
             JSON.parse(userData);
 
-    } catch (error) {
-
-        console.error(
-            "❌ Data login rusak:",
-            error
-        );
-
-        localStorage.removeItem("user");
-        localStorage.removeItem("currentUser");
-        localStorage.removeItem("user_session");
+    } catch {
 
         currentUser = {
-
             name: "Guest",
             username: "guest",
             role: "guest"
-
         };
 
         isAdmin = false;
@@ -2549,26 +2399,6 @@ function checkUserRole() {
         return false;
     }
 
-    if (
-        !currentUser ||
-        typeof currentUser !== "object"
-    ) {
-
-        currentUser = {
-
-            name: "Guest",
-            username: "guest",
-            role: "guest"
-
-        };
-
-        isAdmin = false;
-
-        loadUserData();
-        updateNavbar();
-
-        return false;
-    }
 
     const role =
         String(
@@ -2584,9 +2414,11 @@ function checkUserRole() {
         .toLowerCase()
         .trim();
 
+
     isAdmin =
         role === "admin" ||
         username === "admin";
+
 
     loadUserData();
     updateNavbar();
@@ -2621,15 +2453,16 @@ function updateNavbar() {
             "btnAddProductNav"
         );
 
-    const adminDashboardButton =
+    const adminButton =
         document.getElementById(
             "adminDashboardButton"
         );
 
-    const adminModeBanner =
+    const adminBanner =
         document.getElementById(
             "adminModeBanner"
         );
+
 
     if (
         !badge ||
@@ -2640,26 +2473,21 @@ function updateNavbar() {
         return;
     }
 
-    if (adminDashboardButton) {
 
-        adminDashboardButton.style.display =
-            "none";
+    if (adminButton) {
+        adminButton.style.display = "none";
     }
 
-    if (adminModeBanner) {
-
-        adminModeBanner.style.display =
-            "none";
+    if (adminBanner) {
+        adminBanner.style.display = "none";
     }
 
-    /* ================= GUEST ================= */
 
     if (
         !currentUser ||
         String(
             currentUser.role || ""
-        )
-        .toLowerCase() === "guest"
+        ).toLowerCase() === "guest"
     ) {
 
         badge.innerText =
@@ -2678,15 +2506,11 @@ function updateNavbar() {
     }
 
 
-    /* ================= LOGIN ================= */
-
     const displayName =
         currentUser.name ||
         currentUser.username ||
         "User";
 
-
-    /* ================= ADMIN ================= */
 
     if (isAdmin) {
 
@@ -2694,46 +2518,29 @@ function updateNavbar() {
             "🛡️ Admin: " +
             displayName;
 
-        badge.style.background =
-            "#edf8f4";
-
-        badge.style.color =
-            "#087f5b";
-
         addButton.style.display =
             "inline-flex";
 
-        if (adminDashboardButton) {
-
-            adminDashboardButton.style.display =
+        if (adminButton) {
+            adminButton.style.display =
                 "inline-flex";
         }
 
-        if (adminModeBanner) {
-
-            adminModeBanner.style.display =
+        if (adminBanner) {
+            adminBanner.style.display =
                 "flex";
         }
 
-    }
-
-    /* ================= USER ================= */
-
-    else {
+    } else {
 
         badge.innerText =
             "👤 User: " +
             displayName;
 
-        badge.style.background =
-            "#edf6ff";
-
-        badge.style.color =
-            "#1769aa";
-
         addButton.style.display =
             "none";
     }
+
 
     loginButton.style.display =
         "none";
@@ -2751,27 +2558,23 @@ document.addEventListener(
     "DOMContentLoaded",
     async function() {
 
-        console.log(
-            "🚀 BlueShop starting..."
-        );
-
         const ready =
             initializeSupabase();
 
         if (!ready) {
 
             showError(
-                "Supabase gagal dimuat. Periksa koneksi internet dan CDN."
+                "Supabase gagal dimuat. Periksa CDN dan koneksi internet."
             );
 
             return;
         }
 
+
         checkUserRole();
 
         await fetchProducts();
 
-        updateBadges();
 
         const searchInput =
             document.getElementById(
@@ -2785,12 +2588,13 @@ document.addEventListener(
                 filterProducts
             );
         }
+
     }
 );
 
 
 /* =========================================================
-   SHOW ERROR
+   ERROR
 ========================================================= */
 
 function showError(message) {
@@ -2800,9 +2604,7 @@ function showError(message) {
             "productGrid"
         );
 
-    if (!grid) {
-        return;
-    }
+    if (!grid) return;
 
     grid.innerHTML = `
 
@@ -2846,17 +2648,15 @@ async function fetchProducts() {
             "productGrid"
         );
 
-    if (!grid) {
-        return;
-    }
+    if (!grid) return;
+
 
     grid.innerHTML = `
-
         <div class="loading">
             ⏳ Memuat produk...
         </div>
-
     `;
+
 
     if (!isSupabaseReady()) {
 
@@ -2866,6 +2666,7 @@ async function fetchProducts() {
 
         return;
     }
+
 
     try {
 
@@ -2883,42 +2684,22 @@ async function fetchProducts() {
                     }
                 );
 
+
         if (error) {
-
-            const errorMessage =
-                String(
-                    error.message || ""
-                ).toLowerCase();
-
-            if (
-                errorMessage.includes(
-                    "invalid api key"
-                )
-            ) {
-
-                throw new Error(
-                    "INVALID_API_KEY"
-                );
-            }
-
             throw error;
         }
+
 
         allProducts =
             Array.isArray(data)
                 ? data
                 : [];
 
+
         await fetchProductRatings();
 
-        renderProducts(
-            allProducts
-        );
+        renderProducts();
 
-        console.log(
-            "✅ Produk berhasil dimuat:",
-            allProducts.length
-        );
 
     } catch (error) {
 
@@ -2927,20 +2708,8 @@ async function fetchProducts() {
             error
         );
 
-        if (
-            error.message ===
-            "INVALID_API_KEY"
-        ) {
-
-            showError(
-                "Publishable Key Supabase ditolak. Pastikan URL dan Publishable Key berasal dari project Supabase yang sama."
-            );
-
-            return;
-        }
-
         showError(
-            error?.message ||
+            error.message ||
             "Terjadi kesalahan."
         );
     }
@@ -2959,6 +2728,7 @@ async function fetchProductRatings() {
         return;
     }
 
+
     try {
 
         const {
@@ -2971,33 +2741,29 @@ async function fetchProductRatings() {
                     "product_id,user_id,rating"
                 );
 
-        if (error) {
 
+        if (error) {
             console.warn(
-                "⚠️ Rating tidak dapat dimuat:",
+                "Rating tidak tersedia:",
                 error.message
             );
-
             return;
         }
+
 
         let user = null;
 
         try {
 
-            const authResult =
+            const result =
                 await _supabase.auth.getUser();
 
             user =
-                authResult?.data?.user ||
+                result?.data?.user ||
                 null;
 
-        } catch (authError) {
+        } catch {}
 
-            console.warn(
-                "⚠️ Supabase Auth user tidak tersedia."
-            );
-        }
 
         (data || []).forEach(
             function(item) {
@@ -3006,6 +2772,7 @@ async function fetchProductRatings() {
                     String(
                         item.product_id
                     );
+
 
                 if (
                     !productRatings[
@@ -3024,6 +2791,7 @@ async function fetchProductRatings() {
                     };
                 }
 
+
                 productRatings[
                     productId
                 ].total +=
@@ -3031,9 +2799,11 @@ async function fetchProductRatings() {
                         item.rating || 0
                     );
 
+
                 productRatings[
                     productId
                 ].count++;
+
 
                 if (
                     user &&
@@ -3048,18 +2818,57 @@ async function fetchProductRatings() {
                             item.rating
                         );
                 }
+
             }
         );
 
     } catch (error) {
 
         console.warn(
-            "⚠️ FETCH RATING ERROR:",
+            "FETCH RATING ERROR:",
             error
         );
-
-        productRatings = {};
     }
+}
+
+
+/* =========================================================
+   CATEGORY FILTER
+========================================================= */
+
+function filterCategory(
+    category,
+    button
+) {
+
+    selectedCategory =
+        category;
+
+
+    document
+        .querySelectorAll(
+            ".category-btn"
+        )
+        .forEach(
+            function(btn) {
+
+                btn.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    if (button) {
+
+        button.classList.add(
+            "active"
+        );
+    }
+
+
+    renderProducts();
 }
 
 
@@ -3067,22 +2876,109 @@ async function fetchProductRatings() {
    RENDER PRODUCTS
 ========================================================= */
 
-function renderProducts(products) {
+function renderProducts() {
 
     const grid =
         document.getElementById(
             "productGrid"
         );
 
-    if (!grid) {
-        return;
+    if (!grid) return;
+
+
+    const searchInput =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    const keyword =
+        searchInput
+            ? searchInput.value
+                .toLowerCase()
+                .trim()
+            : "";
+
+
+    let filteredProducts =
+        [...allProducts];
+
+
+    /* FILTER KATEGORI */
+
+    if (
+        selectedCategory !==
+        "Semua"
+    ) {
+
+        filteredProducts =
+            filteredProducts.filter(
+                function(product) {
+
+                    const kategori =
+                        String(
+                            product.kategori ||
+                            "Atasan"
+                        )
+                        .toLowerCase()
+                        .trim();
+
+
+                    return (
+                        kategori ===
+                        selectedCategory
+                            .toLowerCase()
+                            .trim()
+                    );
+                }
+            );
     }
+
+
+    /* FILTER SEARCH */
+
+    if (keyword) {
+
+        filteredProducts =
+            filteredProducts.filter(
+                function(product) {
+
+                    const name =
+                        String(
+                            product.nama_produk ||
+                            ""
+                        ).toLowerCase();
+
+
+                    const description =
+                        String(
+                            product.deskripsi ||
+                            ""
+                        ).toLowerCase();
+
+
+                    const kategori =
+                        String(
+                            product.kategori ||
+                            ""
+                        ).toLowerCase();
+
+
+                    return (
+                        name.includes(keyword) ||
+                        description.includes(keyword) ||
+                        kategori.includes(keyword)
+                    );
+                }
+            );
+    }
+
 
     grid.innerHTML = "";
 
+
     if (
-        !Array.isArray(products) ||
-        products.length === 0
+        filteredProducts.length === 0
     ) {
 
         grid.innerHTML = `
@@ -3098,14 +2994,14 @@ function renderProducts(products) {
                     font-weight:700;
                     color:#49657c;
                 ">
-                    Belum ada produk.
+                    Produk tidak ditemukan.
                 </div>
 
                 <div style="
                     margin-top:5px;
                     font-size:12px;
                 ">
-                    Produk akan tampil di sini.
+                    Coba pilih kategori atau kata pencarian lain.
                 </div>
 
             </div>
@@ -3115,31 +3011,42 @@ function renderProducts(products) {
         return;
     }
 
-    products.forEach(
+
+    filteredProducts.forEach(
         function(product) {
 
             const id =
                 product.id_produk ??
                 product.id;
 
+
             const name =
                 product.nama_produk ||
                 "Produk Tanpa Nama";
+
 
             const price =
                 Number(
                     product.harga ?? 0
                 );
 
+
             const stock =
                 Number(
                     product.stok ?? 0
                 );
 
+
+            const category =
+                product.kategori ||
+                "Atasan";
+
+
             const defaultRating =
                 Number(
                     product.rating ?? 5
                 );
+
 
             const ratingData =
                 productRatings[
@@ -3152,11 +3059,13 @@ function renderProducts(products) {
 
                 };
 
+
             const averageRating =
                 ratingData.count > 0
                     ? ratingData.total /
                       ratingData.count
                     : defaultRating;
+
 
             const ratingHTML =
                 ratingData.count > 0
@@ -3170,16 +3079,20 @@ function renderProducts(products) {
                         ⭐ ${averageRating.toFixed(1)} / 5
                     `;
 
+
             const image =
                 product.gambar ||
                 "https://placehold.co/600x500?text=BlueShop";
+
 
             const safeId =
                 JSON.stringify(
                     String(id)
                 );
 
+
             let adminButtons = "";
+
 
             if (isAdmin) {
 
@@ -3206,23 +3119,28 @@ function renderProducts(products) {
                 `;
             }
 
+
             const stockClass =
                 stock <= 0
                     ? "stock-badge stock-habis"
                     : "stock-badge";
+
 
             const stockText =
                 stock <= 0
                     ? "Stok Habis"
                     : "Stok " + stock;
 
+
             const card =
                 document.createElement(
                     "div"
                 );
 
+
             card.className =
                 "product-card";
+
 
             card.innerHTML = `
 
@@ -3235,6 +3153,10 @@ function renderProducts(products) {
                         onclick='goToDetail(${safeId})'
                         onerror="this.onerror=null;this.src='https://placehold.co/600x500?text=No+Image';"
                     >
+
+                    <span class="category-badge">
+                        ${escapeHTML(category)}
+                    </span>
 
                     <span class="${stockClass}">
                         ${stockText}
@@ -3321,9 +3243,20 @@ function renderProducts(products) {
 
             `;
 
+
             grid.appendChild(card);
+
         }
     );
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function filterProducts() {
+    renderProducts();
 }
 
 
@@ -3334,12 +3267,28 @@ function renderProducts(products) {
 function escapeHTML(text) {
 
     return String(text ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
+
 
 function escapeAttribute(text) {
 
@@ -3360,53 +3309,6 @@ function goToDetail(id) {
 
 
 /* =========================================================
-   SEARCH
-========================================================= */
-
-function filterProducts() {
-
-    const input =
-        document.getElementById(
-            "searchInput"
-        );
-
-    if (!input) {
-        return;
-    }
-
-    const keyword =
-        input.value
-            .toLowerCase()
-            .trim();
-
-    const filtered =
-        allProducts.filter(
-            function(product) {
-
-                const name =
-                    String(
-                        product.nama_produk ||
-                        ""
-                    ).toLowerCase();
-
-                const description =
-                    String(
-                        product.deskripsi ||
-                        ""
-                    ).toLowerCase();
-
-                return (
-                    name.includes(keyword) ||
-                    description.includes(keyword)
-                );
-            }
-        );
-
-    renderProducts(filtered);
-}
-
-
-/* =========================================================
    LOGIN PROTECTION
 ========================================================= */
 
@@ -3418,6 +3320,7 @@ function requireLoginForAction(
     const userData =
         getUserData();
 
+
     if (!userData) {
 
         alert(
@@ -3426,14 +3329,17 @@ function requireLoginForAction(
             "."
         );
 
+
         window.location.href =
             "login.html?redirect=" +
             encodeURIComponent(
                 redirectPage
             );
 
+
         return false;
     }
+
 
     return true;
 }
@@ -3460,10 +3366,12 @@ function getProductById(productId) {
 
 
 /* =========================================================
-   RATING MODAL
+   RATING
 ========================================================= */
 
-async function openRatingModal(productId) {
+async function openRatingModal(
+    productId
+) {
 
     if (
         !requireLoginForAction(
@@ -3474,16 +3382,15 @@ async function openRatingModal(productId) {
         return;
     }
 
+
     if (!isSupabaseReady()) {
-
-        alert(
-            "Supabase belum siap."
-        );
-
+        alert("Supabase belum siap.");
         return;
     }
 
+
     let user = null;
+
 
     try {
 
@@ -3494,13 +3401,8 @@ async function openRatingModal(productId) {
             result?.data?.user ||
             null;
 
-    } catch (error) {
+    } catch {}
 
-        console.error(
-            "❌ GET USER ERROR:",
-            error
-        );
-    }
 
     if (!user) {
 
@@ -3511,8 +3413,10 @@ async function openRatingModal(productId) {
         return;
     }
 
+
     const product =
         getProductById(productId);
+
 
     if (!product) {
 
@@ -3523,17 +3427,21 @@ async function openRatingModal(productId) {
         return;
     }
 
+
     ratingProductId =
         product.id_produk ??
         product.id;
 
+
     selectedRating = 0;
+
 
     document.getElementById(
         "ratingProductName"
     ).innerText =
         product.nama_produk ||
         "Produk";
+
 
     try {
 
@@ -3554,20 +3462,11 @@ async function openRatingModal(productId) {
                 )
                 .maybeSingle();
 
+
         if (error) {
-
-            console.error(
-                "❌ CHECK RATING ERROR:",
-                error
-            );
-
-            alert(
-                "Gagal mengecek rating:\n" +
-                error.message
-            );
-
-            return;
+            throw error;
         }
+
 
         if (data) {
 
@@ -3577,30 +3476,25 @@ async function openRatingModal(productId) {
                 );
         }
 
+
         updateRatingStars();
+
 
         document.getElementById(
             "ratingModal"
         ).style.display =
             "flex";
 
+
     } catch (error) {
 
-        console.error(
-            "❌ RATING MODAL ERROR:",
-            error
-        );
-
         alert(
-            "Gagal membuka rating."
+            "Gagal membuka rating:\n" +
+            error.message
         );
     }
 }
 
-
-/* =========================================================
-   SELECT RATING
-========================================================= */
 
 function selectRating(value) {
 
@@ -3610,10 +3504,6 @@ function selectRating(value) {
     updateRatingStars();
 }
 
-
-/* =========================================================
-   UPDATE RATING STARS
-========================================================= */
 
 function updateRatingStars() {
 
@@ -3628,6 +3518,7 @@ function updateRatingStars() {
                     Number(
                         star.dataset.rating
                     );
+
 
                 if (
                     value <=
@@ -3644,17 +3535,19 @@ function updateRatingStars() {
                         "active"
                     );
                 }
+
             }
         );
+
 
     const valueText =
         document.getElementById(
             "ratingValue"
         );
 
-    if (!valueText) {
-        return;
-    }
+
+    if (!valueText) return;
+
 
     valueText.innerText =
         selectedRating > 0
@@ -3664,10 +3557,6 @@ function updateRatingStars() {
             : "Pilih rating 1–5";
 }
 
-
-/* =========================================================
-   SAVE RATING
-========================================================= */
 
 async function saveRating() {
 
@@ -3683,16 +3572,9 @@ async function saveRating() {
         return;
     }
 
-    if (!isSupabaseReady()) {
-
-        alert(
-            "Supabase belum siap."
-        );
-
-        return;
-    }
 
     let user = null;
+
 
     try {
 
@@ -3703,13 +3585,8 @@ async function saveRating() {
             result?.data?.user ||
             null;
 
-    } catch (error) {
+    } catch {}
 
-        console.error(
-            "GET USER ERROR:",
-            error
-        );
-    }
 
     if (!user) {
 
@@ -3719,6 +3596,7 @@ async function saveRating() {
 
         return;
     }
+
 
     try {
 
@@ -3747,28 +3625,25 @@ async function saveRating() {
                     }
                 );
 
+
         if (error) {
             throw error;
         }
+
 
         showToast(
             "⭐ Rating berhasil disimpan!"
         );
 
+
         closeRatingModal();
 
         await fetchProductRatings();
 
-        renderProducts(
-            allProducts
-        );
+        renderProducts();
+
 
     } catch (error) {
-
-        console.error(
-            "❌ SAVE RATING ERROR:",
-            error
-        );
 
         alert(
             "Gagal menyimpan rating:\n" +
@@ -3778,10 +3653,6 @@ async function saveRating() {
 }
 
 
-/* =========================================================
-   CLOSE RATING
-========================================================= */
-
 function closeRatingModal() {
 
     const modal =
@@ -3789,24 +3660,21 @@ function closeRatingModal() {
             "ratingModal"
         );
 
-    if (modal) {
 
-        modal.style.display =
-            "none";
+    if (modal) {
+        modal.style.display = "none";
     }
 
-    ratingProductId =
-        null;
 
-    selectedRating =
-        0;
+    ratingProductId = null;
+    selectedRating = 0;
 
     updateRatingStars();
 }
 
 
 /* =========================================================
-   ADD TO CART
+   CART
 ========================================================= */
 
 function addToCart(productId) {
@@ -3820,38 +3688,42 @@ function addToCart(productId) {
         return;
     }
 
+
     const product =
         getProductById(productId);
 
+
     if (!product) {
-
-        alert(
-            "Produk tidak ditemukan."
-        );
-
+        alert("Produk tidak ditemukan.");
         return;
     }
+
 
     const id =
         product.id_produk ??
         product.id;
 
+
     const name =
         product.nama_produk ||
         "Produk";
+
 
     const price =
         Number(
             product.harga || 0
         );
 
+
     const image =
         product.gambar || "";
+
 
     const stock =
         Number(
             product.stok || 0
         );
+
 
     if (stock <= 0) {
 
@@ -3862,17 +3734,17 @@ function addToCart(productId) {
         return;
     }
 
+
     const existingItem =
         cart.find(
             function(item) {
 
-                return String(
-                    item.id
-                ) ===
-                String(id);
+                return String(item.id) ===
+                    String(id);
 
             }
         );
+
 
     if (existingItem) {
 
@@ -3881,10 +3753,8 @@ function addToCart(productId) {
                 existingItem.qty || 0
             );
 
-        if (
-            currentQty >=
-            stock
-        ) {
+
+        if (currentQty >= stock) {
 
             alert(
                 "Jumlah produk sudah mencapai batas stok."
@@ -3893,27 +3763,31 @@ function addToCart(productId) {
             return;
         }
 
+
         existingItem.qty =
             currentQty + 1;
 
         existingItem.selected =
             true;
 
+
     } else {
 
         cart.push({
 
-            id: id,
-            name: name,
-            price: price,
-            image: image,
+            id,
+            name,
+            price,
+            image,
             qty: 1,
             selected: true
 
         });
     }
 
+
     saveCart();
+
 
     showToast(
         name +
@@ -3937,38 +3811,42 @@ function buyNow(productId) {
         return;
     }
 
+
     const product =
         getProductById(productId);
 
+
     if (!product) {
-
-        alert(
-            "Produk tidak ditemukan."
-        );
-
+        alert("Produk tidak ditemukan.");
         return;
     }
+
 
     const id =
         product.id_produk ??
         product.id;
 
+
     const name =
         product.nama_produk ||
         "Produk";
+
 
     const price =
         Number(
             product.harga || 0
         );
 
+
     const image =
         product.gambar || "";
+
 
     const stock =
         Number(
             product.stok || 0
         );
+
 
     if (stock <= 0) {
 
@@ -3978,6 +3856,7 @@ function buyNow(productId) {
 
         return;
     }
+
 
     cart =
         cart.map(
@@ -3991,40 +3870,40 @@ function buyNow(productId) {
             }
         );
 
+
     const existingItem =
         cart.find(
             function(item) {
 
-                return String(
-                    item.id
-                ) ===
-                String(id);
+                return String(item.id) ===
+                    String(id);
 
             }
         );
 
+
     if (existingItem) {
 
         existingItem.qty = 1;
-
-        existingItem.selected =
-            true;
+        existingItem.selected = true;
 
     } else {
 
         cart.push({
 
-            id: id,
-            name: name,
-            price: price,
-            image: image,
+            id,
+            name,
+            price,
+            image,
             qty: 1,
             selected: true
 
         });
     }
 
+
     saveCart();
+
 
     window.location.href =
         "cart.html";
@@ -4032,7 +3911,7 @@ function buyNow(productId) {
 
 
 /* =========================================================
-   CART PAGE
+   CART / ORDERS PAGE
 ========================================================= */
 
 function openCartPage() {
@@ -4046,14 +3925,11 @@ function openCartPage() {
         return;
     }
 
+
     window.location.href =
         "cart.html";
 }
 
-
-/* =========================================================
-   ORDERS PAGE
-========================================================= */
 
 function openOrdersPage() {
 
@@ -4065,6 +3941,7 @@ function openOrdersPage() {
     ) {
         return;
     }
+
 
     window.location.href =
         "orders.html";
@@ -4082,10 +3959,12 @@ function updateBadges() {
             "cartBadge"
         );
 
+
     const orderBadge =
         document.getElementById(
             "orderBadge"
         );
+
 
     const totalQty =
         cart.reduce(
@@ -4102,14 +3981,14 @@ function updateBadges() {
             0
         );
 
-    if (cartBadge) {
 
+    if (cartBadge) {
         cartBadge.innerText =
             totalQty;
     }
 
-    if (orderBadge) {
 
+    if (orderBadge) {
         orderBadge.innerText =
             orders.length;
     }
@@ -4117,7 +3996,7 @@ function updateBadges() {
 
 
 /* =========================================================
-   OPEN PRODUCT MODAL
+   PRODUCT MODAL
 ========================================================= */
 
 function openProductModal(
@@ -4133,24 +4012,29 @@ function openProductModal(
         return;
     }
 
+
     const modal =
         document.getElementById(
             "productModal"
         );
+
 
     const title =
         document.getElementById(
             "productModalTitle"
         );
 
+
     if (!modal || !title) {
         return;
     }
+
 
     title.innerText =
         isEdit
             ? "Edit Produk"
             : "Tambah Produk Baru";
+
 
     if (!isEdit) {
 
@@ -4158,39 +4042,47 @@ function openProductModal(
             "productId"
         ).value = "";
 
+
         document.getElementById(
             "productName"
         ).value = "";
+
+
+        document.getElementById(
+            "productCategory"
+        ).value = "Atasan";
+
 
         document.getElementById(
             "productPrice"
         ).value = "";
 
+
         document.getElementById(
             "productStock"
         ).value = "100";
+
 
         document.getElementById(
             "productRating"
         ).value = "5";
 
+
         document.getElementById(
             "productImage"
         ).value = "";
+
 
         document.getElementById(
             "productDescription"
         ).value = "";
     }
 
+
     modal.style.display =
         "flex";
 }
 
-
-/* =========================================================
-   CLOSE PRODUCT MODAL
-========================================================= */
 
 function closeProductModal() {
 
@@ -4198,6 +4090,7 @@ function closeProductModal() {
         document.getElementById(
             "productModal"
         );
+
 
     if (modal) {
 
@@ -4222,6 +4115,7 @@ async function saveProduct() {
         return;
     }
 
+
     if (!isSupabaseReady()) {
 
         alert(
@@ -4231,15 +4125,24 @@ async function saveProduct() {
         return;
     }
 
+
     const id =
         document.getElementById(
             "productId"
         ).value;
 
+
     const nama_produk =
         document.getElementById(
             "productName"
         ).value.trim();
+
+
+    const kategori =
+        document.getElementById(
+            "productCategory"
+        ).value;
+
 
     const harga =
         Number(
@@ -4248,12 +4151,14 @@ async function saveProduct() {
             ).value
         );
 
+
     const stok =
         Number(
             document.getElementById(
                 "productStock"
             ).value
         );
+
 
     const rating =
         Number(
@@ -4262,15 +4167,18 @@ async function saveProduct() {
             ).value
         );
 
+
     const gambar =
         document.getElementById(
             "productImage"
         ).value.trim();
 
+
     const deskripsi =
         document.getElementById(
             "productDescription"
         ).value.trim();
+
 
     if (!nama_produk) {
 
@@ -4280,6 +4188,17 @@ async function saveProduct() {
 
         return;
     }
+
+
+    if (!kategori) {
+
+        alert(
+            "Kategori produk wajib dipilih."
+        );
+
+        return;
+    }
+
 
     if (
         Number.isNaN(harga) ||
@@ -4293,6 +4212,7 @@ async function saveProduct() {
         return;
     }
 
+
     if (
         Number.isNaN(stok) ||
         stok < 0
@@ -4304,6 +4224,7 @@ async function saveProduct() {
 
         return;
     }
+
 
     if (
         Number.isNaN(rating) ||
@@ -4318,9 +4239,13 @@ async function saveProduct() {
         return;
     }
 
+
+    /* DATA YANG MASUK KE SUPABASE */
+
     const productData = {
 
         nama_produk,
+        kategori,
         harga,
         stok,
         rating,
@@ -4329,18 +4254,18 @@ async function saveProduct() {
 
     };
 
+
     try {
 
         let result;
+
 
         if (id) {
 
             result =
                 await _supabase
                     .from("produk")
-                    .update(
-                        productData
-                    )
+                    .update(productData)
                     .eq(
                         "id_produk",
                         id
@@ -4356,9 +4281,11 @@ async function saveProduct() {
                     );
         }
 
+
         if (result.error) {
             throw result.error;
         }
+
 
         showToast(
             id
@@ -4366,16 +4293,19 @@ async function saveProduct() {
                 : "✅ Produk berhasil ditambahkan!"
         );
 
+
         closeProductModal();
 
         await fetchProducts();
 
+
     } catch (error) {
 
         console.error(
-            "❌ SAVE PRODUCT ERROR:",
+            "SAVE PRODUCT ERROR:",
             error
         );
+
 
         alert(
             "Gagal menyimpan produk:\n" +
@@ -4395,8 +4325,10 @@ function editProduct(id) {
         return;
     }
 
+
     const product =
         getProductById(id);
+
 
     if (!product) {
 
@@ -4407,41 +4339,56 @@ function editProduct(id) {
         return;
     }
 
+
     document.getElementById(
         "productId"
     ).value =
         product.id_produk ??
         product.id;
 
+
     document.getElementById(
         "productName"
     ).value =
         product.nama_produk || "";
+
+
+    document.getElementById(
+        "productCategory"
+    ).value =
+        product.kategori ||
+        "Atasan";
+
 
     document.getElementById(
         "productPrice"
     ).value =
         product.harga || 0;
 
+
     document.getElementById(
         "productStock"
     ).value =
         product.stok || 0;
+
 
     document.getElementById(
         "productRating"
     ).value =
         product.rating ?? 5;
 
+
     document.getElementById(
         "productImage"
     ).value =
         product.gambar || "";
 
+
     document.getElementById(
         "productDescription"
     ).value =
         product.deskripsi || "";
+
 
     openProductModal(true);
 }
@@ -4462,6 +4409,7 @@ async function deleteProduct(id) {
         return;
     }
 
+
     if (!isSupabaseReady()) {
 
         alert(
@@ -4471,14 +4419,17 @@ async function deleteProduct(id) {
         return;
     }
 
+
     const yakin =
         confirm(
             "Yakin ingin menghapus produk ini?"
         );
 
+
     if (!yakin) {
         return;
     }
+
 
     try {
 
@@ -4493,22 +4444,21 @@ async function deleteProduct(id) {
                     id
                 );
 
+
         if (error) {
             throw error;
         }
+
 
         showToast(
             "🗑️ Produk berhasil dihapus!"
         );
 
+
         await fetchProducts();
 
-    } catch (error) {
 
-        console.error(
-            "❌ DELETE PRODUCT ERROR:",
-            error
-        );
+    } catch (error) {
 
         alert(
             "Gagal menghapus produk:\n" +
@@ -4534,14 +4484,16 @@ async function logout() {
     } catch (error) {
 
         console.error(
-            "LOGOUT SUPABASE ERROR:",
+            "Logout error:",
             error
         );
     }
 
+
     localStorage.removeItem("user");
     localStorage.removeItem("currentUser");
     localStorage.removeItem("user_session");
+
 
     window.location.href =
         "toko.html";
@@ -4561,10 +4513,12 @@ window.addEventListener(
                 "productModal"
             );
 
+
         const ratingModal =
             document.getElementById(
                 "ratingModal"
             );
+
 
         if (
             event.target ===
@@ -4574,6 +4528,7 @@ window.addEventListener(
             closeProductModal();
         }
 
+
         if (
             event.target ===
             ratingModal
@@ -4581,12 +4536,13 @@ window.addEventListener(
 
             closeRatingModal();
         }
+
     }
 );
 
 
 /* =========================================================
-   ESC KEY
+   ESC
 ========================================================= */
 
 window.addEventListener(
@@ -4599,8 +4555,10 @@ window.addEventListener(
         ) {
 
             closeProductModal();
+
             closeRatingModal();
         }
+
     }
 );
 
