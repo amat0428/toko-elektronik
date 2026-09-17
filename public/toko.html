@@ -19,6 +19,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
+        /* =====================================================
+           RESET
+        ===================================================== */
+
         * {
             margin: 0;
             padding: 0;
@@ -30,9 +34,17 @@
         }
 
         body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8fafc;
-            color: #1f2937;
+            font-family:
+                "Segoe UI",
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            background: #f5f9ff;
+            color: #172033;
+
+            min-height: 100vh;
         }
 
         button,
@@ -41,32 +53,40 @@
             font-family: inherit;
         }
 
+        button {
+            outline: none;
+        }
+
+
         /* =====================================================
            NAVBAR
         ===================================================== */
 
         .navbar {
-            background: linear-gradient(
-                135deg,
-                #667eea 0%,
-                #764ba2 100%
-            );
-
-            color: white;
-            padding: 15px 30px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            box-shadow: 0 2px 10px rgba(0, 0, 0, .12);
-
-            flex-wrap: wrap;
-            gap: 15px;
-
             position: sticky;
             top: 0;
             z-index: 900;
+
+            min-height: 72px;
+
+            padding: 12px 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            background: rgba(255, 255, 255, .96);
+
+            border-bottom: 1px solid #e5eef8;
+
+            box-shadow:
+                0 5px 20px rgba(15, 76, 129, .07);
+
+            backdrop-filter: blur(15px);
+
+            flex-wrap: wrap;
         }
 
         .navbar-left {
@@ -76,184 +96,523 @@
         }
 
         .navbar-title {
-            font-size: 24px;
-            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            font-size: 22px;
+            font-weight: 850;
+
+            color: #0d3b66;
+
             white-space: nowrap;
+
+            letter-spacing: -.4px;
         }
 
         .back-home {
-            color: white;
+            display: inline-flex;
+            align-items: center;
+
+            color: #66809a;
+
             text-decoration: none;
+
             font-size: 13px;
-            opacity: .9;
+            font-weight: 600;
+
+            transition: .2s;
         }
 
         .back-home:hover {
-            text-decoration: underline;
+            color: #1769aa;
+            transform: translateX(-2px);
         }
 
         .navbar-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+
+            gap: 7px;
+
             flex-wrap: wrap;
         }
 
         .badge {
-            background: rgba(255,255,255,.25);
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+
+            padding: 8px 13px;
+
+            border-radius: 30px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            color: #1769aa !important;
+
+            background: #edf6ff !important;
+
+            border: 1px solid #d5eafa;
+
             white-space: nowrap;
         }
 
         .nav-page-btn {
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
+
             gap: 6px;
+
+            min-height: 36px;
+
+            padding: 8px 13px;
+
+            background: #f4f8fc;
+
+            border: 1px solid #dfebf5;
+
+            border-radius: 9px;
+
+            color: #31516c;
+
+            font-size: 12px;
+            font-weight: 700;
 
             cursor: pointer;
 
-            padding: 8px 14px;
-
-            background: rgba(255,255,255,.20);
-
-            border-radius: 20px;
-
-            transition: .25s;
-
-            border: none;
-
-            color: white;
-
-            font-size: 13px;
-
-            font-weight: 600;
-
             text-decoration: none;
+
+            transition: .2s;
         }
 
         .nav-page-btn:hover {
-            background: rgba(255,255,255,.35);
+            background: #eaf5ff;
+
+            color: #1769aa;
+
+            border-color: #c7e3f8;
+
             transform: translateY(-1px);
         }
 
-        /* DASHBOARD ADMIN */
+        /* ADMIN DASHBOARD */
 
         #adminDashboardButton {
             display: none;
-            background: #059669;
+
+            background: #edf8f4;
+
+            color: #087f5b;
+
+            border-color: #ccefe1;
         }
 
         #adminDashboardButton:hover {
-            background: #047857;
+            background: #dff5ec;
+            color: #056b4d;
         }
 
         .cart-count,
         .order-count {
-            background: #ff4757;
-            padding: 2px 8px;
+            min-width: 20px;
+
+            padding: 2px 6px;
+
             border-radius: 10px;
-            font-weight: bold;
-            font-size: 11px;
+
+            background: #1769aa;
+
+            color: white;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-align: center;
         }
 
         .btn-login {
-            background: #10b981;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 36px;
+
+            padding: 8px 16px;
+
+            background: #1769aa;
+
             color: white;
 
             border: none;
 
-            padding: 8px 16px;
+            border-radius: 9px;
 
-            border-radius: 7px;
-
-            cursor: pointer;
-
-            font-size: 13px;
-
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 800;
 
             text-decoration: none;
 
-            transition: .25s;
+            transition: .2s;
+
+            box-shadow:
+                0 5px 12px rgba(23, 105, 170, .18);
         }
 
         .btn-login:hover {
-            background: #059669;
+            background: #0f568f;
+
             transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 16px rgba(23, 105, 170, .25);
         }
 
         .btn-logout {
-            background: #dc2626;
-            color: white;
+            min-height: 36px;
 
-            border: none;
+            padding: 8px 15px;
 
-            padding: 8px 16px;
+            background: #fff1f2;
 
-            border-radius: 7px;
+            color: #dc2626;
+
+            border: 1px solid #fecdd3;
+
+            border-radius: 9px;
 
             cursor: pointer;
 
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 800;
 
-            font-weight: 700;
-
-            transition: .25s;
+            transition: .2s;
         }
 
         .btn-logout:hover {
-            background: #b91c1c;
+            background: #ffe4e6;
+
+            transform: translateY(-1px);
         }
+
 
         /* =====================================================
            CONTAINER
         ===================================================== */
 
         .container {
-            max-width: 1200px;
+            width: 100%;
+            max-width: 1280px;
 
-            margin: 30px auto;
+            margin: 0 auto;
 
-            padding: 0 20px;
+            padding: 28px 22px 50px;
         }
 
         .section-header {
             margin-bottom: 25px;
         }
 
+
+        /* =====================================================
+           HERO FASHION
+        ===================================================== */
+
+        .shop-hero {
+            position: relative;
+
+            min-height: 235px;
+
+            padding: 38px 42px;
+
+            margin-bottom: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            overflow: hidden;
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #062b52 0%,
+                    #0c4f83 45%,
+                    #1976b9 100%
+                );
+
+            color: white;
+
+            box-shadow:
+                0 18px 40px rgba(6, 43, 82, .17);
+        }
+
+        .shop-hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 360px;
+            height: 360px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.055);
+
+            right: 70px;
+            top: -220px;
+        }
+
+        .shop-hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.045);
+
+            right: -90px;
+            bottom: -170px;
+        }
+
+        .shop-hero-content {
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 760px;
+        }
+
+        .shop-label {
+            display: inline-flex;
+            align-items: center;
+
+            margin-bottom: 10px;
+
+            color: #b9ddfa;
+
+            font-size: 11px;
+
+            font-weight: 850;
+
+            letter-spacing: 2.2px;
+        }
+
         #sectionTitle {
-            font-size: 28px;
+            margin: 0 0 9px;
 
-            color: #111827;
+            color: white;
 
-            margin-bottom: 15px;
+            font-size: 35px;
+
+            line-height: 1.15;
+
+            font-weight: 850;
+
+            letter-spacing: -.8px;
+        }
+
+        .shop-hero p {
+            max-width: 620px;
+
+            color: #dceeff;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        .shop-features {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 20px;
+        }
+
+        .shop-features span {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 12px;
+
+            background:
+                rgba(255,255,255,.10);
+
+            border:
+                1px solid rgba(255,255,255,.12);
+
+            border-radius: 30px;
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+        .shop-features i {
+            color: #a9dcff;
+        }
+
+        .shop-hero-icon {
+            position: relative;
+
+            z-index: 2;
+
+            margin-right: 35px;
+
+            font-size: 88px;
+
+            filter:
+                drop-shadow(
+                    0 15px 20px rgba(0,0,0,.15)
+                );
+        }
+
+
+        /* =====================================================
+           ADMIN MODE
+        ===================================================== */
+
+        .admin-mode-banner {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 15px 18px;
+
+            margin-bottom: 18px;
+
+            background: #edf8f4;
+
+            border: 1px solid #ccefe1;
+
+            border-left: 4px solid #0f9f72;
+
+            border-radius: 13px;
+
+            color: #135e49;
+        }
+
+        .admin-mode-banner div {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 2px;
+        }
+
+        .admin-mode-banner strong {
+            font-size: 13px;
+        }
+
+        .admin-mode-banner span {
+            color: #628376;
+
+            font-size: 12px;
+        }
+
+        .admin-mode-banner a {
+            color: #07825d;
+
+            font-size: 12px;
 
             font-weight: 800;
+
+            text-decoration: none;
+
+            white-space: nowrap;
         }
+
+        .admin-mode-banner a:hover {
+            text-decoration: underline;
+        }
+
 
         /* =====================================================
            GUEST INFO
         ===================================================== */
 
         .guest-info {
-            background: #eff6ff;
+            position: relative;
 
-            border: 1px solid #bfdbfe;
+            overflow: hidden;
 
-            color: #1d4ed8;
-
-            padding: 12px 15px;
-
-            border-radius: 8px;
+            padding: 23px 25px;
 
             margin-bottom: 20px;
 
-            font-size: 14px;
+            background:
+                linear-gradient(
+                    120deg,
+                    #edf7ff,
+                    #f7fbff
+                );
 
-            line-height: 1.6;
+            border: 1px solid #d5eafa;
+
+            border-radius: 16px;
+
+            color: #285675;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            box-shadow:
+                0 7px 20px rgba(23,105,170,.05);
         }
+
+        .guest-info::before {
+            content:
+                "WELCOME TO BLUESHOP";
+
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #3d8bc5;
+
+            font-size: 10px;
+
+            font-weight: 850;
+
+            letter-spacing: 2px;
+        }
+
+        .guest-info::after {
+            content: "✦";
+
+            position: absolute;
+
+            right: 35px;
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #c6e6fa;
+
+            font-size: 70px;
+        }
+
 
         /* =====================================================
            SEARCH
@@ -276,66 +635,94 @@
         .search-icon {
             position: absolute;
 
-            left: 15px;
-
+            left: 16px;
             top: 50%;
 
-            transform: translateY(-50%);
+            transform:
+                translateY(-50%);
 
-            color: #94a3b8;
+            color: #91a7ba;
+
+            font-size: 14px;
+
+            pointer-events: none;
         }
 
         #searchInput {
             width: 100%;
 
-            padding: 13px 15px 13px 43px;
+            height: 48px;
 
-            border: 2px solid #e5e7eb;
+            padding:
+                0 16px 0 45px;
 
-            border-radius: 9px;
+            border:
+                1px solid #dce7f0;
+
+            border-radius: 12px;
 
             background: white;
 
-            color: #111827;
+            color: #172033;
 
-            font-size: 14px;
+            font-size: 13px;
+
+            box-shadow:
+                0 4px 14px rgba(15,76,129,.035);
 
             transition: .2s;
+        }
+
+        #searchInput::placeholder {
+            color: #9aabb9;
         }
 
         #searchInput:focus {
             outline: none;
 
-            border-color: #667eea;
+            border-color: #65a9d8;
 
-            box-shadow: 0 0 0 3px rgba(102,126,234,.10);
+            box-shadow:
+                0 0 0 4px rgba(23,105,170,.08);
         }
 
         #btnAddProductNav {
             display: none;
 
-            background: #10b981;
+            height: 48px;
+
+            padding: 0 20px;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
+
+            background: #0f9f72;
 
             color: white;
 
             border: none;
 
-            padding: 12px 20px;
-
-            border-radius: 9px;
+            border-radius: 12px;
 
             cursor: pointer;
 
-            font-size: 14px;
+            font-size: 13px;
 
-            font-weight: 700;
+            font-weight: 800;
 
             white-space: nowrap;
+
+            transition: .2s;
         }
 
         #btnAddProductNav:hover {
-            background: #059669;
+            background: #087f5b;
+
+            transform: translateY(-1px);
         }
+
 
         /* =====================================================
            PROMO
@@ -346,24 +733,26 @@
 
             overflow: hidden;
 
+            margin-bottom: 25px;
+
+            padding: 12px 0;
+
             background:
                 linear-gradient(
                     90deg,
-                    #ff416c,
-                    #ff4b2b,
-                    #ff416c
+                    #08345e,
+                    #0d5f98,
+                    #1976b9,
+                    #0d5f98,
+                    #08345e
                 );
+
+            border-radius: 13px;
 
             color: white;
 
-            border-radius: 12px;
-
-            margin: 0 0 25px;
-
-            padding: 13px 0;
-
             box-shadow:
-                0 5px 15px rgba(255,65,108,.25);
+                0 8px 20px rgba(13,95,152,.16);
         }
 
         .promo-track {
@@ -373,7 +762,7 @@
 
             animation:
                 promoBerjalan
-                28s
+                30s
                 linear
                 infinite;
         }
@@ -383,9 +772,11 @@
 
             align-items: center;
 
-            margin-right: 45px;
+            margin-right: 42px;
 
-            font-size: 15px;
+            color: #eef8ff;
+
+            font-size: 13px;
 
             font-weight: 700;
 
@@ -393,16 +784,19 @@
         }
 
         .promo-track .promo-highlight {
-            background: white;
-
-            color: #ff416c;
-
             padding: 5px 12px;
 
-            border-radius: 20px;
+            background: white;
+
+            color: #0d5f98;
+
+            border-radius: 30px;
+
+            font-weight: 850;
         }
 
         @keyframes promoBerjalan {
+
             from {
                 transform: translateX(0);
             }
@@ -410,11 +804,13 @@
             to {
                 transform: translateX(-50%);
             }
+
         }
 
         .promo-banner:hover .promo-track {
             animation-play-state: paused;
         }
+
 
         /* =====================================================
            PRODUCT GRID
@@ -426,141 +822,176 @@
             grid-template-columns:
                 repeat(
                     auto-fill,
-                    minmax(240px, 1fr)
+                    minmax(235px, 1fr)
                 );
 
-            gap: 20px;
+            gap: 19px;
 
-            margin-top: 20px;
+            margin-top: 18px;
         }
 
         .product-card {
-            background: white;
-
-            border: 1px solid #e5e7eb;
-
-            border-radius: 13px;
+            position: relative;
 
             overflow: hidden;
 
+            background: white;
+
+            border:
+                1px solid #e3edf5;
+
+            border-radius: 17px;
+
             box-shadow:
-                0 2px 8px rgba(15,23,42,.06);
+                0 5px 18px rgba(15,76,129,.055);
 
-            transition: .25s;
-
-            position: relative;
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease,
+                border-color .25s ease;
         }
 
         .product-card:hover {
-            box-shadow:
-                0 10px 25px rgba(0,0,0,.12);
+            transform: translateY(-5px);
 
-            transform: translateY(-3px);
+            border-color: #cfe3f2;
+
+            box-shadow:
+                0 16px 35px rgba(15,76,129,.12);
         }
+
+
+        /* =====================================================
+           PRODUCT IMAGE
+        ===================================================== */
 
         .product-image-wrapper {
             position: relative;
 
             overflow: hidden;
+
+            background: #edf4fa;
         }
 
         .product-img {
+            display: block;
+
             width: 100%;
 
-            height: 220px;
+            height: 245px;
 
             object-fit: cover;
 
-            background: #f3f4f6;
-
-            display: block;
+            background: #edf4fa;
 
             cursor: pointer;
 
-            transition: .35s;
+            transition:
+                transform .45s ease;
         }
 
         .product-card:hover .product-img {
-            transform: scale(1.03);
+            transform: scale(1.045);
         }
 
         .stock-badge {
             position: absolute;
 
-            top: 10px;
+            top: 12px;
+            right: 12px;
 
-            right: 10px;
+            padding: 6px 10px;
 
-            background: rgba(17,24,39,.82);
+            background:
+                rgba(7,46,78,.88);
 
             color: white;
 
-            padding: 5px 9px;
+            border-radius: 20px;
 
-            border-radius: 15px;
+            font-size: 10px;
 
-            font-size: 11px;
+            font-weight: 800;
 
-            font-weight: 700;
+            backdrop-filter: blur(5px);
         }
 
         .stock-habis {
-            background: #dc2626;
+            background:
+                rgba(220,38,38,.92);
         }
 
-        .product-details {
-            padding: 15px;
 
+        /* =====================================================
+           PRODUCT DETAILS
+        ===================================================== */
+
+        .product-details {
             display: flex;
 
             flex-direction: column;
 
-            gap: 9px;
+            gap: 8px;
+
+            padding: 16px;
         }
 
         .product-name {
-            font-size: 16px;
+            min-height: 42px;
 
-            font-weight: 700;
+            color: #172b3e;
 
-            color: #333;
+            font-size: 15px;
 
-            min-height: 40px;
+            font-weight: 750;
+
+            line-height: 1.4;
 
             cursor: pointer;
 
-            line-height: 1.4;
+            transition: .2s;
         }
 
         .product-name:hover {
-            color: #667eea;
-        }
-
-        .product-price {
-            font-size: 19px;
-
-            color: #dc2626;
-
-            font-weight: 800;
+            color: #1769aa;
         }
 
         .product-rating {
             color: #f59e0b;
 
-            font-size: 13px;
+            font-size: 12px;
+
+            font-weight: 700;
         }
 
         .product-rating .rating-count {
-            color: #64748b;
+            color: #8498a9;
 
-            margin-left: 4px;
+            margin-left: 3px;
+
+            font-weight: 500;
+        }
+
+        .product-price {
+            color: #1769aa;
+
+            font-size: 20px;
+
+            font-weight: 850;
+
+            letter-spacing: -.3px;
         }
 
         .product-stock {
-            font-size: 12px;
+            color: #71889b;
 
-            color: #64748b;
+            font-size: 11px;
         }
+
+
+        /* =====================================================
+           PRODUCT BUTTONS
+        ===================================================== */
 
         .product-buttons {
             display: flex;
@@ -577,60 +1008,80 @@
         .btn-detail {
             flex: 1;
 
-            min-width: 80px;
+            min-width: 70px;
 
-            padding: 10px;
+            min-height: 38px;
 
-            border: none;
+            padding: 8px;
 
-            border-radius: 7px;
+            border-radius: 9px;
 
             cursor: pointer;
 
-            font-size: 12px;
+            font-size: 11px;
 
-            font-weight: 700;
+            font-weight: 800;
 
             transition: .2s;
         }
 
-        .btn-buy {
-            background: #667eea;
-
-            color: white;
-        }
-
-        .btn-buy:hover {
-            background: #5568d3;
-        }
-
-        .btn-add-cart {
-            background: white;
-
-            color: #1f2937;
-
-            border: 2px solid #e5e7eb;
-        }
-
-        .btn-add-cart:hover {
-            background: #f3f4f6;
-        }
-
         .btn-detail {
-            background: #111827;
+            background: #f1f7fc;
 
-            color: white;
+            color: #31516c;
+
+            border:
+                1px solid #dce9f3;
         }
 
         .btn-detail:hover {
-            background: #374151;
+            background: #e6f2fb;
+
+            color: #1769aa;
+        }
+
+        .btn-buy {
+            background: #1769aa;
+
+            color: white;
+
+            border: 1px solid #1769aa;
+
+            box-shadow:
+                0 4px 10px rgba(23,105,170,.13);
+        }
+
+        .btn-buy:hover {
+            background: #0f568f;
+
+            border-color: #0f568f;
+        }
+
+        .btn-add-cart {
+            flex: 0 0 45px;
+
+            background: white;
+
+            color: #1769aa;
+
+            border:
+                1px solid #cfe2ef;
+        }
+
+        .btn-add-cart:hover {
+            background: #edf7ff;
+
+            border-color: #9bc9e8;
         }
 
         .btn-disabled {
-            opacity: .5;
+            opacity: .45;
 
             cursor: not-allowed !important;
+
+            transform: none !important;
         }
+
 
         /* =====================================================
            RATING
@@ -639,47 +1090,52 @@
         .btn-rate {
             width: 100%;
 
-            padding: 10px;
+            min-height: 37px;
 
-            border: none;
+            margin-top: 3px;
 
-            border-radius: 7px;
+            padding: 8px;
+
+            background: #fff8e8;
+
+            color: #c27800;
+
+            border:
+                1px solid #f7dfaa;
+
+            border-radius: 9px;
 
             cursor: pointer;
 
-            font-size: 12px;
+            font-size: 11px;
 
-            font-weight: 700;
+            font-weight: 800;
 
-            background: #f59e0b;
-
-            color: white;
-
-            margin-top: 5px;
-
-            transition: .25s;
+            transition: .2s;
         }
 
         .btn-rate:hover {
-            background: #d97706;
+            background: #fff2cc;
+
+            border-color: #f2ce7b;
 
             transform: translateY(-1px);
         }
 
         .rating-star {
-            border: none;
+            padding: 5px;
 
             background: none;
 
-            font-size: 36px;
+            border: none;
 
             color: #cbd5e1;
+
+            font-size: 38px;
 
             cursor: pointer;
 
             transition: .2s;
-
-            padding: 5px;
         }
 
         .rating-star:hover,
@@ -692,75 +1148,89 @@
         .rating-stars-container {
             display: flex;
 
+            align-items: center;
             justify-content: center;
 
-            align-items: center;
+            gap: 4px;
 
-            gap: 5px;
-
-            margin: 20px 0;
+            margin: 18px 0;
         }
 
         .rating-info {
-            text-align: center;
-
-            color: #64748b;
-
-            font-size: 13px;
-
             margin-bottom: 15px;
+
+            color: #708496;
+
+            font-size: 12px;
+
+            text-align: center;
         }
 
+
         /* =====================================================
-           ADMIN
+           ADMIN ACTION
         ===================================================== */
 
         .admin-actions {
             display: flex;
 
-            gap: 8px;
+            gap: 7px;
 
-            padding-top: 10px;
+            padding-top: 11px;
 
-            border-top: 1px solid #eee;
+            margin-top: 2px;
+
+            border-top:
+                1px solid #edf1f4;
         }
 
         .btn-edit,
         .btn-delete {
             flex: 1;
 
-            padding: 8px;
+            min-height: 35px;
+
+            padding: 7px;
 
             border: none;
 
-            border-radius: 6px;
+            border-radius: 8px;
 
             cursor: pointer;
 
-            font-size: 12px;
+            font-size: 11px;
 
-            font-weight: 700;
+            font-weight: 800;
+
+            transition: .2s;
         }
 
         .btn-edit {
-            background: #3b82f6;
+            background: #edf6ff;
 
-            color: white;
-        }
+            color: #1769aa;
 
-        .btn-delete {
-            background: #ef4444;
-
-            color: white;
+            border:
+                1px solid #d2e9f9;
         }
 
         .btn-edit:hover {
-            background: #2563eb;
+            background: #dcefff;
+        }
+
+        .btn-delete {
+            background: #fff1f2;
+
+            color: #dc2626;
+
+            border:
+                1px solid #fecdd3;
         }
 
         .btn-delete:hover {
-            background: #dc2626;
+            background: #ffe4e6;
         }
+
 
         /* =====================================================
            MODAL
@@ -773,71 +1243,105 @@
 
             inset: 0;
 
-            background: rgba(0,0,0,.55);
-
-            justify-content: center;
-
-            align-items: center;
-
             z-index: 1000;
 
-            overflow-y: auto;
+            align-items: center;
+            justify-content: center;
 
             padding: 20px;
 
-            backdrop-filter: blur(3px);
+            background:
+                rgba(4, 25, 45, .62);
+
+            backdrop-filter: blur(7px);
+
+            overflow-y: auto;
         }
 
         .modal-content {
-            background: white;
-
-            border-radius: 13px;
-
-            padding: 30px;
+            width: 100%;
 
             max-width: 600px;
-
-            width: 100%;
 
             max-height: 90vh;
 
             overflow-y: auto;
 
+            padding: 28px;
+
+            background: white;
+
+            border:
+                1px solid #e0ebf4;
+
+            border-radius: 20px;
+
             box-shadow:
-                0 20px 50px rgba(0,0,0,.20);
+                0 25px 70px rgba(0,0,0,.22);
+
+            animation:
+                modalIn .22s ease;
+        }
+
+        @keyframes modalIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
         }
 
         .modal-header {
-            font-size: 20px;
-
-            font-weight: 800;
-
             margin-bottom: 20px;
 
-            color: #333;
+            color: #143d60;
+
+            font-size: 20px;
+
+            font-weight: 850;
         }
 
         .close-btn {
             float: right;
 
-            font-size: 28px;
+            width: 34px;
+            height: 34px;
 
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-            cursor: pointer;
+            margin-left: 10px;
 
-            color: #999;
+            background: #f3f7fa;
 
-            background: none;
+            color: #718496;
 
             border: none;
 
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            font-size: 23px;
+
             line-height: 1;
+
+            transition: .2s;
         }
 
         .close-btn:hover {
-            color: #333;
+            background: #e9f1f6;
+
+            color: #173c5c;
         }
+
 
         /* =====================================================
            FORM
@@ -852,11 +1356,11 @@
 
             margin-bottom: 6px;
 
-            font-weight: 700;
+            color: #304d65;
 
-            color: #333;
+            font-size: 12px;
 
-            font-size: 13px;
+            font-weight: 800;
         }
 
         input[type="text"],
@@ -864,17 +1368,31 @@
         textarea {
             width: 100%;
 
-            padding: 11px;
-
-            border: 2px solid #e5e7eb;
-
-            border-radius: 7px;
+            padding: 11px 12px;
 
             background: white;
 
-            color: #111827;
+            color: #172033;
 
-            font-size: 14px;
+            border:
+                1px solid #dce7ef;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            transition: .2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+
+            border-color: #65a9d8;
+
+            box-shadow:
+                0 0 0 3px rgba(23,105,170,.08);
         }
 
         textarea {
@@ -883,53 +1401,55 @@
             resize: vertical;
         }
 
-        input:focus,
-        textarea:focus {
-            outline: none;
-
-            border-color: #667eea;
-        }
 
         /* =====================================================
-           BUTTON
+           BUTTON GENERAL
         ===================================================== */
 
         .btn {
-            padding: 12px 20px;
+            min-height: 42px;
+
+            padding: 10px 18px;
 
             border: none;
 
-            border-radius: 7px;
+            border-radius: 9px;
 
             cursor: pointer;
 
-            font-size: 14px;
+            font-size: 13px;
 
-            font-weight: 700;
+            font-weight: 800;
+
+            transition: .2s;
         }
 
         .btn-primary {
-            background: #667eea;
+            width: 100%;
+
+            background: #1769aa;
 
             color: white;
 
-            width: 100%;
+            box-shadow:
+                0 5px 13px rgba(23,105,170,.15);
         }
 
         .btn-primary:hover {
-            background: #5568d3;
+            background: #0f568f;
         }
 
         .btn-secondary {
             background: white;
 
-            color: #1f2937;
+            color: #4e6578;
 
-            border: 2px solid #e5e7eb;
+            border:
+                1px solid #dce6ed;
         }
 
         .btn-secondary:hover {
-            background: #f3f4f6;
+            background: #f5f8fa;
         }
 
         .modal-buttons {
@@ -944,39 +1464,50 @@
             flex: 1;
         }
 
+
         /* =====================================================
-           LOADING / EMPTY / ERROR
+           LOADING / EMPTY
         ===================================================== */
 
         .loading,
         .empty-product {
-            text-align: center;
-
-            padding: 60px 20px;
-
-            color: #777;
-
             grid-column: 1 / -1;
+
+            padding: 75px 20px;
+
+            color: #8296a7;
+
+            text-align: center;
         }
 
         .loading {
-            font-size: 16px;
+            font-size: 14px;
+        }
+
+        .empty-product {
+            background: white;
+
+            border:
+                1px dashed #d6e4ed;
+
+            border-radius: 16px;
         }
 
         .error-box {
-            text-align: center;
+            grid-column: 1 / -1;
 
-            padding: 40px 20px;
+            padding: 45px 20px;
 
-            background: #fff1f2;
-
-            border: 1px solid #fecdd3;
-
-            border-radius: 12px;
+            background: #fff7f7;
 
             color: #991b1b;
 
-            grid-column: 1 / -1;
+            border:
+                1px solid #fecaca;
+
+            border-radius: 15px;
+
+            text-align: center;
         }
 
         .error-box strong {
@@ -986,20 +1517,23 @@
         }
 
         .retry-btn {
-            background: #667eea;
+            padding: 10px 18px;
+
+            background: #1769aa;
 
             color: white;
 
             border: none;
 
-            padding: 10px 18px;
-
             border-radius: 8px;
 
             cursor: pointer;
 
-            font-weight: 700;
+            font-size: 12px;
+
+            font-weight: 800;
         }
+
 
         /* =====================================================
            TOAST
@@ -1009,7 +1543,6 @@
             position: fixed;
 
             right: 20px;
-
             bottom: 20px;
 
             z-index: 2000;
@@ -1018,29 +1551,31 @@
 
             flex-direction: column;
 
-            gap: 10px;
+            gap: 9px;
         }
 
         .toast {
-            background: #111827;
+            min-width: 250px;
+
+            padding: 13px 17px;
+
+            background: #173b59;
 
             color: white;
 
-            padding: 13px 18px;
-
-            border-radius: 9px;
+            border-radius: 10px;
 
             box-shadow:
-                0 8px 25px rgba(0,0,0,.20);
+                0 10px 30px rgba(0,0,0,.18);
 
-            font-size: 13px;
+            font-size: 12px;
 
             animation:
                 toastIn .25s ease;
         }
 
         .toast.success {
-            background: #059669;
+            background: #087f5b;
         }
 
         .toast.error {
@@ -1048,35 +1583,74 @@
         }
 
         @keyframes toastIn {
+
             from {
                 opacity: 0;
-                transform: translateY(10px);
+
+                transform:
+                    translateY(12px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+
+                transform:
+                    translateY(0);
             }
+
         }
 
+
         /* =====================================================
-           RESPONSIVE
+           RESPONSIVE TABLET
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                padding: 12px 18px;
+            }
+
+            .shop-hero {
+                padding: 32px;
+            }
+
+            .shop-hero-icon {
+                margin-right: 10px;
+
+                font-size: 70px;
+            }
+
+            #productGrid {
+                grid-template-columns:
+                    repeat(
+                        auto-fill,
+                        minmax(210px, 1fr)
+                    );
+            }
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE MOBILE
         ===================================================== */
 
         @media (max-width: 768px) {
 
             .navbar {
-                flex-direction: column;
-
                 align-items: flex-start;
 
-                padding: 15px;
+                flex-direction: column;
+
+                gap: 11px;
             }
 
             .navbar-left {
                 width: 100%;
 
-                justify-content: space-between;
+                justify-content:
+                    space-between;
             }
 
             .navbar-right {
@@ -1085,16 +1659,23 @@
                 justify-content: flex-start;
             }
 
-            #productGrid {
-                grid-template-columns:
-                    repeat(
-                        auto-fill,
-                        minmax(170px,1fr)
-                    );
+            .container {
+                padding:
+                    20px 14px 40px;
             }
 
-            .product-img {
-                height: 180px;
+            .shop-hero {
+                min-height: 200px;
+
+                padding: 28px 25px;
+            }
+
+            #sectionTitle {
+                font-size: 28px;
+            }
+
+            .shop-hero-icon {
+                font-size: 60px;
             }
 
             .search-box {
@@ -1105,15 +1686,49 @@
                 width: 100%;
             }
 
-            .modal-content {
-                padding: 20px;
+            #productGrid {
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+                gap: 12px;
             }
+
+            .product-img {
+                height: 205px;
+            }
+
+            .product-details {
+                padding: 12px;
+            }
+
+            .product-buttons {
+                flex-direction: column;
+            }
+
+            .btn-add-cart {
+                flex: 1;
+            }
+
+            .admin-mode-banner {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
         }
 
-        @media (max-width: 480px) {
+
+        /* =====================================================
+           SMALL PHONE
+        ===================================================== */
+
+        @media (max-width: 520px) {
 
             .navbar-title {
-                font-size: 20px;
+                font-size: 19px;
             }
 
             .navbar-left {
@@ -1121,7 +1736,7 @@
 
                 align-items: flex-start;
 
-                gap: 7px;
+                gap: 6px;
             }
 
             .navbar-right {
@@ -1132,77 +1747,148 @@
             .badge,
             .btn-login,
             .btn-logout {
-                font-size: 11px;
+                min-height: 32px;
 
-                padding: 7px 9px;
+                padding: 6px 8px;
+
+                font-size: 10px;
             }
 
-            .container {
-                padding: 0 12px;
+            .shop-hero {
+                min-height: 220px;
+
+                padding: 25px 21px;
             }
 
             #sectionTitle {
-                font-size: 22px;
+                font-size: 24px;
+            }
+
+            .shop-hero p {
+                font-size: 12px;
+            }
+
+            .shop-features {
+                gap: 5px;
+            }
+
+            .shop-features span {
+                padding: 6px 8px;
+
+                font-size: 9px;
+            }
+
+            .shop-hero-icon {
+                display: none;
+            }
+
+            .guest-info {
+                padding: 18px;
+            }
+
+            .guest-info::after {
+                right: 15px;
+
+                font-size: 50px;
             }
 
             #productGrid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
 
-                gap: 10px;
+                gap: 9px;
+            }
+
+            .product-img {
+                height: 160px;
             }
 
             .product-details {
                 padding: 10px;
 
-                gap: 7px;
-            }
-
-            .product-img {
-                height: 150px;
+                gap: 6px;
             }
 
             .product-name {
-                font-size: 14px;
-
                 min-height: 38px;
+
+                font-size: 13px;
             }
 
             .product-price {
                 font-size: 16px;
             }
 
-            .product-buttons {
-                flex-direction: column;
+            .product-stock {
+                font-size: 9px;
             }
 
             .btn-buy,
             .btn-add-cart,
             .btn-detail {
-                width: 100%;
+                min-height: 34px;
+
+                padding: 7px;
+
+                font-size: 10px;
+            }
+
+            .btn-rate {
+                min-height: 33px;
+
+                font-size: 9px;
+            }
+
+            .stock-badge {
+                top: 7px;
+                right: 7px;
+
+                padding: 5px 7px;
+
+                font-size: 8px;
+            }
+
+            .promo-track span {
+                font-size: 11px;
+
+                margin-right: 25px;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-content {
+                padding: 20px;
+
+                border-radius: 16px;
             }
 
             .rating-star {
                 font-size: 30px;
             }
 
-            .promo-track span {
-                font-size: 12px;
+            #toastContainer {
+                left: 12px;
+                right: 12px;
 
-                margin-right: 30px;
+                bottom: 12px;
             }
 
             .toast {
-                left: 15px;
+                min-width: 0;
 
-                right: 15px;
-
-                bottom: 15px;
+                width: 100%;
             }
+
         }
     </style>
 </head>
 
-<body class="antialiased">
+<body>
 
     <!-- =====================================================
          NAVBAR
@@ -1225,9 +1911,9 @@
 
         </div>
 
+
         <div class="navbar-right">
 
-            <!-- ROLE -->
             <span
                 class="badge"
                 id="roleBadge"
@@ -1235,10 +1921,6 @@
                 👤 Guest
             </span>
 
-            <!-- =================================================
-                 DASHBOARD ADMIN
-                 HANYA MUNCUL UNTUK ADMIN
-            ================================================== -->
 
             <a
                 href="admin.html"
@@ -1248,7 +1930,6 @@
                 🛡️ Dashboard Admin
             </a>
 
-            <!-- KERANJANG -->
 
             <button
                 class="nav-page-btn"
@@ -1264,7 +1945,6 @@
                 </span>
             </button>
 
-            <!-- PESANAN -->
 
             <button
                 class="nav-page-btn"
@@ -1280,7 +1960,6 @@
                 </span>
             </button>
 
-            <!-- LOGIN -->
 
             <a
                 href="login.html?redirect=toko.html"
@@ -1290,7 +1969,6 @@
                 Login
             </a>
 
-            <!-- LOGOUT -->
 
             <button
                 class="btn-logout"
@@ -1314,27 +1992,115 @@
 
         <div class="section-header">
 
-            <h1 id="sectionTitle">
-                DAFTAR PRODUK
-            </h1>
+
+            <!-- =================================================
+                 HERO
+            ================================================== -->
+
+            <div class="shop-hero">
+
+                <div class="shop-hero-content">
+
+                    <div class="shop-label">
+                        BLUE SHOP • FASHION STORE
+                    </div>
+
+                    <h1 id="sectionTitle">
+                        Temukan Gaya Favoritmu ✨
+                    </h1>
+
+                    <p>
+                        Koleksi fashion pilihan untuk
+                        melengkapi penampilanmu setiap hari.
+                        Pilih outfit favoritmu dan belanja
+                        dengan nyaman di BlueShop.
+                    </p>
+
+
+                    <div class="shop-features">
+
+                        <span>
+                            <i class="fa-solid fa-shirt"></i>
+                            Fashion Terbaru
+                        </span>
+
+                        <span>
+                            <i class="fa-solid fa-tag"></i>
+                            Harga Terjangkau
+                        </span>
+
+                        <span>
+                            <i class="fa-solid fa-truck"></i>
+                            Pengiriman Cepat
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="shop-hero-icon">
+                    🛍️
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADMIN MODE
+            ================================================== -->
+
+            <div
+                class="admin-mode-banner"
+                id="adminModeBanner"
+                style="display:none;"
+            >
+
+                <div>
+
+                    <strong>
+                        🛡️ Mode Administrator
+                    </strong>
+
+                    <span>
+                        Kelola produk, stok, harga,
+                        dan katalog BlueShop.
+                    </span>
+
+                </div>
+
+                <a href="admin.html">
+                    Buka Dashboard →
+                </a>
+
+            </div>
+
+
+            <!-- =================================================
+                 GUEST
+            ================================================== -->
 
             <div
                 class="guest-info"
                 id="guestInfo"
             >
-                👋 Selamat datang di BlueShop Fashion.
-                Silakan login jika ingin menambahkan
-                produk ke keranjang atau melakukan pembelian.
+                ✨ Temukan outfit favoritmu di BlueShop Fashion.
+                Login untuk menikmati keranjang belanja dan
+                melakukan pembelian dengan lebih mudah.
             </div>
 
 
-            <!-- SEARCH -->
+            <!-- =================================================
+                 SEARCH
+            ================================================== -->
 
             <div class="search-box">
 
                 <div class="search-wrapper">
 
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <i
+                        class="fa-solid fa-magnifying-glass search-icon"
+                    ></i>
 
                     <input
                         type="text"
@@ -1344,13 +2110,13 @@
 
                 </div>
 
-                <!-- TAMBAH PRODUK KHUSUS ADMIN -->
 
                 <button
                     id="btnAddProductNav"
                     onclick="openProductModal(false)"
                 >
-                    ➕ Tambah Produk
+                    <i class="fa-solid fa-plus"></i>
+                    Tambah Produk
                 </button>
 
             </div>
@@ -1358,7 +2124,7 @@
 
             <!-- =================================================
                  PROMO
-            ================================================= -->
+            ================================================== -->
 
             <div class="promo-banner">
 
@@ -1397,11 +2163,9 @@
                     </span>
 
                     <span>
-                        🛍️ Belanja Fashion Sekarang di BlueShop!
+                        🛍️ Belanja Fashion Sekarang
                     </span>
 
-
-                    <!-- DUPLIKAT UNTUK LOOP -->
 
                     <span class="promo-highlight">
                         🔥 FLASH SALE
@@ -1436,7 +2200,7 @@
                     </span>
 
                     <span>
-                        🛍️ Belanja Fashion Sekarang di BlueShop!
+                        🛍️ Belanja Fashion Sekarang
                     </span>
 
                 </div>
@@ -1641,8 +2405,9 @@
                 style="
                     text-align:center;
                     font-size:18px;
-                    font-weight:600;
+                    font-weight:700;
                     margin-bottom:10px;
+                    color:#173d5c;
                 "
             >
                 Nama Produk
@@ -1751,7 +2516,6 @@ const SUPABASE_KEY =
 
 let _supabase = null;
 
-
 function initializeSupabase() {
 
     console.log("🔄 Memulai Supabase...");
@@ -1765,7 +2529,6 @@ function initializeSupabase() {
         return false;
     }
 
-
     if (
         typeof window.supabase.createClient !==
         "function"
@@ -1778,7 +2541,6 @@ function initializeSupabase() {
         return false;
     }
 
-
     try {
 
         _supabase =
@@ -1787,11 +2549,9 @@ function initializeSupabase() {
                 SUPABASE_KEY
             );
 
-
         console.log(
             "✅ Supabase client berhasil dibuat."
         );
-
 
         return true;
 
@@ -1804,7 +2564,6 @@ function initializeSupabase() {
 
         return false;
     }
-
 }
 
 
@@ -1862,40 +2621,31 @@ function showToast(
             "toastContainer"
         );
 
-
     if (!container) {
         return;
     }
-
 
     const toast =
         document.createElement(
             "div"
         );
 
-
     toast.className =
         "toast " + type;
 
-
     toast.innerText =
         message;
-
 
     container.appendChild(
         toast
     );
 
-
     setTimeout(
         function() {
-
             toast.remove();
-
         },
         3000
     );
-
 }
 
 
@@ -1910,7 +2660,6 @@ function getUserData() {
         localStorage.getItem("currentUser") ||
         localStorage.getItem("user_session")
     );
-
 }
 
 
@@ -1924,7 +2673,6 @@ function getUserKey() {
         return "guest";
     }
 
-
     return (
         currentUser.username ||
         currentUser.email ||
@@ -1936,7 +2684,6 @@ function getUserKey() {
             /[^a-zA-Z0-9_-]/g,
             "_"
         );
-
 }
 
 
@@ -1946,8 +2693,6 @@ function getUserKey() {
 
 function loadUserData() {
 
-    /* ================= CART ================= */
-
     try {
 
         const rawCart =
@@ -1955,17 +2700,14 @@ function loadUserData() {
                 "blueshop_cart"
             ) || "[]";
 
-
         cart =
             JSON.parse(
                 rawCart
             );
 
-
         if (!Array.isArray(cart)) {
             cart = [];
         }
-
 
         cart =
             cart.map(
@@ -2008,9 +2750,7 @@ function loadUserData() {
 
                         selected:
                             item.selected !== false
-
                     };
-
                 }
             );
 
@@ -2025,13 +2765,10 @@ function loadUserData() {
     }
 
 
-    /* ================= ORDERS ================= */
-
     try {
 
         const key =
             getUserKey();
-
 
         orders =
             JSON.parse(
@@ -2040,7 +2777,6 @@ function loadUserData() {
                     key
                 ) || "[]"
             );
-
 
         if (!Array.isArray(orders)) {
             orders = [];
@@ -2055,7 +2791,6 @@ function loadUserData() {
 
         orders = [];
     }
-
 }
 
 
@@ -2072,7 +2807,6 @@ function saveCart() {
             JSON.stringify(cart)
         );
 
-
         updateBadges();
 
     } catch (error) {
@@ -2087,7 +2821,6 @@ function saveCart() {
             "error"
         );
     }
-
 }
 
 
@@ -2099,7 +2832,6 @@ function checkUserRole() {
 
     const userData =
         getUserData();
-
 
     if (!userData) {
 
@@ -2113,18 +2845,14 @@ function checkUserRole() {
 
         };
 
-
         isAdmin = false;
-
 
         updateNavbar();
 
         loadUserData();
 
-
         return false;
     }
-
 
     try {
 
@@ -2140,10 +2868,7 @@ function checkUserRole() {
             error
         );
 
-
-        localStorage.removeItem(
-            "user"
-        );
+        localStorage.removeItem("user");
 
         localStorage.removeItem(
             "currentUser"
@@ -2152,7 +2877,6 @@ function checkUserRole() {
         localStorage.removeItem(
             "user_session"
         );
-
 
         currentUser = {
 
@@ -2164,18 +2888,14 @@ function checkUserRole() {
 
         };
 
-
         isAdmin = false;
-
 
         updateNavbar();
 
         loadUserData();
 
-
         return false;
     }
-
 
     if (
         !currentUser ||
@@ -2201,31 +2921,25 @@ function checkUserRole() {
         return false;
     }
 
-
     const role =
         String(
             currentUser.role || ""
         ).toLowerCase().trim();
-
 
     const username =
         String(
             currentUser.username || ""
         ).toLowerCase().trim();
 
-
     isAdmin =
         role === "admin" ||
         username === "admin";
-
 
     updateNavbar();
 
     loadUserData();
 
-
     return true;
-
 }
 
 
@@ -2240,62 +2954,58 @@ function updateNavbar() {
             "roleBadge"
         );
 
-
     const loginButton =
         document.getElementById(
             "loginButton"
         );
-
 
     const logoutButton =
         document.getElementById(
             "logoutButton"
         );
 
-
     const guestInfo =
         document.getElementById(
             "guestInfo"
         );
-
 
     const addButton =
         document.getElementById(
             "btnAddProductNav"
         );
 
-
-    const title =
-        document.getElementById(
-            "sectionTitle"
-        );
-
-
     const adminDashboardButton =
         document.getElementById(
             "adminDashboardButton"
         );
 
+    const adminModeBanner =
+        document.getElementById(
+            "adminModeBanner"
+        );
 
     if (
         !badge ||
         !loginButton ||
         !logoutButton ||
         !guestInfo ||
-        !addButton ||
-        !title
+        !addButton
     ) {
         return;
     }
 
 
-    /* DEFAULT */
-
     if (adminDashboardButton) {
 
         adminDashboardButton.style.display =
             "none";
+    }
 
+
+    if (adminModeBanner) {
+
+        adminModeBanner.style.display =
+            "none";
     }
 
 
@@ -2311,44 +3021,35 @@ function updateNavbar() {
         badge.innerText =
             "👤 Guest";
 
-
         badge.style.background =
-            "#0284c7";
+            "#edf6ff";
 
+        badge.style.color =
+            "#1769aa";
 
         loginButton.style.display =
-            "inline-block";
-
+            "inline-flex";
 
         logoutButton.style.display =
             "none";
 
-
         guestInfo.style.display =
             "block";
 
-
         addButton.style.display =
             "none";
-
-
-        title.innerText =
-            "DAFTAR PRODUK";
-
 
         if (adminDashboardButton) {
 
             adminDashboardButton.style.display =
                 "none";
-
         }
-
 
         return;
     }
 
 
-    /* ================= USER LOGIN ================= */
+    /* ================= LOGIN ================= */
 
     const displayName =
         currentUser.name ||
@@ -2364,33 +3065,30 @@ function updateNavbar() {
             "🛡️ Admin: " +
             displayName;
 
-
         badge.style.background =
-            "#10b981";
+            "#edf8f4";
 
+        badge.style.color =
+            "#087f5b";
 
         addButton.style.display =
-            "block";
-
-
-        title.innerText =
-            "DAFTAR PRODUK (ADMIN)";
-
-
-        /*
-         * Dashboard hanya tampil untuk admin
-         */
+            "inline-flex";
 
         if (adminDashboardButton) {
 
             adminDashboardButton.style.display =
-                "flex";
+                "inline-flex";
+        }
 
+        if (adminModeBanner) {
+
+            adminModeBanner.style.display =
+                "flex";
         }
 
     }
 
-    /* ================= USER BIASA ================= */
+    /* ================= USER ================= */
 
     else {
 
@@ -2398,62 +3096,31 @@ function updateNavbar() {
             "👤 User: " +
             displayName;
 
-
         badge.style.background =
-            "#0284c7";
+            "#edf6ff";
 
+        badge.style.color =
+            "#1769aa";
 
         addButton.style.display =
             "none";
-
-
-        title.innerText =
-            "DAFTAR PRODUK";
-
 
         if (adminDashboardButton) {
 
             adminDashboardButton.style.display =
                 "none";
-
         }
-
     }
 
 
     loginButton.style.display =
         "none";
 
-
     logoutButton.style.display =
-        "inline-block";
-
+        "inline-flex";
 
     guestInfo.style.display =
         "none";
-
-}
-
-
-/* =========================================================
-   OPEN ADMIN DASHBOARD
-========================================================= */
-
-function openAdminDashboard() {
-
-    if (!isAdmin) {
-
-        alert(
-            "Akses ditolak. Halaman ini hanya untuk admin."
-        );
-
-        return;
-    }
-
-
-    window.location.href =
-        "admin.html";
-
 }
 
 
@@ -2469,10 +3136,8 @@ document.addEventListener(
             "🚀 BlueShop starting..."
         );
 
-
         const ready =
             initializeSupabase();
-
 
         if (!ready) {
 
@@ -2483,21 +3148,16 @@ document.addEventListener(
             return;
         }
 
-
         checkUserRole();
-
 
         await fetchProducts();
 
-
         updateBadges();
-
 
         const searchInput =
             document.getElementById(
                 "searchInput"
             );
-
 
         if (searchInput) {
 
@@ -2505,7 +3165,6 @@ document.addEventListener(
                 "input",
                 filterProducts
             );
-
         }
 
     }
@@ -2523,11 +3182,9 @@ function showError(message) {
             "productGrid"
         );
 
-
     if (!grid) {
         return;
     }
-
 
     grid.innerHTML = `
 
@@ -2557,7 +3214,6 @@ function showError(message) {
         </div>
 
     `;
-
 }
 
 
@@ -2572,11 +3228,9 @@ async function fetchProducts() {
             "productGrid"
         );
 
-
     if (!grid) {
         return;
     }
-
 
     grid.innerHTML = `
 
@@ -2585,7 +3239,6 @@ async function fetchProducts() {
         </div>
 
     `;
-
 
     if (!isSupabaseReady()) {
 
@@ -2596,13 +3249,11 @@ async function fetchProducts() {
         return;
     }
 
-
     try {
 
         console.log(
             "🔄 Mengambil produk dari Supabase..."
         );
-
 
         const result =
             await _supabase
@@ -2615,23 +3266,11 @@ async function fetchProducts() {
                     }
                 );
 
-
         const data =
             result.data;
 
-
         const error =
             result.error;
-
-
-        console.log(
-            "📦 Supabase response:",
-            {
-                data,
-                error
-            }
-        );
-
 
         if (error) {
 
@@ -2640,7 +3279,6 @@ async function fetchProducts() {
                     error.message ||
                     ""
                 ).toLowerCase();
-
 
             if (
                 errorMessage.includes(
@@ -2653,24 +3291,19 @@ async function fetchProducts() {
                 );
             }
 
-
             throw error;
         }
-
 
         allProducts =
             Array.isArray(data)
                 ? data
                 : [];
 
-
         await fetchProductRatings();
-
 
         renderProducts(
             allProducts
         );
-
 
         console.log(
             "✅ Produk berhasil dimuat:",
@@ -2684,7 +3317,6 @@ async function fetchProducts() {
             error
         );
 
-
         if (
             error.message ===
             "INVALID_API_KEY"
@@ -2697,13 +3329,11 @@ async function fetchProducts() {
             return;
         }
 
-
         showError(
             error?.message ||
             "Terjadi kesalahan."
         );
     }
-
 }
 
 
@@ -2715,11 +3345,9 @@ async function fetchProductRatings() {
 
     productRatings = {};
 
-
     if (!isSupabaseReady()) {
         return;
     }
-
 
     try {
 
@@ -2730,14 +3358,11 @@ async function fetchProductRatings() {
                     "product_id,user_id,rating"
                 );
 
-
         const data =
             result.data;
 
-
         const error =
             result.error;
-
 
         if (error) {
 
@@ -2749,15 +3374,12 @@ async function fetchProductRatings() {
             return;
         }
 
-
         let user = null;
-
 
         try {
 
             const authResult =
                 await _supabase.auth.getUser();
-
 
             user =
                 authResult?.data?.user ||
@@ -2768,9 +3390,7 @@ async function fetchProductRatings() {
             console.warn(
                 "⚠️ Supabase Auth user tidak tersedia."
             );
-
         }
-
 
         (data || []).forEach(
             function(item) {
@@ -2779,7 +3399,6 @@ async function fetchProductRatings() {
                     String(
                         item.product_id
                     );
-
 
                 if (
                     !productRatings[
@@ -2798,9 +3417,7 @@ async function fetchProductRatings() {
                         mine: null
 
                     };
-
                 }
-
 
                 productRatings[
                     productId
@@ -2809,11 +3426,9 @@ async function fetchProductRatings() {
                         item.rating || 0
                     );
 
-
                 productRatings[
                     productId
                 ].count++;
-
 
                 if (
                     user &&
@@ -2827,12 +3442,9 @@ async function fetchProductRatings() {
                         Number(
                             item.rating
                         );
-
                 }
-
             }
         );
-
 
     } catch (error) {
 
@@ -2843,7 +3455,6 @@ async function fetchProductRatings() {
 
         productRatings = {};
     }
-
 }
 
 
@@ -2858,14 +3469,11 @@ function renderProducts(products) {
             "productGrid"
         );
 
-
     if (!grid) {
         return;
     }
 
-
     grid.innerHTML = "";
-
 
     if (
         !Array.isArray(products) ||
@@ -2882,9 +3490,17 @@ function renderProducts(products) {
 
                 <div style="
                     margin-top:10px;
-                    font-weight:600;
+                    font-weight:700;
+                    color:#49657c;
                 ">
                     Belum ada produk.
+                </div>
+
+                <div style="
+                    margin-top:5px;
+                    font-size:12px;
+                ">
+                    Produk akan tampil di sini.
                 </div>
 
             </div>
@@ -2894,7 +3510,6 @@ function renderProducts(products) {
         return;
     }
 
-
     products.forEach(
         function(product) {
 
@@ -2902,29 +3517,24 @@ function renderProducts(products) {
                 product.id_produk ??
                 product.id;
 
-
             const name =
                 product.nama_produk ||
                 "Produk Tanpa Nama";
-
 
             const price =
                 Number(
                     product.harga ?? 0
                 );
 
-
             const stock =
                 Number(
                     product.stok ?? 0
                 );
 
-
             const defaultRating =
                 Number(
                     product.rating ?? 5
                 );
-
 
             const ratingData =
                 productRatings[
@@ -2939,13 +3549,11 @@ function renderProducts(products) {
 
                 };
 
-
             const averageRating =
                 ratingData.count > 0
                     ? ratingData.total /
                       ratingData.count
                     : defaultRating;
-
 
             const ratingHTML =
                 ratingData.count > 0
@@ -2953,7 +3561,7 @@ function renderProducts(products) {
                     ? `
                         ⭐ ${averageRating.toFixed(1)} / 5
                         <span class="rating-count">
-                            (${ratingData.count} rating)
+                            (${ratingData.count})
                         </span>
                     `
 
@@ -2961,21 +3569,16 @@ function renderProducts(products) {
                         ⭐ ${averageRating.toFixed(1)} / 5
                     `;
 
-
             const image =
                 product.gambar ||
-                "https://placehold.co/600x400?text=BlueShop";
-
+                "https://placehold.co/600x500?text=BlueShop";
 
             const safeId =
                 JSON.stringify(
                     String(id)
                 );
 
-
-            let adminButtons =
-                "";
-
+            let adminButtons = "";
 
             if (isAdmin) {
 
@@ -3000,31 +3603,25 @@ function renderProducts(products) {
                     </div>
 
                 `;
-
             }
-
 
             const stockClass =
                 stock <= 0
                     ? "stock-badge stock-habis"
                     : "stock-badge";
 
-
             const stockText =
                 stock <= 0
                     ? "Stok Habis"
                     : "Stok " + stock;
-
 
             const card =
                 document.createElement(
                     "div"
                 );
 
-
             card.className =
                 "product-card";
-
 
             card.innerHTML = `
 
@@ -3035,7 +3632,7 @@ function renderProducts(products) {
                         class="product-img"
                         alt="${escapeAttribute(name)}"
                         onclick='goToDetail(${safeId})'
-                        onerror="this.onerror=null;this.src='https://placehold.co/600x400?text=No+Image';"
+                        onerror="this.onerror=null;this.src='https://placehold.co/600x500?text=No+Image';"
                     >
 
                     <span class="${stockClass}">
@@ -3093,6 +3690,7 @@ function renderProducts(products) {
                             class="btn-add-cart ${stock <= 0 ? "btn-disabled" : ""}"
                             onclick='addToCart(${safeId})'
                             ${stock <= 0 ? "disabled" : ""}
+                            title="Tambah ke keranjang"
                         >
                             🛒
                         </button>
@@ -3114,52 +3712,32 @@ function renderProducts(products) {
 
             `;
 
-
             grid.appendChild(
                 card
             );
 
         }
     );
-
 }
 
 
 /* =========================================================
-   ESCAPE HTML
+   ESCAPE
 ========================================================= */
 
 function escapeHTML(text) {
 
     return String(text ?? "")
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
-
 
 function escapeAttribute(text) {
 
     return escapeHTML(text);
-
 }
 
 
@@ -3172,7 +3750,6 @@ function goToDetail(id) {
     window.location.href =
         "detail-produk.html?id=" +
         encodeURIComponent(id);
-
 }
 
 
@@ -3187,17 +3764,14 @@ function filterProducts() {
             "searchInput"
         );
 
-
     if (!input) {
         return;
     }
-
 
     const keyword =
         input.value
             .toLowerCase()
             .trim();
-
 
     const filtered =
         allProducts.filter(
@@ -3209,27 +3783,22 @@ function filterProducts() {
                         ""
                     ).toLowerCase();
 
-
                 const description =
                     String(
                         product.deskripsi ||
                         ""
                     ).toLowerCase();
 
-
                 return (
                     name.includes(keyword) ||
                     description.includes(keyword)
                 );
-
             }
         );
-
 
     renderProducts(
         filtered
     );
-
 }
 
 
@@ -3245,7 +3814,6 @@ function requireLoginForAction(
     const userData =
         getUserData();
 
-
     if (!userData) {
 
         alert(
@@ -3254,20 +3822,16 @@ function requireLoginForAction(
             "."
         );
 
-
         window.location.href =
             "login.html?redirect=" +
             encodeURIComponent(
                 redirectPage
             );
 
-
         return false;
     }
 
-
     return true;
-
 }
 
 
@@ -3288,7 +3852,6 @@ function getProductById(productId) {
 
         }
     );
-
 }
 
 
@@ -3307,7 +3870,6 @@ async function openRatingModal(productId) {
         return;
     }
 
-
     if (!isSupabaseReady()) {
 
         alert(
@@ -3317,15 +3879,12 @@ async function openRatingModal(productId) {
         return;
     }
 
-
     let user = null;
-
 
     try {
 
         const result =
             await _supabase.auth.getUser();
-
 
         user =
             result?.data?.user ||
@@ -3337,9 +3896,7 @@ async function openRatingModal(productId) {
             "❌ GET USER ERROR:",
             error
         );
-
     }
-
 
     if (!user) {
 
@@ -3350,12 +3907,10 @@ async function openRatingModal(productId) {
         return;
     }
 
-
     const product =
         getProductById(
             productId
         );
-
 
     if (!product) {
 
@@ -3366,21 +3921,17 @@ async function openRatingModal(productId) {
         return;
     }
 
-
     ratingProductId =
         product.id_produk ??
         product.id;
 
-
     selectedRating = 0;
-
 
     document.getElementById(
         "ratingProductName"
     ).innerText =
         product.nama_produk ||
         "Produk";
-
 
     try {
 
@@ -3400,14 +3951,12 @@ async function openRatingModal(productId) {
             )
             .maybeSingle();
 
-
         if (error) {
 
             console.error(
                 "❌ CHECK RATING ERROR:",
                 error
             );
-
 
             alert(
                 "Gagal mengecek rating:\n" +
@@ -3417,25 +3966,20 @@ async function openRatingModal(productId) {
             return;
         }
 
-
         if (data) {
 
             selectedRating =
                 Number(
                     data.rating
                 );
-
         }
 
-
         updateRatingStars();
-
 
         document.getElementById(
             "ratingModal"
         ).style.display =
             "flex";
-
 
     } catch (error) {
 
@@ -3444,13 +3988,10 @@ async function openRatingModal(productId) {
             error
         );
 
-
         alert(
             "Gagal membuka rating."
         );
-
     }
-
 }
 
 
@@ -3463,9 +4004,7 @@ function selectRating(value) {
     selectedRating =
         Number(value);
 
-
     updateRatingStars();
-
 }
 
 
@@ -3487,7 +4026,6 @@ function updateRatingStars() {
                         star.dataset.rating
                     );
 
-
                 if (
                     value <=
                     selectedRating
@@ -3502,23 +4040,18 @@ function updateRatingStars() {
                     star.classList.remove(
                         "active"
                     );
-
                 }
-
             }
         );
-
 
     const valueText =
         document.getElementById(
             "ratingValue"
         );
 
-
     if (!valueText) {
         return;
     }
-
 
     valueText.innerText =
         selectedRating > 0
@@ -3526,7 +4059,6 @@ function updateRatingStars() {
               selectedRating +
               " / 5"
             : "Pilih rating 1–5";
-
 }
 
 
@@ -3548,7 +4080,6 @@ async function saveRating() {
         return;
     }
 
-
     if (!isSupabaseReady()) {
 
         alert(
@@ -3558,15 +4089,12 @@ async function saveRating() {
         return;
     }
 
-
     let user = null;
-
 
     try {
 
         const result =
             await _supabase.auth.getUser();
-
 
         user =
             result?.data?.user ||
@@ -3578,9 +4106,7 @@ async function saveRating() {
             "GET USER ERROR:",
             error
         );
-
     }
-
 
     if (!user) {
 
@@ -3590,7 +4116,6 @@ async function saveRating() {
 
         return;
     }
-
 
     try {
 
@@ -3618,27 +4143,21 @@ async function saveRating() {
                 }
             );
 
-
         if (error) {
             throw error;
         }
-
 
         showToast(
             "⭐ Rating berhasil disimpan!"
         );
 
-
         closeRatingModal();
 
-
         await fetchProductRatings();
-
 
         renderProducts(
             allProducts
         );
-
 
     } catch (error) {
 
@@ -3647,14 +4166,11 @@ async function saveRating() {
             error
         );
 
-
         alert(
             "Gagal menyimpan rating:\n" +
             error.message
         );
-
     }
-
 }
 
 
@@ -3669,25 +4185,19 @@ function closeRatingModal() {
             "ratingModal"
         );
 
-
     if (modal) {
 
         modal.style.display =
             "none";
-
     }
-
 
     ratingProductId =
         null;
 
-
     selectedRating =
         0;
 
-
     updateRatingStars();
-
 }
 
 
@@ -3706,12 +4216,10 @@ function addToCart(productId) {
         return;
     }
 
-
     const product =
         getProductById(
             productId
         );
-
 
     if (!product) {
 
@@ -3722,32 +4230,26 @@ function addToCart(productId) {
         return;
     }
 
-
     const id =
         product.id_produk ??
         product.id;
 
-
     const name =
         product.nama_produk ||
         "Produk";
-
 
     const price =
         Number(
             product.harga || 0
         );
 
-
     const image =
         product.gambar || "";
-
 
     const stock =
         Number(
             product.stok || 0
         );
-
 
     if (stock <= 0) {
 
@@ -3758,7 +4260,6 @@ function addToCart(productId) {
         return;
     }
 
-
     const existingItem =
         cart.find(
             function(item) {
@@ -3767,10 +4268,8 @@ function addToCart(productId) {
                     item.id
                 ) ===
                 String(id);
-
             }
         );
-
 
     if (existingItem) {
 
@@ -3778,7 +4277,6 @@ function addToCart(productId) {
             Number(
                 existingItem.qty || 0
             );
-
 
         if (
             currentQty >=
@@ -3792,10 +4290,8 @@ function addToCart(productId) {
             return;
         }
 
-
         existingItem.qty =
             currentQty + 1;
-
 
         existingItem.selected =
             true;
@@ -3817,18 +4313,14 @@ function addToCart(productId) {
             selected: true
 
         });
-
     }
 
-
     saveCart();
-
 
     showToast(
         name +
         " berhasil ditambahkan ke keranjang!"
     );
-
 }
 
 
@@ -3847,12 +4339,10 @@ function buyNow(productId) {
         return;
     }
 
-
     const product =
         getProductById(
             productId
         );
-
 
     if (!product) {
 
@@ -3863,32 +4353,26 @@ function buyNow(productId) {
         return;
     }
 
-
     const id =
         product.id_produk ??
         product.id;
 
-
     const name =
         product.nama_produk ||
         "Produk";
-
 
     const price =
         Number(
             product.harga || 0
         );
 
-
     const image =
         product.gambar || "";
-
 
     const stock =
         Number(
             product.stok || 0
         );
-
 
     if (stock <= 0) {
 
@@ -3899,7 +4383,6 @@ function buyNow(productId) {
         return;
     }
 
-
     cart =
         cart.map(
             function(item) {
@@ -3908,10 +4391,8 @@ function buyNow(productId) {
                     ...item,
                     selected: false
                 };
-
             }
         );
-
 
     const existingItem =
         cart.find(
@@ -3921,10 +4402,8 @@ function buyNow(productId) {
                     item.id
                 ) ===
                 String(id);
-
             }
         );
-
 
     if (existingItem) {
 
@@ -3950,16 +4429,12 @@ function buyNow(productId) {
             selected: true
 
         });
-
     }
-
 
     saveCart();
 
-
     window.location.href =
         "cart.html";
-
 }
 
 
@@ -3978,10 +4453,8 @@ function openCartPage() {
         return;
     }
 
-
     window.location.href =
         "cart.html";
-
 }
 
 
@@ -4000,10 +4473,8 @@ function openOrdersPage() {
         return;
     }
 
-
     window.location.href =
         "orders.html";
-
 }
 
 
@@ -4018,12 +4489,10 @@ function updateBadges() {
             "cartBadge"
         );
 
-
     const orderBadge =
         document.getElementById(
             "orderBadge"
         );
-
 
     const totalQty =
         cart.reduce(
@@ -4040,22 +4509,17 @@ function updateBadges() {
             0
         );
 
-
     if (cartBadge) {
 
         cartBadge.innerText =
             totalQty;
-
     }
-
 
     if (orderBadge) {
 
         orderBadge.innerText =
             orders.length;
-
     }
-
 }
 
 
@@ -4076,29 +4540,24 @@ function openProductModal(
         return;
     }
 
-
     const modal =
         document.getElementById(
             "productModal"
         );
-
 
     const title =
         document.getElementById(
             "productModalTitle"
         );
 
-
     if (!modal || !title) {
         return;
     }
-
 
     title.innerText =
         isEdit
             ? "Edit Produk"
             : "Tambah Produk Baru";
-
 
     if (!isEdit) {
 
@@ -4106,42 +4565,33 @@ function openProductModal(
             "productId"
         ).value = "";
 
-
         document.getElementById(
             "productName"
         ).value = "";
-
 
         document.getElementById(
             "productPrice"
         ).value = "";
 
-
         document.getElementById(
             "productStock"
         ).value = "100";
-
 
         document.getElementById(
             "productRating"
         ).value = "5";
 
-
         document.getElementById(
             "productImage"
         ).value = "";
 
-
         document.getElementById(
             "productDescription"
         ).value = "";
-
     }
-
 
     modal.style.display =
         "flex";
-
 }
 
 
@@ -4156,14 +4606,11 @@ function closeProductModal() {
             "productModal"
         );
 
-
     if (modal) {
 
         modal.style.display =
             "none";
-
     }
-
 }
 
 
@@ -4182,7 +4629,6 @@ async function saveProduct() {
         return;
     }
 
-
     if (!isSupabaseReady()) {
 
         alert(
@@ -4192,18 +4638,15 @@ async function saveProduct() {
         return;
     }
 
-
     const id =
         document.getElementById(
             "productId"
         ).value;
 
-
     const nama_produk =
         document.getElementById(
             "productName"
         ).value.trim();
-
 
     const harga =
         Number(
@@ -4212,14 +4655,12 @@ async function saveProduct() {
             ).value
         );
 
-
     const stok =
         Number(
             document.getElementById(
                 "productStock"
             ).value
         );
-
 
     const rating =
         Number(
@@ -4228,18 +4669,15 @@ async function saveProduct() {
             ).value
         );
 
-
     const gambar =
         document.getElementById(
             "productImage"
         ).value.trim();
 
-
     const deskripsi =
         document.getElementById(
             "productDescription"
         ).value.trim();
-
 
     if (!nama_produk) {
 
@@ -4249,7 +4687,6 @@ async function saveProduct() {
 
         return;
     }
-
 
     if (
         Number.isNaN(harga) ||
@@ -4263,7 +4700,6 @@ async function saveProduct() {
         return;
     }
 
-
     if (
         Number.isNaN(stok) ||
         stok < 0
@@ -4275,7 +4711,6 @@ async function saveProduct() {
 
         return;
     }
-
 
     if (
         Number.isNaN(rating) ||
@@ -4289,7 +4724,6 @@ async function saveProduct() {
 
         return;
     }
-
 
     const productData = {
 
@@ -4307,11 +4741,9 @@ async function saveProduct() {
 
     };
 
-
     try {
 
         let result;
-
 
         if (id) {
 
@@ -4334,14 +4766,11 @@ async function saveProduct() {
                     .insert(
                         productData
                     );
-
         }
-
 
         if (result.error) {
             throw result.error;
         }
-
 
         showToast(
             id
@@ -4349,12 +4778,9 @@ async function saveProduct() {
                 : "✅ Produk berhasil ditambahkan!"
         );
 
-
         closeProductModal();
 
-
         await fetchProducts();
-
 
     } catch (error) {
 
@@ -4363,14 +4789,11 @@ async function saveProduct() {
             error
         );
 
-
         alert(
             "Gagal menyimpan produk:\n" +
             error.message
         );
-
     }
-
 }
 
 
@@ -4384,10 +4807,8 @@ function editProduct(id) {
         return;
     }
 
-
     const product =
         getProductById(id);
-
 
     if (!product) {
 
@@ -4398,52 +4819,43 @@ function editProduct(id) {
         return;
     }
 
-
     document.getElementById(
         "productId"
     ).value =
         product.id_produk ??
         product.id;
 
-
     document.getElementById(
         "productName"
     ).value =
         product.nama_produk || "";
-
 
     document.getElementById(
         "productPrice"
     ).value =
         product.harga || 0;
 
-
     document.getElementById(
         "productStock"
     ).value =
         product.stok || 0;
-
 
     document.getElementById(
         "productRating"
     ).value =
         product.rating ?? 5;
 
-
     document.getElementById(
         "productImage"
     ).value =
         product.gambar || "";
-
 
     document.getElementById(
         "productDescription"
     ).value =
         product.deskripsi || "";
 
-
     openProductModal(true);
-
 }
 
 
@@ -4462,7 +4874,6 @@ async function deleteProduct(id) {
         return;
     }
 
-
     if (!isSupabaseReady()) {
 
         alert(
@@ -4472,17 +4883,14 @@ async function deleteProduct(id) {
         return;
     }
 
-
     const yakin =
         confirm(
             "Yakin ingin menghapus produk ini?"
         );
 
-
     if (!yakin) {
         return;
     }
-
 
     try {
 
@@ -4496,19 +4904,15 @@ async function deleteProduct(id) {
                 id
             );
 
-
         if (error) {
             throw error;
         }
-
 
         showToast(
             "🗑️ Produk berhasil dihapus!"
         );
 
-
         await fetchProducts();
-
 
     } catch (error) {
 
@@ -4517,14 +4921,11 @@ async function deleteProduct(id) {
             error
         );
 
-
         alert(
             "Gagal menghapus produk:\n" +
             error.message
         );
-
     }
-
 }
 
 
@@ -4539,7 +4940,6 @@ async function logout() {
         if (_supabase) {
 
             await _supabase.auth.signOut();
-
         }
 
     } catch (error) {
@@ -4548,28 +4948,22 @@ async function logout() {
             "LOGOUT SUPABASE ERROR:",
             error
         );
-
     }
-
 
     localStorage.removeItem(
         "user"
     );
 
-
     localStorage.removeItem(
         "currentUser"
     );
-
 
     localStorage.removeItem(
         "user_session"
     );
 
-
     window.location.href =
         "toko.html";
-
 }
 
 
@@ -4586,12 +4980,10 @@ window.addEventListener(
                 "productModal"
             );
 
-
         const ratingModal =
             document.getElementById(
                 "ratingModal"
             );
-
 
         if (
             event.target ===
@@ -4599,9 +4991,7 @@ window.addEventListener(
         ) {
 
             closeProductModal();
-
         }
-
 
         if (
             event.target ===
@@ -4609,7 +4999,6 @@ window.addEventListener(
         ) {
 
             closeRatingModal();
-
         }
 
     }
@@ -4632,7 +5021,6 @@ window.addEventListener(
             closeProductModal();
 
             closeRatingModal();
-
         }
 
     }

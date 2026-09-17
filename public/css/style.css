@@ -24,6 +24,10 @@ a {
     color: inherit;
 }
 
+img {
+    max-width: 100%;
+}
+
 
 /* ==========================================
    NAVBAR
@@ -1223,8 +1227,9 @@ footer span {
     }
 
     .experience-photo {
-        height: 210px;
+        height: 200px;
         margin-top: 18px;
+        border-radius: 12px;
     }
 
     /* Tombol belanja di HP */
@@ -1233,14 +1238,6 @@ footer span {
         width: 100%;
         text-align: center;
         padding: 11px 15px;
-    }
-
-    /* Foto pengalaman di HP */
-
-    .experience-photo {
-        height: 200px;
-        margin-top: 18px;
-        border-radius: 12px;
     }
 
     /* Foto prestasi di HP */
