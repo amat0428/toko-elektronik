@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -27,22 +28,28 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f4f6f9;
+            color: #222;
         }
+
+        /* ================= HEADER ================= */
 
         .header {
             background: white;
-            padding: 20px 30px;
+            padding: 18px 30px;
             border-bottom: 1px solid #ddd;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .header h1 {
             margin: 0;
-            font-size: 28px;
-            color: #222;
+            font-size: 27px;
+            font-weight: 700;
         }
 
         .header small {
@@ -51,7 +58,7 @@
 
         .nav-links {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
@@ -59,10 +66,13 @@
         .logout-btn {
             text-decoration: none;
             border: none;
-            padding: 10px 15px;
+            padding: 10px 14px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
         }
 
         .btn-dashboard {
@@ -75,13 +85,28 @@
             color: white;
         }
 
+        .btn-refresh {
+            background: #6f42c1;
+            color: white;
+        }
+
         .btn-logout {
             background: #dc3545;
             color: white;
         }
 
+        .nav-links a:hover,
+        .logout-btn:hover {
+            opacity: .9;
+            color: white;
+        }
+
+        /* ================= CONTENT ================= */
+
         .container-main {
             padding: 30px;
+            max-width: 1500px;
+            margin: auto;
         }
 
         .welcome {
@@ -95,6 +120,8 @@
         .welcome h2 {
             margin-bottom: 8px;
         }
+
+        /* ================= STAT ================= */
 
         .stats-container {
             display: grid;
@@ -111,8 +138,8 @@
         }
 
         .stat-icon {
-            font-size: 35px;
-            margin-bottom: 15px;
+            font-size: 38px;
+            margin-bottom: 12px;
         }
 
         .stat-card h3 {
@@ -128,6 +155,13 @@
             color: #0d6efd;
         }
 
+        #adminStatus {
+            font-size: 22px !important;
+            color: #198754 !important;
+        }
+
+        /* ================= MENU ================= */
+
         .quick-menu {
             margin-top: 30px;
             background: white;
@@ -136,26 +170,251 @@
             box-shadow: 0 2px 10px rgba(0,0,0,.06);
         }
 
-        .quick-menu h3 {
-            margin-bottom: 20px;
-        }
-
         .quick-buttons {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
-        .quick-buttons a {
-            text-decoration: none;
+        .quick-buttons button {
+            border: none;
             padding: 13px 20px;
             border-radius: 10px;
-            background: #0d6efd;
             color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .menu-orders {
+            background: #0d6efd;
+        }
+
+        .menu-products {
+            background: #198754;
+        }
+
+        .menu-store {
+            background: #fd7e14;
+        }
+
+        /* ================= SECTION ================= */
+
+        .admin-section {
+            background: white;
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            font-size: 23px;
+        }
+
+        /* ================= ORDER CARD ================= */
+
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .order-header {
+            background: #f8f9fa;
+            padding: 15px 18px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        .order-body {
+            padding: 18px;
+        }
+
+        .customer-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 9px;
+        }
+
+        .info-box strong {
+            display: block;
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 4px;
+        }
+
+        .order-items {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 9px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .order-total {
+            text-align: right;
+            margin-top: 15px;
+            font-size: 19px;
             font-weight: bold;
         }
 
-        .status {
+        .status-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .status-area select {
+            max-width: 250px;
+        }
+
+        /* ================= STATUS BADGE ================= */
+
+        .status-badge {
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .status-menunggu {
+            background: #fff3cd;
+            color: #664d03;
+        }
+
+        .status-diproses {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-dikirim {
+            background: #cff4fc;
+            color: #055160;
+        }
+
+        .status-selesai {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-dibatalkan {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        /* ================= PRODUCT ================= */
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 13px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #eee;
+        }
+
+        .product-content {
+            padding: 15px;
+        }
+
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .product-price {
+            color: #0d6efd;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .product-actions button {
+            flex: 1;
+            border: none;
+            padding: 8px;
+            border-radius: 7px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background: #ffc107;
+            color: #222 !important;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #777;
+        }
+
+        .empty i {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        /* ================= SYSTEM STATUS ================= */
+
+        .status-system {
             margin-top: 25px;
             padding: 15px;
             border-radius: 10px;
@@ -163,22 +422,57 @@
             color: #0f5132;
         }
 
-        .loading {
-            opacity: .6;
+        .status-system.error {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        /* ================= MODAL ================= */
+
+        .modal-content {
+            border-radius: 15px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
+
             .header {
                 flex-direction: column;
                 align-items: flex-start;
+                padding: 15px;
+            }
+
+            .container-main {
+                padding: 15px;
             }
 
             .stats-container {
                 grid-template-columns: 1fr;
             }
 
-            .container-main {
-                padding: 15px;
+            .customer-info {
+                grid-template-columns: 1fr;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                width: 100%;
+            }
+
+            .nav-links a,
+            .logout-btn {
+                flex: 1;
+                justify-content: center;
             }
         }
     </style>
@@ -186,44 +480,172 @@
 
 <body>
 
-    <!-- HEADER -->
-    <div class="header">
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-        <div>
-            <h1>
-                <i class="fa-solid fa-gauge-high"></i>
-                Dashboard Admin
-            </h1>
+<div class="header">
 
-            <small>
-                BlueShop - Panel Administrasi
-            </small>
+    <div>
+        <h1>
+            <i class="fa-solid fa-gauge-high"></i>
+            Dashboard Admin
+        </h1>
+
+        <small>
+            BlueShop - Panel Administrasi
+        </small>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="admin.html" class="btn-dashboard">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+
+        <a href="toko.html" class="btn-store">
+            <i class="fa-solid fa-store"></i>
+            Ke Toko
+        </a>
+
+        <button onclick="loadAllData()" class="logout-btn btn-refresh">
+            <i class="fa-solid fa-rotate"></i>
+            Refresh
+        </button>
+
+        <button onclick="logout()" class="logout-btn btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<div class="container-main">
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h2>
+            Halo, <span id="adminName">Admin</span> 👋
+        </h2>
+
+        <p class="mb-0">
+            Selamat datang di Dashboard Admin BlueShop.
+            Kelola pesanan dan produk toko dari sini.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <div class="stats-container">
+
+        <!-- TOTAL PESANAN -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📦
+            </div>
+
+            <h3>
+                Total Pesanan
+            </h3>
+
+            <p id="totalOrders">
+                0
+            </p>
+
         </div>
 
-        <div class="nav-links">
 
-            <a
-                href="admin.html"
-                class="btn-dashboard"
-            >
-                <i class="fa-solid fa-house"></i>
-                Dashboard
-            </a>
+        <!-- TOTAL PRODUK -->
 
-            <a
-                href="toko.html"
-                class="btn-store"
-            >
-                <i class="fa-solid fa-store"></i>
-                Ke Toko
-            </a>
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🛍️
+            </div>
+
+            <h3>
+                Total Produk
+            </h3>
+
+            <p id="totalProducts">
+                0
+            </p>
+
+        </div>
+
+
+        <!-- STATUS ADMIN -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🛡️
+            </div>
+
+            <h3>
+                Status Akun
+            </h3>
+
+            <p id="adminStatus">
+                Admin Active
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         MENU ADMIN
+    ================================================== -->
+
+    <div class="quick-menu">
+
+        <h3>
+            <i class="fa-solid fa-bolt"></i>
+            Menu Admin
+        </h3>
+
+        <div class="quick-buttons">
 
             <button
-                onclick="logout()"
-                class="logout-btn btn-logout"
+                class="menu-orders"
+                onclick="showSection('ordersSection')"
             >
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
+                <i class="fa-solid fa-box"></i>
+                Lihat Pesanan
+            </button>
+
+            <button
+                class="menu-products"
+                onclick="showSection('productsSection')"
+            >
+                <i class="fa-solid fa-cart-shopping"></i>
+                Kelola Produk
+            </button>
+
+            <button
+                class="menu-store"
+                onclick="window.location.href='toko.html'"
+            >
+                <i class="fa-solid fa-store"></i>
+                Lihat Toko
             </button>
 
         </div>
@@ -231,561 +653,1855 @@
     </div>
 
 
-    <!-- CONTENT -->
-    <div class="container-main">
+    <!-- =================================================
+         PESANAN
+    ================================================== -->
 
-        <!-- WELCOME -->
-        <div class="welcome">
+    <div
+        class="admin-section"
+        id="ordersSection"
+    >
+
+        <div class="section-title">
 
             <h2>
-                Halo, <span id="adminName">Admin</span> 👋
+                <i class="fa-solid fa-box"></i>
+                Daftar Pesanan
             </h2>
 
-            <p class="mb-0">
-                Selamat datang di Dashboard Admin BlueShop.
-            </p>
+            <button
+                class="btn btn-primary"
+                onclick="loadOrders()"
+            >
+                <i class="fa-solid fa-rotate"></i>
+                Refresh Pesanan
+            </button>
 
         </div>
 
+        <div id="ordersContainer">
 
-        <!-- STATISTICS -->
-        <div class="stats-container">
-
-            <!-- PESANAN -->
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    📦
-                </div>
-
-                <h3>
-                    Total Pesanan
-                </h3>
-
-                <p id="totalOrders">
-                    0
-                </p>
-
+            <div class="empty">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Memuat pesanan...</p>
             </div>
 
-
-            <!-- PRODUK -->
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    🛍️
-                </div>
-
-                <h3>
-                    Total Produk
-                </h3>
-
-                <p id="totalProducts">
-                    0
-                </p>
-
-            </div>
-
-
-            <!-- STATUS -->
-            <div class="stat-card">
-
-                <div class="stat-icon">
-                    🛡️
-                </div>
-
-                <h3>
-                    Status Akun
-                </h3>
-
-                <p
-                    id="adminStatus"
-                    style="font-size: 24px; color: green;"
-                >
-                    Admin Active
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- QUICK MENU -->
-        <div class="quick-menu">
-
-            <h3>
-                <i class="fa-solid fa-bolt"></i>
-                Menu Admin
-            </h3>
-
-            <div class="quick-buttons">
-
-                <a href="admin.html">
-                    <i class="fa-solid fa-gauge"></i>
-                    Dashboard
-                </a>
-
-                <a href="admin/orders.html">
-                    <i class="fa-solid fa-box"></i>
-                    Kelola Pesanan
-                </a>
-
-                <a href="admin/products.html">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Kelola Produk
-                </a>
-
-                <a href="toko.html">
-                    <i class="fa-solid fa-store"></i>
-                    Lihat Toko
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- STATUS -->
-        <div
-            id="systemStatus"
-            class="status"
-        >
-            <i class="fa-solid fa-circle-check"></i>
-            Sistem sedang memuat data...
         </div>
 
     </div>
 
 
-    <!-- SUPABASE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+    <!-- =================================================
+         PRODUK
+    ================================================== -->
+
+    <div
+        class="admin-section"
+        id="productsSection"
+    >
+
+        <div class="section-title">
+
+            <h2>
+                <i class="fa-solid fa-cart-shopping"></i>
+                Kelola Produk
+            </h2>
+
+            <button
+                class="btn btn-success"
+                onclick="openProductModal()"
+            >
+                <i class="fa-solid fa-plus"></i>
+                Tambah Produk
+            </button>
+
+        </div>
+
+        <div id="productsContainer">
+
+            <div class="empty">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Memuat produk...</p>
+            </div>
+
+        </div>
+
+    </div>
 
 
-    <script>
+    <!-- =================================================
+         SYSTEM STATUS
+    ================================================== -->
 
-        /* =====================================================
-           SUPABASE CONFIG
-        ===================================================== */
+    <div
+        id="systemStatus"
+        class="status-system"
+    >
+        <i class="fa-solid fa-circle-check"></i>
+        Sistem sedang memuat data...
+    </div>
 
-        const SUPABASE_URL =
-            "https://fbnknnrltrsvydyxgujr.supabase.co";
-
-        const SUPABASE_KEY =
-            "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
-
-        let supabaseClient = null;
+</div>
 
 
-        /* =====================================================
-           INIT SUPABASE
-        ===================================================== */
+<!-- =====================================================
+     MODAL PRODUK
+===================================================== -->
 
-        function initializeSupabase() {
+<div
+    class="modal fade"
+    id="productModal"
+    tabindex="-1"
+>
 
-            if (!window.supabase) {
+    <div class="modal-dialog">
 
-                console.error(
-                    "Supabase JS gagal dimuat."
-                );
+        <div class="modal-content">
 
-                alert(
-                    "Supabase gagal dimuat. Periksa koneksi internet."
-                );
+            <div class="modal-header">
 
-                return false;
-            }
+                <h5
+                    class="modal-title"
+                    id="productModalTitle"
+                >
+                    Tambah Produk
+                </h5>
 
-            supabaseClient =
-                window.supabase.createClient(
-                    SUPABASE_URL,
-                    SUPABASE_KEY
-                );
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <input
+                    type="hidden"
+                    id="productId"
+                >
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Nama Produk
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productName"
+                        class="form-control"
+                        placeholder="Contoh: Laptop ASUS"
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Harga
+                    </label>
+
+                    <input
+                        type="number"
+                        id="productPrice"
+                        class="form-control"
+                        placeholder="Contoh: 5000000"
+                    >
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        URL Gambar
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productImage"
+                        class="form-control"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="saveProduct()"
+                >
+                    <i class="fa-solid fa-save"></i>
+                    Simpan Produk
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://fbnknnrltrsvydyxgujr.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+
+let supabaseClient = null;
+
+let currentOrders = [];
+let currentProducts = [];
+
+let productModal = null;
+
+
+/* =====================================================
+   INIT SUPABASE
+===================================================== */
+
+function initializeSupabase() {
+
+    if (!window.supabase) {
+
+        console.error(
+            "Supabase JS gagal dimuat."
+        );
+
+        showSystemStatus(
+            "Supabase gagal dimuat. Periksa koneksi internet.",
+            true
+        );
+
+        return false;
+    }
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+    console.log(
+        "✅ Supabase berhasil terhubung."
+    );
+
+    return true;
+}
+
+
+/* =====================================================
+   SYSTEM STATUS
+===================================================== */
+
+function showSystemStatus(message, error = false) {
+
+    const el =
+        document.getElementById("systemStatus");
+
+    el.className =
+        error
+            ? "status-system error"
+            : "status-system";
+
+    el.innerHTML =
+        error
+            ? `<i class="fa-solid fa-triangle-exclamation"></i> ${message}`
+            : `<i class="fa-solid fa-circle-check"></i> ${message}`;
+}
+
+
+/* =====================================================
+   CHECK ADMIN
+===================================================== */
+
+async function checkAdmin() {
+
+    try {
+
+        const {
+            data: {
+                user
+            },
+            error
+        } =
+            await supabaseClient.auth.getUser();
+
+
+        if (error || !user) {
 
             console.log(
-                "✅ Supabase admin berhasil terhubung."
+                "❌ Belum login."
             );
-
-            return true;
-        }
-
-
-        /* =====================================================
-           CEK LOGIN + ROLE ADMIN
-        ===================================================== */
-
-        async function checkAdmin() {
-
-            try {
-
-                const {
-                    data: {
-                        user
-                    },
-                    error
-                } =
-                    await supabaseClient.auth.getUser();
-
-
-                /* BELUM LOGIN */
-
-                if (
-                    error ||
-                    !user
-                ) {
-
-                    console.log(
-                        "❌ Belum login."
-                    );
-
-                    window.location.href =
-                        "login.html";
-
-                    return false;
-                }
-
-
-                const email =
-                    String(
-                        user.email || ""
-                    )
-                    .trim()
-                    .toLowerCase();
-
-
-                console.log(
-                    "🔎 Email login:",
-                    email
-                );
-
-
-                /* AMBIL ROLE DARI DATABASE */
-
-                const {
-                    data: profile,
-                    error: profileError
-                } =
-                    await supabaseClient
-                        .from("users_list")
-                        .select(
-                            "id, name, username, role"
-                        )
-                        .eq(
-                            "username",
-                            email
-                        )
-                        .maybeSingle();
-
-
-                if (profileError) {
-
-                    console.error(
-                        "❌ Gagal mengambil profile:",
-                        profileError
-                    );
-
-                    alert(
-                        "Gagal membaca data role admin."
-                    );
-
-                    window.location.href =
-                        "toko.html";
-
-                    return false;
-                }
-
-
-                if (!profile) {
-
-                    console.log(
-                        "❌ Profile tidak ditemukan."
-                    );
-
-                    alert(
-                        "Data pengguna tidak ditemukan."
-                    );
-
-                    window.location.href =
-                        "toko.html";
-
-                    return false;
-                }
-
-
-                console.log(
-                    "👤 PROFILE:",
-                    profile
-                );
-
-
-                const role =
-                    String(
-                        profile.role || ""
-                    )
-                    .trim()
-                    .toLowerCase();
-
-
-                console.log(
-                    "🛡️ ROLE:",
-                    role
-                );
-
-
-                /* BUKAN ADMIN */
-
-                if (role !== "admin") {
-
-                    alert(
-                        "Akses ditolak. Halaman ini hanya untuk Admin."
-                    );
-
-                    window.location.href =
-                        "toko.html";
-
-                    return false;
-                }
-
-
-                /* ADMIN BERHASIL */
-
-                document.getElementById(
-                    "adminName"
-                ).textContent =
-                    profile.name ||
-                    profile.username ||
-                    "Admin";
-
-
-                document.getElementById(
-                    "adminStatus"
-                ).textContent =
-                    "Admin Active";
-
-
-                console.log(
-                    "✅ ADMIN TERDETEKSI."
-                );
-
-
-                return true;
-
-            } catch (error) {
-
-                console.error(
-                    "❌ Error checkAdmin:",
-                    error
-                );
-
-                window.location.href =
-                    "login.html";
-
-                return false;
-            }
-        }
-
-
-        /* =====================================================
-           LOAD STATISTIK
-        ===================================================== */
-
-        async function loadStats() {
-
-            try {
-
-                console.log(
-                    "📊 Mengambil statistik..."
-                );
-
-
-                /* TOTAL PESANAN */
-
-                const {
-                    count: ordersCount,
-                    error: ordersError
-                } =
-                    await supabaseClient
-                        .from("orders")
-                        .select(
-                            "*",
-                            {
-                                count: "exact",
-                                head: true
-                            }
-                        );
-
-
-                if (ordersError) {
-
-                    console.error(
-                        "❌ Error orders:",
-                        ordersError
-                    );
-
-                } else {
-
-                    document.getElementById(
-                        "totalOrders"
-                    ).textContent =
-                        ordersCount || 0;
-
-                }
-
-
-                /* TOTAL PRODUK */
-
-                const {
-                    count: productsCount,
-                    error: productsError
-                } =
-                    await supabaseClient
-                        .from("products")
-                        .select(
-                            "*",
-                            {
-                                count: "exact",
-                                head: true
-                            }
-                        );
-
-
-                if (productsError) {
-
-                    console.error(
-                        "❌ Error products:",
-                        productsError
-                    );
-
-                } else {
-
-                    document.getElementById(
-                        "totalProducts"
-                    ).textContent =
-                        productsCount || 0;
-
-                }
-
-
-                /* STATUS */
-
-                document.getElementById(
-                    "systemStatus"
-                ).innerHTML =
-                    `
-                    <i class="fa-solid fa-circle-check"></i>
-                    Dashboard berhasil terhubung ke Supabase.
-                    `;
-
-
-                console.log(
-                    "✅ Statistik berhasil dimuat."
-                );
-
-            } catch (error) {
-
-                console.error(
-                    "❌ Gagal load statistik:",
-                    error
-                );
-
-                document.getElementById(
-                    "systemStatus"
-                ).innerHTML =
-                    `
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    Gagal mengambil data dari Supabase.
-                    `;
-
-            }
-        }
-
-
-        /* =====================================================
-           LOGOUT
-        ===================================================== */
-
-        async function logout() {
-
-            try {
-
-                await supabaseClient.auth.signOut();
-
-            } catch (error) {
-
-                console.error(
-                    "Logout error:",
-                    error
-                );
-
-            }
-
-
-            localStorage.removeItem(
-                "user"
-            );
-
-            localStorage.removeItem(
-                "currentUser"
-            );
-
-            localStorage.removeItem(
-                "isLoggedIn"
-            );
-
-            localStorage.removeItem(
-                "user_session"
-            );
-
 
             window.location.href =
                 "login.html";
+
+            return false;
         }
 
 
-        /* =====================================================
-           START
-        ===================================================== */
+        const email =
+            String(
+                user.email || ""
+            )
+            .trim()
+            .toLowerCase();
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            async function() {
 
-                console.log(
-                    "🚀 Admin Dashboard starting..."
+        console.log(
+            "🔎 Email login:",
+            email
+        );
+
+
+        const {
+            data: profile,
+            error: profileError
+        } =
+            await supabaseClient
+                .from("users_list")
+                .select(
+                    "id, name, username, role"
+                )
+                .eq(
+                    "username",
+                    email
+                )
+                .maybeSingle();
+
+
+        if (profileError) {
+
+            console.error(
+                "❌ Profile error:",
+                profileError
+            );
+
+            showSystemStatus(
+                "Gagal membaca data pengguna: " +
+                profileError.message,
+                true
+            );
+
+            return false;
+        }
+
+
+        if (!profile) {
+
+            alert(
+                "Data pengguna tidak ditemukan."
+            );
+
+            window.location.href =
+                "toko.html";
+
+            return false;
+        }
+
+
+        const role =
+            String(
+                profile.role || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        if (role !== "admin") {
+
+            alert(
+                "Akses ditolak. Halaman ini hanya untuk Admin."
+            );
+
+            window.location.href =
+                "toko.html";
+
+            return false;
+        }
+
+
+        document.getElementById(
+            "adminName"
+        ).textContent =
+            profile.name ||
+            profile.username ||
+            "Admin";
+
+
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
+            "Admin Active";
+
+
+        console.log(
+            "✅ Admin terverifikasi."
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "❌ Check admin error:",
+            error
+        );
+
+        window.location.href =
+            "login.html";
+
+        return false;
+    }
+}
+
+
+/* =====================================================
+   LOAD SEMUA DATA
+===================================================== */
+
+async function loadAllData() {
+
+    showSystemStatus(
+        "Sedang mengambil data dari Supabase..."
+    );
+
+    await Promise.all([
+        loadOrders(),
+        loadProducts()
+    ]);
+
+    showSystemStatus(
+        "Dashboard berhasil terhubung ke Supabase."
+    );
+}
+
+
+/* =====================================================
+   LOAD ORDERS
+===================================================== */
+
+async function loadOrders() {
+
+    const container =
+        document.getElementById(
+            "ordersContainer"
+        );
+
+    container.innerHTML = `
+        <div class="empty">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Memuat pesanan...</p>
+        </div>
+    `;
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("orders")
+                .select("*")
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
                 );
 
 
-                const ready =
-                    initializeSupabase();
+        if (error) {
 
-                if (!ready) {
-                    return;
-                }
+            console.error(
+                "❌ Orders error:",
+                error
+            );
+
+            container.innerHTML = `
+                <div class="alert alert-danger">
+                    <strong>Gagal mengambil pesanan.</strong><br>
+                    ${escapeHtml(error.message)}
+                </div>
+            `;
+
+            return;
+        }
 
 
-                /* CEK ADMIN DULU */
-
-                const allowed =
-                    await checkAdmin();
-
-                if (!allowed) {
-                    return;
-                }
+        currentOrders =
+            data || [];
 
 
-                /* BARU LOAD DATA */
+        document.getElementById(
+            "totalOrders"
+        ).textContent =
+            currentOrders.length;
 
-                await loadStats();
 
-            }
+        renderOrders();
+
+    } catch (error) {
+
+        console.error(
+            error
         );
 
-    </script>
+        container.innerHTML = `
+            <div class="alert alert-danger">
+                Terjadi kesalahan saat mengambil pesanan.
+            </div>
+        `;
+    }
+}
 
 
-    <!-- Bootstrap JS -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
+/* =====================================================
+   RENDER ORDERS
+===================================================== */
+
+function renderOrders() {
+
+    const container =
+        document.getElementById(
+            "ordersContainer"
+        );
+
+
+    if (!currentOrders.length) {
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <i class="fa-solid fa-box-open"></i>
+
+                <h4>Belum ada pesanan</h4>
+
+                <p>
+                    Pesanan dari pelanggan akan muncul di sini.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        currentOrders
+            .map(
+                order =>
+                    createOrderHTML(order)
+            )
+            .join("");
+}
+
+
+/* =====================================================
+   CREATE ORDER HTML
+===================================================== */
+
+function createOrderHTML(order) {
+
+    const orderId =
+        order.id ||
+        order.order_id ||
+        order.id_order ||
+        "-";
+
+
+    const customerName =
+        order.user_name ||
+        order.nama ||
+        order.nama_lengkap ||
+        "Nama tidak tersedia";
+
+
+    const phone =
+        order.nomor_hp ||
+        order.no_hp ||
+        order.phone ||
+        order.whatsapp ||
+        "-";
+
+
+    const address =
+        order.alamat ||
+        order.address ||
+        "-";
+
+
+    const total =
+        Number(
+            order.total_harga ||
+            order.total ||
+            0
+        );
+
+
+    const status =
+        order.status ||
+        "Menunggu Konfirmasi";
+
+
+    const created =
+        formatDate(
+            order.created_at ||
+            order.tanggal ||
+            order.createdAt
+        );
+
+
+    const items =
+        parseItems(
+            order.items
+        );
+
+
+    const statusClass =
+        getStatusClass(status);
+
+
+    return `
+
+        <div class="order-card">
+
+            <div class="order-header">
+
+                <div>
+
+                    <span class="order-id">
+                        Pesanan #${escapeHtml(String(orderId))}
+                    </span>
+
+                    <br>
+
+                    <small class="text-muted">
+                        ${created}
+                    </small>
+
+                </div>
+
+                <div>
+
+                    <span class="status-badge ${statusClass}">
+                        ${escapeHtml(status)}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="order-body">
+
+                <div class="customer-info">
+
+                    <div class="info-box">
+
+                        <strong>
+                            <i class="fa-solid fa-user"></i>
+                            Nama Pemesan
+                        </strong>
+
+                        ${escapeHtml(customerName)}
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <strong>
+                            <i class="fa-solid fa-phone"></i>
+                            Nomor HP / WhatsApp
+                        </strong>
+
+                        ${escapeHtml(String(phone))}
+
+                    </div>
+
+
+                    <div
+                        class="info-box"
+                        style="grid-column: 1 / -1;"
+                    >
+
+                        <strong>
+                            <i class="fa-solid fa-location-dot"></i>
+                            Alamat Pengiriman
+                        </strong>
+
+                        ${escapeHtml(address)}
+
+                    </div>
+
+                </div>
+
+
+                <div class="order-items">
+
+                    <strong>
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        Barang yang Dipesan
+                    </strong>
+
+                    <div style="margin-top:10px;">
+
+                        ${renderItems(items)}
+
+                    </div>
+
+                </div>
+
+
+                <div class="order-total">
+
+                    Total:
+                    ${formatRupiah(total)}
+
+                </div>
+
+
+                <div class="status-area">
+
+                    <label>
+                        <strong>
+                            Status Pesanan:
+                        </strong>
+                    </label>
+
+
+                    <select
+                        class="form-select"
+                        onchange="changeOrderStatus(
+                            '${escapeJs(String(orderId))}',
+                            this.value
+                        )"
+                    >
+
+                        ${statusOption(
+                            "Menunggu Konfirmasi",
+                            status
+                        )}
+
+                        ${statusOption(
+                            "Diproses",
+                            status
+                        )}
+
+                        ${statusOption(
+                            "Dikirim",
+                            status
+                        )}
+
+                        ${statusOption(
+                            "Selesai",
+                            status
+                        )}
+
+                        ${statusOption(
+                            "Dibatalkan",
+                            status
+                        )}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* =====================================================
+   PARSE ITEMS
+===================================================== */
+
+function parseItems(items) {
+
+    if (!items) {
+        return [];
+    }
+
+
+    if (Array.isArray(items)) {
+        return items;
+    }
+
+
+    if (typeof items === "object") {
+        return [items];
+    }
+
+
+    if (typeof items === "string") {
+
+        try {
+
+            const parsed =
+                JSON.parse(items);
+
+            if (Array.isArray(parsed)) {
+                return parsed;
+            }
+
+            if (typeof parsed === "object") {
+                return [parsed];
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Items bukan JSON:",
+                items
+            );
+
+            return [
+                {
+                    nama_produk: items,
+                    jumlah: 1
+                }
+            ];
+        }
+    }
+
+
+    return [];
+}
+
+
+/* =====================================================
+   RENDER ITEMS
+===================================================== */
+
+function renderItems(items) {
+
+    if (!items.length) {
+
+        return `
+            <div class="text-muted">
+                Detail produk tidak tersedia.
+            </div>
+        `;
+    }
+
+
+    return items
+        .map(
+            item => {
+
+                const name =
+                    item.nama_produk ||
+                    item.nama ||
+                    item.name ||
+                    item.product_name ||
+                    item.title ||
+                    "Produk";
+
+
+                const quantity =
+                    Number(
+                        item.jumlah ||
+                        item.qty ||
+                        item.quantity ||
+                        1
+                    );
+
+
+                const price =
+                    Number(
+                        item.harga ||
+                        item.price ||
+                        0
+                    );
+
+
+                return `
+
+                    <div class="item-row">
+
+                        <div>
+
+                            <strong>
+                                ${escapeHtml(String(name))}
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted">
+                                ${quantity} ×
+                                ${formatRupiah(price)}
+                            </small>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ${formatRupiah(
+                                    price * quantity
+                                )}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                `;
+            }
+        )
+        .join("");
+}
+
+
+/* =====================================================
+   STATUS OPTION
+===================================================== */
+
+function statusOption(value, current) {
+
+    return `
+        <option
+            value="${escapeHtml(value)}"
+            ${value.toLowerCase() ===
+              String(current).toLowerCase()
+                ? "selected"
+                : ""}
+        >
+            ${escapeHtml(value)}
+        </option>
+    `;
+}
+
+
+/* =====================================================
+   CHANGE ORDER STATUS
+===================================================== */
+
+async function changeOrderStatus(
+    orderId,
+    newStatus
+) {
+
+    if (!orderId || orderId === "-") {
+
+        alert(
+            "ID pesanan tidak ditemukan."
+        );
+
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "Ubah status pesanan menjadi \"" +
+            newStatus +
+            "\"?"
+        );
+
+
+    if (!confirmed) {
+
+        await loadOrders();
+
+        return;
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("orders")
+                .update({
+                    status: newStatus
+                })
+                .eq(
+                    "id",
+                    orderId
+                );
+
+
+        if (error) {
+
+            console.error(
+                error
+            );
+
+            alert(
+                "Gagal mengubah status:\n" +
+                error.message
+            );
+
+            await loadOrders();
+
+            return;
+        }
+
+
+        alert(
+            "Status pesanan berhasil diubah menjadi " +
+            newStatus
+        );
+
+
+        await loadOrders();
+
+        showSystemStatus(
+            "Status pesanan berhasil diperbarui."
+        );
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Terjadi kesalahan saat mengubah status."
+        );
+    }
+}
+
+
+/* =====================================================
+   LOAD PRODUCTS
+===================================================== */
+
+async function loadProducts() {
+
+    const container =
+        document.getElementById(
+            "productsContainer"
+        );
+
+
+    container.innerHTML = `
+        <div class="empty">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Memuat produk...</p>
+        </div>
+    `;
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("products")
+                .select("*");
+
+
+        if (error) {
+
+            console.error(
+                "❌ Products error:",
+                error
+            );
+
+            container.innerHTML = `
+                <div class="alert alert-danger">
+
+                    <strong>
+                        Gagal mengambil produk.
+                    </strong>
+
+                    <br>
+
+                    ${escapeHtml(error.message)}
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        currentProducts =
+            data || [];
+
+
+        document.getElementById(
+            "totalProducts"
+        ).textContent =
+            currentProducts.length;
+
+
+        renderProducts();
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        container.innerHTML = `
+            <div class="alert alert-danger">
+                Terjadi kesalahan saat mengambil produk.
+            </div>
+        `;
+    }
+}
+
+
+/* =====================================================
+   RENDER PRODUCTS
+===================================================== */
+
+function renderProducts() {
+
+    const container =
+        document.getElementById(
+            "productsContainer"
+        );
+
+
+    if (!currentProducts.length) {
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <i class="fa-solid fa-box-open"></i>
+
+                <h4>Produk tidak ditemukan</h4>
+
+                <p>
+                    Tidak ada produk yang tersedia
+                    di tabel products.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = `
+
+        <div class="product-grid">
+
+            ${currentProducts
+                .map(
+                    product =>
+                        createProductHTML(
+                            product
+                        )
+                )
+                .join("")}
+
+        </div>
+
+    `;
+}
+
+
+/* =====================================================
+   CREATE PRODUCT HTML
+===================================================== */
+
+function createProductHTML(product) {
+
+    const id =
+        product.id_produk ||
+        product.id ||
+        product.product_id;
+
+
+    const name =
+        product.nama_produk ||
+        product.nama ||
+        product.name ||
+        "Produk";
+
+
+    const price =
+        Number(
+            product.harga ||
+            product.price ||
+            0
+        );
+
+
+    const image =
+        product.gambar ||
+        product.image ||
+        product.image_url ||
+        "https://via.placeholder.com/500x350?text=BlueShop";
+
+
+    return `
+
+        <div class="product-card">
+
+            <img
+                src="${escapeHtml(String(image))}"
+                class="product-image"
+                alt="${escapeHtml(String(name))}"
+                onerror="
+                    this.src='https://via.placeholder.com/500x350?text=BlueShop'
+                "
+            >
+
+            <div class="product-content">
+
+                <div class="product-name">
+                    ${escapeHtml(String(name))}
+                </div>
+
+                <div class="product-price">
+                    ${formatRupiah(price)}
+                </div>
+
+                <div class="product-actions">
+
+                    <button
+                        class="edit-btn"
+                        onclick="editProduct('${escapeJs(String(id))}')"
+                    >
+                        <i class="fa-solid fa-pen"></i>
+                        Edit
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteProduct('${escapeJs(String(id))}')"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                        Hapus
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* =====================================================
+   OPEN PRODUCT MODAL
+===================================================== */
+
+function openProductModal(product = null) {
+
+    if (!productModal) {
+
+        productModal =
+            new bootstrap.Modal(
+                document.getElementById(
+                    "productModal"
+                )
+            );
+    }
+
+
+    document.getElementById(
+        "productId"
+    ).value =
+        product
+            ? (
+                product.id_produk ||
+                product.id ||
+                product.product_id ||
+                ""
+            )
+            : "";
+
+
+    document.getElementById(
+        "productName"
+    ).value =
+        product
+            ? (
+                product.nama_produk ||
+                product.nama ||
+                product.name ||
+                ""
+            )
+            : "";
+
+
+    document.getElementById(
+        "productPrice"
+    ).value =
+        product
+            ? (
+                product.harga ||
+                product.price ||
+                ""
+            )
+            : "";
+
+
+    document.getElementById(
+        "productImage"
+    ).value =
+        product
+            ? (
+                product.gambar ||
+                product.image ||
+                product.image_url ||
+                ""
+            )
+            : "";
+
+
+    document.getElementById(
+        "productModalTitle"
+    ).textContent =
+        product
+            ? "Edit Produk"
+            : "Tambah Produk";
+
+
+    productModal.show();
+}
+
+
+/* =====================================================
+   EDIT PRODUCT
+===================================================== */
+
+function editProduct(id) {
+
+    const product =
+        currentProducts.find(
+            p =>
+                String(
+                    p.id_produk ||
+                    p.id ||
+                    p.product_id
+                ) === String(id)
+        );
+
+
+    if (!product) {
+
+        alert(
+            "Produk tidak ditemukan."
+        );
+
+        return;
+    }
+
+
+    openProductModal(product);
+}
+
+
+/* =====================================================
+   SAVE PRODUCT
+===================================================== */
+
+async function saveProduct() {
+
+    const id =
+        document.getElementById(
+            "productId"
+        ).value.trim();
+
+
+    const name =
+        document.getElementById(
+            "productName"
+        ).value.trim();
+
+
+    const price =
+        Number(
+            document.getElementById(
+                "productPrice"
+            ).value
+        );
+
+
+    const image =
+        document.getElementById(
+            "productImage"
+        ).value.trim();
+
+
+    if (!name) {
+
+        alert(
+            "Nama produk wajib diisi."
+        );
+
+        return;
+    }
+
+
+    if (!price || price < 0) {
+
+        alert(
+            "Harga produk tidak valid."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        let result;
+
+
+        /*
+         * Jika ada ID = EDIT
+         */
+
+        if (id) {
+
+            result =
+                await supabaseClient
+                    .from("products")
+                    .update({
+                        nama_produk: name,
+                        harga: price,
+                        gambar: image
+                    })
+                    .eq(
+                        "id_produk",
+                        id
+                    );
+
+        }
+
+        /*
+         * Jika tidak ada ID = TAMBAH
+         */
+
+        else {
+
+            result =
+                await supabaseClient
+                    .from("products")
+                    .insert([
+                        {
+                            nama_produk: name,
+                            harga: price,
+                            gambar: image
+                        }
+                    ]);
+        }
+
+
+        if (result.error) {
+
+            console.error(
+                result.error
+            );
+
+            alert(
+                "Gagal menyimpan produk:\n" +
+                result.error.message
+            );
+
+            return;
+        }
+
+
+        alert(
+            id
+                ? "Produk berhasil diperbarui."
+                : "Produk berhasil ditambahkan."
+        );
+
+
+        if (productModal) {
+            productModal.hide();
+        }
+
+
+        await loadProducts();
+
+
+        showSystemStatus(
+            "Data produk berhasil diperbarui."
+        );
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Terjadi kesalahan saat menyimpan produk."
+        );
+    }
+}
+
+
+/* =====================================================
+   DELETE PRODUCT
+===================================================== */
+
+async function deleteProduct(id) {
+
+    if (!id) {
+
+        alert(
+            "ID produk tidak ditemukan."
+        );
+
+        return;
+    }
+
+
+    const product =
+        currentProducts.find(
+            p =>
+                String(
+                    p.id_produk ||
+                    p.id ||
+                    p.product_id
+                ) === String(id)
+        );
+
+
+    const name =
+        product
+            ? (
+                product.nama_produk ||
+                product.nama ||
+                product.name ||
+                "Produk"
+            )
+            : "Produk";
+
+
+    const confirmed =
+        confirm(
+            "Yakin ingin menghapus produk \"" +
+            name +
+            "\"?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("products")
+                .delete()
+                .eq(
+                    "id_produk",
+                    id
+                );
+
+
+        if (error) {
+
+            console.error(
+                error
+            );
+
+            alert(
+                "Gagal menghapus produk:\n" +
+                error.message
+            );
+
+            return;
+        }
+
+
+        alert(
+            "Produk berhasil dihapus."
+        );
+
+
+        await loadProducts();
+
+
+        showSystemStatus(
+            "Produk berhasil dihapus."
+        );
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        alert(
+            "Terjadi kesalahan saat menghapus produk."
+        );
+    }
+}
+
+
+/* =====================================================
+   SHOW SECTION
+===================================================== */
+
+function showSection(id) {
+
+    const section =
+        document.getElementById(id);
+
+
+    if (!section) {
+        return;
+    }
+
+
+    section.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+
+/* =====================================================
+   STATUS CLASS
+===================================================== */
+
+function getStatusClass(status) {
+
+    const value =
+        String(status)
+            .toLowerCase();
+
+
+    if (value.includes("menunggu")) {
+        return "status-menunggu";
+    }
+
+    if (value.includes("proses")) {
+        return "status-diproses";
+    }
+
+    if (value.includes("kirim")) {
+        return "status-dikirim";
+    }
+
+    if (value.includes("selesai")) {
+        return "status-selesai";
+    }
+
+    if (value.includes("batal")) {
+        return "status-dibatalkan";
+    }
+
+    return "status-menunggu";
+}
+
+
+/* =====================================================
+   FORMAT RUPIAH
+===================================================== */
+
+function formatRupiah(number) {
+
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }
+    ).format(
+        Number(number) || 0
+    );
+}
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
+
+function formatDate(value) {
+
+    if (!value) {
+        return "Tanggal tidak tersedia";
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (isNaN(date.getTime())) {
+        return String(value);
+    }
+
+
+    return date.toLocaleString(
+        "id-ID",
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =====================================================
+   ESCAPE JS
+===================================================== */
+
+function escapeJs(value) {
+
+    return String(value)
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, "\\n")
+        .replace(/\r/g, "\\r");
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout() {
+
+    try {
+
+        if (supabaseClient) {
+
+            await supabaseClient.auth.signOut();
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+    }
+
+
+    localStorage.removeItem(
+        "user"
+    );
+
+    localStorage.removeItem(
+        "currentUser"
+    );
+
+    localStorage.removeItem(
+        "isLoggedIn"
+    );
+
+    localStorage.removeItem(
+        "user_session"
+    );
+
+
+    window.location.href =
+        "login.html";
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        console.log(
+            "🚀 BlueShop Admin Dashboard starting..."
+        );
+
+
+        const ready =
+            initializeSupabase();
+
+
+        if (!ready) {
+            return;
+        }
+
+
+        const allowed =
+            await checkAdmin();
+
+
+        if (!allowed) {
+            return;
+        }
+
+
+        await loadAllData();
+
+    }
+);
+
+</script>
 
 </body>
 </html>
+```
