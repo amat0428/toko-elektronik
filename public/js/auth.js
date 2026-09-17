@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Selamat datang kembali, ${currentUser.name || currentUser.username}!`);
         
         if (currentUser.role === 'admin' || currentUser.username === 'admin1@gmail.com' || currentUser.username === 'admin') {
-          window.location.href = '/admin/dashboard.html';
+          window.location.href = '/admin.html';
         } else {
           window.location.href = 'toko.html';
         }
