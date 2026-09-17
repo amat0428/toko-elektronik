@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 
@@ -5,9 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Checkout - Toko Elektronik</title>
+    <title>Checkout - BlueShop Fashion</title>
 
-    <!-- Tailwind CSS Framework -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Font Awesome -->
@@ -24,10 +25,18 @@
             font-family: Arial, Helvetica, sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background: #f5f5f5;
+            background: #f5f7fb;
             color: #222;
         }
+
+        /* =========================
+           HEADER
+        ========================= */
 
         header {
             background: #0d6efd;
@@ -39,26 +48,38 @@
             font-size: 24px;
         }
 
+        /* =========================
+           CONTAINER
+        ========================= */
+
         .container {
             max-width: 800px;
             margin: 30px auto;
             padding: 0 20px;
         }
 
+        /* =========================
+           CHECKOUT BOX
+        ========================= */
+
         .checkout-box {
             background: white;
             padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
         }
 
         h2 {
             margin-bottom: 20px;
         }
 
+        /* =========================
+           SUMMARY
+        ========================= */
+
         .summary-box {
             background: #fafafa;
-            border: 1px solid #eee;
+            border: 1px solid #e8e8e8;
             border-radius: 10px;
             padding: 18px;
             margin-bottom: 25px;
@@ -90,6 +111,7 @@
             font-weight: 600;
             color: #222;
             margin-bottom: 6px;
+            word-break: break-word;
         }
 
         .checkout-item-detail {
@@ -127,6 +149,10 @@
             color: #0d6efd;
         }
 
+        /* =========================
+           FORM
+        ========================= */
+
         .form-group {
             margin-bottom: 18px;
         }
@@ -145,17 +171,23 @@
             border-radius: 8px;
             font-size: 15px;
             outline: none;
+            transition: 0.2s;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
         }
 
         .form-group textarea {
             min-height: 110px;
             resize: vertical;
         }
+
+        /* =========================
+           BUTTON SUBMIT
+        ========================= */
 
         .btn-submit {
             width: 100%;
@@ -167,6 +199,7 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .btn-submit:hover {
@@ -178,10 +211,177 @@
             cursor: not-allowed;
         }
 
+        /* =========================
+           EMPTY CHECKOUT
+        ========================= */
+
         .empty-checkout {
             text-align: center;
             color: #777;
             padding: 20px 0;
+        }
+
+        /* =========================
+           MODAL KONFIRMASI
+        ========================= */
+
+        #confirmModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 10000;
+        }
+
+        .confirm-box {
+            background: white;
+            width: 100%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            animation: modalShow 0.2s ease;
+        }
+
+        @keyframes modalShow {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .confirm-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 12px;
+            border-radius: 50%;
+            background: #fff3cd;
+            color: #f59e0b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .confirm-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .confirm-header h2 {
+            font-size: 23px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .confirm-header p {
+            color: #666;
+        }
+
+        .confirm-data {
+            background: #f8f9fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .confirm-data-row {
+            margin-bottom: 15px;
+        }
+
+        .confirm-data-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .confirm-data-label {
+            display: block;
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .confirm-data-value {
+            font-weight: bold;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        #confirmAlamat {
+            white-space: pre-wrap;
+        }
+
+        .confirm-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .confirm-total-value {
+            color: #0d6efd;
+        }
+
+        .confirm-warning {
+            background: #fff8e1;
+            border: 1px solid #ffe08a;
+            color: #856404;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .confirm-buttons button {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-edit {
+            background: #6c757d;
+        }
+
+        .btn-edit:hover {
+            background: #5c636a;
+        }
+
+        .btn-confirm {
+            background: #198754;
+        }
+
+        .btn-confirm:hover {
+            background: #157347;
+        }
+
+        .btn-confirm:disabled {
+            background: #999;
+            cursor: not-allowed;
         }
 
         /* =========================
@@ -224,6 +424,7 @@
 
         .nota-info p {
             margin-bottom: 8px;
+            word-break: break-word;
         }
 
         .nota-items {
@@ -259,9 +460,17 @@
             color: white;
         }
 
+        .btn-print:hover {
+            background: #157347;
+        }
+
         .btn-orders {
             background: #0d6efd;
             color: white;
+        }
+
+        .btn-orders:hover {
+            background: #0b5ed7;
         }
 
         /* =========================
@@ -269,6 +478,14 @@
         ========================= */
 
         @media (max-width: 600px) {
+
+            header {
+                padding: 16px 18px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
 
             .container {
                 margin: 15px auto;
@@ -283,12 +500,25 @@
                 align-items: flex-start;
             }
 
+            .checkout-item-image {
+                width: 50px;
+                height: 50px;
+            }
+
             .checkout-item-subtotal {
                 font-size: 14px;
             }
 
             .summary-row {
                 font-size: 16px;
+            }
+
+            .confirm-box {
+                padding: 20px;
+            }
+
+            .confirm-buttons {
+                flex-direction: column;
             }
 
             .nota-buttons {
@@ -306,9 +536,18 @@
                 visibility: hidden;
             }
 
-            .nota-box,
-            .nota-box * {
+            #notaModal,
+            #notaModal .nota-box,
+            #notaModal .nota-box * {
                 visibility: visible;
+            }
+
+            #notaModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: white;
+                padding: 0;
             }
 
             .nota-box {
@@ -317,7 +556,9 @@
                 top: 0;
                 width: 100%;
                 max-width: none;
+                max-height: none;
                 box-shadow: none;
+                border-radius: 0;
             }
 
             .nota-buttons {
@@ -327,9 +568,7 @@
     </style>
 </head>
 
-
 <body class="bg-gray-100 text-gray-800">
-
 
     <!-- =========================
          HEADER
@@ -348,7 +587,7 @@
             </a>
 
             <h1 class="text-2xl font-bold">
-                Toko Elektronik
+                BlueShop Fashion
             </h1>
 
         </div>
@@ -363,7 +602,6 @@
     <div class="container">
 
         <div class="checkout-box">
-
 
             <!-- JUDUL -->
 
@@ -417,7 +655,6 @@
 
             <form id="checkoutForm">
 
-
                 <!-- NAMA -->
 
                 <div class="form-group">
@@ -430,6 +667,7 @@
                         type="text"
                         id="namaLengkap"
                         placeholder="Masukkan nama lengkap"
+                        autocomplete="name"
                         required
                         class="focus:ring-2 focus:ring-blue-500"
                     >
@@ -449,6 +687,8 @@
                         type="tel"
                         id="nomorHp"
                         placeholder="Contoh: 081234567890"
+                        autocomplete="tel"
+                        inputmode="numeric"
                         required
                         class="focus:ring-2 focus:ring-blue-500"
                     >
@@ -467,6 +707,7 @@
                     <textarea
                         id="alamatPengiriman"
                         placeholder="Masukkan alamat lengkap"
+                        autocomplete="street-address"
                         required
                         class="focus:ring-2 focus:ring-blue-500"
                     ></textarea>
@@ -495,14 +736,167 @@
     </div>
 
 
-    <!-- =========================
+    <!-- =========================================================
+         MODAL KONFIRMASI PESANAN
+    ========================================================== -->
+
+    <div id="confirmModal">
+
+        <div class="confirm-box">
+
+            <!-- HEADER -->
+
+            <div class="confirm-header">
+
+                <div class="confirm-icon">
+
+                    <i class="fa-solid fa-circle-question"></i>
+
+                </div>
+
+                <h2>
+                    Konfirmasi Pesanan
+                </h2>
+
+                <p>
+                    Pastikan data pengiriman sudah benar.
+                </p>
+
+            </div>
+
+
+            <!-- DATA CUSTOMER -->
+
+            <div class="confirm-data">
+
+                <div class="confirm-data-row">
+
+                    <span class="confirm-data-label">
+                        Nama Lengkap
+                    </span>
+
+                    <div
+                        id="confirmNama"
+                        class="confirm-data-value"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="confirm-data-row">
+
+                    <span class="confirm-data-label">
+                        Nomor HP / WhatsApp
+                    </span>
+
+                    <div
+                        id="confirmHp"
+                        class="confirm-data-value"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="confirm-data-row">
+
+                    <span class="confirm-data-label">
+                        Alamat Pengiriman
+                    </span>
+
+                    <div
+                        id="confirmAlamat"
+                        class="confirm-data-value"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="confirm-total">
+
+                <span>
+                    Total Pesanan
+                </span>
+
+                <span
+                    id="confirmTotal"
+                    class="confirm-total-value"
+                >
+                    Rp 0
+                </span>
+
+            </div>
+
+
+            <!-- WARNING -->
+
+            <div class="confirm-warning">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <strong> Periksa kembali data.</strong>
+
+                <br>
+
+                Pastikan nama, nomor HP/WhatsApp, dan alamat
+                pengiriman sudah benar sebelum melanjutkan.
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="confirm-buttons">
+
+                <button
+                    type="button"
+                    class="btn-edit"
+                    onclick="editCheckout()"
+                >
+
+                    <i class="fa-solid fa-pen mr-1"></i>
+
+                    Edit Data
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="btnConfirmOrder"
+                    class="btn-confirm"
+                    onclick="confirmCheckout()"
+                >
+
+                    <i class="fa-solid fa-check mr-1"></i>
+
+                    Ya, Sudah Benar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
          MODAL NOTA
-    ========================= -->
+    ========================================================== -->
 
     <div id="notaModal">
 
         <div class="nota-box shadow-2xl">
-
 
             <!-- HEADER NOTA -->
 
@@ -522,7 +916,7 @@
 
                 <p class="text-gray-500">
 
-                    Terima kasih telah berbelanja
+                    Terima kasih telah berbelanja di BlueShop
 
                 </p>
 
@@ -565,9 +959,7 @@
 
             <div class="nota-items">
 
-                <h3
-                    class="font-bold text-lg mb-3"
-                >
+                <h3 class="font-bold text-lg mb-3">
                     Detail Pesanan
                 </h3>
 
@@ -630,19 +1022,20 @@
     </div>
 
 
-    <!-- =========================
+    <!-- =========================================================
          SUPABASE
-    ========================= -->
+    ========================================================== -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-    <!-- =========================
+    <!-- =========================================================
          CHECKOUT JAVASCRIPT
-    ========================= -->
+    ========================================================== -->
 
     <script src="js/checkout.js"></script>
 
 </body>
 
 </html>
+```
