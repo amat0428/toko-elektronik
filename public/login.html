@@ -85,7 +85,6 @@
         .logo-icon {
             width: 54px;
             height: 54px;
-
             margin: 0 auto 10px;
 
             display: flex;
@@ -230,6 +229,7 @@
             padding: 10px 42px;
 
             border: 1px solid #dbe2ea;
+
             border-radius: 10px;
 
             outline: none;
@@ -691,14 +691,16 @@ const SUPABASE_PUBLISHABLE_KEY =
 
 
 /* =====================================================
-   BUAT SUPABASE CLIENT
+   SUPABASE CLIENT
 ===================================================== */
 
 let supabaseClient = null;
 
 if (!window.supabase) {
 
-    console.error("❌ Supabase JS gagal dimuat.");
+    console.error(
+        "❌ Supabase JS gagal dimuat."
+    );
 
     alert(
         "Supabase gagal dimuat. Periksa koneksi internet."
@@ -744,19 +746,36 @@ function switchTab(tab) {
     if (tab === "login") {
 
         login.classList.add("active");
-        register.classList.remove("active");
 
-        buttons[0].classList.add("active");
-        buttons[1].classList.remove("active");
+        register.classList.remove(
+            "active"
+        );
+
+        buttons[0].classList.add(
+            "active"
+        );
+
+        buttons[1].classList.remove(
+            "active"
+        );
 
     } else {
 
-        register.classList.add("active");
-        login.classList.remove("active");
+        register.classList.add(
+            "active"
+        );
 
-        buttons[1].classList.add("active");
-        buttons[0].classList.remove("active");
+        login.classList.remove(
+            "active"
+        );
 
+        buttons[1].classList.add(
+            "active"
+        );
+
+        buttons[0].classList.remove(
+            "active"
+        );
     }
 }
 
@@ -765,10 +784,15 @@ function switchTab(tab) {
    TOGGLE PASSWORD
 ===================================================== */
 
-function togglePassword(inputId, icon) {
+function togglePassword(
+    inputId,
+    icon
+) {
 
     const input =
-        document.getElementById(inputId);
+        document.getElementById(
+            inputId
+        );
 
     if (!input) return;
 
@@ -827,7 +851,8 @@ function hideAlert() {
             "alertBox"
         );
 
-    box.className = "alert";
+    box.className =
+        "alert";
 
     box.textContent = "";
 }
@@ -839,7 +864,10 @@ function hideAlert() {
 
 async function getUserProfile(user) {
 
-    if (!user || !user.email) {
+    if (
+        !user ||
+        !user.email
+    ) {
 
         console.error(
             "❌ User atau email tidak ditemukan."
@@ -848,35 +876,35 @@ async function getUserProfile(user) {
         return null;
     }
 
+
     const email =
         String(user.email)
             .trim()
             .toLowerCase();
+
 
     console.log(
         "🔎 Mencari profile:",
         email
     );
 
+
     try {
 
         const {
             data,
             error
-        } = await supabaseClient
-
-            .from("users_list")
-
-            .select(
-                "id, name, username, role"
-            )
-
-            .eq(
-                "username",
-                email
-            )
-
-            .maybeSingle();
+        } =
+            await supabaseClient
+                .from("users_list")
+                .select(
+                    "id, name, username, role"
+                )
+                .eq(
+                    "username",
+                    email
+                )
+                .maybeSingle();
 
 
         if (error) {
@@ -899,13 +927,15 @@ async function getUserProfile(user) {
 
         } else {
 
-            console.log(
-                "⚠️ Profile tidak ditemukan."
+            console.warn(
+                "⚠️ Profile tidak ditemukan untuk:",
+                email
             );
-
         }
 
+
         return data || null;
+
 
     } catch (error) {
 
@@ -920,7 +950,7 @@ async function getUserProfile(user) {
 
 
 /* =====================================================
-   BUAT USER BARU KE users_list
+   BUAT PROFILE USER
    ROLE SELALU USER
 ===================================================== */
 
@@ -929,9 +959,14 @@ async function createUserProfile(
     name
 ) {
 
-    if (!user || !user.email) {
+    if (
+        !user ||
+        !user.email
+    ) {
+
         return null;
     }
+
 
     const email =
         String(user.email)
@@ -944,30 +979,29 @@ async function createUserProfile(
         const {
             data,
             error
-        } = await supabaseClient
+        } =
+            await supabaseClient
+                .from("users_list")
+                .insert([
 
-            .from("users_list")
+                    {
+                        name:
+                            name ||
+                            user.user_metadata?.name ||
+                            "User",
 
-            .insert([{
+                        username:
+                            email,
 
-                name:
-                    name ||
-                    user.user_metadata?.name ||
-                    "User",
+                        role:
+                            "user"
+                    }
 
-                username:
-                    email,
-
-                role:
-                    "user"
-
-            }])
-
-            .select(
-                "id, name, username, role"
-            )
-
-            .single();
+                ])
+                .select(
+                    "id, name, username, role"
+                )
+                .single();
 
 
         if (error) {
@@ -986,7 +1020,9 @@ async function createUserProfile(
             data
         );
 
+
         return data;
+
 
     } catch (error) {
 
@@ -1009,7 +1045,7 @@ function saveUserSession(
     profile
 ) {
 
-    const role =
+    const databaseRole =
         String(
             profile?.role || "user"
         )
@@ -1018,15 +1054,12 @@ function saveUserSession(
 
 
     /*
-       PENTING:
-
-       HANYA "admin" yang dianggap admin.
-
-       Selain admin = user.
+        HANYA ROLE ADMIN
+        YANG BOLEH ADMIN
     */
 
     const finalRole =
-        role === "admin"
+        databaseRole === "admin"
             ? "admin"
             : "user";
 
@@ -1050,25 +1083,21 @@ function saveUserSession(
 
         role:
             finalRole
-
     };
 
 
-    /* USER */
     localStorage.setItem(
         "user",
         JSON.stringify(userData)
     );
 
 
-    /* CURRENT USER */
     localStorage.setItem(
         "currentUser",
         JSON.stringify(userData)
     );
 
 
-    /* LOGIN FLAG */
     localStorage.setItem(
         "isLoggedIn",
         "true"
@@ -1089,7 +1118,23 @@ function saveUserSession(
    REDIRECT BERDASARKAN ROLE
 ===================================================== */
 
-function redirectByRole(userData) {
+function redirectByRole(
+    userData
+) {
+
+    console.log(
+        "================================="
+    );
+
+    console.log(
+        "🔐 REDIRECT BERDASARKAN ROLE"
+    );
+
+    console.log(
+        "USER DATA:",
+        userData
+    );
+
 
     if (!userData) {
 
@@ -1097,8 +1142,9 @@ function redirectByRole(userData) {
             "❌ userData kosong."
         );
 
-        window.location.href =
-            "toko.html";
+        window.location.replace(
+            "/toko.html"
+        );
 
         return;
     }
@@ -1113,68 +1159,56 @@ function redirectByRole(userData) {
 
 
     console.log(
-        "================================="
-    );
-
-    console.log(
-        "🔐 CEK ROLE LOGIN"
-    );
-
-    console.log(
-        "Nama:",
-        userData.name
-    );
-
-    console.log(
-        "Email:",
-        userData.email
-    );
-
-    console.log(
-        "Role:",
+        "🛡️ ROLE:",
         role
     );
 
-    console.log(
-        "================================="
-    );
 
-
-    /*
+    /* ==========================
        ADMIN
-    */
+    ========================== */
 
     if (role === "admin") {
 
         console.log(
-            "🛡️ ADMIN TERDETEKSI"
+            "✅ ADMIN TERDETEKSI"
         );
 
         console.log(
-            "➡️ Membuka admin.html"
+            "➡️ MENUJU /admin.html"
         );
 
-        window.location.href =
-            "admin.html";
+
+        /*
+            PENTING:
+            gunakan admin.html
+            BUKAN /admin
+        */
+
+        window.location.replace(
+            "/admin.html"
+        );
 
         return;
     }
 
 
-    /*
+    /* ==========================
        USER BIASA
-    */
+    ========================== */
 
     console.log(
         "👤 USER BIASA"
     );
 
     console.log(
-        "➡️ Membuka toko.html"
+        "➡️ MENUJU /toko.html"
     );
 
-    window.location.href =
-        "toko.html";
+
+    window.location.replace(
+        "/toko.html"
+    );
 }
 
 
@@ -1269,7 +1303,6 @@ document
 
                             password:
                                 password
-
                         });
 
 
@@ -1341,6 +1374,7 @@ document
                         );
                     }
 
+
                     return;
                 }
 
@@ -1397,14 +1431,15 @@ document
 
                 if (!profile) {
 
-                    console.log(
+                    console.warn(
                         "⚠️ Profile belum ada."
                     );
 
-                    console.log(
-                        "📝 Membuat sebagai USER..."
-                    );
 
+                    /*
+                        PROFILE BARU
+                        SELALU USER
+                    */
 
                     profile =
                         await createUserProfile(
@@ -1413,15 +1448,10 @@ document
                         );
 
 
-                    /*
-                       Kalau gagal membuat profile,
-                       JANGAN jadikan admin.
-                    */
-
                     if (!profile) {
 
                         showAlert(
-                            "Profile pengguna tidak ditemukan. Periksa tabel users_list."
+                            "Profile pengguna tidak ditemukan. Pastikan data email di users_list sama dengan email login."
                         );
 
                         return;
@@ -1430,7 +1460,7 @@ document
 
 
                 /* ==========================
-                   AMBIL ROLE
+                   AMBIL ROLE DATABASE
                 ========================== */
 
                 const databaseRole =
@@ -1442,16 +1472,9 @@ document
 
 
                 /*
-                   HANYA role "admin"
-                   yang boleh admin.
-
-                   user
-                   kosong
-                   USER
-                   member
-                   dll
-
-                   semuanya USER.
+                    HANYA ADMIN
+                    YANG BISA MASUK
+                    ADMIN DASHBOARD
                 */
 
                 const role =
@@ -1502,7 +1525,7 @@ document
 
 
                 /* ==========================
-                   PESAN
+                   ADMIN
                 ========================== */
 
                 if (
@@ -1514,18 +1537,36 @@ document
                         "success"
                     );
 
-                } else {
 
-                    showAlert(
-                        "Login berhasil! Membuka BlueShop...",
-                        "success"
+                    /*
+                        LANGSUNG KE ADMIN
+                    */
+
+                    setTimeout(
+                        function() {
+
+                            redirectByRole(
+                                userData
+                            );
+
+                        },
+                        300
                     );
+
+
+                    return;
                 }
 
 
                 /* ==========================
-                   REDIRECT
+                   USER
                 ========================== */
+
+                showAlert(
+                    "Login berhasil! Membuka BlueShop...",
+                    "success"
+                );
+
 
                 setTimeout(
                     function() {
@@ -1535,7 +1576,7 @@ document
                         );
 
                     },
-                    700
+                    300
                 );
 
 
@@ -1554,6 +1595,7 @@ document
                         "Kesalahan sistem"
                     )
                 );
+
 
             } finally {
 
@@ -1649,7 +1691,9 @@ document
             }
 
 
-            if (password.length < 6) {
+            if (
+                password.length < 6
+            ) {
 
                 showAlert(
                     "Password minimal 6 karakter."
@@ -1674,7 +1718,7 @@ document
 
 
                 /* ==========================
-                   REGISTER SUPABASE
+                   REGISTER SUPABASE AUTH
                 ========================== */
 
                 const {
@@ -1696,11 +1740,8 @@ document
 
                                     name:
                                         name
-
                                 }
-
                             }
-
                         });
 
 
@@ -1765,6 +1806,7 @@ document
                         );
                     }
 
+
                     return;
                 }
 
@@ -1789,8 +1831,8 @@ document
 
 
                 /* ==========================
-                   BUAT PROFILE
-                   ROLE SELALU USER
+                   BUAT PROFILE USER
+                   ROLE = USER
                 ========================== */
 
                 const profile =
@@ -1839,6 +1881,7 @@ document
                             "login"
                         );
 
+
                         document
                             .getElementById(
                                 "loginEmail"
@@ -1866,6 +1909,7 @@ document
                         "Kesalahan sistem"
                     )
                 );
+
 
             } finally {
 
