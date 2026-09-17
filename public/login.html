@@ -1,417 +1,439 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>Login - BlueShop</title>
+    <title>Login - BlueShop</title>
 
-<!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Google Font -->
-<link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
->
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
-<!-- Font Awesome -->
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
->
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
 
-    body {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 24px 16px;
-        background:
-            radial-gradient(
-                circle at 10% 10%,
-                rgba(79, 70, 229, 0.22),
-                transparent 30%
-            ),
-            radial-gradient(
-                circle at 90% 90%,
-                rgba(6, 182, 212, 0.20),
-                transparent 30%
-            ),
-            linear-gradient(
-                135deg,
-                #eef2ff 0%,
-                #f8fafc 50%,
-                #ecfeff 100%
-            );
-    }
-
-    /* =========================
-       CONTAINER
-    ========================= */
-
-    .container {
-        width: 100%;
-        max-width: 410px;
-    }
-
-    /* =========================
-       CARD
-    ========================= */
-
-    .card {
-        background: rgba(255, 255, 255, 0.97);
-        border: 1px solid rgba(255, 255, 255, 0.9);
-        border-radius: 22px;
-        padding: 30px;
-        box-shadow:
-            0 25px 60px rgba(15, 23, 42, 0.12),
-            0 8px 25px rgba(15, 23, 42, 0.06);
-        backdrop-filter: blur(10px);
-    }
-
-    /* =========================
-       LOGO
-    ========================= */
-
-    .logo {
-        text-align: center;
-        margin-bottom: 25px;
-    }
-
-    .logo-icon {
-        width: 54px;
-        height: 54px;
-        margin: 0 auto 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 15px;
-        background: linear-gradient(
-            135deg,
-            #4f46e5,
-            #06b6d4
-        );
-        color: white;
-        font-size: 22px;
-        box-shadow:
-            0 8px 20px rgba(79, 70, 229, 0.25);
-    }
-
-    .logo h1 {
-        font-size: 27px;
-        font-weight: 700;
-        color: #4f46e5;
-        letter-spacing: -0.5px;
-    }
-
-    .logo p {
-        margin-top: 3px;
-        color: #64748b;
-        font-size: 12px;
-    }
-
-    /* =========================
-       TAB
-    ========================= */
-
-    .tab-menu {
-        display: flex;
-        gap: 4px;
-        padding: 4px;
-        margin-bottom: 24px;
-        background: #eef2ff;
-        border-radius: 11px;
-    }
-
-    .tab-btn {
-        flex: 1;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 8px;
-        background: transparent;
-        color: #64748b;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-
-    .tab-btn:hover {
-        color: #4f46e5;
-    }
-
-    .tab-btn.active {
-        background: white;
-        color: #4f46e5;
-        box-shadow:
-            0 3px 10px rgba(15, 23, 42, 0.08);
-    }
-
-    /* =========================
-       FORM
-    ========================= */
-
-    .form-container {
-        display: none;
-    }
-
-    .form-container.active {
-        display: block;
-    }
-
-    .form-title {
-        text-align: center;
-        color: #1e293b;
-        font-size: 20px;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-
-    .form-subtitle {
-        text-align: center;
-        color: #64748b;
-        font-size: 12px;
-        margin-bottom: 21px;
-    }
-
-    /* =========================
-       INPUT
-    ========================= */
-
-    .input-group {
-        margin-bottom: 16px;
-    }
-
-    .input-group label {
-        display: block;
-        margin-bottom: 6px;
-        color: #334155;
-        font-size: 12px;
-        font-weight: 600;
-    }
-
-    .input-wrapper {
-        position: relative;
-    }
-
-    .input-icon {
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #94a3b8;
-        font-size: 14px;
-        pointer-events: none;
-    }
-
-    input {
-        width: 100%;
-        height: 46px;
-        padding: 10px 42px;
-        border: 1px solid #dbe2ea;
-        border-radius: 10px;
-        outline: none;
-        background: #f8fafc;
-        color: #1e293b;
-        font-size: 13px;
-        transition: all 0.2s ease;
-    }
-
-    input:hover {
-        border-color: #c7d2fe;
-    }
-
-    input:focus {
-        border-color: #6366f1;
-        background: white;
-        box-shadow:
-            0 0 0 3px rgba(99, 102, 241, 0.10);
-    }
-
-    input::placeholder {
-        color: #94a3b8;
-    }
-
-    /* =========================
-       PASSWORD
-    ========================= */
-
-    .toggle-password {
-        position: absolute;
-        right: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #94a3b8;
-        font-size: 14px;
-        cursor: pointer;
-        transition: color 0.2s ease;
-    }
-
-    .toggle-password:hover {
-        color: #4f46e5;
-    }
-
-    /* =========================
-       BUTTON
-    ========================= */
-
-    .submit-btn {
-        width: 100%;
-        height: 46px;
-        margin-top: 3px;
-        border: none;
-        border-radius: 10px;
-        background:
-            linear-gradient(
-                135deg,
-                #4f46e5,
-                #06b6d4
-            );
-        color: white;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow:
-            0 7px 18px rgba(79, 70, 229, 0.18);
-    }
-
-    .submit-btn:hover {
-        transform: translateY(-1px);
-        box-shadow:
-            0 10px 23px rgba(79, 70, 229, 0.25);
-    }
-
-    .submit-btn:active {
-        transform: translateY(0);
-    }
-
-    .submit-btn:disabled {
-        opacity: 0.65;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-
-    /* =========================
-       ALERT
-    ========================= */
-
-    .alert {
-        display: none;
-        padding: 11px 13px;
-        margin-bottom: 17px;
-        border-radius: 9px;
-        font-size: 12px;
-        line-height: 1.5;
-    }
-
-    .alert.error {
-        display: block;
-        background: #fef2f2;
-        color: #b91c1c;
-        border: 1px solid #fecaca;
-    }
-
-    .alert.success {
-        display: block;
-        background: #f0fdf4;
-        color: #15803d;
-        border: 1px solid #bbf7d0;
-    }
-
-    /* =========================
-       BACK
-    ========================= */
-
-    .back {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        margin-top: 20px;
-        color: #4f46e5;
-        font-size: 12px;
-        font-weight: 500;
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-
-    .back:hover {
-        color: #3730a3;
-        text-decoration: underline;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 480px) {
         body {
-            padding: 18px 14px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(79, 70, 229, 0.22),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 90%,
+                    rgba(6, 182, 212, 0.20),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #eef2ff 0%,
+                    #f8fafc 50%,
+                    #ecfeff 100%
+                );
+        }
+
+        .container {
+            width: 100%;
+            max-width: 410px;
         }
 
         .card {
-            padding: 24px 20px;
-            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.97);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 22px;
+            padding: 30px;
+
+            box-shadow:
+                0 25px 60px rgba(15, 23, 42, 0.12),
+                0 8px 25px rgba(15, 23, 42, 0.06);
+
+            backdrop-filter: blur(10px);
         }
 
         .logo {
-            margin-bottom: 21px;
+            text-align: center;
+            margin-bottom: 25px;
         }
 
         .logo-icon {
-            width: 50px;
-            height: 50px;
-            font-size: 20px;
+            width: 54px;
+            height: 54px;
+            margin: 0 auto 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #06b6d4
+                );
+
+            color: white;
+            font-size: 22px;
+
+            box-shadow:
+                0 8px 20px rgba(79, 70, 229, 0.25);
         }
 
         .logo h1 {
-            font-size: 25px;
+            font-size: 27px;
+            font-weight: 700;
+            color: #4f46e5;
+            letter-spacing: -0.5px;
+        }
+
+        .logo p {
+            margin-top: 3px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .tab-menu {
+            display: flex;
+            gap: 4px;
+
+            padding: 4px;
+            margin-bottom: 24px;
+
+            background: #eef2ff;
+            border-radius: 11px;
+        }
+
+        .tab-btn {
+            flex: 1;
+
+            border: none;
+            border-radius: 8px;
+
+            padding: 10px 8px;
+
+            background: transparent;
+            color: #64748b;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: #4f46e5;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #4f46e5;
+
+            box-shadow:
+                0 3px 10px rgba(15, 23, 42, 0.08);
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
         }
 
         .form-title {
-            font-size: 19px;
-        }
-    }
-</style>
-```
+            text-align: center;
 
+            color: #1e293b;
+            font-size: 20px;
+            font-weight: 700;
+
+            margin-bottom: 5px;
+        }
+
+        .form-subtitle {
+            text-align: center;
+
+            color: #64748b;
+            font-size: 12px;
+
+            margin-bottom: 21px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #334155;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #94a3b8;
+            font-size: 14px;
+
+            pointer-events: none;
+        }
+
+        input {
+            width: 100%;
+            height: 46px;
+
+            padding: 10px 42px;
+
+            border: 1px solid #dbe2ea;
+            border-radius: 10px;
+
+            outline: none;
+
+            background: #f8fafc;
+            color: #1e293b;
+
+            font-size: 13px;
+
+            transition: all 0.2s ease;
+        }
+
+        input:hover {
+            border-color: #c7d2fe;
+        }
+
+        input:focus {
+            border-color: #6366f1;
+            background: white;
+
+            box-shadow:
+                0 0 0 3px rgba(99, 102, 241, 0.10);
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        .toggle-password {
+            position: absolute;
+
+            right: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #94a3b8;
+            font-size: 14px;
+
+            cursor: pointer;
+
+            transition: color 0.2s ease;
+        }
+
+        .toggle-password:hover {
+            color: #4f46e5;
+        }
+
+        .submit-btn {
+            width: 100%;
+            height: 46px;
+
+            margin-top: 3px;
+
+            border: none;
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #06b6d4
+                );
+
+            color: white;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+
+            box-shadow:
+                0 7px 18px rgba(79, 70, 229, 0.18);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 10px 23px rgba(79, 70, 229, 0.25);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+        }
+
+        .alert {
+            display: none;
+
+            padding: 11px 13px;
+            margin-bottom: 17px;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .alert.error {
+            display: block;
+
+            background: #fef2f2;
+            color: #b91c1c;
+
+            border: 1px solid #fecaca;
+        }
+
+        .alert.success {
+            display: block;
+
+            background: #f0fdf4;
+            color: #15803d;
+
+            border: 1px solid #bbf7d0;
+        }
+
+        .back {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 6px;
+
+            margin-top: 20px;
+
+            color: #4f46e5;
+
+            font-size: 12px;
+            font-weight: 500;
+
+            text-decoration: none;
+
+            transition: color 0.2s ease;
+        }
+
+        .back:hover {
+            color: #3730a3;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 18px 14px;
+            }
+
+            .card {
+                padding: 24px 20px;
+                border-radius: 18px;
+            }
+
+            .logo {
+                margin-bottom: 21px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .logo h1 {
+                font-size: 25px;
+            }
+
+            .form-title {
+                font-size: 19px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-```
 <div class="container">
 
     <div class="card">
 
         <!-- LOGO -->
         <div class="logo">
+
             <div class="logo-icon">
                 <i class="fa-solid fa-bag-shopping"></i>
             </div>
 
             <h1>BlueShop</h1>
-            <p>Toko Elektronik Online</p>
+
+            <p>Toko Fashion Online</p>
+
         </div>
+
 
         <!-- TAB -->
         <div class="tab-menu">
+
             <button
                 type="button"
                 class="tab-btn active"
@@ -427,10 +449,16 @@
             >
                 Daftar
             </button>
+
         </div>
 
+
         <!-- ALERT -->
-        <div id="alertBox" class="alert"></div>
+        <div
+            id="alertBox"
+            class="alert"
+        ></div>
+
 
         <!-- =========================
              LOGIN
@@ -449,15 +477,18 @@
                 Silakan masuk ke akun BlueShop
             </div>
 
+
             <form id="loginForm">
 
                 <!-- EMAIL -->
                 <div class="input-group">
+
                     <label for="loginEmail">
                         Email
                     </label>
 
                     <div class="input-wrapper">
+
                         <i class="fa-solid fa-envelope input-icon"></i>
 
                         <input
@@ -467,16 +498,21 @@
                             autocomplete="email"
                             required
                         >
+
                     </div>
+
                 </div>
+
 
                 <!-- PASSWORD -->
                 <div class="input-group">
+
                     <label for="loginPassword">
                         Kata Sandi
                     </label>
 
                     <div class="input-wrapper">
+
                         <i class="fa-solid fa-lock input-icon"></i>
 
                         <input
@@ -491,8 +527,11 @@
                             class="fa-solid fa-eye toggle-password"
                             onclick="togglePassword('loginPassword', this)"
                         ></i>
+
                     </div>
+
                 </div>
+
 
                 <button
                     type="submit"
@@ -503,7 +542,9 @@
                 </button>
 
             </form>
+
         </div>
+
 
         <!-- =========================
              REGISTER
@@ -522,15 +563,18 @@
                 Daftar untuk mulai menggunakan BlueShop
             </div>
 
+
             <form id="registerForm">
 
                 <!-- NAMA -->
                 <div class="input-group">
+
                     <label for="regName">
                         Nama Lengkap
                     </label>
 
                     <div class="input-wrapper">
+
                         <i class="fa-solid fa-user input-icon"></i>
 
                         <input
@@ -540,16 +584,21 @@
                             autocomplete="name"
                             required
                         >
+
                     </div>
+
                 </div>
+
 
                 <!-- EMAIL -->
                 <div class="input-group">
+
                     <label for="regEmail">
                         Email
                     </label>
 
                     <div class="input-wrapper">
+
                         <i class="fa-solid fa-envelope input-icon"></i>
 
                         <input
@@ -559,16 +608,21 @@
                             autocomplete="email"
                             required
                         >
+
                     </div>
+
                 </div>
+
 
                 <!-- PASSWORD -->
                 <div class="input-group">
+
                     <label for="regPassword">
                         Kata Sandi
                     </label>
 
                     <div class="input-wrapper">
+
                         <i class="fa-solid fa-lock input-icon"></i>
 
                         <input
@@ -584,8 +638,11 @@
                             class="fa-solid fa-eye toggle-password"
                             onclick="togglePassword('regPassword', this)"
                         ></i>
+
                     </div>
+
                 </div>
+
 
                 <button
                     type="submit"
@@ -596,47 +653,59 @@
                 </button>
 
             </form>
+
         </div>
 
+
         <!-- BACK -->
-        <a href="index.html" class="back">
+        <a
+            href="index.html"
+            class="back"
+        >
             <i class="fa-solid fa-arrow-left"></i>
             Kembali ke Portfolio
         </a>
 
     </div>
+
 </div>
 
+
 <script>
-    /* =====================================================
-       KONFIGURASI SUPABASE
-    ===================================================== */
 
-    const SUPABASE_URL =
-        "https://fbnknnrltrsvydyxgujr.supabase.co";
+/* =====================================================
+   KONFIGURASI SUPABASE
+===================================================== */
 
-    const SUPABASE_PUBLISHABLE_KEY =
-        "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
+const SUPABASE_URL =
+    "https://fbnknnrltrsvydyxgujr.supabase.co";
 
-
-    /* =====================================================
-       CEK SUPABASE
-    ===================================================== */
-
-    if (!window.supabase) {
-        console.error("Supabase JS gagal dimuat.");
-
-        alert(
-            "Supabase gagal dimuat. Periksa koneksi internet atau CDN."
-        );
-    }
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
 
-    /* =====================================================
-       CREATE SUPABASE CLIENT
-    ===================================================== */
+/* =====================================================
+   CEK SUPABASE
+===================================================== */
 
-    const supabaseClient = window.supabase
+if (!window.supabase) {
+
+    console.error(
+        "❌ Supabase JS gagal dimuat."
+    );
+
+    alert(
+        "Supabase gagal dimuat. Periksa koneksi internet atau CDN."
+    );
+}
+
+
+/* =====================================================
+   CREATE SUPABASE CLIENT
+===================================================== */
+
+const supabaseClient =
+    window.supabase
         ? window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_PUBLISHABLE_KEY
@@ -644,522 +713,530 @@
         : null;
 
 
-    if (!supabaseClient) {
-        console.error(
-            "Supabase Client gagal dibuat."
+if (supabaseClient) {
+
+    console.log(
+        "✅ Supabase berhasil terhubung."
+    );
+
+} else {
+
+    console.error(
+        "❌ Supabase Client gagal dibuat."
+    );
+}
+
+
+/* =====================================================
+   SWITCH TAB
+===================================================== */
+
+function switchTab(tab) {
+
+    const login =
+        document.getElementById(
+            "loginFormContainer"
         );
+
+    const register =
+        document.getElementById(
+            "registerFormContainer"
+        );
+
+    const buttons =
+        document.querySelectorAll(
+            ".tab-btn"
+        );
+
+    hideAlert();
+
+    if (tab === "login") {
+
+        login.classList.add("active");
+
+        register.classList.remove("active");
+
+        buttons[0].classList.add("active");
+
+        buttons[1].classList.remove("active");
+
     } else {
-        console.log(
-            "✅ Supabase berhasil terhubung."
+
+        register.classList.add("active");
+
+        login.classList.remove("active");
+
+        buttons[1].classList.add("active");
+
+        buttons[0].classList.remove("active");
+    }
+}
+
+
+/* =====================================================
+   TOGGLE PASSWORD
+===================================================== */
+
+function togglePassword(inputId, icon) {
+
+    const input =
+        document.getElementById(inputId);
+
+    if (!input) return;
+
+    if (input.type === "password") {
+
+        input.type = "text";
+
+        icon.classList.remove("fa-eye");
+
+        icon.classList.add("fa-eye-slash");
+
+    } else {
+
+        input.type = "password";
+
+        icon.classList.remove("fa-eye-slash");
+
+        icon.classList.add("fa-eye");
+    }
+}
+
+
+/* =====================================================
+   ALERT
+===================================================== */
+
+function showAlert(
+    message,
+    type = "error"
+) {
+
+    const box =
+        document.getElementById(
+            "alertBox"
         );
+
+    box.textContent = message;
+
+    box.className =
+        "alert " + type;
+}
+
+
+function hideAlert() {
+
+    const box =
+        document.getElementById(
+            "alertBox"
+        );
+
+    box.className = "alert";
+
+    box.textContent = "";
+}
+
+
+/* =====================================================
+   AMBIL PROFILE USER
+===================================================== */
+
+async function getUserProfile(user) {
+
+    if (!user || !user.email) {
+
+        return null;
     }
 
-
-    /* =====================================================
-       SWITCH TAB
-    ===================================================== */
-
-    function switchTab(tab) {
-
-        const login =
-            document.getElementById(
-                "loginFormContainer"
-            );
-
-        const register =
-            document.getElementById(
-                "registerFormContainer"
-            );
-
-        const buttons =
-            document.querySelectorAll(
-                ".tab-btn"
-            );
-
-        hideAlert();
-
-        if (tab === "login") {
-
-            login.classList.add("active");
-            register.classList.remove("active");
-
-            buttons[0].classList.add("active");
-            buttons[1].classList.remove("active");
-
-        } else {
-
-            register.classList.add("active");
-            login.classList.remove("active");
-
-            buttons[1].classList.add("active");
-            buttons[0].classList.remove("active");
-        }
-    }
-
-
-    /* =====================================================
-       TOGGLE PASSWORD
-    ===================================================== */
-
-    function togglePassword(inputId, icon) {
-
-        const input =
-            document.getElementById(inputId);
-
-        if (!input) return;
-
-        if (input.type === "password") {
-
-            input.type = "text";
-
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
-
-        } else {
-
-            input.type = "password";
-
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
-        }
-    }
-
-
-    /* =====================================================
-       ALERT
-    ===================================================== */
-
-    function showAlert(message, type = "error") {
-
-        const box =
-            document.getElementById("alertBox");
-
-        box.textContent = message;
-
-        box.className =
-            "alert " + type;
-    }
-
-
-    function hideAlert() {
-
-        const box =
-            document.getElementById("alertBox");
-
-        box.className = "alert";
-        box.textContent = "";
-    }
-
-
-    /* =====================================================
-       SYNC USER KE users_list
-    ===================================================== */
-
-    async function syncUserToTable(user, name = null) {
-
-        if (!user) return null;
-
-        try {
-
-            const email =
-                user.email || "";
-
-
-            /* CARI USER */
-
-            const {
-                data: existingUser,
-                error: findError
-            } = await supabaseClient
-                .from("users_list")
-                .select("id, name, username, role")
-                .eq("username", email)
-                .maybeSingle();
-
-
-            if (findError) {
-
-                console.error(
-                    "Gagal mencari users_list:",
-                    findError
-                );
-
-                return null;
-            }
-
-
-            /* USER SUDAH ADA */
-
-            if (existingUser) {
-
-                console.log(
-                    "User sudah ada:",
-                    existingUser
-                );
-
-                return existingUser;
-            }
-
-
-            /* USER BELUM ADA */
-
-            const {
-                data: newUser,
-                error: insertError
-            } = await supabaseClient
-                .from("users_list")
-                .insert([
-                    {
-                        name:
-                            name ||
-                            user.user_metadata?.name ||
-                            "User",
-
-                        username:
-                            email,
-
-                        role:
-                            "user"
-                    }
-                ])
-                .select()
-                .single();
-
-
-            if (insertError) {
-
-                console.error(
-                    "Gagal memasukkan users_list:",
-                    insertError
-                );
-
-                throw insertError;
-            }
-
-
-            console.log(
-                "User berhasil masuk users_list:",
-                newUser
-            );
-
-            return newUser;
-
-        } catch (error) {
+    try {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("users_list")
+            .select("id, name, username, role")
+            .eq(
+                "username",
+                user.email
+            )
+            .maybeSingle();
+
+
+        if (error) {
 
             console.error(
-                "Sync users_list error:",
+                "Gagal mengambil users_list:",
                 error
             );
 
-            throw error;
+            return null;
         }
+
+
+        return data || null;
+
+    } catch (error) {
+
+        console.error(
+            "getUserProfile error:",
+            error
+        );
+
+        return null;
+    }
+}
+
+
+/* =====================================================
+   SYNC USER KE users_list
+===================================================== */
+
+async function syncUserToTable(
+    user,
+    name = null
+) {
+
+    if (!user) return null;
+
+    try {
+
+        const email =
+            String(
+                user.email || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        if (!email) {
+
+            console.error(
+                "Email user kosong."
+            );
+
+            return null;
+        }
+
+
+        /* ==========================
+           CARI USER
+        ========================== */
+
+        const {
+            data: existingUser,
+            error: findError
+        } = await supabaseClient
+            .from("users_list")
+            .select(
+                "id, name, username, role"
+            )
+            .eq(
+                "username",
+                email
+            )
+            .maybeSingle();
+
+
+        if (findError) {
+
+            console.error(
+                "Gagal mencari users_list:",
+                findError
+            );
+
+            return null;
+        }
+
+
+        /* ==========================
+           USER SUDAH ADA
+        ========================== */
+
+        if (existingUser) {
+
+            console.log(
+                "✅ User sudah ada:",
+                existingUser
+            );
+
+            return existingUser;
+        }
+
+
+        /* ==========================
+           USER BELUM ADA
+        ========================== */
+
+        const {
+            data: newUser,
+            error: insertError
+        } = await supabaseClient
+            .from("users_list")
+            .insert([
+                {
+                    name:
+                        name ||
+                        user.user_metadata?.name ||
+                        "User",
+
+                    username:
+                        email,
+
+                    role:
+                        "user"
+                }
+            ])
+            .select()
+            .single();
+
+
+        if (insertError) {
+
+            console.error(
+                "Gagal memasukkan users_list:",
+                insertError
+            );
+
+            return null;
+        }
+
+
+        console.log(
+            "✅ User berhasil masuk users_list:",
+            newUser
+        );
+
+
+        return newUser;
+
+    } catch (error) {
+
+        console.error(
+            "syncUserToTable error:",
+            error
+        );
+
+        return null;
+    }
+}
+
+
+/* =====================================================
+   SIMPAN SESSION USER
+===================================================== */
+
+function saveUserSession(
+    user,
+    profile,
+    role
+) {
+
+    const userData = {
+
+        id:
+            user.id,
+
+        email:
+            user.email,
+
+        name:
+            profile?.name ||
+            user.user_metadata?.name ||
+            "User",
+
+        username:
+            profile?.username ||
+            user.email,
+
+        role:
+            String(
+                role || "user"
+            )
+            .toLowerCase()
+            .trim()
+    };
+
+
+    /* USER */
+
+    localStorage.setItem(
+        "user",
+        JSON.stringify(userData)
+    );
+
+
+    /* CURRENT USER */
+
+    localStorage.setItem(
+        "currentUser",
+        JSON.stringify(userData)
+    );
+
+
+    /* SESSION FLAG */
+
+    localStorage.setItem(
+        "isLoggedIn",
+        "true"
+    );
+
+
+    console.log(
+        "💾 Session tersimpan:",
+        userData
+    );
+
+
+    return userData;
+}
+
+
+/* =====================================================
+   REDIRECT BERDASARKAN ROLE
+===================================================== */
+
+function redirectByRole(
+    userData
+) {
+
+    if (!userData) {
+
+        window.location.href =
+            "toko.html";
+
+        return;
     }
 
 
-    /* =====================================================
-       LOGIN
-    ===================================================== */
-
-    document
-        .getElementById("loginForm")
-        .addEventListener(
-            "submit",
-            async function (event) {
-
-                event.preventDefault();
-                hideAlert();
+    const role =
+        String(
+            userData.role || "user"
+        )
+        .toLowerCase()
+        .trim();
 
 
-                if (!supabaseClient) {
-
-                    showAlert(
-                        "Supabase belum siap."
-                    );
-
-                    return;
-                }
+    console.log(
+        "🔐 ROLE USER:",
+        role
+    );
 
 
-                const email =
-                    document
-                        .getElementById("loginEmail")
-                        .value
-                        .trim()
-                        .toLowerCase();
+    /* ==========================
+       ADMIN
+    ========================== */
+
+    if (role === "admin") {
+
+        console.log(
+            "🛡️ Admin → admin.html"
+        );
+
+        window.location.href =
+            "admin.html";
+
+        return;
+    }
 
 
-                const password =
-                    document
-                        .getElementById("loginPassword")
-                        .value;
+    /* ==========================
+       USER
+    ========================== */
+
+    console.log(
+        "👤 User → toko.html"
+    );
+
+    window.location.href =
+        "toko.html";
+}
 
 
-                const button =
-                    document.getElementById(
-                        "btnLogin"
-                    );
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            hideAlert();
 
 
-                button.disabled = true;
+            if (!supabaseClient) {
 
-                button.innerHTML =
-                    '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa...';
+                showAlert(
+                    "Supabase belum siap."
+                );
 
-
-                try {
-
-                    console.log(
-                        "Mencoba login:",
-                        email
-                    );
+                return;
+            }
 
 
-                    /* LOGIN SUPABASE AUTH */
+            const email =
+                document
+                    .getElementById(
+                        "loginEmail"
+                    )
+                    .value
+                    .trim()
+                    .toLowerCase();
 
-                    const {
-                        data,
-                        error
-                    } =
-                        await supabaseClient.auth.signInWithPassword({
-                            email: email,
-                            password: password
+
+            const password =
+                document
+                    .getElementById(
+                        "loginPassword"
+                    )
+                    .value;
+
+
+            const button =
+                document.getElementById(
+                    "btnLogin"
+                );
+
+
+            button.disabled = true;
+
+            button.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Memeriksa...';
+
+
+            try {
+
+                console.log(
+                    "🔐 Mencoba login:",
+                    email
+                );
+
+
+                /* ==========================
+                   LOGIN SUPABASE AUTH
+                ========================== */
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth
+                        .signInWithPassword({
+
+                            email:
+                                email,
+
+                            password:
+                                password
+
                         });
 
 
-                    if (error) {
-
-                        console.error(
-                            "Login Error:",
-                            error
-                        );
-
-
-                        const message =
-                            (
-                                error.message ||
-                                ""
-                            ).toLowerCase();
-
-
-                        if (
-                            error.status === 429 ||
-                            message.includes("rate limit") ||
-                            message.includes("too many requests")
-                        ) {
-
-                            showAlert(
-                                "Terlalu banyak percobaan. Silakan tunggu beberapa saat."
-                            );
-
-                        } else if (
-                            message.includes(
-                                "email not confirmed"
-                            )
-                        ) {
-
-                            showAlert(
-                                "Email belum dikonfirmasi. Periksa email kamu."
-                            );
-
-                        } else if (
-                            message.includes(
-                                "invalid login credentials"
-                            )
-                        ) {
-
-                            showAlert(
-                                "Email atau password salah."
-                            );
-
-                        } else if (
-                            message.includes(
-                                "invalid api key"
-                            )
-                        ) {
-
-                            showAlert(
-                                "API Key Supabase tidak valid."
-                            );
-
-                        } else {
-
-                            showAlert(
-                                "Gagal login: " +
-                                error.message
-                            );
-                        }
-
-                        return;
-                    }
-
-
-                    if (!data || !data.user) {
-
-                        showAlert(
-                            "Akun tidak ditemukan."
-                        );
-
-                        return;
-                    }
-
-
-                    /* USER BERHASIL LOGIN */
-
-                    const user =
-                        data.user;
-
-
-                    console.log(
-                        "✅ Login berhasil:",
-                        user.email
-                    );
-
-
-                    /* SYNC users_list */
-
-                    let profile = null;
-
-                    try {
-
-                        profile =
-                            await syncUserToTable(
-                                user,
-                                user.user_metadata?.name
-                            );
-
-                    } catch (profileError) {
-
-                        console.error(
-                            "Gagal sync users_list:",
-                            profileError
-                        );
-                    }
-
-
-                    /* AMBIL ROLE */
-
-                    let role = "user";
-
-
-                    if (
-                        profile &&
-                        profile.role
-                    ) {
-
-                        role =
-                            profile.role;
-
-                    } else {
-
-                        const {
-                            data: profileData
-                        } =
-                            await supabaseClient
-                                .from("users_list")
-                                .select("role, name")
-                                .eq(
-                                    "username",
-                                    user.email
-                                )
-                                .maybeSingle();
-
-
-                        if (
-                            profileData &&
-                            profileData.role
-                        ) {
-
-                            role =
-                                profileData.role;
-                        }
-                    }
-
-
-                    /* DATA USER */
-
-                    const userData = {
-
-                        id:
-                            user.id,
-
-                        email:
-                            user.email,
-
-                        name:
-                            profile?.name ||
-                            user.user_metadata?.name ||
-                            "User",
-
-                        role:
-                            role
-                    };
-
-
-                    /* LOCAL STORAGE */
-
-                    localStorage.setItem(
-                        "user",
-                        JSON.stringify(userData)
-                    );
-
-                    localStorage.setItem(
-                        "currentUser",
-                        JSON.stringify(userData)
-                    );
-
-                    localStorage.setItem(
-                        "isLoggedIn",
-                        "true"
-                    );
-
-
-                    console.log(
-                        "Data user:",
-                        userData
-                    );
-
-
-                    showAlert(
-                        "Login berhasil! Membuka toko...",
-                        "success"
-                    );
-
-
-                    /* REDIRECT */
-
-                    setTimeout(function () {
-
-                        const params =
-                            new URLSearchParams(
-                                window.location.search
-                            );
-
-
-                        let redirectTo =
-                            params.get("redirect") ||
-                            "toko.html";
-
-
-                        /* CEGAH REDIRECT EKSTERNAL */
-
-                        if (
-                            redirectTo.startsWith("http://") ||
-                            redirectTo.startsWith("https://") ||
-                            redirectTo.startsWith("//")
-                        ) {
-
-                            redirectTo =
-                                "toko.html";
-                        }
-
-
-                        window.location.href =
-                            redirectTo;
-
-                    }, 800);
-
-
-                } catch (error) {
+                if (error) {
 
                     console.error(
                         "Login Error:",
@@ -1167,129 +1244,369 @@
                     );
 
 
-                    showAlert(
-                        "Gagal login: " +
+                    const message =
                         (
                             error.message ||
-                            "Kesalahan sistem"
+                            ""
                         )
-                    );
-
-                } finally {
-
-                    button.disabled = false;
-
-                    button.textContent =
-                        "Masuk";
-                }
-            }
-        );
-
-
-    /* =====================================================
-       REGISTER
-    ===================================================== */
-
-    document
-        .getElementById("registerForm")
-        .addEventListener(
-            "submit",
-            async function (event) {
-
-                event.preventDefault();
-                hideAlert();
-
-
-                if (!supabaseClient) {
-
-                    showAlert(
-                        "Supabase belum siap."
-                    );
-
-                    return;
-                }
-
-
-                const name =
-                    document
-                        .getElementById("regName")
-                        .value
-                        .trim();
-
-
-                const email =
-                    document
-                        .getElementById("regEmail")
-                        .value
-                        .trim()
                         .toLowerCase();
 
 
-                const password =
-                    document
-                        .getElementById("regPassword")
-                        .value;
+                    if (
+                        error.status === 429 ||
+                        message.includes(
+                            "rate limit"
+                        ) ||
+                        message.includes(
+                            "too many requests"
+                        )
+                    ) {
+
+                        showAlert(
+                            "Terlalu banyak percobaan. Silakan tunggu beberapa saat."
+                        );
+
+                    } else if (
+                        message.includes(
+                            "email not confirmed"
+                        )
+                    ) {
+
+                        showAlert(
+                            "Email belum dikonfirmasi. Periksa email kamu."
+                        );
+
+                    } else if (
+                        message.includes(
+                            "invalid login credentials"
+                        )
+                    ) {
+
+                        showAlert(
+                            "Email atau password salah."
+                        );
+
+                    } else if (
+                        message.includes(
+                            "invalid api key"
+                        )
+                    ) {
+
+                        showAlert(
+                            "API Key Supabase tidak valid."
+                        );
+
+                    } else {
+
+                        showAlert(
+                            "Gagal login: " +
+                            error.message
+                        );
+                    }
+
+                    return;
+                }
 
 
-                const button =
-                    document.getElementById(
-                        "btnRegister"
-                    );
+                /* ==========================
+                   CEK USER
+                ========================== */
 
-
-                /* VALIDASI */
-
-                if (!name) {
+                if (
+                    !data ||
+                    !data.user
+                ) {
 
                     showAlert(
-                        "Nama lengkap wajib diisi."
+                        "Akun tidak ditemukan."
                     );
 
                     return;
                 }
 
 
-                if (!email) {
+                const user =
+                    data.user;
 
-                    showAlert(
-                        "Email wajib diisi."
+
+                console.log(
+                    "✅ Login Auth berhasil:",
+                    user.email
+                );
+
+
+                /* ==========================
+                   AMBIL PROFILE DULU
+                ========================== */
+
+                let profile =
+                    await getUserProfile(
+                        user
                     );
 
-                    return;
+
+                /* ==========================
+                   JIKA BELUM ADA
+                   BUAT USER BIASA
+                ========================== */
+
+                if (!profile) {
+
+                    profile =
+                        await syncUserToTable(
+                            user,
+                            user.user_metadata?.name
+                        );
                 }
 
 
-                if (password.length < 6) {
+                /* ==========================
+                   TENTUKAN ROLE
+                ========================== */
 
-                    showAlert(
-                        "Password minimal 6 karakter."
-                    );
+                let role =
+                    "user";
 
-                    return;
+
+                if (
+                    profile &&
+                    profile.role
+                ) {
+
+                    role =
+                        String(
+                            profile.role
+                        )
+                        .toLowerCase()
+                        .trim();
                 }
 
 
-                button.disabled = true;
+                /*
+                    HANYA role admin
+                    yang boleh masuk admin.
+                */
+
+                if (
+                    role !== "admin"
+                ) {
+
+                    role = "user";
+                }
+
+
+                console.log(
+                    "👤 PROFILE:",
+                    profile
+                );
+
+                console.log(
+                    "🛡️ ROLE:",
+                    role
+                );
+
+
+                /* ==========================
+                   SIMPAN USER
+                ========================== */
+
+                const userData =
+                    saveUserSession(
+                        user,
+                        profile,
+                        role
+                    );
+
+
+                /* ==========================
+                   PESAN
+                ========================== */
+
+                if (
+                    role === "admin"
+                ) {
+
+                    showAlert(
+                        "Login berhasil! Membuka Dashboard Admin...",
+                        "success"
+                    );
+
+                } else {
+
+                    showAlert(
+                        "Login berhasil! Membuka toko...",
+                        "success"
+                    );
+                }
+
+
+                /* ==========================
+                   REDIRECT
+                ========================== */
+
+                setTimeout(
+                    function () {
+
+                        /*
+                            JANGAN percaya redirect
+                            untuk menentukan admin.
+
+                            Role dari database tetap
+                            menjadi penentu utama.
+                        */
+
+                        redirectByRole(
+                            userData
+                        );
+
+                    },
+                    700
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Login Error:",
+                    error
+                );
+
+
+                showAlert(
+                    "Gagal login: " +
+                    (
+                        error.message ||
+                        "Kesalahan sistem"
+                    )
+                );
+
+            } finally {
+
+                button.disabled = false;
 
                 button.innerHTML =
-                    '<i class="fa-solid fa-spinner fa-spin"></i> Mendaftarkan...';
+                    "Masuk";
+            }
+
+        }
+    );
 
 
-                try {
+/* =====================================================
+   REGISTER
+===================================================== */
 
-                    console.log(
-                        "Mendaftarkan:",
-                        email
-                    );
+document
+    .getElementById("registerForm")
+    .addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            hideAlert();
 
 
-                    /* REGISTER AUTH */
+            if (!supabaseClient) {
 
-                    const {
-                        data,
-                        error
-                    } =
-                        await supabaseClient.auth.signUp({
+                showAlert(
+                    "Supabase belum siap."
+                );
+
+                return;
+            }
+
+
+            const name =
+                document
+                    .getElementById(
+                        "regName"
+                    )
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById(
+                        "regEmail"
+                    )
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const password =
+                document
+                    .getElementById(
+                        "regPassword"
+                    )
+                    .value;
+
+
+            const button =
+                document.getElementById(
+                    "btnRegister"
+                );
+
+
+            /* ==========================
+               VALIDASI
+            ========================== */
+
+            if (!name) {
+
+                showAlert(
+                    "Nama lengkap wajib diisi."
+                );
+
+                return;
+            }
+
+
+            if (!email) {
+
+                showAlert(
+                    "Email wajib diisi."
+                );
+
+                return;
+            }
+
+
+            if (password.length < 6) {
+
+                showAlert(
+                    "Password minimal 6 karakter."
+                );
+
+                return;
+            }
+
+
+            button.disabled = true;
+
+            button.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Mendaftarkan...';
+
+
+            try {
+
+                console.log(
+                    "📝 Mendaftarkan:",
+                    email
+                );
+
+
+                /* ==========================
+                   REGISTER SUPABASE AUTH
+                ========================== */
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth
+                        .signUp({
 
                             email:
                                 email,
@@ -1300,146 +1617,161 @@
                             options: {
 
                                 data: {
+
                                     name:
                                         name
+
                                 }
+
                             }
+
                         });
 
 
-                    if (error) {
+                if (error) {
 
-                        console.error(
-                            "Register Error:",
-                            error
-                        );
-
-
-                        const message =
-                            (
-                                error.message ||
-                                ""
-                            ).toLowerCase();
-
-
-                        if (
-                            error.status === 429 ||
-                            message.includes("rate limit") ||
-                            message.includes("too many requests")
-                        ) {
-
-                            showAlert(
-                                "Terlalu banyak percobaan pendaftaran. Tunggu beberapa saat."
-                            );
-
-                        } else if (
-                            message.includes(
-                                "signups not allowed"
-                            )
-                        ) {
-
-                            showAlert(
-                                "Pendaftaran belum diizinkan di Supabase."
-                            );
-
-                        } else if (
-                            message.includes(
-                                "already registered"
-                            ) ||
-                            message.includes(
-                                "already exists"
-                            )
-                        ) {
-
-                            showAlert(
-                                "Email tersebut sudah terdaftar. Silakan masuk."
-                            );
-
-                        } else if (
-                            message.includes(
-                                "invalid api key"
-                            )
-                        ) {
-
-                            showAlert(
-                                "API Key Supabase tidak valid."
-                            );
-
-                        } else {
-
-                            showAlert(
-                                "Gagal daftar: " +
-                                error.message
-                            );
-                        }
-
-                        return;
-                    }
-
-
-                    if (!data || !data.user) {
-
-                        showAlert(
-                            "Pendaftaran gagal. Silakan coba lagi."
-                        );
-
-                        return;
-                    }
-
-
-                    console.log(
-                        "✅ Register Auth berhasil:",
-                        data.user
+                    console.error(
+                        "Register Error:",
+                        error
                     );
 
 
-                    /* SYNC users_list */
-
-                    try {
-
-                        await syncUserToTable(
-                            data.user,
-                            name
-                        );
-
-                    } catch (tableError) {
-
-                        console.error(
-                            "Gagal users_list:",
-                            tableError
-                        );
-
-                        showAlert(
-                            "Akun berhasil dibuat, tetapi data users_list gagal disimpan."
-                        );
-
-                        return;
-                    }
+                    const message =
+                        (
+                            error.message ||
+                            ""
+                        )
+                        .toLowerCase();
 
 
-                    /* HASIL REGISTER */
-
-                    if (!data.session) {
+                    if (
+                        error.status === 429 ||
+                        message.includes(
+                            "rate limit"
+                        ) ||
+                        message.includes(
+                            "too many requests"
+                        )
+                    ) {
 
                         showAlert(
-                            "Pendaftaran berhasil! Silakan cek email untuk verifikasi.",
-                            "success"
+                            "Terlalu banyak percobaan pendaftaran. Tunggu beberapa saat."
+                        );
+
+                    } else if (
+                        message.includes(
+                            "signups not allowed"
+                        )
+                    ) {
+
+                        showAlert(
+                            "Pendaftaran belum diizinkan di Supabase."
+                        );
+
+                    } else if (
+                        message.includes(
+                            "already registered"
+                        ) ||
+                        message.includes(
+                            "already exists"
+                        )
+                    ) {
+
+                        showAlert(
+                            "Email tersebut sudah terdaftar. Silakan masuk."
+                        );
+
+                    } else if (
+                        message.includes(
+                            "invalid api key"
+                        )
+                    ) {
+
+                        showAlert(
+                            "API Key Supabase tidak valid."
                         );
 
                     } else {
 
                         showAlert(
-                            "Pendaftaran berhasil! Silakan login.",
-                            "success"
+                            "Gagal daftar: " +
+                            error.message
                         );
                     }
 
+                    return;
+                }
 
-                    /* PINDAH LOGIN */
 
-                    setTimeout(function () {
+                if (
+                    !data ||
+                    !data.user
+                ) {
 
-                        switchTab("login");
+                    showAlert(
+                        "Pendaftaran gagal. Silakan coba lagi."
+                    );
+
+                    return;
+                }
+
+
+                console.log(
+                    "✅ Register Auth berhasil:",
+                    data.user
+                );
+
+
+                /* ==========================
+                   SIMPAN KE users_list
+                   ROLE SELALU USER
+                ========================== */
+
+                const profile =
+                    await syncUserToTable(
+                        data.user,
+                        name
+                    );
+
+
+                if (!profile) {
+
+                    console.warn(
+                        "⚠️ Profile users_list belum berhasil dibuat."
+                    );
+                }
+
+
+                /* ==========================
+                   HASIL REGISTER
+                ========================== */
+
+                if (!data.session) {
+
+                    showAlert(
+                        "Pendaftaran berhasil! Silakan cek email untuk verifikasi.",
+                        "success"
+                    );
+
+                } else {
+
+                    showAlert(
+                        "Pendaftaran berhasil! Silakan login.",
+                        "success"
+                    );
+                }
+
+
+                /* ==========================
+                   PINDAH KE LOGIN
+                ========================== */
+
+                setTimeout(
+                    function () {
+
+                        switchTab(
+                            "login"
+                        );
 
                         document
                             .getElementById(
@@ -1448,93 +1780,103 @@
                             .value =
                             email;
 
-                    }, 1500);
+                    },
+                    1500
+                );
 
 
-                } catch (error) {
-
-                    console.error(
-                        "Register Error:",
-                        error
-                    );
-
-
-                    showAlert(
-                        "Gagal daftar: " +
-                        (
-                            error.message ||
-                            "Kesalahan sistem"
-                        )
-                    );
-
-                } finally {
-
-                    button.disabled = false;
-
-                    button.textContent =
-                        "Daftar Sekarang";
-                }
-            }
-        );
-
-
-    /* =====================================================
-       CEK SESSION
-    ===================================================== */
-
-    async function checkSession() {
-
-        if (!supabaseClient) return;
-
-        try {
-
-            const {
-                data,
-                error
-            } =
-                await supabaseClient.auth.getSession();
-
-
-            if (error) {
+            } catch (error) {
 
                 console.error(
-                    "Session Error:",
+                    "Register Error:",
                     error
                 );
 
-                return;
-            }
 
-
-            if (data.session) {
-
-                console.log(
-                    "Session aktif:",
-                    data.session.user.email
+                showAlert(
+                    "Gagal daftar: " +
+                    (
+                        error.message ||
+                        "Kesalahan sistem"
+                    )
                 );
 
-            } else {
+            } finally {
 
-                console.log(
-                    "Belum ada session."
-                );
+                button.disabled = false;
+
+                button.innerHTML =
+                    "Daftar Sekarang";
             }
 
-        } catch (error) {
-
-            console.error(
-                "Check Session Error:",
-                error
-            );
         }
+    );
+
+
+/* =====================================================
+   CEK SESSION
+===================================================== */
+
+async function checkSession() {
+
+    if (!supabaseClient) {
+        return;
     }
 
 
-    /* JALANKAN */
+    try {
 
-    checkSession();
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+
+        if (error) {
+
+            console.error(
+                "Session Error:",
+                error
+            );
+
+            return;
+        }
+
+
+        if (data.session) {
+
+            console.log(
+                "Session aktif:",
+                data.session.user.email
+            );
+
+        } else {
+
+            console.log(
+                "Belum ada session."
+            );
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Check Session Error:",
+            error
+        );
+    }
+}
+
+
+/* =====================================================
+   JALANKAN
+===================================================== */
+
+checkSession();
+
 </script>
-```
 
 </body>
 </html>
