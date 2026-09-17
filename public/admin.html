@@ -25,9 +25,9 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            color: #222;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #eef4ff;
+            color: #1f2937;
         }
 
         /* =========================
@@ -35,9 +35,9 @@
         ========================= */
 
         .header {
-            background: white;
+            background: linear-gradient(135deg, #0d6efd, #084298);
             padding: 18px 30px;
-            border-bottom: 1px solid #ddd;
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -45,6 +45,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.25);
         }
 
         .header h1 {
@@ -54,7 +55,7 @@
         }
 
         .header small {
-            color: #777;
+            color: #dbeafe;
         }
 
         .nav-links {
@@ -68,16 +69,28 @@
             text-decoration: none;
             border: none;
             padding: 10px 14px;
-            border-radius: 8px;
+            border-radius: 9px;
             font-weight: bold;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 7px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover,
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.92;
         }
 
         .btn-dashboard {
-            background: #0d6efd;
+            background: white;
+            color: #0d6efd;
+        }
+
+        .btn-orders {
+            background: #6f42c1;
             color: white;
         }
 
@@ -101,14 +114,8 @@
             color: white;
         }
 
-        .nav-links a:hover,
-        .logout-btn:hover {
-            opacity: .9;
-            color: white;
-        }
-
         /* =========================
-           CONTAINER
+           MAIN
         ========================= */
 
         .container-main {
@@ -122,15 +129,26 @@
         ========================= */
 
         .welcome {
-            background: white;
-            padding: 28px;
-            border-radius: 15px;
+            background: linear-gradient(
+                135deg,
+                #ffffff,
+                #e0ecff
+            );
+            padding: 30px;
+            border-radius: 18px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            box-shadow: 0 5px 20px rgba(30, 64, 175, 0.08);
+            border-left: 6px solid #0d6efd;
         }
 
         .welcome h2 {
             margin-bottom: 8px;
+            color: #0b3d91;
+            font-weight: 700;
+        }
+
+        .welcome p {
+            color: #64748b;
         }
 
         /* =========================
@@ -144,34 +162,63 @@
         }
 
         .stat-card {
-            background: white;
+            position: relative;
+            overflow: hidden;
             padding: 28px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.06);
-            text-align: center;
+            border-radius: 18px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+            transition: 0.25s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card:nth-child(1) {
+            background: linear-gradient(
+                135deg,
+                #0d6efd,
+                #084298
+            );
+        }
+
+        .stat-card:nth-child(2) {
+            background: linear-gradient(
+                135deg,
+                #198754,
+                #0f5132
+            );
+        }
+
+        .stat-card:nth-child(3) {
+            background: linear-gradient(
+                135deg,
+                #6f42c1,
+                #432874
+            );
         }
 
         .stat-icon {
             font-size: 38px;
             margin-bottom: 12px;
+            opacity: 0.95;
         }
 
         .stat-card h3 {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 10px;
+            font-size: 15px;
+            margin-bottom: 8px;
+            opacity: 0.9;
         }
 
         .stat-card p {
             font-size: 36px;
             font-weight: bold;
             margin: 0;
-            color: #0d6efd;
         }
 
         #adminStatus {
             font-size: 21px !important;
-            color: #198754 !important;
         }
 
         /* =========================
@@ -180,10 +227,11 @@
 
         .section-box {
             margin-top: 30px;
-            background: white;
+            background: #ffffff;
             padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(30, 64, 175, 0.08);
+            border: 1px solid #dbe7ff;
         }
 
         .section-header {
@@ -198,6 +246,7 @@
         .section-header h3 {
             margin: 0;
             font-weight: bold;
+            color: #0b3d91;
         }
 
         /* =========================
@@ -205,17 +254,23 @@
         ========================= */
 
         .order-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
+            border: none;
+            border-radius: 16px;
             padding: 20px;
             margin-bottom: 18px;
-            background: #fff;
-            transition: .2s;
+            background: linear-gradient(
+                135deg,
+                #ffffff,
+                #f5f8ff
+            );
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            border-left: 5px solid #0d6efd;
+            transition: 0.2s;
         }
 
         .order-card:hover {
-            box-shadow: 0 5px 18px rgba(0,0,0,.08);
-            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(13, 110, 253, 0.13);
+            transform: translateY(-2px);
         }
 
         .order-top {
@@ -224,7 +279,7 @@
             align-items: center;
             gap: 15px;
             padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e5e7eb;
             margin-bottom: 18px;
             flex-wrap: wrap;
         }
@@ -237,8 +292,8 @@
 
         .order-date {
             font-size: 13px;
-            color: #777;
-            margin-top: 4px;
+            color: #64748b;
+            margin-top: 5px;
         }
 
         .order-body {
@@ -249,34 +304,41 @@
 
         .info-title {
             font-size: 13px;
-            color: #777;
-            margin-bottom: 5px;
+            color: #64748b;
+            margin-bottom: 7px;
             font-weight: bold;
             text-transform: uppercase;
         }
 
         .customer-info {
-            background: #f8f9fa;
+            background: #eef5ff;
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
+            border: 1px solid #dbe7ff;
         }
 
         .customer-info p {
-            margin: 5px 0;
+            margin: 6px 0;
+        }
+
+        .customer-info i {
+            width: 20px;
+            color: #0d6efd;
         }
 
         .items-box {
-            background: #f8f9fa;
+            background: #f0fff7;
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
+            border: 1px solid #d1e7dd;
         }
 
         .item-row {
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #e2e2e2;
+            padding: 9px 0;
+            border-bottom: 1px solid #d8eee1;
         }
 
         .item-row:last-child {
@@ -288,14 +350,18 @@
         }
 
         .item-detail {
-            color: #666;
+            color: #64748b;
             font-size: 13px;
         }
+
+        /* =========================
+           BOTTOM ORDER
+        ========================= */
 
         .order-bottom {
             margin-top: 18px;
             padding-top: 18px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #e5e7eb;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -304,13 +370,13 @@
         }
 
         .total-label {
-            color: #777;
+            color: #64748b;
             font-size: 14px;
         }
 
         .total-price {
             color: #dc3545;
-            font-size: 22px;
+            font-size: 23px;
             font-weight: bold;
         }
 
@@ -321,18 +387,24 @@
         }
 
         .status-select {
-            min-width: 190px;
-            border-radius: 8px;
+            min-width: 210px;
+            border-radius: 9px;
             font-weight: bold;
             padding: 9px 12px;
+            border: 2px solid #dbe7ff;
+        }
+
+        .status-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
         }
 
         /* =========================
-           STATUS COLORS
+           STATUS BADGE
         ========================= */
 
         .badge-status {
-            padding: 8px 12px;
+            padding: 8px 13px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
@@ -370,13 +442,13 @@
         .empty-orders {
             text-align: center;
             padding: 60px 20px;
-            color: #777;
+            color: #64748b;
         }
 
         .empty-orders i {
             font-size: 55px;
             margin-bottom: 15px;
-            color: #adb5bd;
+            color: #94a3b8;
         }
 
         /* =========================
@@ -386,24 +458,45 @@
         .loading-box {
             text-align: center;
             padding: 50px;
-            color: #777;
+            color: #64748b;
         }
 
         /* =========================
-           STATUS SYSTEM
+           SYSTEM STATUS
         ========================= */
 
         .status-system {
             margin-top: 25px;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 15px 18px;
+            border-radius: 12px;
             background: #d1e7dd;
             color: #0f5132;
+            border-left: 5px solid #198754;
         }
 
         .status-system.error {
             background: #f8d7da;
             color: #842029;
+            border-left-color: #dc3545;
+        }
+
+        /* =========================
+           INFO
+        ========================= */
+
+        .info-list {
+            background: #f8faff;
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .info-list p {
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .info-list p:last-child {
+            border-bottom: none;
         }
 
         /* =========================
@@ -417,7 +510,6 @@
         }
 
         @media (max-width: 768px) {
-
             .header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -486,6 +578,11 @@
             Dashboard
         </a>
 
+        <a href="pesanan.html" class="btn-orders">
+            <i class="fa-solid fa-box"></i>
+            Pesanan
+        </a>
+
         <a href="produk.html" class="btn-products">
             <i class="fa-solid fa-cart-shopping"></i>
             Produk
@@ -496,12 +593,18 @@
             Ke Toko
         </a>
 
-        <button onclick="loadAllData()" class="logout-btn btn-refresh">
+        <button
+            onclick="loadAllData()"
+            class="logout-btn btn-refresh"
+        >
             <i class="fa-solid fa-rotate"></i>
             Refresh
         </button>
 
-        <button onclick="logout()" class="logout-btn btn-logout">
+        <button
+            onclick="logout()"
+            class="logout-btn btn-logout"
+        >
             <i class="fa-solid fa-right-from-bracket"></i>
             Logout
         </button>
@@ -527,7 +630,7 @@
 
         <p class="mb-0">
             Selamat datang di Dashboard Admin BlueShop.
-            Kelola pesanan dan produk toko dari halaman ini.
+            Kelola pesanan dan produk toko dengan mudah dari sini.
         </p>
 
     </div>
@@ -542,7 +645,7 @@
         <div class="stat-card">
 
             <div class="stat-icon">
-                📦
+                <i class="fa-solid fa-box"></i>
             </div>
 
             <h3>
@@ -559,7 +662,7 @@
         <div class="stat-card">
 
             <div class="stat-icon">
-                🛍️
+                <i class="fa-solid fa-bag-shopping"></i>
             </div>
 
             <h3>
@@ -576,7 +679,7 @@
         <div class="stat-card">
 
             <div class="stat-icon">
-                🛡️
+                <i class="fa-solid fa-shield-halved"></i>
             </div>
 
             <h3>
@@ -601,6 +704,7 @@
         <div class="section-header">
 
             <div>
+
                 <h3>
                     <i class="fa-solid fa-box-open"></i>
                     Daftar Pesanan
@@ -609,6 +713,7 @@
                 <small class="text-muted">
                     Kelola dan ubah status pesanan pelanggan
                 </small>
+
             </div>
 
             <button
@@ -640,37 +745,53 @@
 
 
     <!-- =========================
-         INFO
+         INFORMASI
     ========================= -->
 
     <div class="section-box">
 
         <h4>
-            <i class="fa-solid fa-circle-info"></i>
+            <i class="fa-solid fa-circle-info text-primary"></i>
             Informasi Admin
         </h4>
 
         <hr>
 
-        <p class="mb-2">
-            <strong>Dashboard</strong>
-            → Melihat statistik toko dan pesanan.
-        </p>
+        <div class="info-list">
 
-        <p class="mb-2">
-            <strong>Pesanan</strong>
-            → Melihat pesanan pelanggan dan mengubah statusnya.
-        </p>
+            <p class="mb-0">
+                <strong>
+                    <i class="fa-solid fa-house text-primary"></i>
+                    Dashboard
+                </strong>
+                → Melihat statistik toko dan pesanan.
+            </p>
 
-        <p class="mb-2">
-            <strong>Produk</strong>
-            → Tambah, edit, dan hapus produk.
-        </p>
+            <p class="mb-0">
+                <strong>
+                    <i class="fa-solid fa-box text-primary"></i>
+                    Pesanan
+                </strong>
+                → Melihat pesanan pelanggan dan mengubah statusnya.
+            </p>
 
-        <p class="mb-0">
-            <strong>Toko</strong>
-            → Melihat halaman toko BlueShop.
-        </p>
+            <p class="mb-0">
+                <strong>
+                    <i class="fa-solid fa-cart-shopping text-success"></i>
+                    Produk
+                </strong>
+                → Tambah, edit, dan hapus produk.
+            </p>
+
+            <p class="mb-0">
+                <strong>
+                    <i class="fa-solid fa-store text-warning"></i>
+                    Toko
+                </strong>
+                → Melihat halaman toko BlueShop.
+            </p>
+
+        </div>
 
     </div>
 
@@ -679,12 +800,12 @@
          SYSTEM STATUS
     ========================= -->
 
-    <div id="systemStatus" class="status-system">
-
+    <div
+        id="systemStatus"
+        class="status-system"
+    >
         <i class="fa-solid fa-spinner fa-spin"></i>
-
         Menghubungkan ke Supabase...
-
     </div>
 
 </div>
@@ -718,7 +839,8 @@
 
     function showSystemStatus(message, error = false) {
 
-        const el = document.getElementById("systemStatus");
+        const el =
+            document.getElementById("systemStatus");
 
         if (!el) return;
 
@@ -740,7 +862,10 @@
 
     function escapeHtml(value) {
 
-        if (value === null || value === undefined) {
+        if (
+            value === null ||
+            value === undefined
+        ) {
             return "";
         }
 
@@ -759,7 +884,8 @@
 
     function formatRupiah(value) {
 
-        const number = Number(value) || 0;
+        const number =
+            Number(value) || 0;
 
         return new Intl.NumberFormat("id-ID", {
             style: "currency",
@@ -779,7 +905,8 @@
             return "-";
         }
 
-        const date = new Date(value);
+        const date =
+            new Date(value);
 
         if (isNaN(date.getTime())) {
             return String(value);
@@ -835,7 +962,8 @@
 
             if (error || !user) {
 
-                window.location.href = "login.html";
+                window.location.href =
+                    "login.html";
 
                 return false;
             }
@@ -878,7 +1006,8 @@
                     "Data pengguna tidak ditemukan di users_list."
                 );
 
-                window.location.href = "toko.html";
+                window.location.href =
+                    "toko.html";
 
                 return false;
             }
@@ -896,19 +1025,24 @@
                     "Akses ditolak. Halaman ini hanya untuk Admin."
                 );
 
-                window.location.href = "toko.html";
+                window.location.href =
+                    "toko.html";
 
                 return false;
             }
 
 
-            document.getElementById("adminName").textContent =
+            document.getElementById(
+                "adminName"
+            ).textContent =
                 profile.name ||
                 profile.username ||
                 "Admin";
 
 
-            document.getElementById("adminStatus").textContent =
+            document.getElementById(
+                "adminStatus"
+            ).textContent =
                 "Admin Active";
 
 
@@ -918,7 +1052,8 @@
 
             console.error(error);
 
-            window.location.href = "login.html";
+            window.location.href =
+                "login.html";
 
             return false;
         }
@@ -936,13 +1071,13 @@
             const ordersResult =
                 await supabaseClient
                     .from("orders")
-                    .select("id");
+                    .select("*");
 
 
             const productsResult =
                 await supabaseClient
                     .from("produk")
-                    .select("id_produk");
+                    .select("*");
 
 
             if (ordersResult.error) {
@@ -952,11 +1087,15 @@
                     ordersResult.error
                 );
 
-                document.getElementById("totalOrders").textContent =
-                    "!";
+                document.getElementById(
+                    "totalOrders"
+                ).textContent = "!";
+
             } else {
 
-                document.getElementById("totalOrders").textContent =
+                document.getElementById(
+                    "totalOrders"
+                ).textContent =
                     ordersResult.data
                         ? ordersResult.data.length
                         : 0;
@@ -970,11 +1109,15 @@
                     productsResult.error
                 );
 
-                document.getElementById("totalProducts").textContent =
-                    "!";
+                document.getElementById(
+                    "totalProducts"
+                ).textContent = "!";
+
             } else {
 
-                document.getElementById("totalProducts").textContent =
+                document.getElementById(
+                    "totalProducts"
+                ).textContent =
                     productsResult.data
                         ? productsResult.data.length
                         : 0;
@@ -999,7 +1142,10 @@
 
     function getOrderId(order) {
 
-        if (order.id !== undefined && order.id !== null) {
+        if (
+            order.id !== undefined &&
+            order.id !== null
+        ) {
             return {
                 field: "id",
                 value: order.id
@@ -1034,7 +1180,7 @@
 
 
     /* =========================================
-       GET STATUS CLASS
+       STATUS CLASS
     ========================================= */
 
     function getStatusClass(status) {
@@ -1043,6 +1189,7 @@
             String(status || "")
                 .trim()
                 .toLowerCase();
+
 
         if (clean === "menunggu konfirmasi") {
             return "status-menunggu";
@@ -1074,7 +1221,9 @@
 
     function getItems(order) {
 
-        let items = order.items;
+        let items =
+            order.items;
+
 
         if (!items) {
             return [];
@@ -1084,7 +1233,10 @@
         if (typeof items === "string") {
 
             try {
-                items = JSON.parse(items);
+
+                items =
+                    JSON.parse(items);
+
             } catch (error) {
 
                 return [
@@ -1112,7 +1264,6 @@
 
 
         if (typeof items === "object") {
-
             return [items];
         }
 
@@ -1128,31 +1279,22 @@
     async function loadOrders() {
 
         const container =
-            document.getElementById("ordersContainer");
+            document.getElementById(
+                "ordersContainer"
+            );
 
 
         container.innerHTML = `
-
             <div class="loading-box">
-
                 <div class="spinner-border text-primary mb-3"></div>
-
                 <div>
                     Mengambil data pesanan dari Supabase...
                 </div>
-
             </div>
-
         `;
 
 
         try {
-
-            /*
-             * Tidak menggunakan .order("created_at")
-             * supaya lebih aman kalau nama kolom tanggal
-             * di database berbeda.
-             */
 
             const {
                 data: orders,
@@ -1165,31 +1307,29 @@
 
             if (error) {
 
-                console.error("Supabase Orders Error:", error);
+                console.error(
+                    "Supabase Orders Error:",
+                    error
+                );
+
 
                 container.innerHTML = `
-
                     <div class="alert alert-danger">
-
                         <strong>
                             Gagal mengambil pesanan.
                         </strong>
-
-                        <br>
-
+                        <br><br>
                         ${escapeHtml(error.message)}
 
                         <hr>
 
                         <small>
-                            Jika muncul pesan RLS / permission denied,
-                            berarti policy Supabase untuk tabel orders
-                            perlu diperiksa.
+                            Jika muncul RLS atau permission denied,
+                            policy Supabase untuk tabel orders perlu diperiksa.
                         </small>
-
                     </div>
-
                 `;
+
 
                 showSystemStatus(
                     "Gagal mengambil data orders: " +
@@ -1201,10 +1341,7 @@
             }
 
 
-            /*
-             * Urutkan terbaru berdasarkan created_at
-             * kalau kolom tersedia.
-             */
+            /* Urutkan terbaru */
 
             orders.sort(function(a, b) {
 
@@ -1216,6 +1353,7 @@
                         0
                     ).getTime();
 
+
                 const dateB =
                     new Date(
                         b.created_at ||
@@ -1224,16 +1362,18 @@
                         0
                     ).getTime();
 
+
                 return dateB - dateA;
             });
 
 
-            if (!orders || orders.length === 0) {
+            if (
+                !orders ||
+                orders.length === 0
+            ) {
 
                 container.innerHTML = `
-
                     <div class="empty-orders">
-
                         <i class="fa-solid fa-box-open"></i>
 
                         <h4>
@@ -1244,10 +1384,9 @@
                             Pesanan pelanggan yang masuk
                             akan muncul di sini.
                         </p>
-
                     </div>
-
                 `;
+
 
                 showSystemStatus(
                     "Terhubung ke Supabase. Belum ada pesanan."
@@ -1262,12 +1401,14 @@
 
             orders.forEach(function(order) {
 
-                html += createOrderCard(order);
+                html +=
+                    createOrderCard(order);
 
             });
 
 
-            container.innerHTML = html;
+            container.innerHTML =
+                html;
 
 
             showSystemStatus(
@@ -1276,23 +1417,20 @@
                 " pesanan dari Supabase."
             );
 
+
         } catch (error) {
 
             console.error(error);
 
+
             container.innerHTML = `
-
                 <div class="alert alert-danger">
-
                     Gagal memuat pesanan:
-
                     <br>
-
                     ${escapeHtml(error.message)}
-
                 </div>
-
             `;
+
 
             showSystemStatus(
                 "Terjadi kesalahan saat memuat pesanan.",
@@ -1367,11 +1505,9 @@
         if (items.length === 0) {
 
             itemsHtml = `
-
                 <div class="text-muted">
                     Tidak ada detail produk.
                 </div>
-
             `;
 
         } else {
@@ -1405,7 +1541,6 @@
 
 
                 itemsHtml += `
-
                     <div class="item-row">
 
                         <div>
@@ -1415,7 +1550,7 @@
                             </div>
 
                             <div class="item-detail">
-                                ${qty} x ${formatRupiah(price)}
+                                ${qty} × ${formatRupiah(price)}
                             </div>
 
                         </div>
@@ -1425,7 +1560,6 @@
                         </strong>
 
                     </div>
-
                 `;
             });
         }
@@ -1438,35 +1572,34 @@
 
 
         const safeIdField =
-            String(orderIdentity.field || "id")
+            String(
+                orderIdentity.field || "id"
+            )
                 .replace(/\\/g, "\\\\")
                 .replace(/'/g, "\\'");
 
 
         return `
-
             <div class="order-card">
 
-                <!-- ORDER HEADER -->
+                <!-- HEADER -->
 
                 <div class="order-top">
 
                     <div>
 
                         <div class="order-id">
-
                             <i class="fa-solid fa-receipt"></i>
 
                             Pesanan #${escapeHtml(orderId)}
-
                         </div>
 
                         <div class="order-date">
-
                             <i class="fa-regular fa-clock"></i>
 
-                            ${escapeHtml(formatDate(date))}
-
+                            ${escapeHtml(
+                                formatDate(date)
+                            )}
                         </div>
 
                     </div>
@@ -1477,9 +1610,7 @@
                         <span
                             class="badge-status ${getStatusClass(status)}"
                         >
-
                             ${escapeHtml(status)}
-
                         </span>
 
                     </div>
@@ -1487,7 +1618,7 @@
                 </div>
 
 
-                <!-- ORDER BODY -->
+                <!-- BODY -->
 
                 <div class="order-body">
 
@@ -1523,22 +1654,17 @@
                     </div>
 
 
-                    <!-- ITEMS -->
+                    <!-- PRODUCTS -->
 
                     <div>
 
                         <div class="info-title">
-
                             <i class="fa-solid fa-cart-shopping"></i>
-
                             Produk
-
                         </div>
 
                         <div class="items-box">
-
                             ${itemsHtml}
-
                         </div>
 
                     </div>
@@ -1546,7 +1672,7 @@
                 </div>
 
 
-                <!-- ORDER BOTTOM -->
+                <!-- BOTTOM -->
 
                 <div class="order-bottom">
 
@@ -1621,7 +1747,6 @@
                 </div>
 
             </div>
-
         `;
     }
 
@@ -1647,22 +1772,13 @@
         }
 
 
-        const oldValue =
-            selectElement.dataset.oldValue ||
-            "";
-
-
-        /*
-         * Konfirmasi perubahan
-         */
-
         const confirmChange =
             confirm(
                 "Ubah status pesanan #" +
                 orderId +
-                " menjadi \"" +
+                ' menjadi "' +
                 newStatus +
-                "\"?"
+                '"?'
             );
 
 
@@ -1688,10 +1804,6 @@
 
         try {
 
-            /*
-             * Update langsung ke Supabase
-             */
-
             const {
                 data,
                 error
@@ -1701,7 +1813,10 @@
                     .update({
                         status: newStatus
                     })
-                    .eq(idField, orderId)
+                    .eq(
+                        idField,
+                        orderId
+                    )
                     .select();
 
 
@@ -1725,7 +1840,10 @@
             }
 
 
-            if (!data || data.length === 0) {
+            if (
+                !data ||
+                data.length === 0
+            ) {
 
                 alert(
                     "Status tidak berubah.\n\n" +
@@ -1743,29 +1861,27 @@
             showSystemStatus(
                 "Status pesanan #" +
                 orderId +
-                " berhasil diubah menjadi \"" +
+                ' berhasil diubah menjadi "' +
                 newStatus +
-                "\"."
+                '".'
             );
 
-
-            /*
-             * Reload agar tampilan benar-benar mengambil
-             * data terbaru dari Supabase.
-             */
 
             await loadOrders();
 
             await loadStats();
 
+
         } catch (error) {
 
             console.error(error);
+
 
             alert(
                 "Terjadi kesalahan:\n\n" +
                 error.message
             );
+
 
             await loadOrders();
 
@@ -1789,7 +1905,6 @@
         await loadStats();
 
         await loadOrders();
-
     }
 
 
@@ -1804,13 +1919,11 @@
             if (supabaseClient) {
 
                 await supabaseClient.auth.signOut();
-
             }
 
         } catch (error) {
 
             console.error(error);
-
         }
 
 
@@ -1820,7 +1933,8 @@
         localStorage.removeItem("user_session");
 
 
-        window.location.href = "login.html";
+        window.location.href =
+            "login.html";
     }
 
 
@@ -1853,7 +1967,6 @@
             await loadStats();
 
             await loadOrders();
-
         }
     );
 
