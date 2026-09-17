@@ -129,11 +129,24 @@
             font-size: 13px;
 
             font-weight: 600;
+
+            text-decoration: none;
         }
 
         .nav-page-btn:hover {
             background: rgba(255,255,255,.35);
             transform: translateY(-1px);
+        }
+
+        /* DASHBOARD ADMIN */
+
+        #adminDashboardButton {
+            display: none;
+            background: #059669;
+        }
+
+        #adminDashboardButton:hover {
+            background: #047857;
         }
 
         .cart-count,
@@ -1214,12 +1227,28 @@
 
         <div class="navbar-right">
 
+            <!-- ROLE -->
             <span
                 class="badge"
                 id="roleBadge"
             >
                 👤 Guest
             </span>
+
+            <!-- =================================================
+                 DASHBOARD ADMIN
+                 HANYA MUNCUL UNTUK ADMIN
+            ================================================== -->
+
+            <a
+                href="admin.html"
+                class="nav-page-btn"
+                id="adminDashboardButton"
+            >
+                🛡️ Dashboard Admin
+            </a>
+
+            <!-- KERANJANG -->
 
             <button
                 class="nav-page-btn"
@@ -1235,6 +1264,8 @@
                 </span>
             </button>
 
+            <!-- PESANAN -->
+
             <button
                 class="nav-page-btn"
                 onclick="openOrdersPage()"
@@ -1249,6 +1280,8 @@
                 </span>
             </button>
 
+            <!-- LOGIN -->
+
             <a
                 href="login.html?redirect=toko.html"
                 class="btn-login"
@@ -1256,6 +1289,8 @@
             >
                 Login
             </a>
+
+            <!-- LOGOUT -->
 
             <button
                 class="btn-logout"
@@ -1308,6 +1343,8 @@
                     >
 
                 </div>
+
+                <!-- TAMBAH PRODUK KHUSUS ADMIN -->
 
                 <button
                     id="btnAddProductNav"
@@ -2140,16 +2177,41 @@ function checkUserRole() {
     }
 
 
+    if (
+        !currentUser ||
+        typeof currentUser !== "object"
+    ) {
+
+        currentUser = {
+
+            name: "Guest",
+
+            username: "guest",
+
+            role: "guest"
+
+        };
+
+        isAdmin = false;
+
+        updateNavbar();
+
+        loadUserData();
+
+        return false;
+    }
+
+
     const role =
         String(
             currentUser.role || ""
-        ).toLowerCase();
+        ).toLowerCase().trim();
 
 
     const username =
         String(
             currentUser.username || ""
-        ).toLowerCase();
+        ).toLowerCase().trim();
 
 
     isAdmin =
@@ -2209,6 +2271,12 @@ function updateNavbar() {
         );
 
 
+    const adminDashboardButton =
+        document.getElementById(
+            "adminDashboardButton"
+        );
+
+
     if (
         !badge ||
         !loginButton ||
@@ -2221,20 +2289,24 @@ function updateNavbar() {
     }
 
 
-    if (!currentUser) {
-        return;
+    /* DEFAULT */
+
+    if (adminDashboardButton) {
+
+        adminDashboardButton.style.display =
+            "none";
+
     }
-
-
-    const role =
-        String(
-            currentUser.role || ""
-        ).toLowerCase();
 
 
     /* ================= GUEST ================= */
 
-    if (role === "guest") {
+    if (
+        !currentUser ||
+        String(
+            currentUser.role || ""
+        ).toLowerCase() === "guest"
+    ) {
 
         badge.innerText =
             "👤 Guest";
@@ -2264,17 +2336,27 @@ function updateNavbar() {
             "DAFTAR PRODUK";
 
 
+        if (adminDashboardButton) {
+
+            adminDashboardButton.style.display =
+                "none";
+
+        }
+
+
         return;
     }
 
 
-    /* ================= USER ================= */
+    /* ================= USER LOGIN ================= */
 
     const displayName =
         currentUser.name ||
         currentUser.username ||
         "User";
 
+
+    /* ================= ADMIN ================= */
 
     if (isAdmin) {
 
@@ -2294,7 +2376,23 @@ function updateNavbar() {
         title.innerText =
             "DAFTAR PRODUK (ADMIN)";
 
-    } else {
+
+        /*
+         * Dashboard hanya tampil untuk admin
+         */
+
+        if (adminDashboardButton) {
+
+            adminDashboardButton.style.display =
+                "flex";
+
+        }
+
+    }
+
+    /* ================= USER BIASA ================= */
+
+    else {
 
         badge.innerText =
             "👤 User: " +
@@ -2311,6 +2409,15 @@ function updateNavbar() {
 
         title.innerText =
             "DAFTAR PRODUK";
+
+
+        if (adminDashboardButton) {
+
+            adminDashboardButton.style.display =
+                "none";
+
+        }
+
     }
 
 
@@ -2324,6 +2431,28 @@ function updateNavbar() {
 
     guestInfo.style.display =
         "none";
+
+}
+
+
+/* =========================================================
+   OPEN ADMIN DASHBOARD
+========================================================= */
+
+function openAdminDashboard() {
+
+    if (!isAdmin) {
+
+        alert(
+            "Akses ditolak. Halaman ini hanya untuk admin."
+        );
+
+        return;
+    }
+
+
+    window.location.href =
+        "admin.html";
 
 }
 
@@ -2376,6 +2505,7 @@ document.addEventListener(
                 "input",
                 filterProducts
             );
+
         }
 
     }
@@ -2638,6 +2768,7 @@ async function fetchProductRatings() {
             console.warn(
                 "⚠️ Supabase Auth user tidak tersedia."
             );
+
         }
 
 
@@ -2869,6 +3000,7 @@ function renderProducts(products) {
                     </div>
 
                 `;
+
             }
 
 
@@ -2903,10 +3035,7 @@ function renderProducts(products) {
                         class="product-img"
                         alt="${escapeAttribute(name)}"
                         onclick='goToDetail(${safeId})'
-                        onerror="
-                            this.onerror=null;
-                            this.src='https://placehold.co/600x400?text=No+Image';
-                        "
+                        onerror="this.onerror=null;this.src='https://placehold.co/600x400?text=No+Image';"
                     >
 
                     <span class="${stockClass}">
@@ -3208,6 +3337,7 @@ async function openRatingModal(productId) {
             "❌ GET USER ERROR:",
             error
         );
+
     }
 
 
@@ -3294,6 +3424,7 @@ async function openRatingModal(productId) {
                 Number(
                     data.rating
                 );
+
         }
 
 
@@ -3317,6 +3448,7 @@ async function openRatingModal(productId) {
         alert(
             "Gagal membuka rating."
         );
+
     }
 
 }
@@ -3370,6 +3502,7 @@ function updateRatingStars() {
                     star.classList.remove(
                         "active"
                     );
+
                 }
 
             }
@@ -3445,6 +3578,7 @@ async function saveRating() {
             "GET USER ERROR:",
             error
         );
+
     }
 
 
@@ -3518,6 +3652,7 @@ async function saveRating() {
             "Gagal menyimpan rating:\n" +
             error.message
         );
+
     }
 
 }
@@ -3539,6 +3674,7 @@ function closeRatingModal() {
 
         modal.style.display =
             "none";
+
     }
 
 
@@ -3909,6 +4045,7 @@ function updateBadges() {
 
         cartBadge.innerText =
             totalQty;
+
     }
 
 
@@ -3916,6 +4053,7 @@ function updateBadges() {
 
         orderBadge.innerText =
             orders.length;
+
     }
 
 }
@@ -4023,6 +4161,7 @@ function closeProductModal() {
 
         modal.style.display =
             "none";
+
     }
 
 }
@@ -4229,6 +4368,7 @@ async function saveProduct() {
             "Gagal menyimpan produk:\n" +
             error.message
         );
+
     }
 
 }
@@ -4382,6 +4522,7 @@ async function deleteProduct(id) {
             "Gagal menghapus produk:\n" +
             error.message
         );
+
     }
 
 }
@@ -4407,6 +4548,7 @@ async function logout() {
             "LOGOUT SUPABASE ERROR:",
             error
         );
+
     }
 
 
@@ -4414,9 +4556,11 @@ async function logout() {
         "user"
     );
 
+
     localStorage.removeItem(
         "currentUser"
     );
+
 
     localStorage.removeItem(
         "user_session"
