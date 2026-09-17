@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,6 +85,7 @@
         .logo-icon {
             width: 54px;
             height: 54px;
+
             margin: 0 auto 10px;
 
             display: flex;
@@ -122,7 +124,6 @@
         .tab-menu {
             display: flex;
             gap: 4px;
-
             padding: 4px;
             margin-bottom: 24px;
 
@@ -171,8 +172,8 @@
 
         .form-title {
             text-align: center;
-
             color: #1e293b;
+
             font-size: 20px;
             font-weight: 700;
 
@@ -181,8 +182,8 @@
 
         .form-subtitle {
             text-align: center;
-
             color: #64748b;
+
             font-size: 12px;
 
             margin-bottom: 21px;
@@ -198,6 +199,7 @@
             margin-bottom: 6px;
 
             color: #334155;
+
             font-size: 12px;
             font-weight: 600;
         }
@@ -215,6 +217,7 @@
             transform: translateY(-50%);
 
             color: #94a3b8;
+
             font-size: 14px;
 
             pointer-events: none;
@@ -245,6 +248,7 @@
 
         input:focus {
             border-color: #6366f1;
+
             background: white;
 
             box-shadow:
@@ -264,6 +268,7 @@
             transform: translateY(-50%);
 
             color: #94a3b8;
+
             font-size: 14px;
 
             cursor: pointer;
@@ -328,6 +333,7 @@
             display: none;
 
             padding: 11px 13px;
+
             margin-bottom: 17px;
 
             border-radius: 9px;
@@ -462,7 +468,7 @@
 
         <!-- =========================
              LOGIN
-        ========================= -->
+        ========================== -->
 
         <div
             id="loginFormContainer"
@@ -548,7 +554,7 @@
 
         <!-- =========================
              REGISTER
-        ========================= -->
+        ========================== -->
 
         <div
             id="registerFormContainer"
@@ -685,44 +691,29 @@ const SUPABASE_PUBLISHABLE_KEY =
 
 
 /* =====================================================
-   CEK SUPABASE
+   BUAT SUPABASE CLIENT
 ===================================================== */
+
+let supabaseClient = null;
 
 if (!window.supabase) {
 
-    console.error(
-        "❌ Supabase JS gagal dimuat."
-    );
+    console.error("❌ Supabase JS gagal dimuat.");
 
     alert(
-        "Supabase gagal dimuat. Periksa koneksi internet atau CDN."
-    );
-}
-
-
-/* =====================================================
-   CREATE SUPABASE CLIENT
-===================================================== */
-
-const supabaseClient =
-    window.supabase
-        ? window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_PUBLISHABLE_KEY
-        )
-        : null;
-
-
-if (supabaseClient) {
-
-    console.log(
-        "✅ Supabase berhasil terhubung."
+        "Supabase gagal dimuat. Periksa koneksi internet."
     );
 
 } else {
 
-    console.error(
-        "❌ Supabase Client gagal dibuat."
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+    console.log(
+        "✅ Supabase berhasil terhubung."
     );
 }
 
@@ -753,22 +744,19 @@ function switchTab(tab) {
     if (tab === "login") {
 
         login.classList.add("active");
-
         register.classList.remove("active");
 
         buttons[0].classList.add("active");
-
         buttons[1].classList.remove("active");
 
     } else {
 
         register.classList.add("active");
-
         login.classList.remove("active");
 
         buttons[1].classList.add("active");
-
         buttons[0].classList.remove("active");
+
     }
 }
 
@@ -788,17 +776,25 @@ function togglePassword(inputId, icon) {
 
         input.type = "text";
 
-        icon.classList.remove("fa-eye");
+        icon.classList.remove(
+            "fa-eye"
+        );
 
-        icon.classList.add("fa-eye-slash");
+        icon.classList.add(
+            "fa-eye-slash"
+        );
 
     } else {
 
         input.type = "password";
 
-        icon.classList.remove("fa-eye-slash");
+        icon.classList.remove(
+            "fa-eye-slash"
+        );
 
-        icon.classList.add("fa-eye");
+        icon.classList.add(
+            "fa-eye"
+        );
     }
 }
 
@@ -838,15 +834,29 @@ function hideAlert() {
 
 
 /* =====================================================
-   AMBIL PROFILE USER
+   AMBIL PROFILE DARI users_list
 ===================================================== */
 
 async function getUserProfile(user) {
 
     if (!user || !user.email) {
 
+        console.error(
+            "❌ User atau email tidak ditemukan."
+        );
+
         return null;
     }
+
+    const email =
+        String(user.email)
+            .trim()
+            .toLowerCase();
+
+    console.log(
+        "🔎 Mencari profile:",
+        email
+    );
 
     try {
 
@@ -854,19 +864,25 @@ async function getUserProfile(user) {
             data,
             error
         } = await supabaseClient
+
             .from("users_list")
-            .select("id, name, username, role")
+
+            .select(
+                "id, name, username, role"
+            )
+
             .eq(
                 "username",
-                user.email
+                email
             )
+
             .maybeSingle();
 
 
         if (error) {
 
             console.error(
-                "Gagal mengambil users_list:",
+                "❌ Error users_list:",
                 error
             );
 
@@ -874,12 +890,27 @@ async function getUserProfile(user) {
         }
 
 
+        if (data) {
+
+            console.log(
+                "✅ Profile ditemukan:",
+                data
+            );
+
+        } else {
+
+            console.log(
+                "⚠️ Profile tidak ditemukan."
+            );
+
+        }
+
         return data || null;
 
     } catch (error) {
 
         console.error(
-            "getUserProfile error:",
+            "❌ getUserProfile error:",
             error
         );
 
@@ -889,113 +920,61 @@ async function getUserProfile(user) {
 
 
 /* =====================================================
-   SYNC USER KE users_list
+   BUAT USER BARU KE users_list
+   ROLE SELALU USER
 ===================================================== */
 
-async function syncUserToTable(
+async function createUserProfile(
     user,
-    name = null
+    name
 ) {
 
-    if (!user) return null;
+    if (!user || !user.email) {
+        return null;
+    }
 
-    try {
-
-        const email =
-            String(
-                user.email || ""
-            )
+    const email =
+        String(user.email)
             .trim()
             .toLowerCase();
 
 
-        if (!email) {
-
-            console.error(
-                "Email user kosong."
-            );
-
-            return null;
-        }
-
-
-        /* ==========================
-           CARI USER
-        ========================== */
+    try {
 
         const {
-            data: existingUser,
-            error: findError
+            data,
+            error
         } = await supabaseClient
+
             .from("users_list")
+
+            .insert([{
+
+                name:
+                    name ||
+                    user.user_metadata?.name ||
+                    "User",
+
+                username:
+                    email,
+
+                role:
+                    "user"
+
+            }])
+
             .select(
                 "id, name, username, role"
             )
-            .eq(
-                "username",
-                email
-            )
-            .maybeSingle();
 
-
-        if (findError) {
-
-            console.error(
-                "Gagal mencari users_list:",
-                findError
-            );
-
-            return null;
-        }
-
-
-        /* ==========================
-           USER SUDAH ADA
-        ========================== */
-
-        if (existingUser) {
-
-            console.log(
-                "✅ User sudah ada:",
-                existingUser
-            );
-
-            return existingUser;
-        }
-
-
-        /* ==========================
-           USER BELUM ADA
-        ========================== */
-
-        const {
-            data: newUser,
-            error: insertError
-        } = await supabaseClient
-            .from("users_list")
-            .insert([
-                {
-                    name:
-                        name ||
-                        user.user_metadata?.name ||
-                        "User",
-
-                    username:
-                        email,
-
-                    role:
-                        "user"
-                }
-            ])
-            .select()
             .single();
 
 
-        if (insertError) {
+        if (error) {
 
             console.error(
-                "Gagal memasukkan users_list:",
-                insertError
+                "❌ Gagal membuat profile:",
+                error
             );
 
             return null;
@@ -1003,17 +982,16 @@ async function syncUserToTable(
 
 
         console.log(
-            "✅ User berhasil masuk users_list:",
-            newUser
+            "✅ Profile user dibuat:",
+            data
         );
 
-
-        return newUser;
+        return data;
 
     } catch (error) {
 
         console.error(
-            "syncUserToTable error:",
+            "❌ createUserProfile error:",
             error
         );
 
@@ -1023,14 +1001,35 @@ async function syncUserToTable(
 
 
 /* =====================================================
-   SIMPAN SESSION USER
+   SIMPAN SESSION
 ===================================================== */
 
 function saveUserSession(
     user,
-    profile,
-    role
+    profile
 ) {
+
+    const role =
+        String(
+            profile?.role || "user"
+        )
+        .trim()
+        .toLowerCase();
+
+
+    /*
+       PENTING:
+
+       HANYA "admin" yang dianggap admin.
+
+       Selain admin = user.
+    */
+
+    const finalRole =
+        role === "admin"
+            ? "admin"
+            : "user";
+
 
     const userData = {
 
@@ -1040,26 +1039,22 @@ function saveUserSession(
         email:
             user.email,
 
+        username:
+            profile?.username ||
+            user.email,
+
         name:
             profile?.name ||
             user.user_metadata?.name ||
             "User",
 
-        username:
-            profile?.username ||
-            user.email,
-
         role:
-            String(
-                role || "user"
-            )
-            .toLowerCase()
-            .trim()
+            finalRole
+
     };
 
 
     /* USER */
-
     localStorage.setItem(
         "user",
         JSON.stringify(userData)
@@ -1067,15 +1062,13 @@ function saveUserSession(
 
 
     /* CURRENT USER */
-
     localStorage.setItem(
         "currentUser",
         JSON.stringify(userData)
     );
 
 
-    /* SESSION FLAG */
-
+    /* LOGIN FLAG */
     localStorage.setItem(
         "isLoggedIn",
         "true"
@@ -1083,7 +1076,7 @@ function saveUserSession(
 
 
     console.log(
-        "💾 Session tersimpan:",
+        "💾 SESSION DISIMPAN:",
         userData
     );
 
@@ -1096,11 +1089,13 @@ function saveUserSession(
    REDIRECT BERDASARKAN ROLE
 ===================================================== */
 
-function redirectByRole(
-    userData
-) {
+function redirectByRole(userData) {
 
     if (!userData) {
+
+        console.error(
+            "❌ userData kosong."
+        );
 
         window.location.href =
             "toko.html";
@@ -1113,24 +1108,50 @@ function redirectByRole(
         String(
             userData.role || "user"
         )
-        .toLowerCase()
-        .trim();
+        .trim()
+        .toLowerCase();
 
 
     console.log(
-        "🔐 ROLE USER:",
+        "================================="
+    );
+
+    console.log(
+        "🔐 CEK ROLE LOGIN"
+    );
+
+    console.log(
+        "Nama:",
+        userData.name
+    );
+
+    console.log(
+        "Email:",
+        userData.email
+    );
+
+    console.log(
+        "Role:",
         role
     );
 
+    console.log(
+        "================================="
+    );
 
-    /* ==========================
+
+    /*
        ADMIN
-    ========================== */
+    */
 
     if (role === "admin") {
 
         console.log(
-            "🛡️ Admin → admin.html"
+            "🛡️ ADMIN TERDETEKSI"
+        );
+
+        console.log(
+            "➡️ Membuka admin.html"
         );
 
         window.location.href =
@@ -1140,12 +1161,16 @@ function redirectByRole(
     }
 
 
-    /* ==========================
-       USER
-    ========================== */
+    /*
+       USER BIASA
+    */
 
     console.log(
-        "👤 User → toko.html"
+        "👤 USER BIASA"
+    );
+
+    console.log(
+        "➡️ Membuka toko.html"
     );
 
     window.location.href =
@@ -1161,7 +1186,7 @@ document
     .getElementById("loginForm")
     .addEventListener(
         "submit",
-        async function (event) {
+        async function(event) {
 
             event.preventDefault();
 
@@ -1211,8 +1236,20 @@ document
             try {
 
                 console.log(
-                    "🔐 Mencoba login:",
+                    "================================="
+                );
+
+                console.log(
+                    "🔐 PROSES LOGIN"
+                );
+
+                console.log(
+                    "Email:",
                     email
+                );
+
+                console.log(
+                    "================================="
                 );
 
 
@@ -1239,7 +1276,7 @@ document
                 if (error) {
 
                     console.error(
-                        "Login Error:",
+                        "❌ Login Error:",
                         error
                     );
 
@@ -1330,13 +1367,22 @@ document
 
 
                 console.log(
-                    "✅ Login Auth berhasil:",
+                    "✅ Supabase Auth berhasil"
+                );
+
+                console.log(
+                    "User ID:",
+                    user.id
+                );
+
+                console.log(
+                    "Email:",
                     user.email
                 );
 
 
                 /* ==========================
-                   AMBIL PROFILE DULU
+                   AMBIL PROFILE
                 ========================== */
 
                 let profile =
@@ -1346,75 +1392,112 @@ document
 
 
                 /* ==========================
-                   JIKA BELUM ADA
-                   BUAT USER BIASA
+                   PROFILE BELUM ADA
                 ========================== */
 
                 if (!profile) {
 
+                    console.log(
+                        "⚠️ Profile belum ada."
+                    );
+
+                    console.log(
+                        "📝 Membuat sebagai USER..."
+                    );
+
+
                     profile =
-                        await syncUserToTable(
+                        await createUserProfile(
                             user,
                             user.user_metadata?.name
                         );
+
+
+                    /*
+                       Kalau gagal membuat profile,
+                       JANGAN jadikan admin.
+                    */
+
+                    if (!profile) {
+
+                        showAlert(
+                            "Profile pengguna tidak ditemukan. Periksa tabel users_list."
+                        );
+
+                        return;
+                    }
                 }
 
 
                 /* ==========================
-                   TENTUKAN ROLE
+                   AMBIL ROLE
                 ========================== */
 
-                let role =
-                    "user";
-
-
-                if (
-                    profile &&
-                    profile.role
-                ) {
-
-                    role =
-                        String(
-                            profile.role
-                        )
-                        .toLowerCase()
-                        .trim();
-                }
+                const databaseRole =
+                    String(
+                        profile.role || "user"
+                    )
+                    .trim()
+                    .toLowerCase();
 
 
                 /*
-                    HANYA role admin
-                    yang boleh masuk admin.
+                   HANYA role "admin"
+                   yang boleh admin.
+
+                   user
+                   kosong
+                   USER
+                   member
+                   dll
+
+                   semuanya USER.
                 */
 
-                if (
-                    role !== "admin"
-                ) {
-
-                    role = "user";
-                }
+                const role =
+                    databaseRole === "admin"
+                        ? "admin"
+                        : "user";
 
 
                 console.log(
-                    "👤 PROFILE:",
+                    "================================="
+                );
+
+                console.log(
+                    "👤 DATA PROFILE"
+                );
+
+                console.log(
                     profile
                 );
 
                 console.log(
-                    "🛡️ ROLE:",
+                    "🛡️ ROLE DATABASE:",
+                    databaseRole
+                );
+
+                console.log(
+                    "🔐 ROLE FINAL:",
                     role
+                );
+
+                console.log(
+                    "================================="
                 );
 
 
                 /* ==========================
-                   SIMPAN USER
+                   SIMPAN SESSION
                 ========================== */
 
                 const userData =
                     saveUserSession(
                         user,
-                        profile,
-                        role
+                        {
+                            ...profile,
+                            role: role
+                        }
                     );
 
 
@@ -1434,7 +1517,7 @@ document
                 } else {
 
                     showAlert(
-                        "Login berhasil! Membuka toko...",
+                        "Login berhasil! Membuka BlueShop...",
                         "success"
                     );
                 }
@@ -1445,15 +1528,7 @@ document
                 ========================== */
 
                 setTimeout(
-                    function () {
-
-                        /*
-                            JANGAN percaya redirect
-                            untuk menentukan admin.
-
-                            Role dari database tetap
-                            menjadi penentu utama.
-                        */
+                    function() {
 
                         redirectByRole(
                             userData
@@ -1463,10 +1538,11 @@ document
                     700
                 );
 
+
             } catch (error) {
 
                 console.error(
-                    "Login Error:",
+                    "❌ Login Error:",
                     error
                 );
 
@@ -1499,7 +1575,7 @@ document
     .getElementById("registerForm")
     .addEventListener(
         "submit",
-        async function (event) {
+        async function(event) {
 
             event.preventDefault();
 
@@ -1592,13 +1668,13 @@ document
             try {
 
                 console.log(
-                    "📝 Mendaftarkan:",
+                    "📝 Register:",
                     email
                 );
 
 
                 /* ==========================
-                   REGISTER SUPABASE AUTH
+                   REGISTER SUPABASE
                 ========================== */
 
                 const {
@@ -1631,7 +1707,7 @@ document
                 if (error) {
 
                     console.error(
-                        "Register Error:",
+                        "❌ Register Error:",
                         error
                     );
 
@@ -1681,16 +1757,6 @@ document
                             "Email tersebut sudah terdaftar. Silakan masuk."
                         );
 
-                    } else if (
-                        message.includes(
-                            "invalid api key"
-                        )
-                    ) {
-
-                        showAlert(
-                            "API Key Supabase tidak valid."
-                        );
-
                     } else {
 
                         showAlert(
@@ -1718,17 +1784,17 @@ document
 
                 console.log(
                     "✅ Register Auth berhasil:",
-                    data.user
+                    data.user.email
                 );
 
 
                 /* ==========================
-                   SIMPAN KE users_list
+                   BUAT PROFILE
                    ROLE SELALU USER
                 ========================== */
 
                 const profile =
-                    await syncUserToTable(
+                    await createUserProfile(
                         data.user,
                         name
                     );
@@ -1743,7 +1809,7 @@ document
 
 
                 /* ==========================
-                   HASIL REGISTER
+                   HASIL
                 ========================== */
 
                 if (!data.session) {
@@ -1763,11 +1829,11 @@ document
 
 
                 /* ==========================
-                   PINDAH KE LOGIN
+                   PINDAH LOGIN
                 ========================== */
 
                 setTimeout(
-                    function () {
+                    function() {
 
                         switchTab(
                             "login"
@@ -1788,7 +1854,7 @@ document
             } catch (error) {
 
                 console.error(
-                    "Register Error:",
+                    "❌ Register Error:",
                     error
                 );
 
@@ -1837,7 +1903,7 @@ async function checkSession() {
         if (error) {
 
             console.error(
-                "Session Error:",
+                "❌ Session Error:",
                 error
             );
 
@@ -1848,14 +1914,14 @@ async function checkSession() {
         if (data.session) {
 
             console.log(
-                "Session aktif:",
+                "ℹ️ Session Supabase masih aktif:",
                 data.session.user.email
             );
 
         } else {
 
             console.log(
-                "Belum ada session."
+                "ℹ️ Belum ada session."
             );
         }
 
@@ -1863,7 +1929,7 @@ async function checkSession() {
     } catch (error) {
 
         console.error(
-            "Check Session Error:",
+            "❌ Check Session Error:",
             error
         );
     }
