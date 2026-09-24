@@ -1,12 +1,12 @@
+```javascript
 // ======================================================
 // BLUESHOP FASHION - CHECKOUT.JS
 // ======================================================
 
-const SUPABASE_URL =
-    'https://fbnknnrltrsvydyxgujr.supabase.co';
+const SUPABASE_URL = "https://fbnknnrltrsvydyxgujr.supabase.co";
 
 const SUPABASE_KEY =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzIiwicmVmIjoiZmJua25ucmx0cnN2eWR5eGd1anIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4ODI0MDQyNiwiZXhwIjoyMTAzODEyNDI2fQ.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzIiwicmVmIjoiZmJua25ucmx0cnN2ydXeGd1anIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4ODI0MDQyNiwiZXhwIjoyMTAzODEyNDI2fQ.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o";
 
 const _supabase = window.supabase.createClient(
     SUPABASE_URL,
@@ -22,18 +22,21 @@ let cart = [];
 let selectedItems = [];
 let totalPrice = 0;
 
+let currentOrder = null;
+let checkoutProcessing = false;
+
 
 // ======================================================
 // DOM READY
 // ======================================================
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", function () {
 
     const checkoutForm =
-        document.getElementById('checkoutForm');
+        document.getElementById("checkoutForm");
 
     const btnBayar =
-        document.getElementById('btnBayar');
+        document.getElementById("btnBayar");
 
 
     // ==================================================
@@ -42,14 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function formatRupiah(value) {
 
-        return 'Rp ' +
-            Number(value || 0).toLocaleString('id-ID');
+        const number =
+            Number(value) || 0;
 
+        return "Rp " +
+            number.toLocaleString("id-ID");
     }
 
 
     // ==================================================
-    // AMBIL ID PRODUK
+    // GET PRODUCT ID
     // ==================================================
 
     function getProductId(item) {
@@ -62,12 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
             item.id ??
             null
         );
-
     }
 
 
     // ==================================================
-    // NAMA PRODUK
+    // GET PRODUCT NAME
     // ==================================================
 
     function getProductName(item) {
@@ -78,44 +82,104 @@ document.addEventListener('DOMContentLoaded', () => {
             item.name ??
             item.product_name ??
             item.title ??
-            'Produk'
+            "Produk"
         );
-
     }
 
 
     // ==================================================
-    // HARGA PRODUK
+    // GET PRICE
     // ==================================================
 
     function getProductPrice(item) {
 
-        return Number(
+        const price =
             item.harga ??
             item.price ??
             item.harga_produk ??
             item.price_produk ??
-            0
-        );
+            0;
 
+        return Number(price) || 0;
     }
 
 
     // ==================================================
-    // QTY PRODUK
+    // GET QTY
     // ==================================================
 
     function getProductQty(item) {
 
-        const qty = Number(
+        const qty =
             item.qty ??
             item.quantity ??
             item.jumlah ??
-            1
+            1;
+
+        const number =
+            Number(qty);
+
+        return number > 0 ? number : 1;
+    }
+
+
+    // ==================================================
+    // GET SIZE
+    // ==================================================
+
+    function getProductSize(item) {
+
+        return (
+            item.ukuran ??
+            item.size ??
+            item.selectedSize ??
+            item.selected_size ??
+            item.varian_ukuran ??
+            "-"
         );
+    }
 
-        return qty > 0 ? qty : 1;
 
+    // ==================================================
+    // GET CATEGORY
+    // ==================================================
+
+    function getProductCategory(item) {
+
+        return (
+            item.kategori ??
+            item.category ??
+            item.nama_kategori ??
+            ""
+        );
+    }
+
+
+    // ==================================================
+    // GET IMAGE
+    // ==================================================
+
+    function getProductImage(item) {
+
+        return (
+            item.gambar ??
+            item.image ??
+            item.foto ??
+            ""
+        );
+    }
+
+
+    // ==================================================
+    // SUBTOTAL
+    // ==================================================
+
+    function getSubtotal(item) {
+
+        return (
+            getProductPrice(item) *
+            getProductQty(item)
+        );
     }
 
 
@@ -128,8 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 
             const savedCart =
-                localStorage.getItem('cart');
-
+                localStorage.getItem("cart");
 
             if (!savedCart) {
 
@@ -139,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const parsed =
                     JSON.parse(savedCart);
-
 
                 if (Array.isArray(parsed)) {
 
@@ -155,43 +217,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
 
                     cart = [];
-
                 }
-
             }
 
         } catch (error) {
 
             console.error(
-                'Gagal membaca cart:',
+                "Gagal membaca cart:",
                 error
             );
 
             cart = [];
-
         }
 
 
-        // Hanya produk yang dipilih
         selectedItems =
-            cart.filter(
-                item => item.selected !== false
-            );
+            cart.filter(function (item) {
+
+                return item.selected !== false;
+
+            });
 
 
-        // Hitung total
         totalPrice =
             selectedItems.reduce(
-                (total, item) => {
+                function (total, item) {
 
-                    const harga =
-                        getProductPrice(item);
-
-                    const qty =
-                        getProductQty(item);
-
-                    return total + (
-                        harga * qty
+                    return (
+                        total +
+                        getSubtotal(item)
                     );
 
                 },
@@ -199,60 +253,152 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
 
-        // Tampilkan total
-        const checkoutTotal =
-            document.getElementById(
-                'checkoutTotal'
-            );
+        updateCheckoutTotal();
 
-
-        if (checkoutTotal) {
-
-            checkoutTotal.innerText =
-                formatRupiah(totalPrice);
-
-        }
-
-
-        console.log(
-            '=============================='
-        );
-
-        console.log(
-            'BLUESHOP CHECKOUT'
-        );
-
-        console.log(
-            'Cart:',
-            cart
-        );
-
-        console.log(
-            'Selected:',
-            selectedItems
-        );
-
-        console.log(
-            'Total:',
-            totalPrice
-        );
-
-        console.log(
-            '=============================='
-        );
-
+        renderCheckoutItems();
     }
 
 
     // ==================================================
-    // AUTOFILL USER
+    // UPDATE TOTAL
+    // ==================================================
+
+    function updateCheckoutTotal() {
+
+        const element =
+            document.getElementById(
+                "checkoutTotal"
+            );
+
+        if (element) {
+
+            element.innerText =
+                formatRupiah(totalPrice);
+        }
+    }
+
+
+    // ==================================================
+    // RENDER CHECKOUT ITEMS
+    // ==================================================
+
+    function renderCheckoutItems() {
+
+        const container =
+            document.getElementById(
+                "checkoutItems"
+            );
+
+        if (!container) {
+            return;
+        }
+
+
+        if (selectedItems.length === 0) {
+
+            container.innerHTML =
+                "<p class='text-center text-gray-500 py-6'>" +
+                "Tidak ada produk yang dipilih." +
+                "</p>";
+
+            return;
+        }
+
+
+        let html = "";
+
+
+        selectedItems.forEach(function (item) {
+
+            const nama =
+                getProductName(item);
+
+            const harga =
+                getProductPrice(item);
+
+            const qty =
+                getProductQty(item);
+
+            const ukuran =
+                getProductSize(item);
+
+            const subtotal =
+                getSubtotal(item);
+
+            const gambar =
+                getProductImage(item);
+
+
+            html +=
+                '<div class="flex gap-4 border-b border-gray-200 py-4">' +
+
+                    '<div class="w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">';
+
+
+            if (gambar) {
+
+                html +=
+                    '<img src="' +
+                    gambar +
+                    '" alt="' +
+                    nama +
+                    '" class="w-full h-full object-cover">';
+
+            } else {
+
+                html +=
+                    '<div class="w-full h-full flex items-center justify-center text-gray-400">' +
+                    '<i class="fas fa-image"></i>' +
+                    '</div>';
+            }
+
+
+            html +=
+                    "</div>" +
+
+                    '<div class="flex-1">' +
+
+                        '<h3 class="font-semibold text-gray-800">' +
+                        nama +
+                        "</h3>" +
+
+                        '<p class="text-sm text-gray-500">' +
+                        "Ukuran: " +
+                        ukuran +
+                        "</p>" +
+
+                        '<p class="text-sm text-gray-500">' +
+                        "Jumlah: " +
+                        qty +
+                        "</p>" +
+
+                        '<p class="text-sm text-gray-500">' +
+                        "Harga: " +
+                        formatRupiah(harga) +
+                        "</p>" +
+
+                    "</div>" +
+
+                    '<div class="font-bold text-blue-600">' +
+                    formatRupiah(subtotal) +
+                    "</div>" +
+
+                "</div>";
+        });
+
+
+        container.innerHTML = html;
+    }
+
+
+    // ==================================================
+    // LOAD USER
     // ==================================================
 
     function loadUser() {
 
         const userData =
-            localStorage.getItem('user');
-
+            localStorage.getItem("user");
 
         if (!userData) {
             return;
@@ -261,44 +407,342 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
 
-            const currentUser =
+            const user =
                 JSON.parse(userData);
 
-
-            const inputNama =
+            const nama =
                 document.getElementById(
-                    'namaLengkap'
+                    "namaLengkap"
                 );
 
 
             if (
-                currentUser.name &&
-                inputNama &&
-                !inputNama.value
+                nama &&
+                !nama.value &&
+                user.name
             ) {
 
-                inputNama.value =
-                    currentUser.name;
-
+                nama.value =
+                    user.name;
             }
 
         } catch (error) {
 
             console.error(
-                'Gagal membaca user:',
+                "Gagal membaca user:",
                 error
             );
-
         }
-
     }
 
 
     // ==================================================
-    // CEK STOK PRODUK
+    // FORM DATA
     // ==================================================
 
-    async function cekStokProduk(item) {
+    function getFormData() {
+
+        const nama =
+            document.getElementById(
+                "namaLengkap"
+            );
+
+        const hp =
+            document.getElementById(
+                "nomorHp"
+            );
+
+        const alamat =
+            document.getElementById(
+                "alamatPengiriman"
+            );
+
+
+        return {
+
+            nama:
+                nama
+                    ? nama.value.trim()
+                    : "",
+
+            hp:
+                hp
+                    ? hp.value.trim()
+                    : "",
+
+            alamat:
+                alamat
+                    ? alamat.value.trim()
+                    : ""
+        };
+    }
+
+
+    // ==================================================
+    // VALIDATE FORM
+    // ==================================================
+
+    function validateForm() {
+
+        const data =
+            getFormData();
+
+
+        if (!data.nama) {
+
+            alert(
+                "Nama lengkap wajib diisi."
+            );
+
+            return false;
+        }
+
+
+        if (!data.hp) {
+
+            alert(
+                "Nomor HP wajib diisi."
+            );
+
+            return false;
+        }
+
+
+        if (!data.alamat) {
+
+            alert(
+                "Alamat pengiriman wajib diisi."
+            );
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    // ==================================================
+    // RENDER CONFIRMATION
+    // ==================================================
+
+    function renderConfirmation() {
+
+        const data =
+            getFormData();
+
+
+        const nama =
+            document.getElementById(
+                "confirmNama"
+            );
+
+        const hp =
+            document.getElementById(
+                "confirmHp"
+            );
+
+        const alamat =
+            document.getElementById(
+                "confirmAlamat"
+            );
+
+        const total =
+            document.getElementById(
+                "confirmTotal"
+            );
+
+
+        if (nama) {
+            nama.innerText =
+                data.nama;
+        }
+
+        if (hp) {
+            hp.innerText =
+                data.hp;
+        }
+
+        if (alamat) {
+            alamat.innerText =
+                data.alamat;
+        }
+
+        if (total) {
+            total.innerText =
+                formatRupiah(totalPrice);
+        }
+
+
+        // ----------------------------------------------
+        // DETAIL PRODUK
+        // ----------------------------------------------
+
+        let container =
+            document.getElementById(
+                "confirmItems"
+            );
+
+
+        if (!container && total) {
+
+            container =
+                document.createElement(
+                    "div"
+                );
+
+            container.id =
+                "confirmItems";
+
+            container.className =
+                "mt-4 space-y-3";
+
+
+            total.parentNode.insertBefore(
+                container,
+                total
+            );
+        }
+
+
+        if (!container) {
+            return;
+        }
+
+
+        let html = "";
+
+
+        selectedItems.forEach(
+            function (item) {
+
+                const namaProduk =
+                    getProductName(item);
+
+                const harga =
+                    getProductPrice(item);
+
+                const qty =
+                    getProductQty(item);
+
+                const ukuran =
+                    getProductSize(item);
+
+                const subtotal =
+                    getSubtotal(item);
+
+
+                html +=
+                    '<div class="border rounded-xl p-4 bg-gray-50">' +
+
+                        '<div class="flex justify-between gap-4">' +
+
+                            '<div>' +
+
+                                '<p class="font-semibold text-gray-800">' +
+                                namaProduk +
+                                "</p>" +
+
+                                '<p class="text-sm text-gray-500">' +
+                                "Ukuran: " +
+                                ukuran +
+                                "</p>" +
+
+                                '<p class="text-sm text-gray-500">' +
+                                "Jumlah: " +
+                                qty +
+                                "</p>" +
+
+                                '<p class="text-sm text-gray-500">' +
+                                "Harga: " +
+                                formatRupiah(harga) +
+                                "</p>" +
+
+                            "</div>" +
+
+                            '<div class="font-bold text-blue-600">' +
+                            formatRupiah(subtotal) +
+                            "</div>" +
+
+                        "</div>" +
+
+                    "</div>";
+            }
+        );
+
+
+        container.innerHTML =
+            html;
+    }
+
+
+    // ==================================================
+    // OPEN CONFIRM MODAL
+    // ==================================================
+
+    function openConfirmModal() {
+
+        const modal =
+            document.getElementById(
+                "confirmModal"
+            );
+
+
+        if (!modal) {
+
+            alert(
+                "Modal konfirmasi tidak ditemukan."
+            );
+
+            return;
+        }
+
+
+        renderConfirmation();
+
+
+        modal.classList.remove(
+            "hidden"
+        );
+
+        modal.classList.add(
+            "flex"
+        );
+    }
+
+
+    // ==================================================
+    // CLOSE CONFIRM MODAL
+    // ==================================================
+
+    function closeConfirmModal() {
+
+        const modal =
+            document.getElementById(
+                "confirmModal"
+            );
+
+
+        if (!modal) {
+            return;
+        }
+
+
+        modal.classList.add(
+            "hidden"
+        );
+
+        modal.classList.remove(
+            "flex"
+        );
+    }
+
+
+    // ==================================================
+    // CHECK STOCK
+    // ==================================================
+
+    async function checkStock(item) {
 
         const idProduk =
             getProductId(item);
@@ -307,530 +751,734 @@ document.addEventListener('DOMContentLoaded', () => {
             getProductQty(item);
 
 
-        // Tidak ada ID produk
         if (!idProduk) {
 
             throw new Error(
-                `Produk "${getProductName(item)}" tidak memiliki id_produk di keranjang.`
+                "Produk " +
+                getProductName(item) +
+                " tidak memiliki id_produk."
             );
-
         }
 
 
-        console.log(
-            'Cek produk:',
-            getProductName(item)
-        );
-
-        console.log(
-            'ID Produk:',
-            idProduk
-        );
-
-        console.log(
-            'Jumlah:',
-            qty
-        );
+        const result =
+            await _supabase
+                .from("produk")
+                .select(
+                    "id_produk,nama_produk,harga,stok"
+                )
+                .eq(
+                    "id_produk",
+                    idProduk
+                )
+                .maybeSingle();
 
 
-        // Ambil data produk terbaru
-        const {
-            data: produk,
-            error
-        } = await _supabase
-            .from('produk')
-            .select(
-                'id_produk,nama_produk,harga,stok'
-            )
-            .eq(
-                'id_produk',
-                idProduk
-            )
-            .maybeSingle();
-
-
-        if (error) {
-
-            console.error(
-                'Error SELECT produk:',
-                error
-            );
+        if (result.error) {
 
             throw new Error(
-                `Gagal mengecek produk "${getProductName(item)}": ${error.message}`
+                result.error.message
             );
-
         }
 
 
-        if (!produk) {
+        if (!result.data) {
 
             throw new Error(
-                `Produk "${getProductName(item)}" dengan ID ${idProduk} tidak ditemukan di Supabase.`
+                "Produk " +
+                getProductName(item) +
+                " tidak ditemukan."
             );
-
         }
 
 
         const stok =
-            Number(produk.stok);
+            Number(result.data.stok);
 
 
-        console.log(
-            'Produk ditemukan:',
-            produk
-        );
-
-
-        // Stok kosong
         if (stok <= 0) {
 
             throw new Error(
-                `Stok "${produk.nama_produk}" sudah habis.`
+                "Stok " +
+                result.data.nama_produk +
+                " sudah habis."
             );
-
         }
 
 
-        // Stok kurang
         if (stok < qty) {
 
             throw new Error(
-                `Stok "${produk.nama_produk}" tidak cukup. Stok tersedia: ${stok}, jumlah dibeli: ${qty}.`
+                "Stok " +
+                result.data.nama_produk +
+                " tidak cukup. Tersedia: " +
+                stok +
+                ", dibutuhkan: " +
+                qty
             );
-
         }
 
 
-        return {
-
-            id_produk:
-                produk.id_produk,
-
-            nama_produk:
-                produk.nama_produk,
-
-            stok:
-                stok,
-
-            qty:
-                qty
-
-        };
-
+        return result.data;
     }
 
 
     // ==================================================
-    // PROSES CHECKOUT
+    // CHECK ALL STOCK
     // ==================================================
 
-    async function prosesCheckout(e) {
+    async function checkAllStock() {
 
-        if (e) {
-
-            e.preventDefault();
-
-        }
-
-
-        // Ambil cart terbaru
-        loadCart();
-
-
-        // ==================================================
-        // VALIDASI CART
-        // ==================================================
-
-        if (
-            !selectedItems ||
-            selectedItems.length === 0
+        for (
+            const item of selectedItems
         ) {
 
-            alert(
-                'Keranjang kosong atau tidak ada produk yang dipilih.'
-            );
-
-            window.location.href =
-                'cart.html';
-
-            return;
-
+            await checkStock(item);
         }
+    }
 
 
-        // ==================================================
-        // VALIDASI FORM
-        // ==================================================
+    // ==================================================
+    // CURRENT USER
+    // ==================================================
 
-        const inputNama =
-            document.getElementById(
-                'namaLengkap'
-            );
+    function getCurrentUser() {
 
-        const inputHp =
-            document.getElementById(
-                'nomorHp'
-            );
+        const defaultUser = {
 
-        const inputAlamat =
-            document.getElementById(
-                'alamatPengiriman'
-            );
+            id: "GUEST",
 
-
-        const nama =
-            inputNama
-                ? inputNama.value.trim()
-                : '';
-
-
-        const nohp =
-            inputHp
-                ? inputHp.value.trim()
-                : '';
-
-
-        const alamat =
-            inputAlamat
-                ? inputAlamat.value.trim()
-                : '';
-
-
-        if (!nama) {
-
-            alert(
-                'Nama lengkap wajib diisi.'
-            );
-
-            return;
-
-        }
-
-
-        if (!nohp) {
-
-            alert(
-                'Nomor HP wajib diisi.'
-            );
-
-            return;
-
-        }
-
-
-        if (!alamat) {
-
-            alert(
-                'Alamat pengiriman wajib diisi.'
-            );
-
-            return;
-
-        }
-
-
-        // ==================================================
-        // USER
-        // ==================================================
-
-        let currentUser = {
-
-            id: 'GUEST',
-
-            name: nama
-
+            name: ""
         };
 
 
         try {
 
-            const userData =
-                localStorage.getItem('user');
+            const data =
+                localStorage.getItem(
+                    "user"
+                );
 
 
-            if (userData) {
+            if (!data) {
 
-                currentUser =
-                    JSON.parse(userData);
-
+                return defaultUser;
             }
+
+
+            const user =
+                JSON.parse(data);
+
+
+            return user || defaultUser;
 
         } catch (error) {
 
-            console.error(
-                'Gagal membaca user:',
-                error
-            );
-
+            return defaultUser;
         }
+    }
+
+
+    // ==================================================
+    // BUILD ORDER ITEMS
+    // ==================================================
+
+    function buildOrderItems() {
+
+        return selectedItems.map(
+            function (item) {
+
+                return {
+
+                    id_produk:
+                        Number(
+                            getProductId(item)
+                        ),
+
+                    nama_produk:
+                        getProductName(item),
+
+                    harga:
+                        getProductPrice(item),
+
+                    qty:
+                        getProductQty(item),
+
+                    ukuran:
+                        getProductSize(item),
+
+                    subtotal:
+                        getSubtotal(item),
+
+                    gambar:
+                        getProductImage(item)
+                };
+            }
+        );
+    }
+
+
+    // ==================================================
+    // SAVE ORDER
+    // ==================================================
+
+    async function saveOrder() {
+
+        if (checkoutProcessing) {
+            return;
+        }
+
+
+        checkoutProcessing = true;
+
+
+        const confirmButton =
+            document.getElementById(
+                "btnConfirmOrder"
+            );
 
 
         try {
 
-            // ==================================================
-            // LOCK BUTTON
-            // ==================================================
+            loadCart();
 
-            if (btnBayar) {
 
-                btnBayar.disabled =
+            if (
+                selectedItems.length === 0
+            ) {
+
+                throw new Error(
+                    "Tidak ada produk yang dipilih."
+                );
+            }
+
+
+            if (!validateForm()) {
+
+                checkoutProcessing =
+                    false;
+
+                return;
+            }
+
+
+            if (confirmButton) {
+
+                confirmButton.disabled =
                     true;
 
-                btnBayar.innerText =
-                    'Mengecek stok...';
-
+                confirmButton.innerText =
+                    "Mengecek stok...";
             }
 
 
-            // ==================================================
-            // VALIDASI ID PRODUK
-            // ==================================================
+            // ------------------------------------------
+            // CHECK STOCK
+            // ------------------------------------------
 
-            console.log(
-                '===== VALIDASI PRODUK ====='
-            );
+            await checkAllStock();
 
 
-            for (
-                const item of selectedItems
-            ) {
+            // ------------------------------------------
+            // USER
+            // ------------------------------------------
 
-                const idProduk =
-                    getProductId(item);
-
-
-                console.log(
-                    'Nama:',
-                    getProductName(item)
-                );
-
-                console.log(
-                    'ID:',
-                    idProduk
-                );
-
-                console.log(
-                    'Qty:',
-                    getProductQty(item)
-                );
+            const user =
+                getCurrentUser();
 
 
-                if (!idProduk) {
+            // ------------------------------------------
+            // ORDER ITEMS
+            // ------------------------------------------
 
-                    throw new Error(
-                        `Produk "${getProductName(item)}" tidak memiliki id_produk. Perbaiki fungsi Add to Cart.`
-                    );
-
-                }
-
-            }
+            const orderItems =
+                buildOrderItems();
 
 
-            // ==================================================
-            // CEK SEMUA STOK
-            // ==================================================
-
-            for (
-                const item of selectedItems
-            ) {
-
-                await cekStokProduk(item);
-
-            }
-
-
-            // ==================================================
-            // BUAT PAYLOAD ORDER
-            // ==================================================
-
-            if (btnBayar) {
-
-                btnBayar.innerText =
-                    'Menyimpan pesanan...';
-
-            }
-
+            // ------------------------------------------
+            // PAYLOAD
+            // ------------------------------------------
 
             const payload = {
 
                 user_id:
                     String(
-                        currentUser.id ||
-                        'GUEST'
+                        user.id ||
+                        "GUEST"
                     ),
 
                 user_name:
-                    nama,
+                    getFormData().nama,
 
                 nomor_hp:
-                    nohp,
+                    getFormData().hp,
 
                 alamat:
-                    alamat,
+                    getFormData().alamat,
 
                 total_harga:
                     Number(totalPrice),
 
-                // Penting:
-                // id_produk dan qty harus ikut tersimpan
                 items:
-                    selectedItems.map(item => ({
-
-                        ...item,
-
-                        id_produk:
-                            Number(
-                                getProductId(item)
-                            ),
-
-                        qty:
-                            Number(
-                                getProductQty(item)
-                            )
-
-                    })),
+                    orderItems,
 
                 status:
-                    'Menunggu Konfirmasi'
-
+                    "Menunggu Konfirmasi"
             };
 
 
             console.log(
-                '===== ORDER PAYLOAD ====='
-            );
-
-            console.log(
+                "ORDER PAYLOAD:",
                 payload
             );
 
 
-            // ==================================================
-            // INSERT ORDER
-            // ==================================================
+            if (confirmButton) {
 
-            const {
-                data: orderData,
-                error: orderError
-            } = await _supabase
-                .from('orders')
-                .insert([
-                    payload
-                ])
-                .select();
-
-
-            if (orderError) {
-
-                console.error(
-                    'ORDER ERROR:',
-                    orderError
-                );
-
-
-                throw new Error(
-                    `Pesanan gagal disimpan: ${orderError.message}`
-                );
-
+                confirmButton.innerText =
+                    "Menyimpan pesanan...";
             }
 
 
+            // ------------------------------------------
+            // INSERT ORDER
+            // ------------------------------------------
+
+            const result =
+                await _supabase
+                    .from("orders")
+                    .insert([payload])
+                    .select();
+
+
+            if (result.error) {
+
+                throw new Error(
+                    "Pesanan gagal disimpan: " +
+                    result.error.message
+                );
+            }
+
+
+            if (
+                !result.data ||
+                result.data.length === 0
+            ) {
+
+                throw new Error(
+                    "Data pesanan tidak dikembalikan."
+                );
+            }
+
+
+            currentOrder =
+                result.data[0];
+
+
             console.log(
-                '✓ ORDER BERHASIL:',
-                orderData
+                "ORDER BERHASIL:",
+                currentOrder
             );
 
 
-            // ==================================================
-            // HAPUS ITEM YANG SUDAH DIBELI
-            // ==================================================
+            // ------------------------------------------
+            // REMOVE PURCHASED CART ITEMS
+            // ------------------------------------------
 
-            const remainingCart =
+            const purchasedItems =
+                new Set(selectedItems);
+
+
+            cart =
                 cart.filter(
-                    item =>
-                        item.selected === false
+                    function (item) {
+
+                        return !purchasedItems.has(
+                            item
+                        );
+                    }
                 );
 
 
             localStorage.setItem(
-                'cart',
-                JSON.stringify(
-                    remainingCart
-                )
+                "cart",
+                JSON.stringify(cart)
             );
 
 
-            // ==================================================
-            // BERHASIL
-            // ==================================================
+            // ------------------------------------------
+            // SHOW RECEIPT
+            // ------------------------------------------
 
-            alert(
-                'Pesanan berhasil dibuat!\nStok otomatis dikurangi oleh Supabase.'
-            );
+            renderReceipt();
 
 
-            window.location.href =
-                'orders.html';
+            closeConfirmModal();
+
+            openReceiptModal();
 
 
         } catch (error) {
 
             console.error(
-                '================================'
-            );
-
-            console.error(
-                'CHECKOUT ERROR'
-            );
-
-            console.error(
+                "CHECKOUT ERROR:",
                 error
-            );
-
-            console.error(
-                '================================'
             );
 
 
             alert(
                 error.message ||
-                'Terjadi kesalahan saat checkout.'
+                "Terjadi kesalahan saat checkout."
             );
 
 
-            // Aktifkan tombol lagi
-            if (btnBayar) {
+        } finally {
 
-                btnBayar.disabled =
+            checkoutProcessing =
+                false;
+
+
+            if (confirmButton) {
+
+                confirmButton.disabled =
                     false;
 
-                btnBayar.innerText =
-                    'Konfirmasi & Bayar';
-
+                confirmButton.innerText =
+                    "Ya, Sudah Benar";
             }
-
         }
-
     }
 
 
     // ==================================================
-    // EVENT FORM
+    // RENDER RECEIPT
+    // ==================================================
+
+    function renderReceipt() {
+
+        const dateElement =
+            document.getElementById(
+                "notaTanggal"
+            );
+
+        const orderElement =
+            document.getElementById(
+                "notaOrderId"
+            );
+
+        const nameElement =
+            document.getElementById(
+                "notaNama"
+            );
+
+        const hpElement =
+            document.getElementById(
+                "notaHp"
+            );
+
+        const addressElement =
+            document.getElementById(
+                "notaAlamat"
+            );
+
+        const itemsElement =
+            document.getElementById(
+                "notaItemsList"
+            );
+
+        const totalElement =
+            document.getElementById(
+                "notaTotalBayar"
+            );
+
+
+        // ----------------------------------------------
+        // DATE
+        // ----------------------------------------------
+
+        if (dateElement) {
+
+            dateElement.innerText =
+                new Date().toLocaleString(
+                    "id-ID"
+                );
+        }
+
+
+        // ----------------------------------------------
+        // ORDER ID
+        // ----------------------------------------------
+
+        if (orderElement) {
+
+            orderElement.innerText =
+                currentOrder.id_order ??
+                currentOrder.id ??
+                currentOrder.order_id ??
+                "-";
+        }
+
+
+        // ----------------------------------------------
+        // CUSTOMER
+        // ----------------------------------------------
+
+        const data =
+            getFormData();
+
+
+        if (nameElement) {
+
+            nameElement.innerText =
+                data.nama;
+        }
+
+
+        if (hpElement) {
+
+            hpElement.innerText =
+                data.hp;
+        }
+
+
+        if (addressElement) {
+
+            addressElement.innerText =
+                data.alamat;
+        }
+
+
+        // ----------------------------------------------
+        // ITEMS
+        // ----------------------------------------------
+
+        if (itemsElement) {
+
+            let html = "";
+
+
+            selectedItems.forEach(
+                function (item) {
+
+                    const nama =
+                        getProductName(item);
+
+                    const harga =
+                        getProductPrice(item);
+
+                    const qty =
+                        getProductQty(item);
+
+                    const ukuran =
+                        getProductSize(item);
+
+                    const subtotal =
+                        getSubtotal(item);
+
+
+                    html +=
+                        '<div class="border-b py-3">' +
+
+                            '<div class="flex justify-between gap-4">' +
+
+                                '<div>' +
+
+                                    '<p class="font-semibold">' +
+                                    nama +
+                                    "</p>" +
+
+                                    '<p class="text-sm text-gray-500">' +
+                                    "Ukuran: " +
+                                    ukuran +
+                                    " | Jumlah: " +
+                                    qty +
+                                    "</p>" +
+
+                                    '<p class="text-sm text-gray-500">' +
+                                    formatRupiah(harga) +
+                                    " / pcs" +
+                                    "</p>" +
+
+                                "</div>" +
+
+                                '<div class="font-semibold">' +
+                                formatRupiah(subtotal) +
+                                "</div>" +
+
+                            "</div>" +
+
+                        "</div>";
+                }
+            );
+
+
+            itemsElement.innerHTML =
+                html;
+        }
+
+
+        // ----------------------------------------------
+        // TOTAL
+        // ----------------------------------------------
+
+        if (totalElement) {
+
+            totalElement.innerText =
+                formatRupiah(totalPrice);
+        }
+    }
+
+
+    // ==================================================
+    // OPEN RECEIPT MODAL
+    // ==================================================
+
+    function openReceiptModal() {
+
+        const modal =
+            document.getElementById(
+                "notaModal"
+            );
+
+
+        if (!modal) {
+
+            alert(
+                "Pesanan berhasil dibuat."
+            );
+
+            window.location.href =
+                "orders.html";
+
+            return;
+        }
+
+
+        modal.classList.remove(
+            "hidden"
+        );
+
+        modal.classList.add(
+            "flex"
+        );
+    }
+
+
+    // ==================================================
+    // CLOSE RECEIPT MODAL
+    // ==================================================
+
+    function closeReceiptModal() {
+
+        const modal =
+            document.getElementById(
+                "notaModal"
+            );
+
+
+        if (!modal) {
+            return;
+        }
+
+
+        modal.classList.add(
+            "hidden"
+        );
+
+        modal.classList.remove(
+            "flex"
+        );
+    }
+
+
+    // ==================================================
+    // GLOBAL FUNCTIONS
+    // ==================================================
+
+    window.editCheckout =
+        function () {
+
+            closeConfirmModal();
+
+            const input =
+                document.getElementById(
+                    "namaLengkap"
+                );
+
+            if (input) {
+
+                input.focus();
+            }
+        };
+
+
+    window.confirmCheckout =
+        function () {
+
+            saveOrder();
+        };
+
+
+    window.cetakNota =
+        function () {
+
+            window.print();
+        };
+
+
+    window.selesaiCheckout =
+        function () {
+
+            closeReceiptModal();
+
+            window.location.href =
+                "orders.html";
+        };
+
+
+    // ==================================================
+    // FORM SUBMIT
     // ==================================================
 
     if (checkoutForm) {
 
         checkoutForm.addEventListener(
-            'submit',
-            prosesCheckout
-        );
+            "submit",
+            function (event) {
 
+                event.preventDefault();
+
+                loadCart();
+
+
+                if (
+                    selectedItems.length === 0
+                ) {
+
+                    alert(
+                        "Keranjang kosong atau tidak ada produk yang dipilih."
+                    );
+
+                    window.location.href =
+                        "cart.html";
+
+                    return;
+                }
+
+
+                if (!validateForm()) {
+                    return;
+                }
+
+
+                openConfirmModal();
+            }
+        );
     }
 
 
     // ==================================================
-    // EVENT BUTTON
+    // BUTTON CHECKOUT
     // ==================================================
 
     if (
@@ -839,19 +1487,52 @@ document.addEventListener('DOMContentLoaded', () => {
     ) {
 
         btnBayar.addEventListener(
-            'click',
-            prosesCheckout
-        );
+            "click",
+            function (event) {
 
+                event.preventDefault();
+
+                loadCart();
+
+
+                if (
+                    selectedItems.length === 0
+                ) {
+
+                    alert(
+                        "Keranjang kosong atau tidak ada produk yang dipilih."
+                    );
+
+                    window.location.href =
+                        "cart.html";
+
+                    return;
+                }
+
+
+                if (!validateForm()) {
+                    return;
+                }
+
+
+                openConfirmModal();
+            }
+        );
     }
 
 
     // ==================================================
-    // LOAD AWAL
+    // INITIAL LOAD
     // ==================================================
 
     loadCart();
 
     loadUser();
 
+
+    console.log(
+        "BlueShop Checkout berhasil dimuat."
+    );
+
 });
+```
