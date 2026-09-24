@@ -1,11 +1,12 @@
 ```html
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Admin Dashboard - BlueShop</title>
+    <title>Admin Dashboard - BlueShop Fashion</title>
 
     <!-- Bootstrap -->
     <link
@@ -135,10 +136,13 @@
                 #ffffff,
                 #e0ecff
             );
+
             padding: 30px;
             border-radius: 18px;
             margin-bottom: 25px;
+
             box-shadow: 0 5px 20px rgba(30, 64, 175, 0.08);
+
             border-left: 6px solid #0d6efd;
         }
 
@@ -165,10 +169,15 @@
         .stat-card {
             position: relative;
             overflow: hidden;
+
             padding: 28px;
+
             border-radius: 18px;
+
             color: white;
+
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+
             transition: 0.25s;
         }
 
@@ -228,10 +237,15 @@
 
         .section-box {
             margin-top: 30px;
+
             background: #ffffff;
+
             padding: 25px;
+
             border-radius: 18px;
+
             box-shadow: 0 5px 20px rgba(30, 64, 175, 0.08);
+
             border: 1px solid #dbe7ff;
         }
 
@@ -239,8 +253,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             gap: 15px;
+
             margin-bottom: 20px;
+
             flex-wrap: wrap;
         }
 
@@ -256,32 +273,47 @@
 
         .order-card {
             border: none;
+
             border-radius: 16px;
+
             padding: 20px;
+
             margin-bottom: 18px;
+
             background: linear-gradient(
                 135deg,
                 #ffffff,
                 #f5f8ff
             );
+
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+
             border-left: 5px solid #0d6efd;
+
             transition: 0.2s;
         }
 
         .order-card:hover {
             box-shadow: 0 8px 25px rgba(13, 110, 253, 0.13);
+
             transform: translateY(-2px);
         }
 
         .order-top {
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             gap: 15px;
+
             padding-bottom: 15px;
+
             border-bottom: 1px solid #e5e7eb;
+
             margin-bottom: 18px;
+
             flex-wrap: wrap;
         }
 
@@ -299,22 +331,31 @@
 
         .order-body {
             display: grid;
+
             grid-template-columns: 1fr 1fr;
+
             gap: 20px;
         }
 
         .info-title {
             font-size: 13px;
+
             color: #64748b;
+
             margin-bottom: 7px;
+
             font-weight: bold;
+
             text-transform: uppercase;
         }
 
         .customer-info {
             background: #eef5ff;
+
             padding: 15px;
+
             border-radius: 12px;
+
             border: 1px solid #dbe7ff;
         }
 
@@ -330,16 +371,23 @@
 
         .items-box {
             background: #f0fff7;
+
             padding: 15px;
+
             border-radius: 12px;
+
             border: 1px solid #d1e7dd;
         }
 
         .item-row {
             display: flex;
+
             justify-content: space-between;
+
             gap: 10px;
+
             padding: 9px 0;
+
             border-bottom: 1px solid #d8eee1;
         }
 
@@ -362,12 +410,19 @@
 
         .order-bottom {
             margin-top: 18px;
+
             padding-top: 18px;
+
             border-top: 1px solid #e5e7eb;
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             gap: 15px;
+
             flex-wrap: wrap;
         }
 
@@ -378,27 +433,38 @@
 
         .total-price {
             color: #dc3545;
+
             font-size: 23px;
+
             font-weight: bold;
         }
 
         .status-wrapper {
             display: flex;
+
             align-items: center;
+
             gap: 10px;
         }
 
         .status-select {
             min-width: 210px;
+
             border-radius: 9px;
+
             font-weight: bold;
+
             padding: 9px 12px;
+
             border: 2px solid #dbe7ff;
         }
 
         .status-select:focus {
             border-color: #0d6efd;
-            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+
+            box-shadow:
+                0 0 0 0.2rem
+                rgba(13, 110, 253, 0.15);
         }
 
         /* =========================
@@ -407,9 +473,13 @@
 
         .badge-status {
             padding: 8px 13px;
+
             border-radius: 20px;
+
             font-size: 12px;
+
             font-weight: bold;
+
             display: inline-block;
         }
 
@@ -444,13 +514,17 @@
 
         .empty-orders {
             text-align: center;
+
             padding: 60px 20px;
+
             color: #64748b;
         }
 
         .empty-orders i {
             font-size: 55px;
+
             margin-bottom: 15px;
+
             color: #94a3b8;
         }
 
@@ -460,7 +534,9 @@
 
         .loading-box {
             text-align: center;
+
             padding: 50px;
+
             color: #64748b;
         }
 
@@ -470,16 +546,23 @@
 
         .status-system {
             margin-top: 25px;
+
             padding: 15px 18px;
+
             border-radius: 12px;
+
             background: #d1e7dd;
+
             color: #0f5132;
+
             border-left: 5px solid #198754;
         }
 
         .status-system.error {
             background: #f8d7da;
+
             color: #842029;
+
             border-left-color: #dc3545;
         }
 
@@ -489,12 +572,15 @@
 
         .info-list {
             background: #f8faff;
+
             border-radius: 12px;
+
             padding: 18px;
         }
 
         .info-list p {
             padding: 8px 0;
+
             border-bottom: 1px solid #e5e7eb;
         }
 
@@ -507,15 +593,20 @@
         ========================= */
 
         @media (max-width: 1000px) {
+
             .order-body {
                 grid-template-columns: 1fr;
             }
+
         }
 
         @media (max-width: 768px) {
+
             .header {
                 flex-direction: column;
+
                 align-items: flex-start;
+
                 padding: 15px;
             }
 
@@ -538,17 +629,21 @@
             .nav-links a,
             .logout-btn {
                 flex: 1;
+
                 justify-content: center;
             }
 
             .order-bottom {
                 align-items: stretch;
+
                 flex-direction: column;
             }
 
             .status-wrapper {
                 width: 100%;
+
                 flex-direction: column;
+
                 align-items: stretch;
             }
 
@@ -605,6 +700,7 @@
         </a>
 
         <button
+            type="button"
             onclick="loadAllData()"
             class="logout-btn btn-refresh"
         >
@@ -613,6 +709,7 @@
         </button>
 
         <button
+            type="button"
             onclick="logout()"
             class="logout-btn btn-logout"
         >
@@ -734,6 +831,7 @@
             </div>
 
             <button
+                type="button"
                 class="btn btn-primary"
                 onclick="loadOrders()"
             >
@@ -865,7 +963,19 @@
     const SUPABASE_KEY =
         "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
 
+    /*
+       Sesuaikan dengan nama tabel di Supabase.
+       Kalau tabel kamu bernama "products",
+       ubah menjadi:
+       const PRODUCT_TABLE = "products";
+    */
+    const PRODUCT_TABLE = "produk";
+
+    const ORDER_TABLE = "orders";
+
     let supabaseClient = null;
+
+    let currentAdmin = null;
 
 
     /* =========================================
@@ -874,17 +984,19 @@
 
     function showSystemStatus(message, error = false) {
 
-        const el =
+        const element =
             document.getElementById("systemStatus");
 
-        if (!el) return;
+        if (!element) {
+            return;
+        }
 
-        el.className =
+        element.className =
             error
                 ? "status-system error"
                 : "status-system";
 
-        el.innerHTML =
+        element.innerHTML =
             error
                 ? `
                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -982,13 +1094,28 @@
             return false;
         }
 
-        supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_KEY
+        try {
+
+            supabaseClient =
+                window.supabase.createClient(
+                    SUPABASE_URL,
+                    SUPABASE_KEY
+                );
+
+            return true;
+
+        } catch (error) {
+
+            console.error(error);
+
+            showSystemStatus(
+                "Gagal membuat koneksi Supabase: " +
+                error.message,
+                true
             );
 
-        return true;
+            return false;
+        }
     }
 
 
@@ -1001,13 +1128,14 @@
         try {
 
             const {
-                data: { user },
+                data,
                 error
             } =
                 await supabaseClient.auth.getUser();
 
+            if (error) {
 
-            if (error || !user) {
+                console.error(error);
 
                 window.location.href =
                     "login.html";
@@ -1015,12 +1143,29 @@
                 return false;
             }
 
+            const user =
+                data?.user;
+
+            if (!user) {
+
+                window.location.href =
+                    "login.html";
+
+                return false;
+            }
 
             const email =
                 String(user.email || "")
                     .trim()
                     .toLowerCase();
 
+            /*
+               users_list diasumsikan memiliki:
+               id
+               name
+               username
+               role
+            */
 
             const {
                 data: profile,
@@ -1032,20 +1177,21 @@
                     .eq("username", email)
                     .maybeSingle();
 
-
             if (profileError) {
 
-                console.error(profileError);
+                console.error(
+                    "Profile error:",
+                    profileError
+                );
 
                 showSystemStatus(
-                    "Gagal membaca data admin: " +
+                    "Gagal membaca users_list: " +
                     profileError.message,
                     true
                 );
 
                 return false;
             }
-
 
             if (!profile) {
 
@@ -1059,12 +1205,10 @@
                 return false;
             }
 
-
             const role =
                 String(profile.role || "")
                     .trim()
                     .toLowerCase();
-
 
             if (role !== "admin") {
 
@@ -1078,26 +1222,36 @@
                 return false;
             }
 
+            currentAdmin =
+                profile;
 
-            document.getElementById(
-                "adminName"
-            ).textContent =
+            const name =
                 profile.name ||
                 profile.username ||
                 "Admin";
 
+            document.getElementById(
+                "adminName"
+            ).textContent =
+                name;
 
             document.getElementById(
                 "adminStatus"
             ).textContent =
                 "Admin Active";
 
+            showSystemStatus(
+                "Login admin berhasil. Dashboard siap digunakan."
+            );
 
             return true;
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "checkAdmin error:",
+                error
+            );
 
             window.location.href =
                 "login.html";
@@ -1115,16 +1269,29 @@
 
         try {
 
+            /*
+               Count orders
+            */
+
             const ordersResult =
                 await supabaseClient
-                    .from("orders")
-                    .select("*");
+                    .from(ORDER_TABLE)
+                    .select("*", {
+                        count: "exact",
+                        head: true
+                    });
 
+            /*
+               Count products
+            */
 
             const productsResult =
                 await supabaseClient
-                    .from("produk")
-                    .select("*");
+                    .from(PRODUCT_TABLE)
+                    .select("*", {
+                        count: "exact",
+                        head: true
+                    });
 
 
             /* TOTAL ORDERS */
@@ -1132,22 +1299,21 @@
             if (ordersResult.error) {
 
                 console.error(
-                    "Error orders:",
+                    "Orders count error:",
                     ordersResult.error
                 );
 
                 document.getElementById(
                     "totalOrders"
-                ).textContent = "!";
+                ).textContent =
+                    "!";
 
             } else {
 
                 document.getElementById(
                     "totalOrders"
                 ).textContent =
-                    ordersResult.data
-                        ? ordersResult.data.length
-                        : 0;
+                    ordersResult.count ?? 0;
             }
 
 
@@ -1156,24 +1322,22 @@
             if (productsResult.error) {
 
                 console.error(
-                    "Error produk:",
+                    "Products count error:",
                     productsResult.error
                 );
 
                 document.getElementById(
                     "totalProducts"
-                ).textContent = "!";
+                ).textContent =
+                    "!";
 
             } else {
 
                 document.getElementById(
                     "totalProducts"
                 ).textContent =
-                    productsResult.data
-                        ? productsResult.data.length
-                        : 0;
+                    productsResult.count ?? 0;
             }
-
 
         } catch (error) {
 
@@ -1205,7 +1369,6 @@
             };
         }
 
-
         if (
             order.order_id !== undefined &&
             order.order_id !== null
@@ -1216,7 +1379,6 @@
                 value: order.order_id
             };
         }
-
 
         if (
             order.id_order !== undefined &&
@@ -1229,11 +1391,22 @@
             };
         }
 
-
         return {
             field: null,
             value: null
         };
+    }
+
+
+    /* =========================================
+       NORMALIZE STATUS
+    ========================================= */
+
+    function normalizeStatus(status) {
+
+        return String(status || "")
+            .trim()
+            .toLowerCase();
     }
 
 
@@ -1244,10 +1417,7 @@
     function getStatusClass(status) {
 
         const clean =
-            String(status || "")
-                .trim()
-                .toLowerCase();
-
+            normalizeStatus(status);
 
         if (clean === "menunggu konfirmasi") {
             return "status-menunggu";
@@ -1282,11 +1452,12 @@
         let items =
             order.items;
 
-
-        if (!items) {
+        if (
+            items === null ||
+            items === undefined
+        ) {
             return [];
         }
-
 
         if (typeof items === "string") {
 
@@ -1307,11 +1478,9 @@
             }
         }
 
-
         if (Array.isArray(items)) {
             return items;
         }
-
 
         if (
             typeof items === "object" &&
@@ -1320,11 +1489,11 @@
             return items.items;
         }
 
-
-        if (typeof items === "object") {
+        if (
+            typeof items === "object"
+        ) {
             return [items];
         }
-
 
         return [];
     }
@@ -1341,7 +1510,6 @@
                 "ordersContainer"
             );
 
-
         container.innerHTML = `
             <div class="loading-box">
 
@@ -1354,7 +1522,6 @@
             </div>
         `;
 
-
         try {
 
             const {
@@ -1362,7 +1529,7 @@
                 error
             } =
                 await supabaseClient
-                    .from("orders")
+                    .from(ORDER_TABLE)
                     .select("*");
 
 
@@ -1373,11 +1540,11 @@
                     error
                 );
 
-
                 container.innerHTML = `
                     <div class="alert alert-danger">
 
                         <strong>
+                            <i class="fa-solid fa-triangle-exclamation"></i>
                             Gagal mengambil pesanan.
                         </strong>
 
@@ -1388,13 +1555,13 @@
                         <hr>
 
                         <small>
-                            Jika muncul RLS atau permission denied,
-                            policy Supabase untuk tabel orders perlu diperiksa.
+                            Periksa RLS / Policy tabel orders
+                            di Supabase jika muncul
+                            "permission denied".
                         </small>
 
                     </div>
                 `;
-
 
                 showSystemStatus(
                     "Gagal mengambil data orders: " +
@@ -1412,33 +1579,37 @@
                     : [];
 
 
-            /* URUTKAN TERBARU */
+            /*
+               URUTKAN TERBARU
+            */
 
-            safeOrders.sort(function(a, b) {
+            safeOrders.sort(
+                function(a, b) {
 
-                const dateA =
-                    new Date(
-                        a.created_at ||
-                        a.tanggal ||
-                        a.createdAt ||
-                        0
-                    ).getTime();
+                    const dateA =
+                        new Date(
+                            a.created_at ||
+                            a.tanggal ||
+                            a.createdAt ||
+                            0
+                        ).getTime();
+
+                    const dateB =
+                        new Date(
+                            b.created_at ||
+                            b.tanggal ||
+                            b.createdAt ||
+                            0
+                        ).getTime();
+
+                    return dateB - dateA;
+                }
+            );
 
 
-                const dateB =
-                    new Date(
-                        b.created_at ||
-                        b.tanggal ||
-                        b.createdAt ||
-                        0
-                    ).getTime();
-
-
-                return dateB - dateA;
-            });
-
-
-            /* BELUM ADA PESANAN */
+            /*
+               BELUM ADA PESANAN
+            */
 
             if (safeOrders.length === 0) {
 
@@ -1461,7 +1632,6 @@
 
                 `;
 
-
                 showSystemStatus(
                     "Terhubung ke Supabase. Belum ada pesanan."
                 );
@@ -1470,19 +1640,21 @@
             }
 
 
-            let html = "";
-
-
-            safeOrders.forEach(function(order) {
-
-                html +=
-                    createOrderCard(order);
-
-            });
-
+            /*
+               RENDER ORDER
+            */
 
             container.innerHTML =
-                html;
+                safeOrders
+                    .map(createOrderCard)
+                    .join("");
+
+
+            /*
+               PASANG EVENT STATUS
+            */
+
+            setupStatusListeners();
 
 
             showSystemStatus(
@@ -1491,26 +1663,25 @@
                 " pesanan dari Supabase."
             );
 
-
         } catch (error) {
 
             console.error(error);
-
 
             container.innerHTML = `
 
                 <div class="alert alert-danger">
 
-                    Gagal memuat pesanan:
+                    <strong>
+                        Terjadi kesalahan.
+                    </strong>
 
-                    <br>
+                    <br><br>
 
                     ${escapeHtml(error.message)}
 
                 </div>
 
             `;
-
 
             showSystemStatus(
                 "Terjadi kesalahan saat memuat pesanan.",
@@ -1528,7 +1699,6 @@
 
         const orderIdentity =
             getOrderId(order);
-
 
         const orderId =
             orderIdentity.value !== null
@@ -1587,87 +1757,110 @@
             itemsHtml = `
 
                 <div class="text-muted">
+
+                    <i class="fa-solid fa-box-open"></i>
+
                     Tidak ada detail produk.
+
                 </div>
 
             `;
 
         } else {
 
-            items.forEach(function(item) {
+            items.forEach(
+                function(item) {
 
-                const name =
-                    item.nama_produk ||
-                    item.nama ||
-                    item.name ||
-                    item.product_name ||
-                    item.title ||
-                    "Produk";
-
-
-                const qty =
-                    Number(
-                        item.jumlah ??
-                        item.qty ??
-                        item.quantity ??
-                        1
-                    );
+                    const name =
+                        item.nama_produk ||
+                        item.nama ||
+                        item.name ||
+                        item.product_name ||
+                        item.title ||
+                        "Produk";
 
 
-                const price =
-                    Number(
-                        item.harga ??
-                        item.price ??
-                        0
-                    );
+                    const qty =
+                        Number(
+                            item.jumlah ??
+                            item.qty ??
+                            item.quantity ??
+                            1
+                        );
 
 
-                itemsHtml += `
+                    const price =
+                        Number(
+                            item.harga ??
+                            item.price ??
+                            item.harga_produk ??
+                            0
+                        );
 
-                    <div class="item-row">
 
-                        <div>
+                    itemsHtml += `
 
-                            <div class="item-name">
-                                ${escapeHtml(name)}
+                        <div class="item-row">
+
+                            <div>
+
+                                <div class="item-name">
+
+                                    ${escapeHtml(name)}
+
+                                </div>
+
+                                <div class="item-detail">
+
+                                    ${qty}
+                                    ×
+                                    ${formatRupiah(price)}
+
+                                </div>
+
                             </div>
 
-                            <div class="item-detail">
-                                ${qty} × ${formatRupiah(price)}
-                            </div>
+                            <strong>
+
+                                ${formatRupiah(
+                                    price * qty
+                                )}
+
+                            </strong>
 
                         </div>
 
-                        <strong>
-                            ${formatRupiah(price * qty)}
-                        </strong>
-
-                    </div>
-
-                `;
-            });
+                    `;
+                }
+            );
         }
 
 
-        /* AMANKAN VALUE UNTUK INLINE JS */
+        /*
+           DATA ATTRIBUTE
+           Tidak lagi menggunakan inline onclick.
+        */
 
-        const safeOrderId =
-            String(orderId)
-                .replace(/\\/g, "\\\\")
-                .replace(/'/g, "\\'");
+        const encodedId =
+            encodeURIComponent(
+                String(orderId)
+            );
 
-
-        const safeIdField =
-            String(
-                orderIdentity.field || "id"
-            )
-                .replace(/\\/g, "\\\\")
-                .replace(/'/g, "\\'");
+        const encodedField =
+            encodeURIComponent(
+                String(
+                    orderIdentity.field || "id"
+                )
+            );
 
 
         return `
 
-            <div class="order-card">
+            <div
+                class="order-card"
+                data-order-id="${encodedId}"
+                data-id-field="${encodedField}"
+            >
 
                 <!-- HEADER -->
 
@@ -1682,7 +1875,6 @@
                             Pesanan #${escapeHtml(orderId)}
 
                         </div>
-
 
                         <div class="order-date">
 
@@ -1700,9 +1892,14 @@
                     <div>
 
                         <span
-                            class="badge-status ${getStatusClass(status)}"
+                            class="
+                                badge-status
+                                ${getStatusClass(status)}
+                            "
                         >
+
                             ${escapeHtml(status)}
+
                         </span>
 
                     </div>
@@ -1810,69 +2007,39 @@
 
                         <select
                             class="form-select status-select"
-                            onchange="changeOrderStatus(
-                                '${safeOrderId}',
-                                '${safeIdField}',
-                                this.value,
-                                this
-                            )"
                         >
 
                             <option
                                 value="Menunggu Konfirmasi"
-                                ${
-                                    status === "Menunggu Konfirmasi"
-                                        ? "selected"
-                                        : ""
-                                }
+                                ${normalizeStatus(status) === "menunggu konfirmasi" ? "selected" : ""}
                             >
                                 Menunggu Konfirmasi
                             </option>
 
-
                             <option
                                 value="Diproses"
-                                ${
-                                    status === "Diproses"
-                                        ? "selected"
-                                        : ""
-                                }
+                                ${normalizeStatus(status) === "diproses" ? "selected" : ""}
                             >
                                 Diproses
                             </option>
 
-
                             <option
                                 value="Dikirim"
-                                ${
-                                    status === "Dikirim"
-                                        ? "selected"
-                                        : ""
-                                }
+                                ${normalizeStatus(status) === "dikirim" ? "selected" : ""}
                             >
                                 Dikirim
                             </option>
 
-
                             <option
                                 value="Selesai"
-                                ${
-                                    status === "Selesai"
-                                        ? "selected"
-                                        : ""
-                                }
+                                ${normalizeStatus(status) === "selesai" ? "selected" : ""}
                             >
                                 Selesai
                             </option>
 
-
                             <option
                                 value="Dibatalkan"
-                                ${
-                                    status === "Dibatalkan"
-                                        ? "selected"
-                                        : ""
-                                }
+                                ${normalizeStatus(status) === "dibatalkan" ? "selected" : ""}
                             >
                                 Dibatalkan
                             </option>
@@ -1886,6 +2053,57 @@
             </div>
 
         `;
+    }
+
+
+    /* =========================================
+       SETUP STATUS LISTENERS
+    ========================================= */
+
+    function setupStatusListeners() {
+
+        const selects =
+            document.querySelectorAll(
+                ".status-select"
+            );
+
+        selects.forEach(
+            function(select) {
+
+                select.addEventListener(
+                    "change",
+                    async function() {
+
+                        const card =
+                            select.closest(
+                                ".order-card"
+                            );
+
+                        if (!card) {
+                            return;
+                        }
+
+                        const orderId =
+                            decodeURIComponent(
+                                card.dataset.orderId
+                            );
+
+                        const idField =
+                            decodeURIComponent(
+                                card.dataset.idField
+                            );
+
+                        await changeOrderStatus(
+                            orderId,
+                            idField,
+                            select.value,
+                            select
+                        );
+                    }
+                );
+
+            }
+        );
     }
 
 
@@ -1908,6 +2126,11 @@
 
             return;
         }
+
+
+        const oldValue =
+            selectElement.dataset.oldValue ||
+            "";
 
 
         const confirmChange =
@@ -1947,7 +2170,7 @@
                 error
             } =
                 await supabaseClient
-                    .from("orders")
+                    .from(ORDER_TABLE)
                     .update({
                         status: newStatus
                     })
@@ -1965,12 +2188,10 @@
                     error
                 );
 
-
                 alert(
                     "Gagal mengubah status:\n\n" +
                     error.message
                 );
-
 
                 await loadOrders();
 
@@ -1985,10 +2206,9 @@
 
                 alert(
                     "Status tidak berubah.\n\n" +
-                    "Supabase tidak mengembalikan data yang diupdate. " +
-                    "Kemungkinan Row Level Security (RLS) belum mengizinkan update."
+                    "Supabase tidak mengembalikan data yang diupdate.\n\n" +
+                    "Periksa Row Level Security (RLS) pada tabel orders."
                 );
-
 
                 await loadOrders();
 
@@ -2009,17 +2229,14 @@
 
             await loadStats();
 
-
         } catch (error) {
 
             console.error(error);
-
 
             alert(
                 "Terjadi kesalahan:\n\n" +
                 error.message
             );
-
 
             await loadOrders();
 
@@ -2039,7 +2256,6 @@
         showSystemStatus(
             "Memuat ulang dashboard..."
         );
-
 
         await loadStats();
 
@@ -2062,14 +2278,28 @@
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "Logout error:",
+                error
+            );
         }
 
 
-        localStorage.removeItem("user");
-        localStorage.removeItem("currentUser");
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("user_session");
+        localStorage.removeItem(
+            "user"
+        );
+
+        localStorage.removeItem(
+            "currentUser"
+        );
+
+        localStorage.removeItem(
+            "isLoggedIn"
+        );
+
+        localStorage.removeItem(
+            "user_session"
+        );
 
 
         window.location.href =
@@ -2078,12 +2308,21 @@
 
 
     /* =========================================
-       START
+       START APPLICATION
     ========================================= */
 
     document.addEventListener(
         "DOMContentLoaded",
         async function() {
+
+            console.log(
+                "BlueShop Admin Dashboard starting..."
+            );
+
+
+            /*
+               INITIALIZE SUPABASE
+            */
 
             const ready =
                 initializeSupabase();
@@ -2094,6 +2333,10 @@
             }
 
 
+            /*
+               CHECK ADMIN
+            */
+
             const allowed =
                 await checkAdmin();
 
@@ -2102,6 +2345,10 @@
                 return;
             }
 
+
+            /*
+               LOAD DASHBOARD
+            */
 
             await loadStats();
 
