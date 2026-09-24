@@ -2,7 +2,8 @@
 // BLUESHOP FASHION - CHECKOUT.JS
 // ======================================================
 
-const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
+const SUPABASE_URL =
+    'https://fbnknnrltrsvydyxgujr.supabase.co';
 
 const SUPABASE_KEY =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzIiwicmVmIjoiZmJua25ucmx0cnN2eWR5eGd1anIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4ODI0MDQyNiwiZXhwIjoyMTAzODEyNDI2fQ.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==================================================
-    // AMBIL NILAI PRODUK
+    // AMBIL ID PRODUK
     // ==================================================
 
     function getProductId(item) {
@@ -65,6 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    // ==================================================
+    // NAMA PRODUK
+    // ==================================================
+
     function getProductName(item) {
 
         return (
@@ -79,6 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    // ==================================================
+    // HARGA PRODUK
+    // ==================================================
+
     function getProductPrice(item) {
 
         return Number(
@@ -91,6 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+
+    // ==================================================
+    // QTY PRODUK
+    // ==================================================
 
     function getProductQty(item) {
 
@@ -117,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const savedCart =
                 localStorage.getItem('cart');
 
+
             if (!savedCart) {
 
                 cart = [];
@@ -125,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const parsed =
                     JSON.parse(savedCart);
+
 
                 if (Array.isArray(parsed)) {
 
@@ -190,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'checkoutTotal'
             );
 
+
         if (checkoutTotal) {
 
             checkoutTotal.innerText =
@@ -237,19 +253,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const userData =
             localStorage.getItem('user');
 
+
         if (!userData) {
             return;
         }
+
 
         try {
 
             const currentUser =
                 JSON.parse(userData);
 
+
             const inputNama =
                 document.getElementById(
                     'namaLengkap'
                 );
+
 
             if (
                 currentUser.name &&
@@ -275,12 +295,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==================================================
-    // CEK STOCK PRODUK
+    // CEK STOK PRODUK
     // ==================================================
 
-    async function cekStokProduk(
-        item
-    ) {
+    async function cekStokProduk(item) {
 
         const idProduk =
             getProductId(item);
@@ -399,96 +417,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 qty
 
         };
-
-    }
-
-
-    // ==================================================
-    // KURANGI STOK
-    // ==================================================
-
-    async function kurangiStok(
-        item
-    ) {
-
-        const idProduk =
-            getProductId(item);
-
-        const qty =
-            getProductQty(item);
-
-
-        console.log(
-            '--------------------------------'
-        );
-
-        console.log(
-            'MENGURANGI STOK'
-        );
-
-        console.log(
-            'ID:',
-            idProduk
-        );
-
-        console.log(
-            'Qty:',
-            qty
-        );
-
-
-        const {
-            data,
-            error
-        } = await _supabase.rpc(
-            'kurangi_stok_produk',
-            {
-
-                p_id_produk:
-                    Number(idProduk),
-
-                p_jumlah:
-                    Number(qty)
-
-            }
-        );
-
-
-        console.log(
-            'RPC result:',
-            data
-        );
-
-        console.log(
-            'RPC error:',
-            error
-        );
-
-
-        if (error) {
-
-            throw new Error(
-                `Gagal mengurangi stok "${getProductName(item)}": ${error.message}`
-            );
-
-        }
-
-
-        if (data !== true) {
-
-            throw new Error(
-                `Stok "${getProductName(item)}" gagal dikurangi. ID produk: ${idProduk}`
-            );
-
-        }
-
-
-        console.log(
-            `✓ Stok ${getProductName(item)} berhasil dikurangi ${qty}`
-        );
-
-
-        return true;
 
     }
 
@@ -620,6 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const userData =
                 localStorage.getItem('user');
 
+
             if (userData) {
 
                 currentUser =
@@ -655,7 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             // ==================================================
-            // VALIDASI SEMUA ID PRODUK
+            // VALIDASI ID PRODUK
             // ==================================================
 
             console.log(
@@ -664,12 +593,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             for (
-                const item
-                of selectedItems
+                const item of selectedItems
             ) {
 
                 const idProduk =
                     getProductId(item);
+
 
                 console.log(
                     'Nama:',
@@ -703,33 +632,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // ==================================================
 
             for (
-                const item
-                of selectedItems
+                const item of selectedItems
             ) {
 
                 await cekStokProduk(item);
-
-            }
-
-
-            // ==================================================
-            // KURANGI STOK
-            // ==================================================
-
-            if (btnBayar) {
-
-                btnBayar.innerText =
-                    'Mengurangi stok...';
-
-            }
-
-
-            for (
-                const item
-                of selectedItems
-            ) {
-
-                await kurangiStok(item);
 
             }
 
@@ -766,8 +672,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 total_harga:
                     Number(totalPrice),
 
+                // Penting:
+                // id_produk dan qty harus ikut tersimpan
                 items:
-                    selectedItems,
+                    selectedItems.map(item => ({
+
+                        ...item,
+
+                        id_produk:
+                            Number(
+                                getProductId(item)
+                            ),
+
+                        qty:
+                            Number(
+                                getProductQty(item)
+                            )
+
+                    })),
 
                 status:
                     'Menunggu Konfirmasi'
@@ -806,6 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     orderError
                 );
 
+
                 throw new Error(
                     `Pesanan gagal disimpan: ${orderError.message}`
                 );
@@ -843,7 +766,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // ==================================================
 
             alert(
-                'Pesanan berhasil dibuat!\nStok produk juga berhasil dikurangi.'
+                'Pesanan berhasil dibuat!\nStok otomatis dikurangi oleh Supabase.'
             );
 
 
