@@ -1,107 +1,255 @@
+// ======================================================
+// BLUESHOP FASHION - CHECKOUT.JS
+// ======================================================
+
 const SUPABASE_URL = 'https://fbnknnrltrsvydyxgujr.supabase.co';
 
 const SUPABASE_KEY =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZibmtubnJsdHJzdnlkeXhndWpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyNDA0MjYsImV4cCI6MjEwMzgxMjQyNn0.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzIiwicmVmIjoiZmJua25ucmx0cnN2eWR5eGd1anIiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc4ODI0MDQyNiwiZXhwIjoyMTAzODEyNDI2fQ.A46kddQQFKt8C-Kvq8Gt753acdEctsh7XibfMWKKP9o';
 
 const _supabase = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
 
+
+// ======================================================
+// GLOBAL
+// ======================================================
+
+let cart = [];
+let selectedItems = [];
+let totalPrice = 0;
+
+
+// ======================================================
+// DOM READY
+// ======================================================
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    let cart = [];
-    let selectedItems = [];
-    let totalPrice = 0;
+    const checkoutForm =
+        document.getElementById('checkoutForm');
 
-    const checkoutForm = document.getElementById('checkoutForm');
-    const btnBayar = document.getElementById('btnBayar');
+    const btnBayar =
+        document.getElementById('btnBayar');
 
-    // ==========================================
-    // AMBIL KERANJANG
-    // ==========================================
+
+    // ==================================================
+    // FORMAT RUPIAH
+    // ==================================================
+
+    function formatRupiah(value) {
+
+        return 'Rp ' +
+            Number(value || 0).toLocaleString('id-ID');
+
+    }
+
+
+    // ==================================================
+    // AMBIL NILAI PRODUK
+    // ==================================================
+
+    function getProductId(item) {
+
+        return (
+            item.id_produk ??
+            item.idProduk ??
+            item.product_id ??
+            item.productId ??
+            item.id ??
+            null
+        );
+
+    }
+
+
+    function getProductName(item) {
+
+        return (
+            item.nama_produk ??
+            item.nama ??
+            item.name ??
+            item.product_name ??
+            item.title ??
+            'Produk'
+        );
+
+    }
+
+
+    function getProductPrice(item) {
+
+        return Number(
+            item.harga ??
+            item.price ??
+            item.harga_produk ??
+            item.price_produk ??
+            0
+        );
+
+    }
+
+
+    function getProductQty(item) {
+
+        const qty = Number(
+            item.qty ??
+            item.quantity ??
+            item.jumlah ??
+            1
+        );
+
+        return qty > 0 ? qty : 1;
+
+    }
+
+
+    // ==================================================
+    // LOAD CART
+    // ==================================================
 
     function loadCart() {
 
         try {
 
-            const data = JSON.parse(
-                localStorage.getItem('cart')
-            );
+            const savedCart =
+                localStorage.getItem('cart');
 
-            if (Array.isArray(data)) {
-                cart = data;
-            } else if (data && Array.isArray(data.items)) {
-                cart = data.items;
-            } else {
+            if (!savedCart) {
+
                 cart = [];
+
+            } else {
+
+                const parsed =
+                    JSON.parse(savedCart);
+
+                if (Array.isArray(parsed)) {
+
+                    cart = parsed;
+
+                } else if (
+                    parsed &&
+                    Array.isArray(parsed.items)
+                ) {
+
+                    cart = parsed.items;
+
+                } else {
+
+                    cart = [];
+
+                }
+
             }
 
         } catch (error) {
 
-            console.error('Gagal membaca cart:', error);
+            console.error(
+                'Gagal membaca cart:',
+                error
+            );
+
             cart = [];
 
         }
 
-        selectedItems = cart.filter(
-            item => item.selected !== false
-        );
 
-        totalPrice = selectedItems.reduce(
-            (sum, item) => {
+        // Hanya produk yang dipilih
+        selectedItems =
+            cart.filter(
+                item => item.selected !== false
+            );
 
-                const harga = Number(
-                    item.price ??
-                    item.harga ??
-                    item.harga_produk ??
-                    0
-                );
 
-                const qty = Number(
-                    item.qty ??
-                    item.quantity ??
-                    item.jumlah ??
-                    1
-                );
+        // Hitung total
+        totalPrice =
+            selectedItems.reduce(
+                (total, item) => {
 
-                return sum + (harga * qty);
+                    const harga =
+                        getProductPrice(item);
 
-            },
-            0
-        );
+                    const qty =
+                        getProductQty(item);
 
-        const checkoutTotalEl =
-            document.getElementById('checkoutTotal');
+                    return total + (
+                        harga * qty
+                    );
 
-        if (checkoutTotalEl) {
+                },
+                0
+            );
 
-            checkoutTotalEl.innerText =
-                'Rp ' +
-                totalPrice.toLocaleString('id-ID');
+
+        // Tampilkan total
+        const checkoutTotal =
+            document.getElementById(
+                'checkoutTotal'
+            );
+
+        if (checkoutTotal) {
+
+            checkoutTotal.innerText =
+                formatRupiah(totalPrice);
 
         }
 
-        console.log('Cart:', cart);
-        console.log('Selected Items:', selectedItems);
-        console.log('Total:', totalPrice);
+
+        console.log(
+            '=============================='
+        );
+
+        console.log(
+            'BLUESHOP CHECKOUT'
+        );
+
+        console.log(
+            'Cart:',
+            cart
+        );
+
+        console.log(
+            'Selected:',
+            selectedItems
+        );
+
+        console.log(
+            'Total:',
+            totalPrice
+        );
+
+        console.log(
+            '=============================='
+        );
+
     }
 
 
-    // ==========================================
+    // ==================================================
     // AUTOFILL USER
-    // ==========================================
+    // ==================================================
 
-    const userData = localStorage.getItem('user');
+    function loadUser() {
 
-    if (userData) {
+        const userData =
+            localStorage.getItem('user');
+
+        if (!userData) {
+            return;
+        }
 
         try {
 
-            const currentUser = JSON.parse(userData);
+            const currentUser =
+                JSON.parse(userData);
 
             const inputNama =
-                document.getElementById('namaLengkap');
+                document.getElementById(
+                    'namaLengkap'
+                );
 
             if (
                 currentUser.name &&
@@ -109,14 +257,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 !inputNama.value
             ) {
 
-                inputNama.value = currentUser.name;
+                inputNama.value =
+                    currentUser.name;
 
             }
 
         } catch (error) {
 
             console.error(
-                'Error membaca data user:',
+                'Gagal membaca user:',
                 error
             );
 
@@ -125,92 +274,356 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // ==========================================
+    // ==================================================
+    // CEK STOCK PRODUK
+    // ==================================================
+
+    async function cekStokProduk(
+        item
+    ) {
+
+        const idProduk =
+            getProductId(item);
+
+        const qty =
+            getProductQty(item);
+
+
+        // Tidak ada ID produk
+        if (!idProduk) {
+
+            throw new Error(
+                `Produk "${getProductName(item)}" tidak memiliki id_produk di keranjang.`
+            );
+
+        }
+
+
+        console.log(
+            'Cek produk:',
+            getProductName(item)
+        );
+
+        console.log(
+            'ID Produk:',
+            idProduk
+        );
+
+        console.log(
+            'Jumlah:',
+            qty
+        );
+
+
+        // Ambil data produk terbaru
+        const {
+            data: produk,
+            error
+        } = await _supabase
+            .from('produk')
+            .select(
+                'id_produk,nama_produk,harga,stok'
+            )
+            .eq(
+                'id_produk',
+                idProduk
+            )
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                'Error SELECT produk:',
+                error
+            );
+
+            throw new Error(
+                `Gagal mengecek produk "${getProductName(item)}": ${error.message}`
+            );
+
+        }
+
+
+        if (!produk) {
+
+            throw new Error(
+                `Produk "${getProductName(item)}" dengan ID ${idProduk} tidak ditemukan di Supabase.`
+            );
+
+        }
+
+
+        const stok =
+            Number(produk.stok);
+
+
+        console.log(
+            'Produk ditemukan:',
+            produk
+        );
+
+
+        // Stok kosong
+        if (stok <= 0) {
+
+            throw new Error(
+                `Stok "${produk.nama_produk}" sudah habis.`
+            );
+
+        }
+
+
+        // Stok kurang
+        if (stok < qty) {
+
+            throw new Error(
+                `Stok "${produk.nama_produk}" tidak cukup. Stok tersedia: ${stok}, jumlah dibeli: ${qty}.`
+            );
+
+        }
+
+
+        return {
+
+            id_produk:
+                produk.id_produk,
+
+            nama_produk:
+                produk.nama_produk,
+
+            stok:
+                stok,
+
+            qty:
+                qty
+
+        };
+
+    }
+
+
+    // ==================================================
+    // KURANGI STOK
+    // ==================================================
+
+    async function kurangiStok(
+        item
+    ) {
+
+        const idProduk =
+            getProductId(item);
+
+        const qty =
+            getProductQty(item);
+
+
+        console.log(
+            '--------------------------------'
+        );
+
+        console.log(
+            'MENGURANGI STOK'
+        );
+
+        console.log(
+            'ID:',
+            idProduk
+        );
+
+        console.log(
+            'Qty:',
+            qty
+        );
+
+
+        const {
+            data,
+            error
+        } = await _supabase.rpc(
+            'kurangi_stok_produk',
+            {
+
+                p_id_produk:
+                    Number(idProduk),
+
+                p_jumlah:
+                    Number(qty)
+
+            }
+        );
+
+
+        console.log(
+            'RPC result:',
+            data
+        );
+
+        console.log(
+            'RPC error:',
+            error
+        );
+
+
+        if (error) {
+
+            throw new Error(
+                `Gagal mengurangi stok "${getProductName(item)}": ${error.message}`
+            );
+
+        }
+
+
+        if (data !== true) {
+
+            throw new Error(
+                `Stok "${getProductName(item)}" gagal dikurangi. ID produk: ${idProduk}`
+            );
+
+        }
+
+
+        console.log(
+            `✓ Stok ${getProductName(item)} berhasil dikurangi ${qty}`
+        );
+
+
+        return true;
+
+    }
+
+
+    // ==================================================
     // PROSES CHECKOUT
-    // ==========================================
+    // ==================================================
 
     async function prosesCheckout(e) {
 
         if (e) {
+
             e.preventDefault();
+
         }
+
 
         // Ambil cart terbaru
         loadCart();
 
-        // ==========================================
-        // VALIDASI KERANJANG
-        // ==========================================
 
-        if (selectedItems.length === 0) {
+        // ==================================================
+        // VALIDASI CART
+        // ==================================================
+
+        if (
+            !selectedItems ||
+            selectedItems.length === 0
+        ) {
 
             alert(
-                'Keranjang Anda kosong atau tidak ada item yang dipilih!'
+                'Keranjang kosong atau tidak ada produk yang dipilih.'
             );
 
-            window.location.href = 'cart.html';
+            window.location.href =
+                'cart.html';
 
             return;
+
         }
 
 
-        // ==========================================
-        // AMBIL FORM
-        // ==========================================
+        // ==================================================
+        // VALIDASI FORM
+        // ==================================================
 
         const inputNama =
-            document.getElementById('namaLengkap');
+            document.getElementById(
+                'namaLengkap'
+            );
 
         const inputHp =
-            document.getElementById('nomorHp');
+            document.getElementById(
+                'nomorHp'
+            );
 
         const inputAlamat =
-            document.getElementById('alamatPengiriman');
+            document.getElementById(
+                'alamatPengiriman'
+            );
+
 
         const nama =
-            inputNama ?
-            inputNama.value.trim() :
-            '';
+            inputNama
+                ? inputNama.value.trim()
+                : '';
+
 
         const nohp =
-            inputHp ?
-            inputHp.value.trim() :
-            '';
+            inputHp
+                ? inputHp.value.trim()
+                : '';
+
 
         const alamat =
-            inputAlamat ?
-            inputAlamat.value.trim() :
-            '';
+            inputAlamat
+                ? inputAlamat.value.trim()
+                : '';
 
 
-        if (!nama || !nohp || !alamat) {
+        if (!nama) {
 
             alert(
-                'Harap isi semua kolom form!'
+                'Nama lengkap wajib diisi.'
             );
 
             return;
+
         }
 
 
-        // ==========================================
+        if (!nohp) {
+
+            alert(
+                'Nomor HP wajib diisi.'
+            );
+
+            return;
+
+        }
+
+
+        if (!alamat) {
+
+            alert(
+                'Alamat pengiriman wajib diisi.'
+            );
+
+            return;
+
+        }
+
+
+        // ==================================================
         // USER
-        // ==========================================
+        // ==================================================
 
         let currentUser = {
+
             id: 'GUEST',
+
             name: nama
+
         };
+
 
         try {
 
-            const dataUser =
+            const userData =
                 localStorage.getItem('user');
 
-            if (dataUser) {
+            if (userData) {
 
                 currentUser =
-                    JSON.parse(dataUser);
+                    JSON.parse(userData);
 
             }
 
@@ -226,13 +639,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
 
-            // ==========================================
-            // DISABLE BUTTON
-            // ==========================================
+            // ==================================================
+            // LOCK BUTTON
+            // ==================================================
 
             if (btnBayar) {
 
-                btnBayar.disabled = true;
+                btnBayar.disabled =
+                    true;
 
                 btnBayar.innerText =
                     'Mengecek stok...';
@@ -240,118 +654,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
 
-            // ==========================================
-            // CEK SETIAP PRODUK
-            // ==========================================
+            // ==================================================
+            // VALIDASI SEMUA ID PRODUK
+            // ==================================================
 
-            for (const item of selectedItems) {
+            console.log(
+                '===== VALIDASI PRODUK ====='
+            );
 
-                /*
-                 * Cari ID produk
-                 *
-                 * Pastikan cart menyimpan:
-                 * id_produk
-                 */
+
+            for (
+                const item
+                of selectedItems
+            ) {
 
                 const idProduk =
-                    item.id_produk ??
-                    item.id ??
-                    item.product_id;
+                    getProductId(item);
 
-                const qty =
-                    Number(
-                        item.qty ??
-                        item.quantity ??
-                        item.jumlah ??
-                        1
-                    );
+                console.log(
+                    'Nama:',
+                    getProductName(item)
+                );
+
+                console.log(
+                    'ID:',
+                    idProduk
+                );
+
+                console.log(
+                    'Qty:',
+                    getProductQty(item)
+                );
 
 
                 if (!idProduk) {
 
                     throw new Error(
-                        `Produk "${item.nama_produk || item.nama || item.name || 'Tidak diketahui'}" tidak memiliki id_produk di cart.`
-                    );
-
-                }
-
-
-                if (qty <= 0) {
-
-                    throw new Error(
-                        'Jumlah produk tidak valid.'
-                    );
-
-                }
-
-
-                console.log(
-                    'Cek stok:',
-                    idProduk,
-                    'jumlah:',
-                    qty
-                );
-
-
-                // ==========================================
-                // AMBIL STOK TERBARU
-                // ==========================================
-
-                const {
-                    data: produk,
-                    error: produkError
-                } = await _supabase
-                    .from('produk')
-                    .select(
-                        'id_produk,nama_produk,harga,stok'
-                    )
-                    .eq(
-                        'id_produk',
-                        idProduk
-                    )
-                    .maybeSingle();
-
-
-                if (produkError) {
-
-                    console.error(
-                        'Error mengambil produk:',
-                        produkError
-                    );
-
-                    throw new Error(
-                        'Gagal mengecek stok produk.'
-                    );
-
-                }
-
-
-                if (!produk) {
-
-                    throw new Error(
-                        `Produk dengan ID ${idProduk} tidak ditemukan.`
-                    );
-
-                }
-
-
-                const stokSekarang =
-                    Number(produk.stok);
-
-
-                console.log(
-                    `Produk ${produk.nama_produk}: stok ${stokSekarang}, diminta ${qty}`
-                );
-
-
-                // ==========================================
-                // STOK TIDAK CUKUP
-                // ==========================================
-
-                if (stokSekarang < qty) {
-
-                    throw new Error(
-                        `Stok "${produk.nama_produk}" tidak cukup. Tersedia ${stokSekarang}, tetapi kamu membeli ${qty}.`
+                        `Produk "${getProductName(item)}" tidak memiliki id_produk. Perbaiki fungsi Add to Cart.`
                     );
 
                 }
@@ -359,9 +698,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
 
-            // ==========================================
+            // ==================================================
+            // CEK SEMUA STOK
+            // ==================================================
+
+            for (
+                const item
+                of selectedItems
+            ) {
+
+                await cekStokProduk(item);
+
+            }
+
+
+            // ==================================================
             // KURANGI STOK
-            // ==========================================
+            // ==================================================
 
             if (btnBayar) {
 
@@ -371,70 +724,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
 
-            for (const item of selectedItems) {
+            for (
+                const item
+                of selectedItems
+            ) {
 
-                const idProduk =
-                    item.id_produk ??
-                    item.id ??
-                    item.product_id;
-
-                const qty =
-                    Number(
-                        item.qty ??
-                        item.quantity ??
-                        item.jumlah ??
-                        1
-                    );
-
-
-                console.log(
-                    'Mengurangi stok:',
-                    idProduk,
-                    qty
-                );
-
-
-                const {
-                    data: stokBerhasil,
-                    error: stokError
-                } = await _supabase.rpc(
-                    'kurangi_stok_produk',
-                    {
-                        p_id_produk: Number(idProduk),
-                        p_jumlah: qty
-                    }
-                );
-
-
-                if (stokError) {
-
-                    console.error(
-                        'RPC stok error:',
-                        stokError
-                    );
-
-                    throw new Error(
-                        'Gagal mengurangi stok: ' +
-                        stokError.message
-                    );
-
-                }
-
-
-                if (stokBerhasil !== true) {
-
-                    throw new Error(
-                        `Stok produk tidak cukup untuk produk ID ${idProduk}.`
-                    );
-
-                }
+                await kurangiStok(item);
 
             }
 
 
-            // ==========================================
-            // SIMPAN ORDER
-            // ==========================================
+            // ==================================================
+            // BUAT PAYLOAD ORDER
+            // ==================================================
 
             if (btnBayar) {
 
@@ -462,7 +764,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alamat,
 
                 total_harga:
-                    totalPrice,
+                    Number(totalPrice),
 
                 items:
                     selectedItems,
@@ -474,45 +776,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             console.log(
-                'Order payload:',
+                '===== ORDER PAYLOAD ====='
+            );
+
+            console.log(
                 payload
             );
 
 
+            // ==================================================
+            // INSERT ORDER
+            // ==================================================
+
             const {
-                data,
-                error
+                data: orderData,
+                error: orderError
             } = await _supabase
                 .from('orders')
-                .insert([payload])
+                .insert([
+                    payload
+                ])
                 .select();
 
 
-            if (error) {
+            if (orderError) {
 
                 console.error(
-                    'Supabase Order Error:',
-                    error
+                    'ORDER ERROR:',
+                    orderError
                 );
 
-                throw error;
+                throw new Error(
+                    `Pesanan gagal disimpan: ${orderError.message}`
+                );
 
             }
 
 
             console.log(
-                'Order berhasil:',
-                data
+                '✓ ORDER BERHASIL:',
+                orderData
             );
 
 
-            // ==========================================
-            // HAPUS PRODUK YANG SUDAH DIBELI
-            // ==========================================
+            // ==================================================
+            // HAPUS ITEM YANG SUDAH DIBELI
+            // ==================================================
 
             const remainingCart =
                 cart.filter(
-                    item => item.selected === false
+                    item =>
+                        item.selected === false
                 );
 
 
@@ -524,12 +838,12 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
 
-            // ==========================================
-            // SELESAI
-            // ==========================================
+            // ==================================================
+            // BERHASIL
+            // ==================================================
 
             alert(
-                'Pesanan berhasil dibuat dan stok berhasil dikurangi!'
+                'Pesanan berhasil dibuat!\nStok produk juga berhasil dikurangi.'
             );
 
 
@@ -537,26 +851,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 'orders.html';
 
 
-        } catch (err) {
+        } catch (error) {
 
             console.error(
-                'CHECKOUT ERROR:',
-                err
+                '================================'
+            );
+
+            console.error(
+                'CHECKOUT ERROR'
+            );
+
+            console.error(
+                error
+            );
+
+            console.error(
+                '================================'
             );
 
 
             alert(
-                'Gagal memproses pesanan:\n\n' +
-                (
-                    err.message ||
-                    'Terjadi kesalahan.'
-                )
+                error.message ||
+                'Terjadi kesalahan saat checkout.'
             );
 
 
+            // Aktifkan tombol lagi
             if (btnBayar) {
 
-                btnBayar.disabled = false;
+                btnBayar.disabled =
+                    false;
 
                 btnBayar.innerText =
                     'Konfirmasi & Bayar';
@@ -568,9 +892,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // ==========================================
-    // EVENT CHECKOUT
-    // ==========================================
+    // ==================================================
+    // EVENT FORM
+    // ==================================================
 
     if (checkoutForm) {
 
@@ -579,7 +903,17 @@ document.addEventListener('DOMContentLoaded', () => {
             prosesCheckout
         );
 
-    } else if (btnBayar) {
+    }
+
+
+    // ==================================================
+    // EVENT BUTTON
+    // ==================================================
+
+    if (
+        btnBayar &&
+        !checkoutForm
+    ) {
 
         btnBayar.addEventListener(
             'click',
@@ -589,10 +923,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // ==========================================
+    // ==================================================
     // LOAD AWAL
-    // ==========================================
+    // ==================================================
 
     loadCart();
+
+    loadUser();
 
 });
