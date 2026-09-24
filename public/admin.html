@@ -31,7 +31,10 @@
             color: #1f2937;
         }
 
-        /* HEADER */
+        /* =========================
+           HEADER
+        ========================= */
+
         .header {
             background: linear-gradient(135deg, #0d6efd, #084298);
             padding: 18px 30px;
@@ -112,14 +115,20 @@
             color: white;
         }
 
-        /* MAIN */
+        /* =========================
+           MAIN
+        ========================= */
+
         .container-main {
             padding: 30px;
             max-width: 1500px;
             margin: auto;
         }
 
-        /* WELCOME */
+        /* =========================
+           WELCOME
+        ========================= */
+
         .welcome {
             background: linear-gradient(135deg, #ffffff, #e0ecff);
             padding: 30px;
@@ -139,7 +148,10 @@
             color: #64748b;
         }
 
-        /* STATISTICS */
+        /* =========================
+           STATISTICS
+        ========================= */
+
         .stats-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -192,7 +204,10 @@
             font-size: 21px !important;
         }
 
-        /* SECTION */
+        /* =========================
+           SECTION
+        ========================= */
+
         .section-box {
             margin-top: 30px;
             background: #ffffff;
@@ -217,7 +232,10 @@
             color: #0b3d91;
         }
 
-        /* REPORT GRID */
+        /* =========================
+           REPORT
+        ========================= */
+
         .report-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -258,11 +276,10 @@
             color: #20c997;
         }
 
-        .report-card.cancel .icon {
-            color: #dc3545;
-        }
+        /* =========================
+           FILTER
+        ========================= */
 
-        /* FILTER */
         .filter-box {
             display: flex;
             gap: 10px;
@@ -275,7 +292,10 @@
             min-height: 42px;
         }
 
-        /* PRODUCT ANALYSIS */
+        /* =========================
+           PRODUCT ANALYSIS
+        ========================= */
+
         .product-analysis {
             display: grid;
             grid-template-columns: 1.3fr 1fr;
@@ -325,6 +345,7 @@
             justify-content: space-between;
             margin-bottom: 6px;
             font-size: 13px;
+            gap: 10px;
         }
 
         .bar-bg {
@@ -341,7 +362,10 @@
             border-radius: 20px;
         }
 
-        /* ORDER CARD */
+        /* =========================
+           ORDER CARD
+        ========================= */
+
         .order-card {
             border-radius: 16px;
             padding: 20px;
@@ -475,7 +499,10 @@
             border: 2px solid #dbe7ff;
         }
 
-        /* STATUS */
+        /* =========================
+           STATUS
+        ========================= */
+
         .badge-status {
             padding: 8px 13px;
             border-radius: 20px;
@@ -509,7 +536,10 @@
             color: #842029;
         }
 
-        /* EMPTY / LOADING */
+        /* =========================
+           EMPTY / LOADING
+        ========================= */
+
         .empty-orders,
         .loading-box {
             text-align: center;
@@ -523,7 +553,10 @@
             color: #94a3b8;
         }
 
-        /* SYSTEM */
+        /* =========================
+           SYSTEM
+        ========================= */
+
         .status-system {
             margin-top: 25px;
             padding: 15px 18px;
@@ -539,7 +572,10 @@
             border-left-color: #dc3545;
         }
 
-        /* INFO */
+        /* =========================
+           INFO
+        ========================= */
+
         .info-list {
             background: #f8faff;
             border-radius: 12px;
@@ -555,7 +591,10 @@
             border-bottom: none;
         }
 
-        /* RESPONSIVE */
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
         @media (max-width: 1100px) {
             .report-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -626,7 +665,10 @@
 
 <body>
 
-<!-- HEADER -->
+<!-- =========================
+     HEADER
+========================= -->
+
 <div class="header">
 
     <div>
@@ -686,7 +728,10 @@
 
 <div class="container-main">
 
-    <!-- WELCOME -->
+    <!-- =========================
+         WELCOME
+    ========================= -->
+
     <div class="welcome">
 
         <h2>
@@ -694,14 +739,17 @@
         </h2>
 
         <p class="mb-0">
-            Selamat datang di Dashboard Admin BlueShop.
+            Selamat datang di Dashboard Admin BlueShop Fashion.
             Pantau pesanan, produk terjual, laporan, dan pendapatan toko.
         </p>
 
     </div>
 
 
-    <!-- STATISTICS -->
+    <!-- =========================
+         STATISTICS
+    ========================= -->
+
     <div class="stats-container">
 
         <div class="stat-card">
@@ -751,26 +799,30 @@
     </div>
 
 
-    <!-- LAPORAN PENJUALAN -->
+    <!-- =========================
+         LAPORAN PENJUALAN
+    ========================= -->
+
     <div class="section-box">
 
         <div class="section-header">
 
             <div>
+
                 <h3>
                     <i class="fa-solid fa-chart-line"></i>
                     Laporan Penjualan
                 </h3>
 
                 <small class="text-muted">
-                    Ringkasan transaksi dan pendapatan BlueShop
+                    Ringkasan transaksi dan pendapatan BlueShop Fashion
                 </small>
+
             </div>
 
         </div>
 
 
-        <!-- FILTER PERIODE -->
         <div class="filter-box">
 
             <select
@@ -779,6 +831,7 @@
                 style="max-width:220px;"
                 onchange="generateReport()"
             >
+
                 <option value="all">
                     Semua Periode
                 </option>
@@ -794,6 +847,7 @@
                 <option value="month">
                     Bulan Ini
                 </option>
+
             </select>
 
 
@@ -801,8 +855,10 @@
                 class="btn btn-primary"
                 onclick="generateReport()"
             >
+
                 <i class="fa-solid fa-chart-column"></i>
                 Analisis
+
             </button>
 
         </div>
@@ -894,7 +950,10 @@
     </div>
 
 
-    <!-- ANALISIS PRODUK -->
+    <!-- =========================
+         ANALISIS PRODUK
+    ========================= -->
+
     <div class="section-box">
 
         <div class="section-header">
@@ -907,7 +966,7 @@
                 </h3>
 
                 <small class="text-muted">
-                    Produk yang paling banyak dibeli pelanggan
+                    Produk fashion yang paling banyak dibeli pelanggan
                 </small>
 
             </div>
@@ -917,7 +976,6 @@
 
         <div class="product-analysis">
 
-            <!-- TABLE -->
             <div>
 
                 <div class="table-responsive">
@@ -957,7 +1015,6 @@
                                     class="text-center text-muted"
                                 >
                                     Memuat analisis...
-
                                 </td>
 
                             </tr>
@@ -971,12 +1028,14 @@
             </div>
 
 
-            <!-- BAR CHART SEDERHANA -->
             <div>
 
                 <h5 class="mb-4">
+
                     <i class="fa-solid fa-ranking-star text-warning"></i>
-                    Produk Terlaris
+
+                    Produk Fashion Terlaris
+
                 </h5>
 
                 <div id="productBars">
@@ -994,7 +1053,10 @@
     </div>
 
 
-    <!-- DAFTAR PESANAN -->
+    <!-- =========================
+         DAFTAR PESANAN
+    ========================= -->
+
     <div class="section-box">
 
         <div class="section-header">
@@ -1043,23 +1105,33 @@
     </div>
 
 
-    <!-- INFORMASI -->
+    <!-- =========================
+         INFORMASI
+    ========================= -->
+
     <div class="section-box">
 
         <h4>
+
             <i class="fa-solid fa-circle-info text-primary"></i>
+
             Informasi Admin
+
         </h4>
 
         <hr>
+
 
         <div class="info-list">
 
             <p class="mb-0">
 
                 <strong>
+
                     <i class="fa-solid fa-chart-line text-primary"></i>
+
                     Laporan
+
                 </strong>
 
                 → Melihat jumlah pesanan, produk terjual,
@@ -1071,11 +1143,14 @@
             <p class="mb-0">
 
                 <strong>
+
                     <i class="fa-solid fa-ranking-star text-warning"></i>
+
                     Analisis Produk
+
                 </strong>
 
-                → Mengetahui produk yang paling banyak terjual.
+                → Mengetahui produk fashion yang paling banyak terjual.
 
             </p>
 
@@ -1083,8 +1158,11 @@
             <p class="mb-0">
 
                 <strong>
+
                     <i class="fa-solid fa-box text-primary"></i>
+
                     Pesanan
+
                 </strong>
 
                 → Melihat pesanan pelanggan dan mengubah statusnya.
@@ -1095,11 +1173,14 @@
             <p class="mb-0">
 
                 <strong>
+
                     <i class="fa-solid fa-cart-shopping text-success"></i>
+
                     Produk
+
                 </strong>
 
-                → Tambah, edit, dan hapus produk.
+                → Tambah, edit, dan hapus produk fashion.
 
             </p>
 
@@ -1107,11 +1188,14 @@
             <p class="mb-0">
 
                 <strong>
+
                     <i class="fa-solid fa-store text-warning"></i>
+
                     Toko
+
                 </strong>
 
-                → Melihat halaman toko BlueShop.
+                → Melihat halaman toko BlueShop Fashion.
 
             </p>
 
@@ -1120,7 +1204,10 @@
     </div>
 
 
-    <!-- SYSTEM STATUS -->
+    <!-- =========================
+         SYSTEM STATUS
+    ========================= -->
+
     <div
         id="systemStatus"
         class="status-system"
@@ -1135,7 +1222,10 @@
 </div>
 
 
-<!-- SUPABASE -->
+<!-- =========================
+     SUPABASE
+========================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 
 
@@ -1162,7 +1252,10 @@ let allOrders = [];
 
 function escapeHtml(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
         return "";
     }
 
@@ -1172,6 +1265,7 @@ function escapeHtml(value) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }
 
 
@@ -1207,6 +1301,7 @@ function toNumber(value) {
     return Number.isFinite(number)
         ? number
         : 0;
+
 }
 
 
@@ -1227,6 +1322,7 @@ function formatRupiah(value) {
             maximumFractionDigits: 0
         }
     ).format(number);
+
 }
 
 
@@ -1258,6 +1354,7 @@ function formatDate(value) {
             timeStyle: "short"
         }
     );
+
 }
 
 
@@ -1286,21 +1383,20 @@ function showSystemStatus(
 
     element.innerHTML =
         error
-
             ? `
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 ${escapeHtml(message)}
               `
-
             : `
                 <i class="fa-solid fa-circle-check"></i>
                 ${escapeHtml(message)}
               `;
+
 }
 
 
 /* =========================================
-   INITIALIZE
+   INITIALIZE SUPABASE
 ========================================= */
 
 function initializeSupabase() {
@@ -1336,6 +1432,7 @@ function initializeSupabase() {
 
         return false;
     }
+
 }
 
 
@@ -1356,7 +1453,10 @@ async function checkAdmin() {
                 .getUser();
 
 
-        if (error || !data?.user) {
+        if (
+            error ||
+            !data?.user
+        ) {
 
             window.location.href =
                 "login.html";
@@ -1470,6 +1570,7 @@ async function checkAdmin() {
 
         return false;
     }
+
 }
 
 
@@ -1528,7 +1629,9 @@ async function loadStats() {
             "Gagal mengambil statistik.",
             true
         );
+
     }
+
 }
 
 
@@ -1549,7 +1652,9 @@ function getItems(order) {
     }
 
 
-    if (typeof items === "string") {
+    if (
+        typeof items === "string"
+    ) {
 
         try {
 
@@ -1560,6 +1665,7 @@ function getItems(order) {
 
             return [];
         }
+
     }
 
 
@@ -1584,6 +1690,22 @@ function getItems(order) {
 
 
     return [];
+
+}
+
+
+/* =========================================
+   NORMALIZE STATUS
+========================================= */
+
+function normalizeStatus(status) {
+
+    return String(
+        status || ""
+    )
+    .trim()
+    .toLowerCase();
+
 }
 
 
@@ -1599,11 +1721,9 @@ function analyzeProducts(orders) {
     orders.forEach(order => {
 
         const status =
-            String(
-                order.status || ""
-            )
-            .trim()
-            .toLowerCase();
+            normalizeStatus(
+                order.status
+            );
 
 
         /*
@@ -1611,7 +1731,9 @@ function analyzeProducts(orders) {
             tidak dihitung sebagai penjualan.
         */
 
-        if (status === "dibatalkan") {
+        if (
+            status === "dibatalkan"
+        ) {
             return;
         }
 
@@ -1663,6 +1785,7 @@ function analyzeProducts(orders) {
                     revenue: 0
 
                 };
+
             }
 
 
@@ -1683,6 +1806,7 @@ function analyzeProducts(orders) {
             (a, b) =>
                 b.qty - a.qty
         );
+
 }
 
 
@@ -1698,6 +1822,7 @@ function renderProductAnalysis(
         document.getElementById(
             "productAnalysisBody"
         );
+
 
     const bars =
         document.getElementById(
@@ -1718,6 +1843,7 @@ function renderProductAnalysis(
             </tr>
         `;
 
+
         bars.innerHTML = `
             <div class="text-muted">
                 Belum ada data penjualan.
@@ -1737,25 +1863,46 @@ function renderProductAnalysis(
                     <tr>
 
                         <td>
+
                             <span class="product-rank">
+
                                 ${index + 1}
+
                             </span>
+
                         </td>
 
+
                         <td>
+
                             <strong>
-                                ${escapeHtml(product.name)}
+
+                                ${escapeHtml(
+                                    product.name
+                                )}
+
                             </strong>
+
                         </td>
 
+
                         <td>
+
                             ${product.qty}
+
                         </td>
 
+
                         <td>
+
                             <strong>
-                                ${formatRupiah(product.revenue)}
+
+                                ${formatRupiah(
+                                    product.revenue
+                                )}
+
                             </strong>
+
                         </td>
 
                     </tr>
@@ -1799,16 +1946,22 @@ function renderProductAnalysis(
                             <div class="bar-label">
 
                                 <strong>
+
                                     ${escapeHtml(
                                         product.name
                                     )}
+
                                 </strong>
 
                                 <span>
-                                    ${product.qty} terjual
+
+                                    ${product.qty}
+                                    terjual
+
                                 </span>
 
                             </div>
+
 
                             <div class="bar-bg">
 
@@ -1822,14 +1975,16 @@ function renderProductAnalysis(
                         </div>
 
                     `;
+
                 }
             )
             .join("");
+
 }
 
 
 /* =========================================
-   REPORT PERIOD
+   FILTER REPORT
 ========================================= */
 
 function filterOrdersByPeriod(
@@ -1837,7 +1992,9 @@ function filterOrdersByPeriod(
     period
 ) {
 
-    if (period === "all") {
+    if (
+        period === "all"
+    ) {
         return orders;
     }
 
@@ -1850,7 +2007,9 @@ function filterOrdersByPeriod(
         new Date();
 
 
-    if (period === "today") {
+    if (
+        period === "today"
+    ) {
 
         start.setHours(
             0,
@@ -1858,18 +2017,24 @@ function filterOrdersByPeriod(
             0,
             0
         );
+
     }
 
 
-    if (period === "week") {
+    if (
+        period === "week"
+    ) {
 
         start.setDate(
             now.getDate() - 7
         );
+
     }
 
 
-    if (period === "month") {
+    if (
+        period === "month"
+    ) {
 
         start =
             new Date(
@@ -1877,6 +2042,7 @@ function filterOrdersByPeriod(
                 now.getMonth(),
                 1
             );
+
     }
 
 
@@ -1892,13 +2058,20 @@ function filterOrdersByPeriod(
 
 
             return (
+
                 !Number.isNaN(
                     date.getTime()
-                ) &&
+                )
+
+                &&
+
                 date >= start
+
             );
+
         }
     );
+
 }
 
 
@@ -1930,16 +2103,13 @@ function generateReport() {
         order => {
 
             const status =
-                String(
-                    order.status || ""
-                )
-                .trim()
-                .toLowerCase();
+                normalizeStatus(
+                    order.status
+                );
 
 
             if (
-                status ===
-                "dibatalkan"
+                status === "dibatalkan"
             ) {
                 return;
             }
@@ -1962,15 +2132,10 @@ function generateReport() {
                                 1
                             )
                         );
+
                 }
             );
 
-
-            /*
-                Pendapatan dihitung
-                dari pesanan yang
-                tidak dibatalkan.
-            */
 
             revenue +=
                 toNumber(
@@ -2024,6 +2189,7 @@ function generateReport() {
     renderProductAnalysis(
         products
     );
+
 }
 
 
@@ -2119,13 +2285,10 @@ async function loadOrders() {
 
 
                 return dateB - dateA;
+
             }
         );
 
-
-        /*
-            Update laporan
-        */
 
         generateReport();
 
@@ -2187,7 +2350,9 @@ async function loadOrders() {
             </div>
 
         `;
+
     }
+
 }
 
 
@@ -2206,6 +2371,7 @@ function getOrderId(order) {
             field: "id",
             value: order.id
         };
+
     }
 
 
@@ -2218,6 +2384,7 @@ function getOrderId(order) {
             field: "order_id",
             value: order.order_id
         };
+
     }
 
 
@@ -2230,6 +2397,7 @@ function getOrderId(order) {
             field: "id_order",
             value: order.id_order
         };
+
     }
 
 
@@ -2237,22 +2405,13 @@ function getOrderId(order) {
         field: null,
         value: null
     };
+
 }
 
 
 /* =========================================
-   STATUS
+   STATUS CLASS
 ========================================= */
-
-function normalizeStatus(status) {
-
-    return String(
-        status || ""
-    )
-    .trim()
-    .toLowerCase();
-}
-
 
 function getStatusClass(status) {
 
@@ -2297,6 +2456,7 @@ function getStatusClass(status) {
 
 
     return "status-menunggu";
+
 }
 
 
@@ -2365,9 +2525,13 @@ function createOrderCard(order) {
     if (!items.length) {
 
         itemsHtml = `
+
             <div class="text-muted">
+
                 Tidak ada detail produk.
+
             </div>
+
         `;
 
     } else {
@@ -2411,27 +2575,36 @@ function createOrderCard(order) {
                     <div>
 
                         <div class="item-name">
+
                             ${escapeHtml(name)}
+
                         </div>
 
                         <div class="item-detail">
+
                             ${qty}
                             ×
                             ${formatRupiah(price)}
+
                         </div>
 
                     </div>
 
+
                     <strong>
+
                         ${formatRupiah(
                             price * qty
                         )}
+
                     </strong>
 
                 </div>
 
             `;
+
         });
+
     }
 
 
@@ -2470,11 +2643,14 @@ function createOrderCard(order) {
 
                         <i class="fa-solid fa-receipt"></i>
 
-                        Pesanan #${escapeHtml(
+                        Pesanan #
+
+                        ${escapeHtml(
                             orderId
                         )}
 
                     </div>
+
 
                     <div class="order-date">
 
@@ -2497,7 +2673,9 @@ function createOrderCard(order) {
                             ${getStatusClass(status)}
                         "
                     >
+
                         ${escapeHtml(status)}
+
                     </span>
 
                 </div>
@@ -2521,12 +2699,17 @@ function createOrderCard(order) {
                     <div class="customer-info">
 
                         <p>
+
                             <strong>
+
                                 ${escapeHtml(
                                     customerName
                                 )}
+
                             </strong>
+
                         </p>
+
 
                         <p>
 
@@ -2537,6 +2720,7 @@ function createOrderCard(order) {
                             )}
 
                         </p>
+
 
                         <p>
 
@@ -2559,7 +2743,7 @@ function createOrderCard(order) {
 
                         <i class="fa-solid fa-cart-shopping"></i>
 
-                        Produk
+                        Produk Fashion
 
                     </div>
 
@@ -2580,11 +2764,16 @@ function createOrderCard(order) {
                 <div>
 
                     <div class="total-label">
+
                         Total Pembayaran
+
                     </div>
 
+
                     <div class="total-price">
+
                         ${formatRupiah(total)}
+
                     </div>
 
                 </div>
@@ -2593,7 +2782,9 @@ function createOrderCard(order) {
                 <div class="status-wrapper">
 
                     <strong>
+
                         Ubah Status:
+
                     </strong>
 
 
@@ -2604,35 +2795,64 @@ function createOrderCard(order) {
 
                         <option
                             value="Menunggu Konfirmasi"
-                            ${normalizedStatus === "menunggu konfirmasi" ? "selected" : ""}
+                            ${
+                                normalizedStatus ===
+                                "menunggu konfirmasi"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Menunggu Konfirmasi
                         </option>
 
+
                         <option
                             value="Diproses"
-                            ${normalizedStatus === "diproses" ? "selected" : ""}
+                            ${
+                                normalizedStatus ===
+                                "diproses"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Diproses
                         </option>
 
+
                         <option
                             value="Dikirim"
-                            ${normalizedStatus === "dikirim" ? "selected" : ""}
+                            ${
+                                normalizedStatus ===
+                                "dikirim"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Dikirim
                         </option>
 
+
                         <option
                             value="Selesai"
-                            ${normalizedStatus === "selesai" ? "selected" : ""}
+                            ${
+                                normalizedStatus ===
+                                "selesai"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Selesai
                         </option>
 
+
                         <option
                             value="Dibatalkan"
-                            ${normalizedStatus === "dibatalkan" ? "selected" : ""}
+                            ${
+                                normalizedStatus ===
+                                "dibatalkan"
+                                    ? "selected"
+                                    : ""
+                            }
                         >
                             Dibatalkan
                         </option>
@@ -2646,6 +2866,7 @@ function createOrderCard(order) {
         </div>
 
     `;
+
 }
 
 
@@ -2705,6 +2926,7 @@ function setupStatusListeners() {
             );
 
         });
+
 }
 
 
@@ -2792,6 +3014,7 @@ async function changeOrderStatus(
 
 
         await loadOrders();
+
         await loadStats();
 
 
@@ -2815,7 +3038,9 @@ async function changeOrderStatus(
 
         selectElement.disabled =
             false;
+
     }
+
 }
 
 
@@ -2837,6 +3062,7 @@ async function loadAllData() {
         loadOrders()
 
     ]);
+
 }
 
 
@@ -2853,11 +3079,13 @@ async function logout() {
             await supabaseClient
                 .auth
                 .signOut();
+
         }
 
     } catch (error) {
 
         console.error(error);
+
     }
 
 
@@ -2880,6 +3108,7 @@ async function logout() {
 
     window.location.href =
         "login.html";
+
 }
 
 
