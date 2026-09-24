@@ -20,7 +20,6 @@
     >
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -114,7 +113,6 @@
             color: white;
         }
 
-
         /* =========================
            CONTAINER
         ========================= */
@@ -129,7 +127,7 @@
             background: white;
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
             margin-bottom: 25px;
         }
 
@@ -144,7 +142,6 @@
         .page-title h2 {
             margin: 0;
         }
-
 
         /* =========================
            PRODUCT GRID
@@ -161,7 +158,7 @@
             border: 1px solid #ddd;
             border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
         }
 
         .product-image {
@@ -247,7 +244,6 @@
             color: white;
         }
 
-
         /* =========================
            CATEGORY
         ========================= */
@@ -261,13 +257,30 @@
         .category-card {
             border: 1px solid #ddd;
             border-radius: 12px;
-            padding: 15px;
+            padding: 18px;
             background: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .03);
         }
 
         .category-name {
             font-weight: bold;
-            font-size: 16px;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .category-description {
+            color: #777;
+            font-size: 14px;
+            min-height: 40px;
+            margin-bottom: 12px;
+        }
+
+        .category-count {
+            font-size: 12px;
+            background: #f1f3f5;
+            padding: 5px 9px;
+            border-radius: 20px;
+            display: inline-block;
             margin-bottom: 12px;
         }
 
@@ -279,7 +292,7 @@
         .category-actions button {
             flex: 1;
             border: none;
-            padding: 7px;
+            padding: 8px;
             border-radius: 7px;
             cursor: pointer;
             font-weight: bold;
@@ -293,7 +306,6 @@
             background: #dc3545;
             color: white;
         }
-
 
         /* =========================
            EMPTY
@@ -309,7 +321,6 @@
             font-size: 50px;
             margin-bottom: 15px;
         }
-
 
         /* =========================
            STATUS
@@ -328,7 +339,6 @@
             color: #842029;
         }
 
-
         /* =========================
            MODAL
         ========================= */
@@ -337,13 +347,11 @@
             border-radius: 15px;
         }
 
-
         /* =========================
            RESPONSIVE
         ========================= */
 
         @media (max-width: 1100px) {
-
             .product-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -351,11 +359,9 @@
             .category-list {
                 grid-template-columns: repeat(3, 1fr);
             }
-
         }
 
         @media (max-width: 800px) {
-
             .product-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -363,11 +369,9 @@
             .category-list {
                 grid-template-columns: repeat(2, 1fr);
             }
-
         }
 
         @media (max-width: 768px) {
-
             .header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -387,25 +391,18 @@
                 flex: 1;
                 justify-content: center;
             }
-
         }
 
         @media (max-width: 550px) {
-
             .product-grid,
             .category-list {
                 grid-template-columns: 1fr;
             }
-
         }
-
     </style>
-
 </head>
 
-
 <body>
-
 
 <!-- ==================================================
      HEADER
@@ -414,7 +411,6 @@
 <div class="header">
 
     <div>
-
         <h1>
             <i class="fa-solid fa-cart-shopping"></i>
             Produk
@@ -423,9 +419,7 @@
         <small>
             Kelola produk dan kategori BlueShop
         </small>
-
     </div>
-
 
     <div class="nav-links">
 
@@ -434,24 +428,20 @@
             Dashboard
         </a>
 
-
         <a href="pesanan.html" class="btn-orders">
             <i class="fa-solid fa-box"></i>
             Pesanan
         </a>
-
 
         <a href="produk.html" class="btn-products">
             <i class="fa-solid fa-cart-shopping"></i>
             Produk
         </a>
 
-
         <a href="toko.html" class="btn-store">
             <i class="fa-solid fa-store"></i>
             Ke Toko
         </a>
-
 
         <button
             onclick="loadAll()"
@@ -460,7 +450,6 @@
             <i class="fa-solid fa-rotate"></i>
             Refresh
         </button>
-
 
         <button
             onclick="logout()"
@@ -471,27 +460,20 @@
         </button>
 
     </div>
-
 </div>
 
 
-<!-- ==================================================
-     CONTENT
-================================================== -->
-
 <div class="container-main">
 
-
-    <!-- ==============================================
+    <!-- ==================================================
          PRODUK
-    =============================================== -->
+    ================================================== -->
 
     <div class="page-card">
 
         <div class="page-title">
 
             <div>
-
                 <h2>
                     <i class="fa-solid fa-boxes-stacked"></i>
                     Kelola Produk
@@ -500,9 +482,7 @@
                 <p class="text-muted mb-0">
                     Tambahkan dan kelola produk yang tampil di toko.
                 </p>
-
             </div>
-
 
             <button
                 onclick="openProductModal()"
@@ -536,27 +516,24 @@
     </div>
 
 
-    <!-- ==============================================
+    <!-- ==================================================
          KATEGORI
-    =============================================== -->
+    ================================================== -->
 
     <div class="page-card">
 
         <div class="page-title">
 
             <div>
-
                 <h2>
                     <i class="fa-solid fa-tags"></i>
                     Kelola Kategori
                 </h2>
 
                 <p class="text-muted mb-0">
-                    Tambahkan dan kelola kategori produk.
+                    Tambahkan, edit, dan hapus kategori produk.
                 </p>
-
             </div>
-
 
             <button
                 onclick="openCategoryModal()"
@@ -590,24 +567,19 @@
     </div>
 
 
-    <!-- ==============================================
-         SYSTEM STATUS
-    =============================================== -->
+    <!-- ==================================================
+         STATUS
+    ================================================== -->
 
     <div
         id="systemStatus"
         class="status-system"
     >
-
         <i class="fa-solid fa-spinner fa-spin"></i>
-
         Menghubungkan ke Supabase...
-
     </div>
 
-
 </div>
-
 
 
 <!-- ==================================================
@@ -623,7 +595,6 @@
     <div class="modal-dialog">
 
         <div class="modal-content">
-
 
             <div class="modal-header">
 
@@ -719,15 +690,13 @@
                         id="productCategory"
                         class="form-select"
                     >
-
                         <option value="">
                             -- Pilih Kategori --
                         </option>
-
                     </select>
 
                     <small class="text-muted">
-                        Kategori dikelola dari bagian Kelola Kategori.
+                        Kategori dapat dikelola dari bagian Kelola Kategori.
                     </small>
 
                 </div>
@@ -767,17 +736,13 @@
                     Batal
                 </button>
 
-
                 <button
                     type="button"
                     class="btn btn-primary"
                     onclick="saveProduct()"
                 >
-
                     <i class="fa-solid fa-save"></i>
-
                     Simpan Produk
-
                 </button>
 
             </div>
@@ -787,7 +752,6 @@
     </div>
 
 </div>
-
 
 
 <!-- ==================================================
@@ -803,7 +767,6 @@
     <div class="modal-dialog">
 
         <div class="modal-content">
-
 
             <div class="modal-header">
 
@@ -831,6 +794,8 @@
                 >
 
 
+                <!-- NAMA KATEGORI -->
+
                 <div class="mb-3">
 
                     <label class="form-label">
@@ -843,6 +808,24 @@
                         class="form-control"
                         placeholder="Contoh: Kaos"
                     >
+
+                </div>
+
+
+                <!-- DESKRIPSI -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Deskripsi
+                    </label>
+
+                    <textarea
+                        id="categoryDescription"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Contoh: Kategori pakaian kaos BlueShop"
+                    ></textarea>
 
                 </div>
 
@@ -859,17 +842,13 @@
                     Batal
                 </button>
 
-
                 <button
                     type="button"
                     class="btn btn-primary"
                     onclick="saveCategory()"
                 >
-
                     <i class="fa-solid fa-save"></i>
-
                     Simpan Kategori
-
                 </button>
 
             </div>
@@ -881,33 +860,26 @@
 </div>
 
 
-
-<!-- ==================================================
-     SUPABASE
-================================================== -->
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
-
 
 <!-- BOOTSTRAP -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
-
 <script>
 
-
-// ======================================================
-// SUPABASE CONFIG
-// ======================================================
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
 
 const SUPABASE_URL =
     "https://fbnknnrltrsvydyxgujr.supabase.co";
 
 const SUPABASE_KEY =
     "sb_publishable_JStXk700ejTvHYnjAHlCYA_1tf1Kccp";
-
 
 let supabaseClient = null;
 
@@ -920,9 +892,9 @@ let productModal = null;
 let categoryModal = null;
 
 
-// ======================================================
-// INITIALIZE SUPABASE
-// ======================================================
+/* =====================================================
+   INITIALIZE SUPABASE
+===================================================== */
 
 function initializeSupabase() {
 
@@ -934,9 +906,7 @@ function initializeSupabase() {
         );
 
         return false;
-
     }
-
 
     supabaseClient =
         window.supabase.createClient(
@@ -944,41 +914,40 @@ function initializeSupabase() {
             SUPABASE_KEY
         );
 
-
     return true;
-
 }
 
 
-// ======================================================
-// SYSTEM STATUS
-// ======================================================
+/* =====================================================
+   STATUS
+===================================================== */
 
 function showSystemStatus(message, error = false) {
 
     const el =
-        document.getElementById(
-            "systemStatus"
-        );
-
+        document.getElementById("systemStatus");
 
     el.className =
         error
             ? "status-system error"
             : "status-system";
 
-
     el.innerHTML =
         error
-            ? `<i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(message)}`
-            : `<i class="fa-solid fa-circle-check"></i> ${escapeHtml(message)}`;
-
+            ? `
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                ${escapeHtml(message)}
+              `
+            : `
+                <i class="fa-solid fa-circle-check"></i>
+                ${escapeHtml(message)}
+              `;
 }
 
 
-// ======================================================
-// CHECK ADMIN
-// ======================================================
+/* =====================================================
+   CHECK ADMIN
+===================================================== */
 
 async function checkAdmin() {
 
@@ -990,14 +959,11 @@ async function checkAdmin() {
         } =
             await supabaseClient.auth.getUser();
 
-
         if (error || !user) {
 
-            window.location.href =
-                "login.html";
+            window.location.href = "login.html";
 
             return false;
-
         }
 
 
@@ -1013,13 +979,8 @@ async function checkAdmin() {
         } =
             await supabaseClient
                 .from("users_list")
-                .select(
-                    "id, name, username, role"
-                )
-                .eq(
-                    "username",
-                    email
-                )
+                .select("id, name, username, role")
+                .eq("username", email)
                 .maybeSingle();
 
 
@@ -1032,7 +993,6 @@ async function checkAdmin() {
             );
 
             return false;
-
         }
 
 
@@ -1046,7 +1006,6 @@ async function checkAdmin() {
                 "toko.html";
 
             return false;
-
         }
 
 
@@ -1066,7 +1025,6 @@ async function checkAdmin() {
                 "toko.html";
 
             return false;
-
         }
 
 
@@ -1080,15 +1038,13 @@ async function checkAdmin() {
             "login.html";
 
         return false;
-
     }
-
 }
 
 
-// ======================================================
-// LOAD ALL
-// ======================================================
+/* =====================================================
+   LOAD ALL
+===================================================== */
 
 async function loadAll() {
 
@@ -1099,9 +1055,9 @@ async function loadAll() {
 }
 
 
-// ======================================================
-// LOAD CATEGORIES
-// ======================================================
+/* =====================================================
+   LOAD CATEGORIES
+===================================================== */
 
 async function loadCategories() {
 
@@ -1109,7 +1065,6 @@ async function loadCategories() {
         document.getElementById(
             "categoriesContainer"
         );
-
 
     try {
 
@@ -1135,9 +1090,7 @@ async function loadCategories() {
                 error
             );
 
-
             container.innerHTML = `
-
                 <div class="page-card">
 
                     <div class="alert alert-danger">
@@ -1153,11 +1106,14 @@ async function loadCategories() {
                     </div>
 
                 </div>
-
             `;
 
-            return;
+            showSystemStatus(
+                "Gagal mengambil kategori.",
+                true
+            );
 
+            return;
         }
 
 
@@ -1178,15 +1134,13 @@ async function loadCategories() {
             "Gagal mengambil kategori.",
             true
         );
-
     }
-
 }
 
 
-// ======================================================
-// RENDER CATEGORIES
-// ======================================================
+/* =====================================================
+   RENDER CATEGORIES
+===================================================== */
 
 function renderCategories() {
 
@@ -1211,7 +1165,7 @@ function renderCategories() {
                     </h4>
 
                     <p>
-                        Klik "Tambah Kategori".
+                        Klik "Tambah Kategori" untuk membuat kategori pertama.
                     </p>
 
                 </div>
@@ -1221,7 +1175,6 @@ function renderCategories() {
         `;
 
         return;
-
     }
 
 
@@ -1238,23 +1191,35 @@ function renderCategories() {
         </div>
 
     `;
-
 }
 
 
-// ======================================================
-// CATEGORY HTML
-// ======================================================
+/* =====================================================
+   CATEGORY HTML
+===================================================== */
 
 function createCategoryHTML(category) {
 
     const id =
         category.id_kategori;
 
-
     const name =
         category.nama_kategori ||
         "Kategori";
+
+    const description =
+        category.deskripsi ||
+        "Tidak ada deskripsi";
+
+
+    /* Hitung produk yang memakai kategori */
+
+    const productCount =
+        currentProducts.filter(
+            product =>
+                String(product.id_kategori) ===
+                String(id)
+        ).length;
 
 
     return `
@@ -1263,11 +1228,25 @@ function createCategoryHTML(category) {
 
             <div class="category-name">
 
-                <i class="fa-solid fa-tag"></i>
+                <i class="fa-solid fa-tag text-primary"></i>
 
-                ${escapeHtml(
-                    String(name)
-                )}
+                ${escapeHtml(String(name))}
+
+            </div>
+
+
+            <div class="category-description">
+
+                ${escapeHtml(String(description))}
+
+            </div>
+
+
+            <div class="category-count">
+
+                <i class="fa-solid fa-box"></i>
+
+                ${productCount} produk
 
             </div>
 
@@ -1302,13 +1281,12 @@ function createCategoryHTML(category) {
         </div>
 
     `;
-
 }
 
 
-// ======================================================
-// UPDATE CATEGORY SELECT
-// ======================================================
+/* =====================================================
+   UPDATE CATEGORY SELECT
+===================================================== */
 
 function updateCategorySelect(selectedId = "") {
 
@@ -1334,28 +1312,28 @@ function updateCategorySelect(selectedId = "") {
 
                 <option
                     value="${category.id_kategori}"
-                    ${String(category.id_kategori) === String(selectedId)
-                        ? "selected"
-                        : ""}
+                    ${
+                        String(category.id_kategori) ===
+                        String(selectedId)
+                            ? "selected"
+                            : ""
+                    }
                 >
-
                     ${escapeHtml(
                         category.nama_kategori
                     )}
-
                 </option>
 
             `)
             .join("")}
 
     `;
-
 }
 
 
-// ======================================================
-// OPEN CATEGORY MODAL
-// ======================================================
+/* =====================================================
+   OPEN CATEGORY MODAL
+===================================================== */
 
 function openCategoryModal(category = null) {
 
@@ -1367,7 +1345,6 @@ function openCategoryModal(category = null) {
                     "categoryModal"
                 )
             );
-
     }
 
 
@@ -1383,7 +1360,15 @@ function openCategoryModal(category = null) {
         "categoryName"
     ).value =
         category
-            ? category.nama_kategori
+            ? category.nama_kategori || ""
+            : "";
+
+
+    document.getElementById(
+        "categoryDescription"
+    ).value =
+        category
+            ? category.deskripsi || ""
             : "";
 
 
@@ -1396,22 +1381,20 @@ function openCategoryModal(category = null) {
 
 
     categoryModal.show();
-
 }
 
 
-// ======================================================
-// EDIT CATEGORY
-// ======================================================
+/* =====================================================
+   EDIT CATEGORY
+===================================================== */
 
 function editCategory(id) {
 
     const category =
         currentCategories.find(
             category =>
-                String(
-                    category.id_kategori
-                ) === String(id)
+                String(category.id_kategori) ===
+                String(id)
         );
 
 
@@ -1422,18 +1405,16 @@ function editCategory(id) {
         );
 
         return;
-
     }
 
 
     openCategoryModal(category);
-
 }
 
 
-// ======================================================
-// SAVE CATEGORY
-// ======================================================
+/* =====================================================
+   SAVE CATEGORY
+===================================================== */
 
 async function saveCategory() {
 
@@ -1449,6 +1430,14 @@ async function saveCategory() {
         ).value.trim();
 
 
+    const description =
+        document.getElementById(
+            "categoryDescription"
+        ).value.trim();
+
+
+    /* Validasi */
+
     if (!name) {
 
         alert(
@@ -1456,7 +1445,6 @@ async function saveCategory() {
         );
 
         return;
-
     }
 
 
@@ -1465,17 +1453,18 @@ async function saveCategory() {
         let result;
 
 
-        // EDIT
+        /* =============================================
+           EDIT
+        ============================================= */
+
         if (id) {
 
             result =
                 await supabaseClient
                     .from("kategori")
                     .update({
-
-                        nama_kategori:
-                            name
-
+                        nama_kategori: name,
+                        deskripsi: description
                     })
                     .eq(
                         "id_kategori",
@@ -1485,42 +1474,62 @@ async function saveCategory() {
         }
 
 
-        // TAMBAH
+        /* =============================================
+           TAMBAH
+        ============================================= */
+
         else {
 
             result =
                 await supabaseClient
                     .from("kategori")
-                    .insert([
-
-                        {
-
-                            nama_kategori:
-                                name
-
-                        }
-
-                    ]);
+                    .insert({
+                        nama_kategori: name,
+                        deskripsi: description
+                    });
 
         }
 
+
+        /* =============================================
+           ERROR
+        ============================================= */
 
         if (result.error) {
 
             console.error(
+                "Save category error:",
                 result.error
             );
 
 
-            alert(
-                "Gagal menyimpan kategori:\n" +
-                result.error.message
-            );
+            if (
+                result.error.code ===
+                "23505"
+            ) {
+
+                alert(
+                    "Kategori \"" +
+                    name +
+                    "\" sudah ada.\n\nGunakan nama kategori yang berbeda."
+                );
+
+            } else {
+
+                alert(
+                    "Gagal menyimpan kategori:\n\n" +
+                    result.error.message
+                );
+            }
+
 
             return;
-
         }
 
+
+        /* =============================================
+           BERHASIL
+        ============================================= */
 
         alert(
             id
@@ -1542,36 +1551,39 @@ async function saveCategory() {
 
 
         showSystemStatus(
-            "Kategori berhasil diperbarui."
+            id
+                ? "Kategori berhasil diperbarui."
+                : "Kategori berhasil ditambahkan."
         );
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Unexpected category error:",
+            error
+        );
 
 
         alert(
-            "Terjadi kesalahan saat menyimpan kategori."
+            "Terjadi kesalahan saat menyimpan kategori:\n\n" +
+            error.message
         );
-
     }
-
 }
 
 
-// ======================================================
-// DELETE CATEGORY
-// ======================================================
+/* =====================================================
+   DELETE CATEGORY
+===================================================== */
 
 async function deleteCategory(id) {
 
     const category =
         currentCategories.find(
             category =>
-                String(
-                    category.id_kategori
-                ) === String(id)
+                String(category.id_kategori) ===
+                String(id)
         );
 
 
@@ -1582,13 +1594,42 @@ async function deleteCategory(id) {
         );
 
         return;
+    }
 
+
+    /* =============================================
+       CEK APAKAH KATEGORI DIPAKAI PRODUK
+    ============================================= */
+
+    const usedProducts =
+        currentProducts.filter(
+            product =>
+                String(product.id_kategori) ===
+                String(id)
+        );
+
+
+    if (usedProducts.length > 0) {
+
+        alert(
+            "Kategori tidak dapat dihapus.\n\n" +
+            "Kategori \"" +
+            category.nama_kategori +
+            "\" masih digunakan oleh " +
+            usedProducts.length +
+            " produk.\n\n" +
+            "Ubah kategori produk tersebut terlebih dahulu."
+        );
+
+        return;
     }
 
 
     const confirmed =
         confirm(
-            `Yakin ingin menghapus kategori "${category.nama_kategori}"?`
+            "Yakin ingin menghapus kategori \"" +
+            category.nama_kategori +
+            "\"?"
         );
 
 
@@ -1613,16 +1654,18 @@ async function deleteCategory(id) {
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                "Delete category error:",
+                error
+            );
 
 
             alert(
-                "Gagal menghapus kategori:\n" +
+                "Gagal menghapus kategori:\n\n" +
                 error.message
             );
 
             return;
-
         }
 
 
@@ -1647,17 +1690,16 @@ async function deleteCategory(id) {
 
 
         alert(
-            "Terjadi kesalahan saat menghapus kategori."
+            "Terjadi kesalahan saat menghapus kategori:\n\n" +
+            error.message
         );
-
     }
-
 }
 
 
-// ======================================================
-// LOAD PRODUCTS
-// ======================================================
+/* =====================================================
+   LOAD PRODUCTS
+===================================================== */
 
 async function loadProducts() {
 
@@ -1719,17 +1761,21 @@ async function loadProducts() {
 
             container.innerHTML = `
 
-                <div class="alert alert-danger">
+                <div class="page-card">
 
-                    <strong>
-                        Gagal mengambil produk.
-                    </strong>
+                    <div class="alert alert-danger">
 
-                    <br>
+                        <strong>
+                            Gagal mengambil produk.
+                        </strong>
 
-                    ${escapeHtml(
-                        error.message
-                    )}
+                        <br><br>
+
+                        ${escapeHtml(
+                            error.message
+                        )}
+
+                    </div>
 
                 </div>
 
@@ -1742,7 +1788,6 @@ async function loadProducts() {
             );
 
             return;
-
         }
 
 
@@ -1751,6 +1796,10 @@ async function loadProducts() {
 
 
         renderProducts();
+
+        /* Update jumlah produk pada kategori */
+
+        renderCategories();
 
 
         showSystemStatus(
@@ -1766,9 +1815,19 @@ async function loadProducts() {
 
         container.innerHTML = `
 
-            <div class="alert alert-danger">
+            <div class="page-card">
 
-                Terjadi kesalahan saat mengambil produk.
+                <div class="alert alert-danger">
+
+                    Terjadi kesalahan saat mengambil produk.
+
+                    <br><br>
+
+                    ${escapeHtml(
+                        error.message
+                    )}
+
+                </div>
 
             </div>
 
@@ -1779,15 +1838,13 @@ async function loadProducts() {
             "Terjadi kesalahan.",
             true
         );
-
     }
-
 }
 
 
-// ======================================================
-// RENDER PRODUCTS
-// ======================================================
+/* =====================================================
+   RENDER PRODUCTS
+===================================================== */
 
 function renderProducts() {
 
@@ -1822,7 +1879,6 @@ function renderProducts() {
         `;
 
         return;
-
     }
 
 
@@ -1839,13 +1895,12 @@ function renderProducts() {
         </div>
 
     `;
-
 }
 
 
-// ======================================================
-// PRODUCT HTML
-// ======================================================
+/* =====================================================
+   PRODUCT HTML
+===================================================== */
 
 function createProductHTML(product) {
 
@@ -1901,12 +1956,10 @@ function createProductHTML(product) {
 
         <div class="product-card">
 
-
             <img
                 src="${escapeHtml(String(image))}"
                 class="product-image"
                 alt="${escapeHtml(String(name))}"
-
                 onerror="
                     this.src='https://via.placeholder.com/500x350?text=BlueShop'
                 "
@@ -1993,13 +2046,12 @@ function createProductHTML(product) {
         </div>
 
     `;
-
 }
 
 
-// ======================================================
-// OPEN PRODUCT MODAL
-// ======================================================
+/* =====================================================
+   OPEN PRODUCT MODAL
+===================================================== */
 
 function openProductModal(product = null) {
 
@@ -2011,7 +2063,6 @@ function openProductModal(product = null) {
                     "productModal"
                 )
             );
-
     }
 
 
@@ -2075,22 +2126,20 @@ function openProductModal(product = null) {
 
 
     productModal.show();
-
 }
 
 
-// ======================================================
-// EDIT PRODUCT
-// ======================================================
+/* =====================================================
+   EDIT PRODUCT
+===================================================== */
 
 function editProduct(id) {
 
     const product =
         currentProducts.find(
             p =>
-                String(
-                    p.id_produk
-                ) === String(id)
+                String(p.id_produk) ===
+                String(id)
         );
 
 
@@ -2101,18 +2150,16 @@ function editProduct(id) {
         );
 
         return;
-
     }
 
 
     openProductModal(product);
-
 }
 
 
-// ======================================================
-// SAVE PRODUCT
-// ======================================================
+/* =====================================================
+   SAVE PRODUCT
+===================================================== */
 
 async function saveProduct() {
 
@@ -2156,7 +2203,8 @@ async function saveProduct() {
         ).value.trim();
 
 
-    // VALIDASI NAMA
+    /* VALIDASI */
+
     if (!name) {
 
         alert(
@@ -2164,11 +2212,9 @@ async function saveProduct() {
         );
 
         return;
-
     }
 
 
-    // VALIDASI HARGA
     if (
         isNaN(price) ||
         price < 0
@@ -2179,11 +2225,9 @@ async function saveProduct() {
         );
 
         return;
-
     }
 
 
-    // VALIDASI STOK
     if (
         isNaN(stock) ||
         stock < 0
@@ -2194,14 +2238,10 @@ async function saveProduct() {
         );
 
         return;
-
     }
 
 
     try {
-
-        let result;
-
 
         const productData = {
 
@@ -2212,7 +2252,7 @@ async function saveProduct() {
                 price,
 
             stok:
-                stock,
+                Math.floor(stock),
 
             gambar:
                 image,
@@ -2225,18 +2265,17 @@ async function saveProduct() {
         };
 
 
-        // ==========================================
-        // EDIT
-        // ==========================================
+        let result;
+
+
+        /* EDIT */
 
         if (id) {
 
             result =
                 await supabaseClient
                     .from("produk")
-                    .update(
-                        productData
-                    )
+                    .update(productData)
                     .eq(
                         "id_produk",
                         id
@@ -2245,18 +2284,16 @@ async function saveProduct() {
         }
 
 
-        // ==========================================
-        // TAMBAH
-        // ==========================================
+        /* TAMBAH */
 
         else {
 
             result =
                 await supabaseClient
                     .from("produk")
-                    .insert([
+                    .insert(
                         productData
-                    ]);
+                    );
 
         }
 
@@ -2264,17 +2301,17 @@ async function saveProduct() {
         if (result.error) {
 
             console.error(
+                "Product error:",
                 result.error
             );
 
 
             alert(
-                "Gagal menyimpan produk:\n" +
+                "Gagal menyimpan produk:\n\n" +
                 result.error.message
             );
 
             return;
-
         }
 
 
@@ -2294,6 +2331,8 @@ async function saveProduct() {
 
         await loadProducts();
 
+        await loadCategories();
+
 
         showSystemStatus(
             "Data produk berhasil diperbarui."
@@ -2306,17 +2345,16 @@ async function saveProduct() {
 
 
         alert(
-            "Terjadi kesalahan saat menyimpan produk."
+            "Terjadi kesalahan saat menyimpan produk:\n\n" +
+            error.message
         );
-
     }
-
 }
 
 
-// ======================================================
-// DELETE PRODUCT
-// ======================================================
+/* =====================================================
+   DELETE PRODUCT
+===================================================== */
 
 async function deleteProduct(id) {
 
@@ -2327,16 +2365,14 @@ async function deleteProduct(id) {
         );
 
         return;
-
     }
 
 
     const product =
         currentProducts.find(
             p =>
-                String(
-                    p.id_produk
-                ) === String(id)
+                String(p.id_produk) ===
+                String(id)
         );
 
 
@@ -2348,7 +2384,9 @@ async function deleteProduct(id) {
 
     const confirmed =
         confirm(
-            `Yakin ingin menghapus produk "${name}"?`
+            "Yakin ingin menghapus produk \"" +
+            name +
+            "\"?"
         );
 
 
@@ -2377,12 +2415,11 @@ async function deleteProduct(id) {
 
 
             alert(
-                "Gagal menghapus produk:\n" +
+                "Gagal menghapus produk:\n\n" +
                 error.message
             );
 
             return;
-
         }
 
 
@@ -2392,6 +2429,8 @@ async function deleteProduct(id) {
 
 
         await loadProducts();
+
+        await loadCategories();
 
 
         showSystemStatus(
@@ -2405,17 +2444,16 @@ async function deleteProduct(id) {
 
 
         alert(
-            "Terjadi kesalahan saat menghapus produk."
+            "Terjadi kesalahan saat menghapus produk:\n\n" +
+            error.message
         );
-
     }
-
 }
 
 
-// ======================================================
-// FORMAT RUPIAH
-// ======================================================
+/* =====================================================
+   FORMAT RUPIAH
+===================================================== */
 
 function formatRupiah(number) {
 
@@ -2429,45 +2467,52 @@ function formatRupiah(number) {
     ).format(
         Number(number) || 0
     );
-
 }
 
 
-// ======================================================
-// ESCAPE HTML
-// ======================================================
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHtml(value) {
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
 }
 
 
-// ======================================================
-// ESCAPE JS
-// ======================================================
+/* =====================================================
+   ESCAPE JAVASCRIPT
+===================================================== */
 
 function escapeJs(value) {
 
     return String(value)
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'")
-        .replace(/"/g, '\\"')
-        .replace(/\n/g, "\\n")
-        .replace(/\r/g, "\\r");
 
+        .replace(/\\/g, "\\\\")
+
+        .replace(/'/g, "\\'")
+
+        .replace(/"/g, '\\"')
+
+        .replace(/\n/g, "\\n")
+
+        .replace(/\r/g, "\\r");
 }
 
 
-// ======================================================
-// LOGOUT
-// ======================================================
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 async function logout() {
 
@@ -2486,32 +2531,23 @@ async function logout() {
     }
 
 
-    localStorage.removeItem(
-        "user"
-    );
+    localStorage.removeItem("user");
 
-    localStorage.removeItem(
-        "currentUser"
-    );
+    localStorage.removeItem("currentUser");
 
-    localStorage.removeItem(
-        "isLoggedIn"
-    );
+    localStorage.removeItem("isLoggedIn");
 
-    localStorage.removeItem(
-        "user_session"
-    );
+    localStorage.removeItem("user_session");
 
 
     window.location.href =
         "login.html";
-
 }
 
 
-// ======================================================
-// START
-// ======================================================
+/* =====================================================
+   START
+===================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -2543,7 +2579,6 @@ document.addEventListener(
 );
 
 </script>
-
 
 </body>
 </html>
